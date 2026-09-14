@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us - Navodix IT Solutions</title>
+<link href="../assets/images/favicon.png" rel="icon" type="image/png"/>
+<link href="../assets/css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    /* Contact banner — identical structure and sizing to the finalized Team banner. */
+    /* Contact page — banner matched to the finalized Team banner. */
+    .contact-banner {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      line-height: 1;
+      background: #ffffff;
+      border-bottom: 1px solid #d9e8f8;
+    }
+    .contact-banner-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+    }
+    .contact-banner-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .contact-banner-content .container {
+      width: 100%;
+      padding-top: 2px;
+    }
+    .contact-banner-line {
+      width: 54px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--blue-primary);
+      margin-bottom: 16px;
+    }
+    .contact-banner-title {
+      color: var(--blue-header);
+      font-size: clamp(30px, 4.15vw, 56px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -1.4px;
+      margin: 0 0 12px;
+    }
+    .contact-banner-title span { color: var(--blue-primary); }
+    .contact-banner-subtitle {
+      color: #52627a;
+      font-size: clamp(15px, 1.45vw, 22px);
+      line-height: 1.35;
+      letter-spacing: .2px;
+      margin: 0;
+      max-width: 720px;
+    }
+    @media (max-width: 640px) {
+      .contact-banner-content { align-items: center; }
+      .contact-banner-content .container { padding-left: 20px; padding-right: 20px; }
+      .contact-banner-line { width: 42px; height: 4px; margin-bottom: 9px; }
+      .contact-banner-title { font-size: clamp(24px, 7vw, 34px); letter-spacing: -.7px; margin-bottom: 7px; }
+      .contact-banner-subtitle { font-size: clamp(12px, 3.2vw, 16px); max-width: 78%; }
+    }
+    .contact-main { padding:44px 0 64px; }
+    .contact-grid {
+      display:grid;
+      grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr);
+      gap:28px;
+      align-items:start;
+    }
+    .contact-intro { margin-bottom:22px; }
+    .contact-line { width:54px; height:4px; border-radius:999px; background:#2463df; margin-bottom:14px; }
+    .contact-kicker {
+      color:#2463df;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.7px;
+      text-transform:uppercase;
+      margin-bottom:7px;
+    }
+    .contact-intro h2 {
+      color:#09265f;
+      font-size:clamp(30px,3.2vw,42px);
+      line-height:1.15;
+      margin:0 0 10px;
+    }
+    .contact-intro h2 span { color:#2463df; }
+    .contact-intro p { color:#475569; max-width:780px; font-size:16px; line-height:1.7; margin:0; }
+
+    .contact-form-card, .contact-card {
+      background:#fff;
+      border:1px solid #d9e6f5;
+      border-radius:16px;
+      box-shadow:0 8px 24px rgba(26,86,219,.055);
+    }
+    .contact-form-card { padding:25px; }
+    .contact-form-card h3, .contact-card h3 {
+      color:#09265f;
+      font-size:20px;
+      margin:0 0 18px;
+    }
+    .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; }
+    .form-field { display:flex; flex-direction:column; gap:7px; }
+    .form-field.full { grid-column:1 / -1; }
+    .form-field label { color:#17366d; font-size:13px; font-weight:700; }
+    .form-field input, .form-field textarea {
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid #cbd9e9;
+      border-radius:9px;
+      padding:12px 13px;
+      font:inherit;
+      font-size:14px;
+      color:#1e293b;
+      background:#fff;
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .form-field textarea { min-height:132px; resize:vertical; }
+    .form-field input:focus, .form-field textarea:focus { border-color:#2463df; box-shadow:0 0 0 3px rgba(36,99,223,.10); }
+    .contact-submit { margin-top:18px; }
+
+    .contact-side { display:flex; flex-direction:column; gap:18px; }
+    .contact-card { padding:23px; }
+    .contact-item { display:grid; grid-template-columns:48px minmax(0,1fr); gap:13px; align-items:start; }
+    .contact-item + .contact-item { margin-top:18px; }
+    .contact-item-icon {
+      width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
+      background:#eaf4ff; color:#2463df; font-size:18px;
+    }
+    .contact-item:nth-child(3) .contact-item-icon { background:#eafbf5; color:#0f9f73; }
+    .contact-item:nth-child(4) .contact-item-icon { background:#f1ecff; color:#7047d8; }
+    .contact-item:nth-child(5) .contact-item-icon { background:#fff5e5; color:#df8b0e; }
+    .contact-item strong { display:block; color:#09265f; font-size:14px; margin:3px 0 4px; }
+    .contact-item p { color:#475569; font-size:14px; line-height:1.55; margin:0; }
+    .contact-company-name { display:inline !important; color:var(--blue-primary); font-size:14px; font-weight:700; }
+
+    .map-card { overflow:hidden; }
+    .map-link { display:block; color:inherit; text-decoration:none; }
+    .map-link h3 { transition:color .2s ease; }
+    .map-link:hover h3 { color:#2463df; }
+    .map-link-icon { font-size:11px; margin-left:6px; color:#2463df; vertical-align:middle; }
+    .map-visual {
+      height:235px;
+      border-radius:11px;
+      border:1px solid #d5e1ee;
+      overflow:hidden;
+      position:relative;
+      background:#edf5f8;
+    }
+    .map-visual iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    @media (max-width:900px) {
+      .contact-grid { grid-template-columns:1fr; }
+      .contact-side { display:grid; grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:640px) {
+      .contact-main { padding:38px 0 50px; }
+      .form-grid { grid-template-columns:1fr; }
+      .form-field.full { grid-column:auto; }
+      .contact-side { display:flex; }
+    }
+
+    /* Contact form unavailable notice */
+    .contact-notice-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.45);
+    }
+    .contact-notice-overlay.show { display: flex; }
+    .contact-notice {
+      width: min(480px, 100%);
+      background: #fff;
+      border: 1px solid #dce7f5;
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(20, 58, 103, 0.18);
+      padding: 28px;
+      text-align: center;
+    }
+    .contact-notice-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(40, 120, 232, 0.10);
+      color: var(--blue-primary);
+      font-size: 22px;
+    }
+    .contact-notice h3 {
+      margin: 0 0 10px;
+      color: var(--blue-header);
+      font-size: 21px;
+    }
+    .contact-notice p {
+      margin: 0 0 22px;
+      color: #475569;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .contact-notice-close {
+      border: 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<header>
+<div class="container nav">
+<div class="brand">
+<a href="../index.html"><img alt="Navodix IT Solutions" class="site-logo" src="../assets/images/logo.png"/></a>
+</div>
+<nav>
+<a href="../index.html">Home</a>
+<a href="about.html">About</a>
+<a href="team.html">Leadership Team</a>
+<a href="services.html">Services</a>
+<a href="solutions.html">Solutions</a>
+<a href="careers.html">Careers</a>
+<a class="active" href="contact.html">Contact</a>
+</nav>
+<a class="btn btn-primary" href="contact.html">Get in Touch <i class="fa-solid fa-chevron-right"></i></a>
+</div>
+</header>
+<section class="contact-banner">
+<img alt="Professional business workspace representing Navodix IT Solutions" class="contact-banner-image" src="../assets/images/contact-banner-2168x300.png"/>
+<div class="contact-banner-content">
+<div class="container">
+<div class="contact-banner-line"></div>
+<h1 class="contact-banner-title">Contact <span>Us</span></h1>
+<p class="contact-banner-subtitle">Let’s start a conversation. We’re here to help your business move forward.</p>
+</div>
+</div>
+</section>
+<main class="contact-main">
+<div class="container">
+<div class="contact-grid">
+<section>
+<div class="contact-intro">
+<div class="contact-line"></div>
+<div class="contact-kicker">GET IN TOUCH</div>
+<h2>We’d Love to <span>Hear From You</span></h2>
+<p>Whether you have a question, need a consultation, or want to explore how we can work together, feel free to reach out. Our team will get back to you shortly.</p>
+</div>
+<form action="#" class="contact-form-card" method="post" id="contactForm">
+<h3>Send us a Message</h3>
+<div class="form-grid">
+<div class="form-field">
+<label for="name">Your Name *</label>
+<input id="name" name="name" placeholder="Enter your name" required="" type="text"/>
+</div>
+<div class="form-field">
+<label for="email">Your Email *</label>
+<input id="email" name="email" placeholder="Enter your email" required="" type="email"/>
+</div>
+<div class="form-field">
+<label for="phone">Phone Number</label>
+<input id="phone" name="phone" placeholder="Enter your phone number" type="tel"/>
+</div>
+<div class="form-field">
+<label for="company">Company Name</label>
+<input id="company" name="company" placeholder="Enter your company name" type="text"/>
+</div>
+<div class="form-field full">
+<label for="subject">Subject *</label>
+<input id="subject" name="subject" placeholder="What can we help you with?" required="" type="text"/>
+</div>
+<div class="form-field full">
+<label for="message">Message *</label>
+<textarea id="message" name="message" placeholder="Type your message here..." required=""></textarea>
+</div>
+</div>
+<div class="contact-submit">
+<button class="btn btn-primary" type="button" id="sendMessageButton">Send Message <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+</form>
+</section>
+<aside class="contact-side">
+<div class="contact-card">
+<h3>Our Contact Details</h3>
+<div class="contact-item">
+<div class="contact-item-icon"><i class="fa-solid fa-location-dot"></i></div>
+<div><strong>Address</strong><p><strong class="contact-company-name">Navodix IT Solutions Private Limited,</strong><br/>No.21, (Old No.4), 1st Floor,<br/>2nd A Main Road, OMBR Layout,<br/>Chikkabanasawadi,<br/>Bangalore - 560043, Karnataka.</p></div>
+</div>
+<div class="contact-item">
+<div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
+<div><strong>Email</strong><p>info@navodix.com</p></div>
+</div>
+<div class="contact-item">
+<div class="contact-item-icon"><i class="fa-solid fa-phone"></i></div>
+<div><strong>Phone</strong><p>+91-9663693988<br/>+91-9632355166</p></div>
+</div>
+<div class="contact-item">
+<div class="contact-item-icon"><i class="fa-regular fa-clock"></i></div>
+<div><strong>Business Hours</strong><p>Monday – Friday: 9:00 AM – 6:00 PM</p></div>
+</div>
+</div>
+<div class="contact-card map-card">
+<a aria-label="Open Navodix IT Solutions address in Google Maps" class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Navodix+IT+Solutions+Private+Limited%2C+No.+21%2C+%28Old+No.+4%29%2C+1st+Floor%2C+2nd+%22A%22+Main+Road%2C+OMBR+Layout%2C+Chikkabanasawadi%2C+Bangalore+-+560043%2C+Karnataka" rel="noopener noreferrer" target="_blank">
+<h3>Find Us on Map <i class="fa-solid fa-arrow-up-right-from-square map-link-icon"></i></h3>
+<div class="map-visual">
+<iframe
+  src="https://www.google.com/maps?q=Navodix%20IT%20Solutions%20Private%20Limited%2C%20No.%2021%2C%20Old%20No.%204%2C%201st%20Floor%2C%202nd%20A%20Main%20Road%2C%20OMBR%20Layout%2C%20Chikkabanasawadi%2C%20Bangalore%20-%20560043%2C%20Karnataka&output=embed"
+  title="Navodix IT Solutions Private Limited office location on Google Maps"
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+  allowfullscreen>
+</iframe>
+</div>
+</a>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<footer>
+<div class="container foot">
+<div>
+<div class="brand foot-brand"><a href="../index.html"><img alt="Navodix IT Solutions" class="site-logo foot-logo" src="../assets/images/logo.png"/></a></div>
+<p class="foot-desc">Reliable IT Infrastructure.<br/>Intelligent Solutions.<br/>Business Success.</p>
+<div class="social-links">
+<a aria-label="LinkedIn" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+<a aria-label="Facebook" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+<a aria-label="X" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+<a aria-label="YouTube" href="#"><i class="fa-brands fa-youtube"></i></a>
+</div>
+</div>
+<div>
+<h4>Quick Links</h4>
+<ul>
+<li><a href="../index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="team.html">Leadership Team</a></li><li><a href="services.html">Services</a></li><li><a href="solutions.html">Solutions</a></li><li><a href="careers.html">Careers</a></li><li><a href="contact.html">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h4>Our Services</h4>
+<ul><li>IT Infrastructure Management</li><li>Managed Services</li><li>IT Staffing &amp; Consulting</li><li>Software Development Services</li><li>Backup &amp; Disaster Recovery</li><li>Cloud Services</li></ul>
+</div>
+<div>
+<h4>Contact Info</h4>
+<p><i class="fa-solid fa-phone"></i> +91-9663693988,  +91-9632355166</p>
+<p><i class="fa-solid fa-envelope"></i> info@navodix.com</p>
+<p class="footer-address">
+<i aria-hidden="true" class="fa-solid fa-location-dot"></i>
+<span class="footer-address-text">
+<strong class="footer-company-name" style="color: var(--blue-primary);">Navodix IT Solutions Private Limited,</strong><br/>
+            No.21, (Old No.4), 1st Floor,<br/>
+            2nd A Main Road, OMBR Layout, Chikkabanasawadi,<br/>
+            Bangalore - 560043, Karnataka.
+          </span>
+</p>
+</div>
+</div>
+<div class="copy"><div class="container copy-inner"><span>© 2026 Navodix IT Solutions Private Limited. All Rights Reserved.</span><div><a href="#">Privacy Policy</a> | <a href="#">Terms &amp; Conditions</a></div></div></div>
+</footer>
+
+<div class="contact-notice-overlay" id="contactNotice" role="dialog" aria-modal="true" aria-labelledby="contactNoticeTitle">
+  <div class="contact-notice">
+    <div class="contact-notice-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <h3 id="contactNoticeTitle">Thank You for Your Interest</h3>
+    <p>Our contact form is currently under development and will be available soon.</p>
+    <button type="button" class="btn btn-primary contact-notice-close" id="contactNoticeClose">OK</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const form = document.getElementById('contactForm');
+    const notice = document.getElementById('contactNotice');
+    const closeButton = document.getElementById('contactNoticeClose');
+    const sendMessageButton = document.getElementById('sendMessageButton');
+
+    if (!form || !notice || !closeButton || !sendMessageButton) return;
+
+    function closeNotice() {
+      notice.classList.remove('show');
+    }
+
+    sendMessageButton.addEventListener('click', function () {
+      notice.classList.add('show');
+    });
+
+    closeButton.addEventListener('click', closeNotice);
+
+    notice.addEventListener('click', function (event) {
+      if (event.target === notice) closeNotice();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeNotice();
+    });
+  })();
+</script>
+<script src="../assets/js/script.js"></script>
+</body>
+</html>
