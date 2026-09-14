@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers - Navodix IT Solutions</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    /* Services banner — matched to the finalized Team-page banner structure. */
+    .services-banner {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      line-height: 1;
+      background: #ffffff;
+      border-bottom: 1px solid #d9e8f8;
+    }
+
+    .services-banner-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .services-banner-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .services-banner-content .container {
+      width: 100%;
+      padding-top: 2px;
+    }
+
+    .services-banner-line {
+      width: 54px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--blue-primary);
+      margin-bottom: 16px;
+    }
+
+    .services-banner-title {
+      color: var(--blue-header);
+      font-size: clamp(30px, 4.15vw, 56px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -1.4px;
+      margin: 0 0 12px;
+    }
+
+    .services-banner-title span { color: var(--blue-primary); }
+
+    .services-banner-subtitle {
+      color: #52627a;
+      font-size: clamp(15px, 1.45vw, 22px);
+      line-height: 1.35;
+      letter-spacing: .2px;
+      margin: 0;
+      max-width: 720px;
+    }
+
+    @media (max-width: 640px) {
+      .services-banner-content { align-items: center; }
+      .services-banner-content .container { padding-left: 20px; padding-right: 20px; }
+      .services-banner-line { width: 42px; height: 4px; margin-bottom: 9px; }
+      .services-banner-title { font-size: clamp(24px, 7vw, 34px); letter-spacing: -.7px; margin-bottom: 7px; }
+      .services-banner-subtitle { font-size: clamp(12px, 3.2vw, 16px); max-width: 78%; }
+    }
+
+    .services-main {
+      padding: 42px 0 62px;
+    }
+
+    .services-heading {
+      margin-bottom: 30px;
+    }
+
+    .services-heading h2 {
+      color: var(--blue-header);
+      font-size: clamp(30px, 3.2vw, 42px);
+      line-height: 1.18;
+      margin: 0 0 10px;
+    }
+
+    .services-heading h2 span {
+      color: var(--blue-primary);
+    }
+
+    .services-heading p {
+      color: #475569;
+      max-width: 780px;
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      --service-accent: #2878E8;
+      --service-tint: #EFF6FF;
+      --service-bubble: #D8E9FF;
+      position: relative;
+      min-height: 285px;
+      padding: 26px 24px 22px;
+      display: flex;
+      flex-direction: column;
+      background: var(--service-tint);
+      border: 1px solid color-mix(in srgb, var(--service-accent) 18%, white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(20, 58, 103, .055);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 5px;
+      background: var(--service-accent);
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      right: -70px;
+      bottom: -78px;
+      border-radius: 50%;
+      background: var(--service-bubble);
+      opacity: .85;
+      transition: transform .25s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--service-accent);
+      box-shadow: 0 15px 32px rgba(20, 58, 103, .11);
+    }
+
+    .service-card:hover::after {
+      transform: scale(1.2);
+    }
+
+    .service-card:nth-child(1) {
+      --service-accent: #2878E8;
+      --service-tint: #EFF6FF;
+      --service-bubble: #D8E9FF;
+    }
+
+    .service-card:nth-child(2) {
+      --service-accent: #16A57A;
+      --service-tint: #ECFAF5;
+      --service-bubble: #D5F2E7;
+    }
+
+    .service-card:nth-child(3) {
+      --service-accent: #7658E8;
+      --service-tint: #F5F1FF;
+      --service-bubble: #E8DEFF;
+    }
+
+    .service-card:nth-child(4) {
+      --service-accent: #F28A12;
+      --service-tint: #FFF7EA;
+      --service-bubble: #FFE8C6;
+    }
+
+    .service-card:nth-child(5) {
+      --service-accent: #E63946;
+      --service-tint: #FFF1F2;
+      --service-bubble: #FFDADD;
+    }
+
+    .service-card:nth-child(6) {
+      --service-accent: #2878E8;
+      --service-tint: #EFF6FF;
+      --service-bubble: #D8E9FF;
+    }
+
+    .service-icon {
+      position: relative;
+      z-index: 1;
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background: var(--service-accent);
+      color: #fff;
+      font-size: 21px;
+      box-shadow: 0 7px 15px color-mix(in srgb, var(--service-accent) 20%, transparent);
+      transition: transform .22s ease;
+    }
+
+    .service-card:hover .service-icon {
+      transform: scale(1.06);
+    }
+
+    .service-card h3 {
+      position: relative;
+      z-index: 1;
+      color: #0B2855;
+      font-size: 18px;
+      line-height: 1.3;
+      margin: 0 0 9px;
+      font-weight: 750;
+    }
+
+    .service-card p {
+      position: relative;
+      z-index: 1;
+      color: #61738B;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .service-card a,
+    .service-card .service-link {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: auto;
+      padding-top: 18px;
+      color: var(--service-accent);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .service-card a i,
+    .service-card .service-link i {
+      font-size: 11px;
+      transition: transform .2s ease;
+    }
+
+    .service-card:hover a i,
+    .service-card:hover .service-link i {
+      transform: translateX(4px);
+    }
+
+    .services-cta {
+      margin-top: 34px;
+      padding: 28px 32px;
+      border-radius: 16px;
+      background: linear-gradient(115deg, #071d49, #0b4aa2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      box-shadow: 0 12px 30px rgba(7,29,73,.14);
+    }
+
+    .services-cta-copy h3 {
+      color: #fff;
+      font-size: 23px;
+      margin: 0 0 5px;
+    }
+
+    .services-cta-copy p {
+      color: #dbeafe;
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .services-cta .btn {
+      flex: 0 0 auto;
+      background: #fff;
+      color: var(--blue-primary);
+      border-color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .services-banner { height: auto; }
+      .services-banner-grid { grid-template-columns: 1fr; }
+      .services-banner-copy { min-height: 210px; padding: 34px 0; }
+      .services-banner-visual { height: 190px; }
+      .services-main { padding: 42px 0 48px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { min-height: 0; }
+      .services-cta { padding: 24px; flex-direction: column; align-items: flex-start; }
+    }
+  
+    .careers-message {
+      max-width: 780px;
+      margin: 10px auto 0;
+      padding: 42px 32px;
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid #dce7f5;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(20, 58, 103, .065);
+    }
+    .careers-message-icon {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--blue-primary);
+      font-size: 28px;
+    }
+    .careers-message h3 {
+      color: var(--blue-header);
+      font-size: 25px;
+      margin: 0 0 10px;
+    }
+    .careers-message p {
+      color: #475569;
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+      .careers-message { padding: 32px 22px; }
+      .careers-message h3 { font-size: 22px; }
+    }
+
+    .careers-intro{display:flex;align-items:center;gap:20px;margin:0 0 34px;padding:22px 26px;background:#f7fbff;border:1px solid #dce9f6;border-radius:16px}
+    .careers-intro-icon{width:54px;height:54px;flex:0 0 54px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e6f1ff;color:var(--blue-primary);font-size:22px}
+    .careers-intro h3{margin:0 0 5px;color:var(--blue-header);font-size:20px}.careers-intro p{margin:0;color:#53657d;font-size:15px;line-height:1.6}
+    .careers-filters{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 24px;padding:18px 20px;background:#f7faff;border:1px solid #dce7f5;border-radius:14px}.career-filter{flex:1;min-width:220px}.career-filter label{display:block;margin:0 0 7px;color:var(--blue-header);font-size:13px;font-weight:800}.career-filter select{width:100%;padding:11px 13px;border:1px solid #ccdbea;border-radius:8px;background:#fff;color:#334b65;font-size:14px;outline:none}.career-filter select:focus{border-color:var(--blue-primary);box-shadow:0 0 0 3px rgba(42,111,174,.10)}.careers-openings-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}.careers-kicker{display:block;color:var(--blue-primary);font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:5px}.careers-openings-header h3{margin:0;color:var(--blue-header);font-size:25px}.careers-click-hint{margin:5px 0 0;color:#718198;font-size:13px;line-height:1.5}.openings-count{padding:8px 14px;border-radius:999px;background:#eef6ff;color:var(--blue-primary);font-size:13px;font-weight:800;white-space:nowrap}
+    /* Careers cards — same visual theme as the Solutions cards. */
+    .careers-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.career-card{--career-accent:#2878E8;--career-tint:#EFF6FF;--career-bubble:#D8E9FF;position:relative;min-height:285px;padding:26px 24px 22px;display:flex;flex-direction:column;background:var(--career-tint);border:1px solid color-mix(in srgb,var(--career-accent) 18%,white);border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(20,58,103,.055);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.career-card::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:var(--career-accent)}.career-card::after{content:'';position:absolute;width:145px;height:145px;right:-70px;bottom:-78px;border-radius:50%;background:var(--career-bubble);opacity:.85;transition:transform .25s ease}.career-card:hover{transform:translateY(-5px);border-color:var(--career-accent);box-shadow:0 15px 32px rgba(20,58,103,.11)}.career-card:hover::after{transform:scale(1.2)}
+    .career-card:nth-child(1){--career-accent:#2878E8;--career-tint:#EFF6FF;--career-bubble:#D8E9FF}.career-card:nth-child(2){--career-accent:#16A57A;--career-tint:#ECFAF5;--career-bubble:#D5F2E7}.career-card:nth-child(3){--career-accent:#7658E8;--career-tint:#F5F1FF;--career-bubble:#E8DEFF}.career-card:nth-child(4){--career-accent:#F28A12;--career-tint:#FFF7EA;--career-bubble:#FFE8C6}.career-card:nth-child(5){--career-accent:#E63946;--career-tint:#FFF1F2;--career-bubble:#FFDADD}.career-card:nth-child(6){--career-accent:#0EA5E9;--career-tint:#ECF9FF;--career-bubble:#D5F1FF}.career-card:nth-child(7){--career-accent:#0F9F73;--career-tint:#ECFAF5;--career-bubble:#D5F2E7}.career-card:nth-child(8){--career-accent:#D94B5B;--career-tint:#FFF2F3;--career-bubble:#FFDDE1}.career-card:nth-child(9){--career-accent:#2878E8;--career-tint:#EFF6FF;--career-bubble:#D8E9FF}
+    .career-card-top{position:relative;z-index:1;display:flex;align-items:center;gap:15px;margin-bottom:20px}.career-icon{width:56px;height:56px;flex:0 0 56px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--career-accent);color:#fff;font-size:21px;box-shadow:0 7px 15px color-mix(in srgb,var(--career-accent) 20%,transparent);transition:transform .22s ease}.career-card:hover .career-icon{transform:scale(1.06)}.career-card h3{position:relative;z-index:1;color:#0B2855;font-size:18px;line-height:1.3;margin:0;font-weight:750}.career-meta{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:14px;color:#61738B;font-size:13px;margin-bottom:12px}.career-meta i{color:var(--career-accent);margin-right:4px}.career-card p{position:relative;z-index:1;color:#61738B;font-size:14px;line-height:1.6;margin:0 0 15px}.career-requirements{position:relative;z-index:1;border-top:1px solid color-mix(in srgb,var(--career-accent) 12%,white);padding-top:13px;margin-top:1px}.career-requirements-title{color:#0B2855;font-size:13px;font-weight:800;margin-bottom:7px}.career-requirements ul{margin:0 0 0 18px;padding:0;color:#61738B;font-size:13px;line-height:1.55}.career-requirements li{margin-bottom:3px}.career-card-actions{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:auto;padding-top:18px}.career-view-details{display:inline-flex;align-items:center;gap:7px;color:var(--career-accent);font-size:13px;font-weight:800;pointer-events:none}.career-view-details i{font-size:11px;transition:transform .2s ease}.career-card:hover .career-view-details i{transform:translateX(4px)}.career-apply{border:0;background:none;padding:0;color:var(--career-accent);font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:7px}.career-apply i{font-size:11px;transition:transform .2s ease}.career-apply:hover i{transform:translateX(4px)}.career-card{cursor:pointer}
+    .career-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(7,29,73,.35)}
+    .career-modal.is-open{display:flex}
+    .career-modal-box{--modal-accent:#2878E8;--modal-tint:#EFF6FF;--modal-bubble:#D8E9FF;position:relative;width:min(620px,100%);height:auto;max-height:none;overflow:visible;box-sizing:border-box;background:var(--modal-tint);border:1px solid color-mix(in srgb,var(--modal-accent) 18%,white);border-radius:16px;box-shadow:0 20px 55px rgba(7,29,73,.18);display:flex;flex-direction:column}
+    .career-modal-box.needs-scroll{max-height:75vh;overflow-y:auto;overflow-x:hidden}
+    .career-modal-box::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:var(--modal-accent);border-radius:16px 16px 0 0;z-index:8;pointer-events:none}
+    .career-modal-box::after{content:'';position:absolute;width:145px;height:145px;right:-70px;bottom:-78px;border-radius:50%;background:var(--modal-bubble);opacity:.85;pointer-events:none}
+    .career-modal-header-band{position:sticky;top:0;z-index:6;flex:0 0 auto;padding:28px 52px 18px 30px;background:var(--modal-accent);border-bottom:1px solid var(--modal-accent);border-radius:15px 15px 0 0}
+    .career-modal-header-band .career-modal-close{position:absolute;top:18px;right:14px;color:#fff}.career-modal-header-band .career-modal-meta{color:#fff;border-bottom-color:rgba(255,255,255,.22)}.career-modal-header-band .career-modal-meta i{color:#fff}
+    .career-modal-label{display:inline-flex;align-items:center;margin:0 0 7px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;font-size:11px;line-height:1;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .career-modal-head{position:relative;z-index:2;display:flex;align-items:center;gap:16px;padding:0;margin:0}
+    .career-modal-icon{width:58px;height:58px;flex:0 0 58px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--modal-accent,#2878E8);color:#fff;font-size:22px;box-shadow:0 7px 15px color-mix(in srgb,var(--modal-accent,#2878E8) 20%,transparent)}
+    .career-modal-box h3{color:var(--blue-header);margin:0;font-size:24px;line-height:1.25}.career-modal-header-band h3{color:#fff}.career-modal-header-band .career-application-subtitle{color:rgba(255,255,255,.88)}
+    .career-modal-meta{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:10px 18px;margin:0;padding:12px 30px;border-bottom:1px solid color-mix(in srgb,var(--modal-accent) 12%,white);color:#61738B;font-size:13px}
+    .career-modal-meta span{display:inline-flex;align-items:center;gap:6px}
+    .career-modal-meta i{color:var(--modal-accent,#2878E8)}
+    .career-modal-section{position:relative;z-index:2;margin:18px 30px 0}
+    .career-modal-section h4{margin:0 0 8px;color:var(--blue-header);font-size:15px;font-weight:800}
+    .career-modal-section p{color:#61738B;font-size:14px;line-height:1.65;margin:0}
+    .career-modal-section ul{margin:0 0 0 19px;padding:0;color:#61738B;font-size:14px;line-height:1.65}
+    .career-modal-section li{margin-bottom:4px}
+    .career-modal-actions{position:relative;z-index:2;display:flex;justify-content:space-between;gap:12px;margin:24px 30px 28px;padding-top:18px;border-top:1px solid color-mix(in srgb,var(--modal-accent) 12%,white)}
+    .career-modal-close{border:0;background:none;color:#64748b;font-size:28px;cursor:pointer;line-height:1;z-index:7}
+    .career-modal-close-btn{border:1px solid var(--modal-accent,#2878E8);border-radius:7px;padding:11px 20px;background:transparent;color:var(--modal-accent,#2878E8);font-size:13px;font-weight:800;cursor:pointer}.career-modal-apply{border:0;border-radius:7px;padding:11px 20px;background:var(--modal-accent,#2878E8);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .career-modal-apply i{margin-left:6px}
+    .career-modal-ok{margin-top:12px}
+    .career-modal-role{color:var(--blue-primary)!important;font-weight:800}
+    .career-application-modal-box{text-align:left;width:min(760px,100%);max-height:none;overflow:visible}
+    .career-application-head{padding:0;margin:0;display:block}
+    .career-application-head .careers-message-icon{display:none}
+    .career-application-head h3{margin:0;font-size:23px}
+    .career-application-subtitle{margin:3px 0 0;color:#61738B;font-size:13px;line-height:1.5}
+    .career-application-modal-box #careerApplicationForm{padding:0 30px 28px}
+    .career-form-section{margin-top:22px;padding-top:18px;border-top:1px solid #dce7f5}.career-form-section:first-of-type{margin-top:0;padding-top:0;border-top:0}.career-form-section-title{margin:0 0 13px;color:var(--blue-header);font-size:15px;font-weight:800}.career-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}.career-form-field{min-width:0}.career-form-field.full{grid-column:1/-1}.career-form-field label{display:block;margin:0 0 6px;color:var(--blue-header);font-size:12px;font-weight:800}.career-form-field label .required{color:#d92d20}.career-form-field input,.career-form-field select,.career-form-field textarea{box-sizing:border-box;width:100%;border:1px solid #ccdbea;border-radius:8px;background:#fff;color:#334b65;font:inherit;font-size:13px;padding:10px 12px;outline:none}.career-form-field textarea{min-height:88px;resize:vertical;line-height:1.5}.career-form-field input:focus,.career-form-field select:focus,.career-form-field textarea:focus{border-color:var(--blue-primary);box-shadow:0 0 0 3px rgba(42,111,174,.10)}.career-form-field input[readonly]{background:#f3f7fc;color:#53657d}.career-form-help{margin:5px 0 0;color:#718198;font-size:11px;line-height:1.45}.career-form-consent{display:flex;align-items:flex-start;gap:9px;margin-top:14px;color:#53657d;font-size:12px;line-height:1.5}.career-form-consent input{margin-top:3px;flex:0 0 auto}.career-form-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid #dce7f5}.career-form-submit{border:0;border-radius:7px;padding:11px 20px;background:var(--blue-primary);color:#fff;font-size:13px;font-weight:800;cursor:pointer}.career-form-submit:hover{filter:brightness(.96)}.career-form-notice{display:none;margin-top:12px;padding:10px 12px;border-radius:8px;background:#fff7e6;color:#8a5a00;font-size:12px;line-height:1.5}
+    @media(max-width:640px){.career-form-grid{grid-template-columns:1fr}.career-form-field.full{grid-column:auto}.career-application-modal-box{max-height:88vh}.career-form-actions{justify-content:stretch}.career-form-submit{width:100%}}
+
+    @media(max-width:640px){.career-modal-box{padding:30px 20px 24px}.career-modal-head{align-items:flex-start}.career-modal-box h3{font-size:21px}.career-modal-actions{justify-content:stretch}.career-modal-apply{width:100%}}
+    .no-results{padding:36px 24px;text-align:center;color:#61738B;background:#fff;border:1px solid #dce7f5;border-radius:16px;font-size:15px;line-height:1.6}
+    @media(max-width:900px){.careers-grid{grid-template-columns:1fr}}@media(max-width:640px){.careers-intro{align-items:flex-start;padding:20px}.careers-openings-header{align-items:flex-start;flex-direction:column}.careers-openings-header h3{font-size:22px}.career-card{padding:23px 20px}}
+
+</style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html">
+          <img src="../assets/images/logo.png" alt="Navodix IT Solutions" class="site-logo">
+        </a>
+      </div>
+
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="team.html">Leadership Team</a>
+        <a href="services.html">Services</a>
+        <a href="solutions.html">Solutions</a>
+        <a class="active" href="careers.html">Careers</a>
+<a href="contact.html">Contact</a>
+      </nav>
+
+      <a href="contact.html" class="btn btn-primary">
+        Get in Touch <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Services Banner -->
+  <section class="services-banner">
+    <img class="services-banner-image" src="../assets/images/services-banner-2168x300.png" alt="Modern IT services, cloud and cybersecurity technology">
+    <div class="services-banner-content">
+      <div class="container">
+        <div class="services-banner-line"></div>
+        <h1 class="services-banner-title">Careers at <span>Navodix</span></h1>
+        <p class="services-banner-subtitle">Building a team for the future.</p>
+      </div>
+    </div>
+  </section>
+  <main class="services-main careers-main">
+    <div class="container">
+      <div class="services-heading careers-heading">
+        <span class="section-badge">CAREERS</span>
+        <h2>Build Your Career with <span>Navodix</span></h2>
+        <p>Join a growing technology team and work on practical IT solutions that help businesses operate securely, efficiently and confidently.</p>
+      </div>
+      <div class="careers-intro">
+        <div class="careers-intro-icon"><i class="fa-solid fa-people-group"></i></div>
+        <div><h3>Explore Opportunities</h3><p>We are always interested in meeting talented professionals who are passionate about technology, problem-solving and delivering excellent service.</p></div>
+      </div>
+      <div class="careers-openings-header">
+        <div><span class="careers-kicker">CURRENT OPENINGS</span><h3>Find an opportunity that fits you</h3><p class="careers-click-hint">Click on an opportunity to view more details.</p></div>
+        <span class="openings-count" id="openingsCount">Loading...</span>
+      </div>
+
+      <div class="careers-filters">
+        <div class="career-filter">
+          <label for="locationFilter">Location</label>
+          <select id="locationFilter">
+            <option value="all">All Locations</option>
+          </select>
+        </div>
+        <div class="career-filter">
+          <label for="employmentFilter">Employment Type</label>
+          <select id="employmentFilter">
+            <option value="all">All Types</option>
+            <option value="full_time">Full Time</option>
+            <option value="part_time">Part Time</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="careers-grid" id="careersGrid"></div>
+
+    </div>
+  </main>
+
+  <!-- Opportunity details popup -->
+  <div class="career-modal" id="detailsModal" aria-hidden="true">
+    <div class="career-modal-box" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+      <div class="career-modal-header-band">
+        <button class="career-modal-close" type="button" aria-label="Close">&times;</button>
+        <div class="career-modal-label">Job Details</div>
+        <div class="career-modal-head">
+          <h3 id="detailsModalTitle">Opportunity Details</h3>
+        </div>
+      </div>
+      <div class="career-modal-meta" id="detailsModalMeta"></div>
+      <div class="career-modal-section">
+        <h4>About the Opportunity</h4>
+        <p id="detailsModalDescription"></p>
+      </div>
+      <div class="career-modal-section" id="detailsModalResponsibilitiesSection">
+        <h4>Key Responsibilities</h4>
+        <ul id="detailsModalResponsibilities"></ul>
+      </div>
+      <div class="career-modal-section">
+        <h4>Requirements</h4>
+        <ul id="detailsModalRequirements"></ul>
+      </div>
+      <div class="career-modal-section" id="detailsModalQualificationsSection">
+        <h4>Preferred Qualifications</h4>
+        <ul id="detailsModalQualifications"></ul>
+      </div>
+      <div class="career-modal-actions">
+        <button class="career-modal-close-btn" id="detailsModalCloseBtn" type="button">Close</button>
+        <button class="career-modal-apply" id="detailsModalApply" type="button">Apply Now <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application form opened by Apply Now -->
+  <div class="career-modal" id="careerModal" aria-hidden="true">
+    <div class="career-modal-box career-application-modal-box" role="dialog" aria-modal="true" aria-labelledby="careerModalTitle">
+      <div class="career-modal-header-band">
+        <button class="career-modal-close" type="button" aria-label="Close">&times;</button>
+        <div class="career-modal-label">Apply for this Position</div>
+        <div class="career-application-head">
+          <h3 id="careerModalTitle">Apply for this position</h3>
+          <p class="career-application-subtitle">Complete the application form below. Fields marked with * are required.</p>
+        </div>
+      </div>
+      <form id="careerApplicationForm" novalidate>
+        <div class="career-form-section"><h4 class="career-form-section-title">Position</h4><div class="career-form-grid">
+          <div class="career-form-field"><label for="applicationJobTitle">Job Title</label><input id="applicationJobTitle" type="text" readonly></div>
+          <div class="career-form-field"><label for="applicationJobCode">Job Code</label><input id="applicationJobCode" type="text" readonly></div>
+          <div class="career-form-field"><label for="applicationLocation">Location</label><input id="applicationLocation" type="text" readonly></div>
+          <div class="career-form-field"><label for="applicationEmploymentType">Employment Type</label><input id="applicationEmploymentType" type="text" readonly></div>
+        </div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Personal Information</h4><div class="career-form-grid">
+          <div class="career-form-field"><label for="fullName">Full Name <span class="required">*</span></label><input id="fullName" type="text" required></div>
+          <div class="career-form-field"><label for="email">Email <span class="required">*</span></label><input id="email" type="email" required></div>
+          <div class="career-form-field"><label for="mobile">Mobile <span class="required">*</span></label><input id="mobile" type="tel" required></div>
+          <div class="career-form-field"><label for="alternateContact">Alternate Contact</label><input id="alternateContact" type="tel"></div>
+        </div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Professional Information</h4><div class="career-form-grid">
+          <div class="career-form-field"><label for="totalExperience">Total Experience <span class="required">*</span></label><input id="totalExperience" type="text" placeholder="e.g. 6 years" required></div>
+          <div class="career-form-field"><label for="currentJobTitle">Current / Most Recent Job Title</label><input id="currentJobTitle" type="text"></div>
+          <div class="career-form-field"><label for="currentCompany">Current / Most Recent Company</label><input id="currentCompany" type="text"></div>
+          <div class="career-form-field"><label for="noticePeriod">Notice Period</label><input id="noticePeriod" type="text" placeholder="e.g. 30 days"></div>
+          <div class="career-form-field"><label for="currentCtc">Current / Last Drawn Salary / CTC</label><input id="currentCtc" type="text"></div>
+          <div class="career-form-field"><label for="expectedCtc">Expected Salary / CTC</label><input id="expectedCtc" type="text"></div>
+        </div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Education</h4><div class="career-form-grid">
+          <div class="career-form-field"><label for="highestQualification">Highest Qualification <span class="required">*</span></label><input id="highestQualification" type="text" required></div>
+          <div class="career-form-field"><label for="specialization">Specialization / Course</label><input id="specialization" type="text"></div>
+          <div class="career-form-field"><label for="graduationYear">Year of Graduation</label><input id="graduationYear" type="text" inputmode="numeric"></div>
+        </div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Skills</h4><div class="career-form-grid"><div class="career-form-field full"><label for="skills">Key Skills / Technologies <span class="required">*</span></label><textarea id="skills" placeholder="List your key skills and technologies" required></textarea></div></div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Resume / CV</h4><div class="career-form-grid"><div class="career-form-field full"><label for="resume">Resume / CV <span class="required">*</span></label><input id="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required><p class="career-form-help">Accepted formats: PDF, DOC, DOCX. Maximum file size: 5 MB.</p></div></div></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Additional Information</h4><div class="career-form-grid">
+          <div class="career-form-field"><label for="linkedin">LinkedIn</label><input id="linkedin" type="url" placeholder="https://..."></div>
+          <div class="career-form-field full"><label for="additionalInformation">Additional Information</label><textarea id="additionalInformation"></textarea></div>
+          <div class="career-form-field full"><label for="coverMessage">Cover Message</label><textarea id="coverMessage" placeholder="Tell us briefly why you are interested in this opportunity."></textarea></div>
+        </div><label class="career-form-consent"><input id="consent" type="checkbox" required><span>I confirm that the information provided is accurate and complete, and I consent to Navodix IT Solutions Private Limited using my information for recruitment and employment-related purposes. <span class="required">*</span></span></label></div>
+        <div class="career-form-actions"><button class="career-modal-close-btn" id="careerApplicationCloseBtn" type="button">Close</button><button class="career-form-submit" type="submit">Submit Application <i class="fa-solid fa-arrow-right"></i></button></div>
+        <div class="career-form-notice" id="careerFormNotice">The application submission step will be connected in the next stage. No application has been submitted yet.</div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+<div class="container foot">
+<div>
+<div class="brand foot-brand"><a href="../index.html"><img alt="Navodix IT Solutions" class="site-logo foot-logo" src="../assets/images/logo.png"/></a></div>
+<p class="foot-desc">Reliable IT Infrastructure.<br/>Intelligent Solutions.<br/>Business Success.</p>
+<div class="social-links">
+<a aria-label="LinkedIn" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+<a aria-label="Facebook" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+<a aria-label="X" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+<a aria-label="YouTube" href="#"><i class="fa-brands fa-youtube"></i></a>
+</div>
+</div>
+<div>
+<h4>Quick Links</h4>
+<ul>
+<li><a href="../index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="team.html">Leadership Team</a></li><li><a href="services.html">Services</a></li><li><a href="solutions.html">Solutions</a></li><li><a class="active" href="careers.html">Careers</a></li><li><a href="contact.html">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h4>Our Services</h4>
+<ul><li>IT Infrastructure Management</li><li>Managed Services</li><li>IT Staffing &amp; Consulting</li><li>Software Development Services</li><li>Backup &amp; Disaster Recovery</li><li>Cloud Services</li></ul>
+</div>
+<div>
+<h4>Contact Info</h4>
+<p><i class="fa-solid fa-phone"></i> +91-9663693988,  +91-9632355166</p>
+<p><i class="fa-solid fa-envelope"></i> info@navodix.com</p>
+<p class="footer-address">
+<i aria-hidden="true" class="fa-solid fa-location-dot"></i>
+<span class="footer-address-text">
+<strong class="footer-company-name" style="color: var(--blue-primary);">Navodix IT Solutions Private Limited,</strong><br/>
+            No.21, (Old No.4), 1st Floor,<br/>
+            2nd A Main Road, OMBR Layout, Chikkabanasawadi,<br/>
+            Bangalore - 560043, Karnataka.
+          </span>
+</p>
+</div>
+</div>
+<div class="copy"><div class="container copy-inner"><span>© 2026 Navodix IT Solutions Private Limited. All Rights Reserved.</span><div><a href="#">Privacy Policy</a> | <a href="#">Terms &amp; Conditions</a></div></div></div>
+</footer>
+<script>
+/*
+ * Careers — database-backed openings.
+ * Uses only the Supabase Publishable key in browser code.
+ */
+const SUPABASE_URL = 'https://hgjtqpztgyrrkujqjmcj.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_NGCugRMwnR7QslgwGi9GzQ_LBMKyT12';
+const careersSupabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+let openings = [];
+let allOpeningsLoaded = false;
+
+const grid=document.getElementById('careersGrid');
+const locationFilter=document.getElementById('locationFilter');
+const employmentFilter=document.getElementById('employmentFilter');
+const openingsCount=document.getElementById('openingsCount');
+
+function escapeHtml(value){
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function formatEmploymentType(type){
+  const map={
+    full_time:'Full Time',
+    part_time:'Part Time',
+    contract:'Contract',
+    internship:'Internship'
+  };
+  return map[type] || type || '';
+}
+
+function pickIcon(job){
+  const text=`${job.title || ''} ${job.job_category?.name || ''}`.toLowerCase();
+  if(text.includes('network')) return 'fa-network-wired';
+  if(text.includes('cloud')) return 'fa-cloud';
+  if(text.includes('software') || text.includes('developer')) return 'fa-code';
+  if(text.includes('support') || text.includes('helpdesk')) return 'fa-headset';
+  if(text.includes('storage') || text.includes('backup')) return 'fa-database';
+  if(text.includes('security') || text.includes('cyber')) return 'fa-shield-halved';
+  if(text.includes('infrastructure') || text.includes('server')) return 'fa-server';
+  return 'fa-briefcase';
+}
+
+function normalizeJob(job,responsibilities,requirements,qualifications){
+  return {
+    id:job.id,
+    job_code:job.job_code,
+    title:job.title,
+    client:job.client?.name || '',
+    location:job.location || '',
+    type:job.employment_type || '',
+    experience:job.experience || '',
+    skill_level:job.skill_level || '',
+    short_description:job.short_description || '',
+    detailed_description:job.detailed_description || '',
+    closing_date:job.closing_date || '',
+    icon:pickIcon(job),
+    requirements:(requirements || []).map(x=>x.requirement).filter(Boolean),
+    details:{
+      overview:job.detailed_description || job.short_description || '',
+      responsibilities:(responsibilities || []).map(x=>x.responsibility).filter(Boolean),
+      qualifications:(qualifications || []).map(x=>x.qualification).filter(Boolean)
+    }
+  };
+}
+
+async function loadOpenings(){
+  openingsCount.textContent='Loading...';
+  grid.innerHTML='<div class="no-results" style="grid-column:1/-1;">Loading current opportunities...</div>';
+
+  const today=new Date().toISOString().slice(0,10);
+
+  const {data:jobs,error:jobsError}=await careersSupabase
+    .from('jobs')
+    .select(`
+      id,
+      job_code,
+      title,
+      location,
+      employment_type,
+      experience,
+      skill_level,
+      short_description,
+      detailed_description,
+      closing_date,
+      job_open_date,
+      created_at,
+      client_id
+    `)
+    .eq('status','published')
+    .or(`closing_date.is.null,closing_date.gte.${today}`)
+    .order('job_open_date',{ascending:false})
+    .order('created_at',{ascending:false});
+
+  if(jobsError){
+    console.error('Careers jobs query failed:',jobsError);
+    openings=[];
+    allOpeningsLoaded=false;
+    openingsCount.textContent='Unable to load';
+    grid.innerHTML=`
+      <div class="careers-message" style="grid-column:1/-1;margin-top:0;">
+        <div class="careers-message-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+        <h3>Unable to load current opportunities</h3>
+        <p>Please refresh the page and try again. If the problem continues, please contact Navodix.</p>
+      </div>`;
+    return;
+  }
+
+  const jobRows=jobs || [];
+
+  if(!jobRows.length){
+    openings=[];
+    allOpeningsLoaded=true;
+    locationFilter.innerHTML='<option value="all">All Locations</option>';
+    openingsCount.textContent='0 Open Positions';
+    grid.innerHTML=`
+      <div class="careers-message" style="grid-column:1/-1;margin-top:0;">
+        <div class="careers-message-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <h3>No Current Openings</h3>
+        <p>We don't have any published opportunities at the moment. Please check back soon.</p>
+      </div>`;
+    return;
+  }
+
+  const ids=jobRows.map(job=>job.id);
+
+  const [requirementsResult,responsibilitiesResult,qualificationsResult]=await Promise.all([
+    careersSupabase.from('job_requirements')
+      .select('job_id,requirement,display_order')
+      .in('job_id',ids)
+      .order('display_order',{ascending:true}),
+    careersSupabase.from('job_responsibilities')
+      .select('job_id,responsibility,display_order')
+      .in('job_id',ids)
+      .order('display_order',{ascending:true}),
+    careersSupabase.from('job_qualifications')
+      .select('job_id,qualification,display_order')
+      .in('job_id',ids)
+      .order('display_order',{ascending:true})
+  ]);
+
+  if(requirementsResult.error || responsibilitiesResult.error || qualificationsResult.error){
+    console.error('Careers detail query failed:',{
+      requirements:requirementsResult.error,
+      responsibilities:responsibilitiesResult.error,
+      qualifications:qualificationsResult.error
+    });
+    openings=[];
+    allOpeningsLoaded=false;
+    openingsCount.textContent='Unable to load';
+    grid.innerHTML=`
+      <div class="careers-message" style="grid-column:1/-1;margin-top:0;">
+        <div class="careers-message-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+        <h3>Unable to load opportunity details</h3>
+        <p>Please refresh the page and try again. If the problem continues, please contact Navodix.</p>
+      </div>`;
+    return;
+  }
+
+  const requirementsByJob={},responsibilitiesByJob={},qualificationsByJob={};
+
+  (requirementsResult.data || []).forEach(item=>{
+    (requirementsByJob[item.job_id] ||= []).push(item);
+  });
+  (responsibilitiesResult.data || []).forEach(item=>{
+    (responsibilitiesByJob[item.job_id] ||= []).push(item);
+  });
+  (qualificationsResult.data || []).forEach(item=>{
+    (qualificationsByJob[item.job_id] ||= []).push(item);
+  });
+
+  openings=jobRows.map(job=>normalizeJob(
+    job,
+    responsibilitiesByJob[job.id] || [],
+    requirementsByJob[job.id] || [],
+    qualificationsByJob[job.id] || []
+  ));
+
+  allOpeningsLoaded=true;
+  populateLocationFilter();
+  renderOpenings();
+}
+
+function populateLocationFilter(){
+  const current=locationFilter.value || 'all';
+  const locations=[...new Set(openings.map(job=>job.location).filter(Boolean))]
+    .sort((a,b)=>a.localeCompare(b));
+
+  locationFilter.innerHTML='<option value="all">All Locations</option>';
+  locations.forEach(location=>{
+    const option=document.createElement('option');
+    option.value=location.toLowerCase();
+    option.textContent=location;
+    locationFilter.appendChild(option);
+  });
+
+  if(locations.some(location=>location.toLowerCase()===current)){
+    locationFilter.value=current;
+  }
+}
+
+function renderOpenings(){
+  if(!allOpeningsLoaded)return;
+
+  const loc=locationFilter.value;
+  const type=employmentFilter.value;
+
+  const filtered=openings.filter(job=>
+    (loc==='all' || job.location.toLowerCase()===loc) &&
+    (type==='all' || job.type===type)
+  );
+
+  openingsCount.textContent=`${filtered.length} Open Position${filtered.length===1?'':'s'}`;
+
+  if(!filtered.length){
+    grid.innerHTML=`
+      <div class="careers-message" style="grid-column:1/-1;margin-top:0;">
+        <div class="careers-message-icon"><i class="fa-solid fa-filter-circle-xmark"></i></div>
+        <h3>No Matching Opportunities</h3>
+        <p>No current openings match the selected filters. Try another location or employment type.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML=filtered.map(job=>`
+    <article class="career-card" tabindex="0" role="button"
+      data-id="${escapeHtml(job.id)}"
+      aria-label="View details for ${escapeHtml(job.title)}">
+      <div class="career-card-top">
+        <div class="career-icon"><i class="fa-solid ${escapeHtml(job.icon)}"></i></div>
+        <h3>${escapeHtml(job.title)}</h3>
+      </div>
+      <div class="career-meta">
+        <span><i class="fa-solid fa-location-dot"></i> ${escapeHtml(job.location)}</span>
+        <span><i class="fa-solid fa-briefcase"></i> ${escapeHtml(formatEmploymentType(job.type))}</span>
+      </div>
+      <p>${escapeHtml(job.short_description)}</p>
+      ${job.requirements.length ? `
+      <div class="career-requirements">
+        <div class="career-requirements-title">Requirements</div>
+        <ul>${job.requirements.map(r=>`<li>${escapeHtml(r)}</li>`).join('')}</ul>
+      </div>` : ''}
+      <div class="career-card-actions">
+        <div class="career-view-details">View Details <i class="fa-solid fa-arrow-right"></i></div>
+        <button class="career-apply" type="button" data-id="${escapeHtml(job.id)}">
+          Apply Now <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </article>`).join('');
+}
+
+locationFilter.addEventListener('change',renderOpenings);
+employmentFilter.addEventListener('change',renderOpenings);
+
+const modal=document.getElementById('careerModal');
+const detailsModal=document.getElementById('detailsModal');
+let selectedOpening=null;
+
+function resetModalScroll(box){
+  box.classList.remove('needs-scroll');
+  box.style.height='auto';
+  box.style.maxHeight='none';
+  box.style.overflowY='visible';
+}
+
+function fitModalToContent(box){
+  resetModalScroll(box);
+
+  requestAnimationFrame(()=>{
+    // Let the popup grow naturally when the content is small.
+    // Limit it to 75% of the viewport only when the content exceeds that height.
+    const maxPopupHeight=Math.max(240, Math.floor(window.innerHeight * 0.75));
+    const contentHeight=box.scrollHeight;
+
+    if(contentHeight > maxPopupHeight){
+      box.style.maxHeight=maxPopupHeight+'px';
+      box.style.overflowY='auto';
+      box.classList.add('needs-scroll');
+    }
+  });
+}
+
+function closeCareerModal(){
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden','true');
+  resetModalScroll(modal.querySelector('.career-modal-box'));
+}
+
+function closeDetailsModal(){
+  detailsModal.classList.remove('is-open');
+  detailsModal.setAttribute('aria-hidden','true');
+  resetModalScroll(detailsModal.querySelector('.career-modal-box'));
+}
+
+function openCareerModal(job){
+  selectedOpening=job || null;
+  document.getElementById('applicationJobTitle').value=job?.title || '';
+  document.getElementById('applicationJobCode').value=job?.job_code || '';
+  document.getElementById('applicationLocation').value=job?.location || '';
+  document.getElementById('applicationEmploymentType').value=job ? formatEmploymentType(job.type) : '';
+  document.getElementById('careerFormNotice').style.display='none';
+  const box=modal.querySelector('.career-modal-box');
+  resetModalScroll(box);
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden','false');
+  fitModalToContent(box);
+}
+
+function openDetailsModal(jobId){
+  const job=openings.find(item=>item.id===jobId);
+  if(!job)return;
+  selectedOpening=job;
+
+  const card=document.querySelector(`.career-card[data-id="${CSS.escape(jobId)}"]`);
+  const accent=card ? getComputedStyle(card).getPropertyValue('--career-accent').trim() : '#2878E8';
+  const tint=card ? getComputedStyle(card).getPropertyValue('--career-tint').trim() : '#EFF6FF';
+  const bubble=card ? getComputedStyle(card).getPropertyValue('--career-bubble').trim() : '#D8E9FF';
+  const detailsBox=document.querySelector('#detailsModal .career-modal-box');
+  detailsBox.style.setProperty('--modal-accent',accent);
+  detailsBox.style.setProperty('--modal-tint',tint);
+  detailsBox.style.setProperty('--modal-bubble',bubble);
+
+  document.getElementById('detailsModalTitle').textContent=job.title;
+  document.getElementById('detailsModalIcon').style.setProperty('--modal-accent',accent);
+  document.getElementById('detailsModalIcon').innerHTML='<i class="fa-solid '+job.icon+'"></i>';
+  document.getElementById('detailsModalMeta').innerHTML=`
+    <span><i class="fa-solid fa-location-dot"></i> ${escapeHtml(job.location)}</span>
+    <span><i class="fa-solid fa-briefcase"></i> ${escapeHtml(formatEmploymentType(job.type))}</span>
+    <span><i class="fa-solid fa-clock"></i> ${escapeHtml(job.experience)}</span>
+    ${job.skill_level ? `<span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(job.skill_level)}</span>` : ''}
+    ${job.client ? `<span><i class="fa-solid fa-building"></i> ${escapeHtml(job.client)}</span>` : ''}
+    ${job.job_code ? `<span><i class="fa-solid fa-hashtag"></i> ${escapeHtml(job.job_code)}</span>` : ''}
+  `;
+
+  const details=job.details || {};
+  document.getElementById('detailsModalDescription').textContent=details.overview || job.description;
+  document.getElementById('detailsModalRequirements').innerHTML=job.requirements.map(r=>`<li>${r}</li>`).join('');
+
+  const responsibilitiesSection=document.getElementById('detailsModalResponsibilitiesSection');
+  const qualificationsSection=document.getElementById('detailsModalQualificationsSection');
+  if(details.responsibilities && details.responsibilities.length){
+    responsibilitiesSection.style.display='block';
+    document.getElementById('detailsModalResponsibilities').innerHTML=details.responsibilities.map(r=>`<li>${r}</li>`).join('');
+  }else{responsibilitiesSection.style.display='none';}
+  if(details.qualifications && details.qualifications.length){
+    qualificationsSection.style.display='block';
+    document.getElementById('detailsModalQualifications').innerHTML=details.qualifications.map(q=>`<li>${q}</li>`).join('');
+  }else{qualificationsSection.style.display='none';}
+
+  const detailsBoxFinal=document.querySelector('#detailsModal .career-modal-box');
+  resetModalScroll(detailsBoxFinal);
+  detailsModal.classList.add('is-open');
+  detailsModal.setAttribute('aria-hidden','false');
+  fitModalToContent(detailsBoxFinal);
+}
+
+document.addEventListener('click',e=>{
+  const apply=e.target.closest('.career-apply');
+  if(apply){
+    e.stopPropagation();
+    const job=openings.find(item=>item.id===apply.dataset.id);
+    if(job)openCareerModal(job);
+    return;
+  }
+  const card=e.target.closest('.career-card');
+  if(card)openDetailsModal(card.dataset.id);
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' || e.key===' '){
+    const card=e.target.closest('.career-card');
+    if(card && !e.target.closest('button')){
+      e.preventDefault();
+      openDetailsModal(card.dataset.id);
+    }
+  }
+  if(e.key==='Escape'){closeCareerModal();closeDetailsModal();}
+});
+
+modal.querySelector('.career-modal-close').addEventListener('click',closeCareerModal);
+document.getElementById('careerApplicationCloseBtn').addEventListener('click',closeCareerModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeCareerModal()});
+document.getElementById('careerApplicationForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!e.currentTarget.reportValidity())return;
+  const notice=document.getElementById('careerFormNotice');
+  notice.style.display='block';
+  notice.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+
+detailsModal.querySelector('.career-modal-close').addEventListener('click',closeDetailsModal);
+document.getElementById('detailsModalCloseBtn').addEventListener('click',closeDetailsModal);
+detailsModal.addEventListener('click',e=>{if(e.target===detailsModal)closeDetailsModal()});
+document.getElementById('detailsModalApply').addEventListener('click',()=>{
+  const role=selectedOpening ? selectedOpening.title : 'this position';
+  closeDetailsModal();
+  openCareerModal(selectedOpening);
+});
+
+window.addEventListener('resize',()=>{
+  if(modal.classList.contains('is-open')) fitModalToContent(modal.querySelector('.career-modal-box'));
+  if(detailsModal.classList.contains('is-open')) fitModalToContent(detailsModal.querySelector('.career-modal-box'));
+});
+
+loadOpenings();
+</script>
+<script src="../assets/js/script.js"></script>
+</body>
+</html>
