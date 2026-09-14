@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Admin | Navodix IT Solutions</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=16">
+</head>
+<body class="admin-app-page admin-home-page">
+  <header class="admin-header">
+    <div class="admin-container admin-nav">
+      <a class="admin-brand" href="../index.html" aria-label="Back to Navodix website">
+        <img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions">
+      </a>
+      <nav class="admin-main-nav" aria-label="Admin main menu">
+        <a class="admin-main-nav-link" href="manage-jobs.html?v=16"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Manage Jobs</a>
+        <span class="admin-main-nav-link disabled" title="Coming soon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i> Employee Management <small>Coming Soon</small></span>
+      </nav>
+      <div class="admin-nav-right">
+        <span class="admin-user" id="adminUser"></span>
+        <button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-container">
+      <div class="admin-page-heading main-menu-heading">
+        <div>
+          <h1>Admin Main Menu</h1>
+          <p>Select a management area to continue.</p>
+        </div>
+      </div>
+
+      <section class="admin-module-grid" aria-label="Administration modules">
+        <a class="admin-module-card" href="manage-jobs.html?v=16">
+          <div class="admin-module-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></div>
+          <div class="admin-module-content">
+            <h2>Manage Jobs</h2>
+            <p>Manage jobs, clients and job categories for the Careers system.</p>
+            <span>Open Manage Jobs <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </a>
+
+        <div class="admin-module-card disabled">
+          <div class="admin-module-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></div>
+          <div class="admin-module-content">
+            <h2>Employee Management</h2>
+            <p>Employee records and related management functions will be added later.</p>
+            <span>Coming Soon</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js?v=16"></script>
+  <script src="js/supabase-client.js?v=16"></script>
+  <script src="js/auth.js?v=16"></script>
+</body>
+</html>
