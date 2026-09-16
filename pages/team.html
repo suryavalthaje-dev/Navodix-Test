@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership Team - Navodix IT Solutions</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Team page — banner matched to the finalized About Us banner. */
+    .team-banner {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      line-height: 1;
+      background: #ffffff;
+      border-bottom: 1px solid #d9e8f8;
+    }
+    .team-banner-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+    }
+    .team-banner-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .team-banner-content .container {
+      width: 100%;
+      padding-top: 2px;
+    }
+    .team-banner-line {
+      width: 54px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--blue-primary);
+      margin-bottom: 16px;
+    }
+    .team-banner-title {
+      color: var(--blue-header);
+      font-size: clamp(30px, 4.15vw, 56px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -1.4px;
+      margin: 0 0 12px;
+    }
+    .team-banner-title span { color: var(--blue-primary); }
+    .team-banner-subtitle {
+      color: #52627a;
+      font-size: clamp(15px, 1.45vw, 22px);
+      line-height: 1.35;
+      letter-spacing: .2px;
+      margin: 0;
+      max-width: 720px;
+    }
+    @media (max-width: 640px) {
+      .team-banner-content { align-items: center; }
+      .team-banner-content .container { padding-left: 20px; padding-right: 20px; }
+      .team-banner-line { width: 42px; height: 4px; margin-bottom: 9px; }
+      .team-banner-title { font-size: clamp(24px, 7vw, 34px); letter-spacing: -.7px; margin-bottom: 7px; }
+      .team-banner-subtitle { font-size: clamp(12px, 3.2vw, 16px); max-width: 78%; }
+    }
+    .team-main { padding: 42px 0 48px; }
+    .team-heading { margin-bottom: 30px; }
+    .team-kicker {
+      display: inline-block; color: var(--blue-primary); font-size: 13px;
+      font-weight: 800; letter-spacing: 1.5px; margin-bottom: 9px;
+    }
+    .team-heading h2 { color: var(--blue-header); font-size: clamp(30px, 3.2vw, 42px); line-height: 1.18; margin-bottom: 10px; }
+    .team-heading h2 span { color: var(--blue-primary); }
+    .team-heading p { color: #475569; max-width: 720px; font-size: 16px; line-height: 1.65; margin: 0; }
+    .team-grid-modern {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .team-card-modern {
+      --team-accent: #2878E8;
+      --team-tint: #EFF6FF;
+      position: relative;
+      padding: 34px 34px 28px;
+      background: #fff;
+      border: 1px solid #dce7f5;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(20, 58, 103, .065);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .team-card-modern::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 5px;
+      background: var(--team-accent);
+    }
+
+    .team-card-modern:nth-child(1) {
+      --team-accent: #2878E8;
+      --team-tint: #EFF6FF;
+    }
+
+    .team-card-modern:nth-child(2) {
+      --team-accent: #7658E8;
+      --team-tint: #F5F1FF;
+    }
+
+    .team-card-modern:hover {
+      transform: translateY(-5px);
+      border-color: var(--team-accent);
+      box-shadow: 0 16px 34px rgba(20, 58, 103, .12);
+    }
+
+    .team-profile-top {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .team-photo {
+      position: relative;
+      height: 300px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      background: var(--team-tint);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .team-photo::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(40, 120, 232, .12);
+      border-radius: 10px;
+    }
+
+    .team-card-modern:nth-child(2) .team-photo::before {
+      border-color: rgba(118, 88, 232, .12);
+    }
+
+    .team-photo img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center bottom;
+      border-radius: 0;
+    }
+
+    .team-info-modern {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      background: transparent;
+    }
+
+    .team-role {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      gap: 8px;
+      color: var(--team-accent);
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.35px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .team-role i {
+      font-size: 12px;
+    }
+
+    .team-info-modern h3 {
+      color: #0B2855;
+      font-size: 25px;
+      line-height: 1.2;
+      margin: 0;
+      font-weight: 750;
+    }
+
+    .team-info-modern h3::after {
+      content: '';
+      display: block;
+      width: 54px;
+      height: 4px;
+      margin-top: 16px;
+      border-radius: 4px;
+      background: var(--team-accent);
+    }
+
+    .team-profile-bottom {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px solid #e5ebf3;
+    }
+
+    .team-profile-bottom p {
+      color: #61738B;
+      font-size: 13.8px;
+      line-height: 1.7;
+      margin: 0;
+      text-align: left;
+    }
+
+    .team-capabilities {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .team-capabilities span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 8px 10px;
+      border-radius: 11px;
+      background: var(--team-tint);
+      color: var(--team-accent);
+      font-size: 11.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .team-capabilities i {
+      font-size: 14px;
+      flex: 0 0 auto;
+    }
+
+    .team-focus {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .team-focus-card {
+      --focus-accent: #2878E8;
+      --focus-tint: #EFF6FF;
+      --focus-bubble: #D8E9FF;
+      position: relative;
+      min-height: 178px;
+      padding: 22px 22px 20px;
+      background: var(--focus-tint);
+      border: 1px solid color-mix(in srgb, var(--focus-accent) 18%, white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(20, 58, 103, .055);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .team-focus-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      background: var(--focus-accent);
+    }
+
+    .team-focus-card::after {
+      content: '';
+      position: absolute;
+      width: 135px;
+      height: 135px;
+      right: -62px;
+      bottom: -72px;
+      border-radius: 50%;
+      background: var(--focus-bubble);
+      opacity: .82;
+      transition: transform .25s ease;
+    }
+
+    .team-focus-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--focus-accent);
+      box-shadow: 0 15px 32px rgba(20, 58, 103, .11);
+    }
+
+    .team-focus-card:hover::after {
+      transform: scale(1.2);
+    }
+
+    .team-focus-card:nth-child(1) {
+      --focus-accent: #2878E8;
+      --focus-tint: #EFF6FF;
+      --focus-bubble: #D8E9FF;
+    }
+
+    .team-focus-card:nth-child(2) {
+      --focus-accent: #16A57A;
+      --focus-tint: #ECFAF5;
+      --focus-bubble: #D5F2E7;
+    }
+
+    .team-focus-card:nth-child(3) {
+      --focus-accent: #7658E8;
+      --focus-tint: #F5F1FF;
+      --focus-bubble: #E8DEFF;
+    }
+
+    .team-focus-icon {
+      position: relative;
+      z-index: 1;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 17px;
+      border-radius: 50%;
+      background: var(--focus-accent);
+      color: #fff;
+      font-size: 18px;
+      box-shadow: 0 6px 14px color-mix(in srgb, var(--focus-accent) 20%, transparent);
+      transition: transform .22s ease;
+    }
+
+    .team-focus-card:hover .team-focus-icon {
+      transform: scale(1.06);
+    }
+
+    .team-focus-card h3 {
+      position: relative;
+      z-index: 1;
+      color: #0B2855;
+      font-size: 17px;
+      line-height: 1.3;
+      margin: 0 0 8px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .team-focus-card p {
+      position: relative;
+      z-index: 1;
+      max-width: 310px;
+      color: #61738B;
+      font-size: 13.5px;
+      line-height: 1.55;
+      margin: 0;
+    }
+        @media (max-width: 1050px) {
+          .team-grid-modern { grid-template-columns: 1fr; max-width: 760px; }
+        }
+
+        @media (max-width: 700px) {
+          .team-main { padding: 34px 0 40px; }
+          .team-card-modern { padding: 26px 22px 24px; }
+          .team-profile-top { grid-template-columns: 1fr; gap: 24px; }
+          .team-photo { height: 300px; }
+          .team-info-modern { align-items: center; text-align: center; }
+          .team-role { align-self: center; }
+          .team-capabilities { grid-template-columns: 1fr; }
+        }
+  </style>
+
+  <style id="about-footer-match">
+    .footer-address {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .footer-address > .fa-location-dot {
+      flex: 0 0 auto;
+      margin-top: 3px;
+    }
+    .footer-address-text {
+      display: block;
+      min-width: 0;
+    }
+    .footer-company-name {
+      display: inline;
+      white-space: nowrap;
+    }
+  </style>
+
+
+
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html"><img src="../assets/images/logo.png" alt="Navodix IT Solutions" class="site-logo"></a>
+      </div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="team.html" class="active">Leadership Team</a>
+        <a href="services.html">Services</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="contact.html" class="btn btn-primary">Get in Touch <i class="fa-solid fa-chevron-right"></i></a>
+    </div>
+  </header>
+
+  <section class="team-banner">
+    <img class="team-banner-image" src="../assets/images/team-leadership-banner.png" alt="">
+    <div class="team-banner-content" aria-hidden="true">
+      <div class="container">
+        <div class="team-banner-line"></div>
+        <h1 class="team-banner-title">Our <span>Leadership Team</span></h1>
+        <p class="team-banner-subtitle">Guiding vision. Building possibilities. Together.</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="team-main">
+    <div class="container">
+      <div class="team-heading">
+        <h2>Meet the People Behind <span>Navodix</span></h2>
+        <p>Driving vision, technical innovation, and enterprise excellence at Navodix IT Solutions.</p>
+      </div>
+
+      <div class="team-grid-modern">
+        <article class="team-card-modern">
+          <div class="team-profile-top">
+            <div class="team-photo">
+              <img src="../assets/images/suryanarayana-valtaje.jpeg" alt="Suryanarayana Valthaje">
+            </div>
+            <div class="team-info-modern">
+              <h3>Suryanarayana Valthaje</h3>
+              <span class="team-role"><i class="fa-solid fa-user-tie"></i> Founder &amp; Director</span>
+            </div>
+          </div>
+          <div class="team-profile-bottom">
+            <p>Brings over 30 years of experience in the Enterprise IT industry, with extensive expertise spanning IT infrastructure services, software development, technology operations, and enterprise IT solutions. His broad industry experience supports strategic technology decisions and the delivery of practical, reliable solutions aligned with business needs.</p>
+          </div>
+        </article>
+
+        <article class="team-card-modern">
+          <div class="team-profile-top">
+            <div class="team-photo">
+              <img src="../assets/images/dinesan-b-c.jpeg" alt="Dinesan B C">
+            </div>
+            <div class="team-info-modern">
+              <h3>Dinesan B C</h3>
+              <span class="team-role"><i class="fa-solid fa-user-tie"></i> Founder &amp; Director</span>
+            </div>
+          </div>
+          <div class="team-profile-bottom">
+            <p>Brings over 25 years of experience in the Enterprise IT industry, with a strong focus on IT infrastructure, technology operations, and enterprise service delivery. His experience in managing technology environments and operational requirements enables him to drive dependable, secure, and efficient IT services while supporting the evolving needs of businesses.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="team-focus">
+        <div class="team-focus-card">
+          <div class="team-focus-icon"><i class="fa-solid fa-compass"></i></div>
+          <h3>Strategic Direction</h3>
+          <p>Focused leadership that connects technology decisions with business goals.</p>
+        </div>
+        <div class="team-focus-card">
+          <div class="team-focus-icon"><i class="fa-solid fa-gears"></i></div>
+          <h3>Technology Excellence</h3>
+          <p>Practical expertise across infrastructure, cloud, security and managed services.</p>
+        </div>
+        <div class="team-focus-card">
+          <div class="team-focus-icon"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Client Partnership</h3>
+          <p>A long-term approach built around reliability, responsiveness and trust.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand foot-brand"><a href="../index.html"><img src="../assets/images/logo.png" alt="Navodix IT Solutions" class="site-logo foot-logo"></a></div>
+        <p class="foot-desc">Reliable IT Infrastructure.<br>Intelligent Solutions.<br>Business Success.</p>
+        <div class="social-links">
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="team.html">Leadership Team</a></li><li><a href="services.html">Services</a></li><li><a href="solutions.html">Solutions</a></li><li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Our Services</h4>
+        <ul><li>IT Infrastructure Management</li><li>Managed Services</li><li>IT Staffing &amp; Consulting</li><li>Software Development Services</li><li>Backup &amp; Disaster Recovery</li><li>Cloud Services</li></ul>
+      </div>
+      <div>
+        <h4>Contact Info</h4>
+        <p><i class="fa-solid fa-phone"></i> +91-9663693988, &nbsp;+91-9632355166</p>
+        <p><i class="fa-solid fa-envelope"></i> info@navodix.com</p>
+        <p class="footer-address">
+          <i aria-hidden="true" class="fa-solid fa-location-dot"></i>
+          <span class="footer-address-text">
+            <strong class="footer-company-name" style="color: var(--blue-primary);">Navodix IT Solutions Private Limited,</strong><br>
+            No.21, (Old No.4), 1st Floor,<br>
+            2nd A Main Road, OMBR Layout, Chikkabanasawadi,<br>
+            Bangalore - 560043, Karnataka.
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="copy"><div class="container copy-inner"><span>&copy; 2026 Navodix IT Solutions Private Limited. All Rights Reserved.</span><div><a href="#">Privacy Policy</a> | <a href="#">Terms &amp; Conditions</a></div></div></div>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>
