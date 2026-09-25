@@ -1,14 +1,11 @@
-# Navodix IT Solutions Website — Version 1 Baseline
+# Navodix Careers Admin — Master Codes v12
 
-This folder contains the finalized Version 1 baseline for Navodix IT Solutions Private Limited.
+This version definitively uses new page filenames to avoid stale browser/server copies of the older master-maintenance pages.
 
-## Structure
-- `index.html` — Home page
-- `pages/` — About, Leadership Team, Services, Solutions, and Contact pages
-- `assets/css/style.css` — shared stylesheet
-- `assets/js/script.js` — shared JavaScript
-- `assets/images/` — active image and branding assets used by the site
-
-The site is a static HTML/CSS/JavaScript website and can be published directly with GitHub Pages.
-
-Internal links use relative paths so the site remains portable when moved between hosting environments.
+- Clients screen: admin/clients-v12.html
+- Job Categories screen: admin/job-categories-v12.html
+- Client/Category Name is first (left); Code is second (right).
+- Code is read-only and previews the 4-character system-generated code while typing.
+- Existing database triggers remain the source of truth for permanent codes.
+- All Admin navigation links point to the v12 filenames.
+- Existing popup protection and navigation are retained.
