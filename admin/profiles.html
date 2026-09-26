@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Profiles Management | Navodix Careers Admin</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=31">
+  <style>
+    /* Profiles Management — aligned with the existing Navodix Admin UI */
+    .profile-context {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin:-10px 0 18px;
+      padding:11px 14px;
+      background:#EEF3F8;
+      border:1px solid #D8E0EA;
+      border-radius:7px;
+      color:#52637A;
+      font-size:13px;
+    }
+    .profile-context .context-chip {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#164B96;
+      font-weight:700;
+    }
+    .profile-toolbar {
+      display:grid;
+      grid-template-columns:minmax(260px,1fr) 190px 190px auto;
+      gap:12px;
+      padding:16px;
+      background:#FFFFFF;
+      border:1px solid var(--border-color);
+      border-radius:12px;
+      margin-bottom:18px;
+    }
+    .profile-toolbar select {
+      width:100%;
+      height:44px;
+      border:1px solid var(--border-color);
+      border-radius:7px;
+      background:#FFFFFF;
+      color:var(--text-dark);
+      outline:none;
+      padding:0 13px;
+    }
+    .profile-toolbar select:focus { border-color:var(--blue-primary); box-shadow:0 0 0 3px rgba(26,86,219,.1); }
+
+    .profiles-table {
+      width:100%;
+      min-width:920px;
+      border-collapse:collapse;
+    }
+    .profiles-table th {
+      background:#EEF3F8;
+      color:#52637A;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.55px;
+      text-transform:uppercase;
+      text-align:left;
+      padding:14px 16px;
+      border-bottom:1px solid #D8E0EA;
+    }
+    .profiles-table td {
+      padding:15px 16px;
+      border-bottom:1px solid #D8E0EA;
+      color:#475569;
+      font-size:13px;
+      vertical-align:middle;
+    }
+    .profiles-table tbody tr:last-child td { border-bottom:0; }
+    .profiles-table tbody tr:hover { background:#FBFDFF; }
+    .profile-name-cell strong { display:block; color:var(--blue-header); font-size:14px; margin-bottom:3px; }
+    .profile-name-cell span { display:block; color:#8190A4; font-size:11px; }
+    .source-chip,
+    .association-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:4px 8px;
+      border-radius:5px;
+      font-size:11px;
+      font-weight:700;
+    }
+    .source-chip { background:#F1F5F9; color:#52637A; }
+    .association-badge { background:#EEF5FF; color:#164B96; }
+
+    .profile-modal {
+      width:min(760px,100%);
+      max-height:calc(100vh - 32px);
+      overflow-y:auto;
+      background:#FFFFFF;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(7,29,73,.25);
+    }
+    /* Use the same unified blue sticky modal header as the existing Admin popups. */
+    .profile-modal .modal-header {
+      background:#2878E8;
+      border-bottom:0;
+      padding:16px 26px 14px;
+      color:#FFFFFF;
+    }
+    .profile-modal .modal-header h2 {
+      color:#FFFFFF;
+      font-size:23px;
+      line-height:1.2;
+      margin:0;
+    }
+    .profile-modal .modal-close {
+      width:32px;
+      height:32px;
+      flex:0 0 32px;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      color:#FFFFFF;
+      font-size:21px;
+    }
+    .profile-modal .modal-close:hover {
+      border-color:transparent;
+      background:rgba(255,255,255,.10);
+      color:#FFFFFF;
+    }
+    .profile-modal .modal-header {
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+    .profile-form-grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:0 18px;
+      padding:24px 26px 4px;
+    }
+    .profile-form-section-title {
+      grid-column:1/-1;
+      margin:8px 0 14px;
+      padding:8px 10px;
+      background:#F4F7FA;
+      border-left:3px solid #2878E8;
+      border-bottom:1px solid #D8E0EA;
+      color:#263F62;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+    }
+    .profile-form-grid .field-span-2 { grid-column:1/-1; }
+    .referrer-fields {
+      grid-column:1/-1;
+      margin:-2px 0 3px;
+      padding:10px 12px 0;
+      background:#F8FAFC;
+      border:1px solid #DCE4EE;
+      border-radius:5px;
+    }
+    .referrer-fields-title {
+      color:#263F62;
+      font-size:11px;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .referrer-fields-title span { color:#7B8798; font-weight:400; }
+    .referrer-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:0 12px;
+    }
+
+    .profile-form-grid input,
+    .profile-form-grid select,
+    .profile-form-grid textarea {
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid var(--border-color);
+      border-radius:7px;
+      background:#FFFFFF;
+      color:var(--text-dark);
+      outline:none;
+      transition:border-color .2s ease,box-shadow .2s ease;
+    }
+    .profile-form-grid input,
+    .profile-form-grid select { height:34px; padding:0 9px; font-family:inherit; font-size:12px; line-height:1.2; }
+    .profile-form-grid textarea { min-height:60px; padding:7px 9px; resize:vertical; line-height:1.35; font-family:inherit; font-size:12px; }
+    .profile-form-grid input[type=number] { font-variant-numeric:tabular-nums; }
+    .profile-form-grid input::placeholder,
+    .profile-form-grid textarea::placeholder { font-family:inherit; font-size:12px; color:#8A97A8; }
+    .profile-form-grid select { appearance:auto; }
+    .profile-form-grid .field-group input,
+    .profile-form-grid .field-group select,
+    .profile-form-grid .field-group textarea { font-family:inherit; font-size:12px; }
+    .profile-category-box { border:1px solid var(--border-color); border-radius:7px; background:#FFFFFF; padding:8px 10px; max-height:96px; overflow-y:auto; }
+    .profile-category-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 14px; }
+    .profile-category-item { display:flex; align-items:center; gap:7px; color:#475569; font-size:12px; line-height:1.25; }
+    .profile-category-item input { width:14px !important; height:14px !important; margin:0; accent-color:#2878E8; }
+    .profile-category-empty { color:#8A97A8; font-size:11px; }
+    .profile-details-modal { width:min(920px,100%); max-height:calc(100vh - 32px); overflow-y:auto; background:#FFFFFF; border-radius:16px; box-shadow:0 24px 70px rgba(7,29,73,.25); }
+    .profile-details-modal .modal-header { background:#2878E8; border-bottom:0; padding:16px 26px 14px; color:#FFFFFF; position:sticky; top:0; z-index:20; }
+    .profile-details-modal .modal-header h2 { color:#FFFFFF; font-size:23px; margin:0; }
+    .profile-details-body { padding:18px 26px 24px; }
+    .profile-detail-section { margin-bottom:16px; border:1px solid #D8E0EA; border-radius:8px; overflow:hidden; }
+    .profile-detail-section-title { padding:8px 12px; background:#F4F7FA; border-bottom:1px solid #D8E0EA; color:#263F62; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.35px; }
+    .profile-detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .profile-detail-item { padding:9px 12px; border-bottom:1px solid #EEF2F6; }
+    .profile-detail-label { display:block; color:#8190A4; font-size:10px; font-weight:700; margin-bottom:3px; text-transform:uppercase; }
+    .profile-detail-value { color:#334155; font-size:12px; white-space:pre-wrap; word-break:break-word; }
+    .profile-detail-wide { grid-column:1/-1; }
+    .profile-detail-list { padding:0; margin:0; list-style:none; }
+    .profile-detail-list li { padding:9px 12px; border-bottom:1px solid #EEF2F6; font-size:12px; color:#475569; }
+    .profile-detail-list li:last-child { border-bottom:0; }
+    .profile-detail-muted { color:#8A97A8; }
+    .profile-details-actions { display:flex; justify-content:flex-end; gap:8px; padding:0 26px 18px; }
+    .profile-form-grid #skills { height:48px; min-height:48px; }
+    .profile-form-grid #additionalInformation { height:56px; min-height:56px; }
+    .profile-form-grid input:focus,
+    .profile-form-grid select:focus,
+    .profile-form-grid textarea:focus { border-color:var(--blue-primary); box-shadow:0 0 0 3px rgba(26,86,219,.1); }
+    .profile-form-grid .field-group { margin-bottom:10px; }
+    .profile-form-grid .field-group label {
+      display:block;
+      color:#263F62;
+      font-size:11px;
+      font-weight:700;
+      margin-bottom:5px;
+    }
+    .profile-form-grid .field-help-text {
+      display:block;
+      margin-top:6px;
+      color:#667085;
+      font-size:11px;
+      line-height:1.4;
+    }
+    .profile-association-panel {
+      margin:0 26px 12px;
+      padding:10px 14px;
+      background:#F4F8FC;
+      border:1px solid #C8D9EA;
+      border-radius:6px;
+      color:#52637A;
+      font-size:12px;
+      line-height:1.45;
+    }
+    .profile-form-help {
+      display:block;
+      margin-top:6px;
+      color:#667085;
+      font-size:11px;
+      line-height:1.4;
+    }
+    .profile-association-panel strong { color:#164B96; }
+    .resume-box {
+      border:1px dashed #AFC2DF;
+      border-radius:7px;
+      padding:12px 14px;
+      background:#F8FAFC;
+    }
+    .resume-upload-row { display:flex; align-items:center; gap:12px; width:100%; }
+    .resume-upload-row input[type=file] { flex:1 1 auto; min-width:0; }
+    .existing-resume-name { flex:0 0 260px; max-width:42%; color:#164B96; font-size:12px; font-weight:600; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .resume-box small { display:block; color:var(--text-muted); margin-top:6px; font-size:11px; }
+    .profile-detail-section-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .profile-detail-section-title-row .btn { flex:0 0 auto; }
+    .profile-association-edit-modal { max-width:620px; }
+    .profile-association-edit-modal textarea { width:100%; min-height:90px; resize:vertical; box-sizing:border-box; font-size:13px; }
+    .requirement-associate-form { padding:22px 26px; }
+    .requirement-associate-form .field-group { margin-bottom:14px; }
+    .requirement-associate-form select { width:100%; }
+    .duplicate-box {
+      margin:0 26px 14px;
+      padding:12px 14px;
+      border:1px solid #E8C36A;
+      background:#FFF9EA;
+      border-radius:6px;
+      color:#6B5A2B;
+      font-size:13px;
+    }
+    .duplicate-box strong { display:block; margin-bottom:4px; color:#5A4A1F; }
+    #profileFormMessage { margin-left:26px; margin-right:26px; }
+    .profile-modal .modal-actions {
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      gap:8px;
+      margin-top:0;
+      padding:10px 26px 18px;
+      border-top:0;
+    }
+    .profile-modal .modal-actions .btn {
+      min-width:112px;
+      height:32px;
+      padding:6px 13px;
+      border:1px solid #2878E8;
+      border-radius:5px;
+      background:#2878E8;
+      color:#FFFFFF;
+      font-size:10px;
+      font-weight:600;
+      line-height:1;
+    }
+    .profile-modal .modal-actions .btn:hover:not(:disabled) {
+      background:#1D63C7;
+      border-color:#1D63C7;
+    }
+    .existing-profile-list { padding:0 26px 22px; }
+    .btn-danger { background:#C62828; border-color:#C62828; color:#FFFFFF; }
+    .association-delete-button { color:#C62828; }
+    .association-delete-button:hover { color:#A61F1F; background:#FDECEC; }
+    .btn-danger:hover:not(:disabled) { background:#A61F1F; border-color:#A61F1F; }
+    .hidden { display:none!important; }
+    @media(max-width:900px){
+      .profile-toolbar { grid-template-columns:minmax(220px,1fr) 1fr; }
+      .profile-toolbar .btn { width:100%; }
+    }
+    @media(max-width:700px){
+      .profile-form-grid { grid-template-columns:1fr; }
+      .profile-form-grid .field-span-2,
+      .profile-form-section-title { grid-column:auto; }
+      .profile-context { align-items:flex-start; flex-direction:column; }
+    }
+    @media(max-width:700px){
+      .resume-upload-row { flex-direction:column; align-items:stretch; }
+      .existing-resume-name { flex:0 0 auto; max-width:100%; text-align:left; }
+    }
+    @media(max-width:560px){
+      .profile-toolbar { grid-template-columns:1fr; }
+      .profile-form-grid { padding-left:18px; padding-right:18px; }
+      .profile-association-panel,
+      .duplicate-box { margin-left:18px; margin-right:18px; }
+      .profile-modal .modal-actions { padding-left:18px; padding-right:18px; }
+    }
+  .hidden{display:none!important;}
+  
+    /* Interview list uses the same compact data typography for every cell. */
+    #interviewTableBody td { font-family:Segoe UI,system-ui,-apple-system,sans-serif; font-size:11px; vertical-align:middle; }
+
+
+/* Profile Management Interview v9 - explicit desktop sizing and table layout. */
+.profile-interview-modal {
+  width: 1140px !important;
+  max-width: calc(100vw - 48px) !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  max-height: calc(100vh - 32px) !important;
+  overflow-y: auto !important;
+}
+.profile-interview-modal-body {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 18px 24px 16px !important;
+}
+.profile-interview-modal .profile-association-panel,
+.profile-interview-modal .profile-interview-section {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.profile-interview-section { overflow: hidden !important; }
+.profile-interview-table-wrap {
+  width: 100% !important;
+  min-height: 190px !important;
+  overflow: hidden !important;
+}
+.profile-interview-table {
+  width: 100% !important;
+  min-width: 0 !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+.profile-interview-table th,
+.profile-interview-table td {
+  box-sizing: border-box !important;
+  font-family: Segoe UI, system-ui, -apple-system, sans-serif !important;
+  vertical-align: middle !important;
+  border-right: 1px solid #D7E0EA !important;
+  border-bottom: 1px solid #D7E0EA !important;
+}
+.profile-interview-table th {
+  padding: 7px 8px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+}
+.profile-interview-table td {
+  padding: 7px 8px !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+/* 1140px popup gives enough room for every column and a usable Feedback area. */
+.profile-interview-table th:nth-child(1), .profile-interview-table td:nth-child(1) { width: 4% !important; text-align:center !important; }
+.profile-interview-table th:nth-child(2), .profile-interview-table td:nth-child(2) { width: 10% !important; }
+.profile-interview-table th:nth-child(3), .profile-interview-table td:nth-child(3) { width: 10% !important; }
+.profile-interview-table th:nth-child(4), .profile-interview-table td:nth-child(4) { width: 12% !important; }
+.profile-interview-table th:nth-child(5), .profile-interview-table td:nth-child(5) { width: 6% !important; }
+.profile-interview-table th:nth-child(6), .profile-interview-table td:nth-child(6) { width: 9% !important; }
+.profile-interview-table th:nth-child(7), .profile-interview-table td:nth-child(7) { width: 13% !important; }
+.profile-interview-table th:nth-child(8), .profile-interview-table td:nth-child(8) { width: 26% !important; }
+.profile-interview-table th:nth-child(9), .profile-interview-table td:nth-child(9) { width: 10% !important; }
+.profile-interview-table .profile-interview-feedback-cell { white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
+.profile-interview-result {
+  display:inline-flex !important; align-items:center !important; min-height:18px !important;
+  padding:2px 7px !important; border-radius:5px !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important; font-weight:400 !important; line-height:1 !important;
+  white-space:nowrap !important;
+}
+.profile-interview-actions { white-space:nowrap !important; text-align:center !important; }
+.profile-interview-actions .btn {
+  min-width:52px !important; height:27px !important; padding:4px 8px !important; margin:0 2px !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:10px !important; font-weight:600 !important; line-height:1 !important;
+}
+.profile-interview-actions .profile-interview-delete { color:#B42318 !important; border-color:#E6A6A1 !important; background:#FFFFFF !important; }
+.profile-interview-modal-actions { display:flex !important; justify-content:flex-end !important; padding:12px 0 0 !important; }
+.profile-interview-modal-actions .btn { min-width:86px !important; height:32px !important; background:#2878E8 !important; border-color:#2878E8 !important; color:#FFFFFF !important; }
+@media (max-width: 700px) {
+  .profile-interview-modal { width:calc(100vw - 20px) !important; max-width:calc(100vw - 20px) !important; }
+  .profile-interview-modal-body { padding:14px 12px 12px !important; }
+  .profile-interview-table th, .profile-interview-table td { font-size:10px !important; padding:6px 5px !important; }
+}
+
+/* Profile Interview v10 - isolated modal shell. Do not inherit the generic profile modal width. */
+.profile-interview-modal-shell {
+  width:1140px !important;
+  max-width:calc(100vw - 40px) !important;
+  max-height:calc(100vh - 24px) !important;
+  overflow-y:auto !important;
+  background:#FFFFFF !important;
+  border-radius:16px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  box-sizing:border-box !important;
+}
+.profile-interview-modal-shell .modal-header {
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  border-bottom:0 !important;
+  padding:16px 26px 14px !important;
+  position:sticky !important;
+  top:0 !important;
+  z-index:20 !important;
+}
+.profile-interview-modal-shell .modal-header h2 {
+  color:#FFFFFF !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  margin:0 !important;
+}
+.profile-interview-modal-shell .modal-close {
+  color:#FFFFFF !important;
+  background:transparent !important;
+  border:0 !important;
+  font-size:21px !important;
+}
+.profile-interview-modal-shell .profile-interview-modal-body {
+  width:100% !important;
+  box-sizing:border-box !important;
+  padding:18px 24px 16px !important;
+}
+.profile-interview-modal-shell .profile-association-panel,
+.profile-interview-modal-shell .profile-interview-section {
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+.profile-interview-modal-shell .profile-interview-section {
+  border:1px solid #C9D9EA !important;
+  border-radius:5px !important;
+  overflow:hidden !important;
+}
+.profile-interview-modal-shell .profile-interview-table-wrap {
+  width:100% !important;
+  min-height:190px !important;
+  overflow:hidden !important;
+}
+.profile-interview-modal-shell .profile-interview-table {
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse !important;
+}
+.profile-interview-modal-shell .profile-interview-table th,
+.profile-interview-modal-shell .profile-interview-table td {
+  box-sizing:border-box !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important;
+  line-height:1.25 !important;
+}
+.profile-interview-modal-shell .profile-interview-table th {
+  font-size:10px !important;
+  font-weight:700 !important;
+  white-space:nowrap !important;
+  color:#173F78 !important;
+  background:#F6F9FC !important;
+  padding:7px 8px !important;
+  border-right:1px solid #D7E0EA !important;
+  border-bottom:1px solid #D7E0EA !important;
+}
+.profile-interview-modal-shell .profile-interview-table td {
+  font-weight:400 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  color:#263F62 !important;
+  padding:7px 8px !important;
+  border-right:1px solid #D7E0EA !important;
+  border-bottom:1px solid #D7E0EA !important;
+}
+.profile-interview-modal-shell .profile-interview-table th:nth-child(1), .profile-interview-modal-shell .profile-interview-table td:nth-child(1) { width:4% !important; text-align:center !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(2), .profile-interview-modal-shell .profile-interview-table td:nth-child(2) { width:10% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(3), .profile-interview-modal-shell .profile-interview-table td:nth-child(3) { width:10% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(4), .profile-interview-modal-shell .profile-interview-table td:nth-child(4) { width:12% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(5), .profile-interview-modal-shell .profile-interview-table td:nth-child(5) { width:6% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(6), .profile-interview-modal-shell .profile-interview-table td:nth-child(6) { width:9% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(7), .profile-interview-modal-shell .profile-interview-table td:nth-child(7) { width:13% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(8), .profile-interview-modal-shell .profile-interview-table td:nth-child(8) { width:26% !important; }
+.profile-interview-modal-shell .profile-interview-table th:nth-child(9), .profile-interview-modal-shell .profile-interview-table td:nth-child(9) { width:10% !important; }
+.profile-interview-modal-shell .profile-interview-actions { white-space:nowrap !important; text-align:center !important; }
+.profile-interview-modal-shell .profile-interview-actions .btn { min-width:52px !important; height:27px !important; margin:0 2px !important; padding:4px 8px !important; font-size:10px !important; }
+.profile-interview-modal-shell .profile-interview-result { font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:11px !important; font-weight:400 !important; white-space:nowrap !important; }
+.profile-interview-modal-shell .profile-interview-modal-actions { display:flex !important; justify-content:flex-end !important; padding:12px 0 0 !important; }
+.profile-interview-modal-shell .profile-interview-modal-actions .btn { min-width:86px !important; height:32px !important; background:#2878E8 !important; border-color:#2878E8 !important; color:#FFFFFF !important; }
+@media (max-width:700px) {
+  .profile-interview-modal-shell { width:calc(100vw - 20px) !important; max-width:calc(100vw - 20px) !important; }
+  .profile-interview-modal-shell .profile-interview-modal-body { padding:14px 12px 12px !important; }
+  .profile-interview-modal-shell .profile-interview-table th, .profile-interview-modal-shell .profile-interview-table td { font-size:10px !important; padding:6px 5px !important; }
+}
+
+    .profile-resume-actions { display:inline-flex; gap:8px; margin-left:12px; vertical-align:middle; flex-wrap:wrap; }
+    .profile-resume-viewer { margin-top:14px; border:1px solid #D8E0EA; border-radius:8px; overflow:hidden; background:#F8FAFC; width:100%; }
+    .profile-resume-viewer-header { min-height:42px; display:flex; align-items:center; justify-content:space-between; padding:7px 10px 7px 14px; background:#F3F6FA; border-bottom:1px solid #D8E0EA; color:#263B5A; font-size:12px; font-weight:600; }
+    .profile-resume-close { border:0; background:transparent; color:#52647D; cursor:pointer; font-size:12px; padding:6px 8px; border-radius:5px; }
+    .profile-resume-close:hover { background:#E7EDF5; color:#17345F; }
+    .profile-resume-loading { min-height:80px; display:flex; align-items:center; justify-content:center; padding:18px; color:#52647D; font-size:12px; text-align:center; }
+    .profile-resume-frame { display:block; width:100%; height:720px; border:0; background:#FFFFFF; }
+    .profile-detail-table-wrap { width:100%; overflow-x:auto; }
+    .profile-detail-table { width:100%; border-collapse:collapse; min-width:760px; }
+    .profile-detail-table th { background:#F4F7FA; color:#52647D; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.25px; padding:8px 10px; border-bottom:1px solid #D8E0EA; text-align:left; white-space:nowrap; }
+    .profile-detail-table td { padding:9px 10px; border-bottom:1px solid #EEF2F6; color:#475569; font-size:12px; vertical-align:top; white-space:normal; }
+    .profile-detail-table tbody tr:last-child td { border-bottom:0; }
+    .profile-detail-table-empty { padding:12px; color:#8A97A8; font-size:12px; }
+    .profile-detail-table td:last-child { min-width:120px; }
+    @media (max-width:700px){ .profile-resume-actions{display:flex;margin:10px 0 0;} .profile-resume-actions .btn{width:auto;} }
+</style>
+<style>
+
+/* Action Items List Specification — visual treatment applied to this list page only. */
+body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; }
+.admin-main > .admin-container { max-width:1200px; width:calc(100% - 40px); }
+.admin-page-heading { margin-bottom:10px !important; }
+.admin-page-heading h1 { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:32px !important; line-height:1.15 !important; color:#071B4D !important; font-weight:700 !important; }
+.jobs-heading-subtitle { font-size:14px !important; line-height:1.35 !important; color:#556579 !important; }
+.admin-page-heading .btn { height:42px !important; white-space:nowrap; }
+
+/* Profiles toolbar */
+.profile-toolbar {
+  gap:8px !important; padding:14px !important; margin-bottom:16px !important;
+  background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important;
+}
+.profile-toolbar select, .profile-toolbar .toolbar-search input { height:42px !important; font-size:12px !important; }
+.profile-toolbar .toolbar-search input::placeholder { font-size:12px !important; color:#8A97A8 !important; }
+.profile-toolbar .btn { height:42px !important; font-size:11px !important; }
+/* Profiles list card/table */
+.jobs-card {
+  background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:14px !important; overflow:hidden !important;
+}
+.profiles-table { width:100% !important; min-width:0 !important; table-layout:fixed !important; border-collapse:collapse !important; border:1px solid #1F1F1F !important; }
+.profiles-table thead th {
+  background:#C7DDF2 !important; color:#0B2A5B !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important; font-weight:700 !important; letter-spacing:0 !important; text-transform:none !important;
+  text-align:left !important; padding:9px 10px !important; line-height:1.1 !important; white-space:nowrap !important;
+  border-top:2px solid #B8C1CC !important; border-bottom:2px solid #B8C1CC !important; border-right:1px solid #B8C1CC !important;
+}
+.profiles-table thead th:first-child { border-left:2px solid #B8C1CC !important; }
+.profiles-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
+.profiles-table thead th:nth-child(1){width:25% !important}.profiles-table thead th:nth-child(2){width:14% !important}.profiles-table thead th:nth-child(3){width:11% !important}.profiles-table thead th:nth-child(4){width:14% !important}.profiles-table thead th:nth-child(5){width:13% !important}.profiles-table thead th:nth-child(6){width:13% !important}.profiles-table thead th:nth-child(7){width:10% !important}
+.profiles-table tbody tr:nth-child(odd){background:#FFFFFF !important}.profiles-table tbody tr:nth-child(even){background:#DDE2E8 !important}.profiles-table tbody tr:hover{background:#E8F1FA !important}
+.profiles-table tbody td {
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; color:#071B4D !important;
+  padding:13px 10px !important; border-right:1px solid #B8C1CC !important; border-bottom:1px solid #B8C1CC !important;
+  vertical-align:middle !important; white-space:normal !important; overflow-wrap:anywhere !important;
+}
+.profiles-table tbody td:first-child{border-left:2px solid #1F1F1F !important}.profiles-table tbody td:last-child{border-right:2px solid #B8C1CC !important}.profiles-table tbody tr:last-child td{border-bottom:2px solid #1F1F1F !important}
+.profiles-table .btn { font-size:10px !important; min-height:32px !important; padding:6px 10px !important; border-radius:7px !important; }
+@media(max-width:899px){.admin-page-heading{align-items:flex-start}.profile-toolbar{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.profile-toolbar .toolbar-search{grid-column:1/-1}}
+@media(max-width:760px){.profile-toolbar{grid-template-columns:1fr !important}.profile-toolbar .toolbar-search{grid-column:auto}.profiles-table thead th,.profiles-table tbody td{padding-left:7px !important;padding-right:7px !important}}
+
+</style>
+<style id="profiles-action-items-v16-design">
+/* Finalized Action Items table design applied to Profiles list — visual only. Existing widths, structure and functionality are unchanged. */
+.jobs-card {
+  border-left:6px solid #2878E8 !important;
+  position:relative !important;
+}
+.profiles-table {
+  border-left:0 !important;
+}
+.profiles-table thead th {
+  height:50px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-family:'Calibri Light','Segoe UI Light','Segoe UI',sans-serif !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+  letter-spacing:.1px !important;
+  padding:0 10px !important;
+  line-height:1.1 !important;
+  border-top:2px solid #B8C1CC !important;
+  border-bottom:2px solid #B8C1CC !important;
+  border-right:1px solid #B8C1CC !important;
+}
+.profiles-table thead th:first-child { border-left:0 !important; }
+.profiles-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
+.profiles-table tbody td {
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+}
+.profiles-table tbody td:first-child { border-left:0 !important; }
+</style>
+
+<style id="standard-list-pagination">
+.standard-list-pagination {
+  margin:0 !important;
+  min-height:58px !important;
+  padding:0 12px !important;
+  display:grid !important;
+  grid-template-columns:1fr auto 1fr !important;
+  align-items:center !important;
+  gap:12px !important;
+  border-top:1px solid #B8C1CC !important;
+  border-left:0 !important;
+  border-right:1px solid #1F1F1F !important;
+  border-bottom:1px solid #1F1F1F !important;
+  box-sizing:border-box !important;
+  background:#FFFFFF !important;
+}
+.standard-list-pagination .pagination-left { grid-column:1; justify-self:start; display:flex; align-items:center; gap:12px; }
+.standard-list-pagination .pagination-center { grid-column:2; display:flex; align-items:center; justify-content:center; white-space:nowrap; }
+.standard-list-pagination .pagination-right { grid-column:3; justify-self:end; display:flex; align-items:center; gap:12px; }
+.standard-list-pagination .pagination-total { margin-left:4px; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:400 !important; color:#071B4D !important; white-space:nowrap; }
+.standard-list-pagination .pagination-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:400 !important; color:#071B4D !important; white-space:nowrap; }
+.standard-list-pagination .btn { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; padding:8px 13px !important; min-height:36px !important; }
+@media (max-width:760px) {
+  .standard-list-pagination { grid-template-columns:1fr !important; min-height:58px !important; padding:8px 12px !important; }
+  .standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right { grid-column:1 !important; justify-self:center !important; }
+  .standard-list-pagination .pagination-right { flex-wrap:wrap; justify-content:center; }
+}
+</style>
+
+
+<style id="pagination-line-standard-v18">
+/* Standard pagination line weights: 1px below the last row, 2px at the bottom. */
+.standard-list-pagination {
+  border-bottom:2px solid #1F1F1F !important;
+}
+</style>
+
+<style id="last-row-line-standard-v18">
+.profiles-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
+</style>
+</head>
+<body class="admin-app-page">
+<header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
+<nav class="admin-section-nav"><div class="admin-container admin-section-nav-inner"><a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link active" href="profiles.html?v=1">Profiles Management</a><a class="admin-section-nav-link" href="applications.html?v=17">Applications</a><details class="admin-section-nav-dropdown"><summary class="admin-section-nav-link">Master Data</summary><div class="master-data-menu"><a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a href="projects-areas.html?v=30">Projects / Areas</a><a href="action-item-assignees.html?v=30">Action Item Assignees</a></div></details><a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a><a class="admin-section-nav-link" href="action-items.html">Action Items</a></div></nav>
+<main class="admin-main"><div class="admin-container">
+  <div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Profiles Management</h1><span class="jobs-heading-subtitle">Central candidate profiles and requirement associations</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline hidden" id="associateExistingButton"><i class="fa-solid fa-link"></i> Associate Existing Profile</button><button class="btn btn-primary add-job-button" id="addProfileButton"><i class="fa-solid fa-plus"></i> Add Profile</button></div></div>
+  <div id="requirementContext" class="profile-context hidden"></div>
+  <section class="profile-toolbar"><div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="profileSearch" type="search" placeholder="Search name, email, phone, profile number"></div><select id="profileStatusFilter"><option value="">All Profile Statuses</option><option>New</option><option>Under Review</option><option>Available</option><option>Available – Future Opportunities</option><option>Considering</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Not Useful</option><option>Do Not Contact</option><option>Archived</option></select><select id="profileSourceFilter"><option value="">All Sources</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select><button class="btn btn-outline" id="refreshProfilesButton"><i class="fa-solid fa-rotate"></i> Refresh</button></section>
+  <div id="profilesMessage" class="admin-message" role="status"></div>
+  <section class="jobs-card"><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Experience</th><th>Source</th><th>Status</th><th>Requirement</th><th>Actions</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div><div id="emptyProfiles" class="empty-state hidden"><i class="fa-solid fa-users"></i><h3>No profiles found</h3><p>Add a profile or associate an existing profile with a requirement.</p></div>
+<div id="profilesPagination" class="standard-list-pagination hidden" aria-label="profiles pagination">
+  <div class="pagination-left">
+    <button class="btn btn-outline btn-small" id="profilesFirst" type="button">First</button>
+    <button class="btn btn-outline btn-small" id="profilesPrev" type="button">Previous</button>
+  </div>
+  <div class="pagination-center"><span class="pagination-page" id="profilesPageNumber">Page 1 of 1</span></div>
+  <div class="pagination-right">
+    <button class="btn btn-outline btn-small" id="profilesNext" type="button">Next</button>
+    <button class="btn btn-outline btn-small" id="profilesLast" type="button">Last</button>
+    <span class="pagination-total" id="profilesPageInfo">Showing 0-0 of 0</span>
+  </div>
+</div></section>
+
+</div></main>
+
+<div class="modal-backdrop hidden" id="profileModal" aria-hidden="true"><div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle"><div class="modal-header"><div><span class="section-badge">PROFILE DETAILS</span><h2 id="profileModalTitle">Add Profile</h2></div><button class="modal-close" id="closeProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div>
+<form id="profileForm"><input type="hidden" id="profileId"><input type="hidden" id="profileAssociationRequirementId"><div id="existingProfileNotice" class="profile-association-panel hidden"></div>
+<div class="profile-form-grid">
+<div class="profile-form-section-title">Personal Information</div>
+<div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><input id="currentLocation"></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div>
+<div class="profile-form-section-title">Requirement Association</div>
+<div class="field-group field-span-2"><label for="profileRequirement">Requirement</label><select id="profileRequirement"><option value="">Select Requirement</option></select><small id="profileRequirementHelp" class="profile-form-help">Optional. If this profile is being considered for a specific requirement, select it here. You can associate the profile now instead of doing it later.</small></div>
+<div class="profile-form-section-title">Professional Information</div>
+<div class="field-group"><label>Current Job Title</label><input id="currentJobTitle"></div><div class="field-group"><label>Current Company</label><input id="currentCompany"></div><div class="field-group"><label>Total Experience</label><input id="totalExperience" placeholder="e.g. 8 years"></div><div class="field-group"><label>Notice Period</label><input id="noticePeriod"></div><div class="field-group"><label>Current CTC</label><input id="currentCtc"></div><div class="field-group"><label>Expected CTC</label><input id="expectedCtc"></div>
+<div class="profile-form-section-title">Education & Skills</div>
+<div class="field-group field-span-2"><label>Job Categories</label><div id="profileCategoryBox" class="profile-category-box"><div id="profileCategoryList" class="profile-category-list"><span class="profile-category-empty">Loading categories…</span></div></div><small class="profile-form-help">Select one or more Job Categories for this profile.</small></div>
+<div class="field-group"><label>Highest Qualification</label><input id="highestQualification"></div><div class="field-group"><label>Specialization</label><input id="specialization"></div><div class="field-group"><label>Graduation Year</label><input id="graduationYear" type="number" min="1950" max="2100"></div><div class="field-group"><label>LinkedIn URL</label><input id="linkedinUrl" type="url"></div><div class="profile-form-section-title">Recruitment Information</div>
+<div class="field-group"><label>Profile Status</label><select id="profileStatus"><option>New</option><option>Under Review</option><option>Available</option><option>Available – Future Opportunities</option><option>Considering</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Not Useful</option><option>Do Not Contact</option><option>Archived</option></select></div>
+<div class="field-group"><label>Source <span>*</span></label><select id="profileSource" required><option value="">Select Source</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select></div><div class="field-group"><label>Source Details</label><input id="sourceDetails" placeholder="Optional details, e.g. Naukri, LinkedIn, employee name, agency, etc."></div><div id="referrerFields" class="field-span-2 referrer-fields hidden"><div class="referrer-fields-title">Referrer Details <span>(Optional)</span></div><div class="referrer-grid"><div class="field-group"><label>Referrer Name</label><input id="referrerName" type="text"></div><div class="field-group"><label>Mobile Number</label><input id="referrerMobile" type="tel"></div><div class="field-group"><label>Email Address</label><input id="referrerEmail" type="email"></div></div></div>
+<div class="field-group field-span-2"><label>Skills</label><textarea id="skills" rows="3" placeholder="Enter skills separated by commas"></textarea></div><div class="field-group field-span-2"><label>Additional Information</label><textarea id="additionalInformation" rows="4"></textarea></div>
+<div class="profile-form-section-title">Resume</div>
+<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
+</div>
+<div id="resumeReplaceNotice" class="duplicate-box hidden"><strong>Existing resume found</strong><span>A resume is already stored for this profile. Choose whether to keep the existing resume or replace it with the newly selected file.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-outline" id="keepResumeButton">Keep Existing Resume</button><button type="button" class="btn btn-primary" id="replaceResumeButton">Replace with New Resume</button></div></div>
+<div id="profileFormMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveProfileButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button><button class="btn btn-outline" id="cancelProfileButton" type="button">Cancel</button></div>
+</form></div></div>
+
+<div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
+
+<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><input id="associateRequirementProfileName" readonly></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
+<div class="modal-backdrop hidden" id="profileDetailsModal" aria-hidden="true"><div class="profile-details-modal" role="dialog" aria-modal="true" aria-labelledby="profileDetailsTitle"><div class="modal-header"><div><span class="section-badge">PROFILE DETAILS</span><h2 id="profileDetailsTitle">Profile Details</h2></div><button class="modal-close" id="closeProfileDetailsModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div id="profileDetailsMessage" class="admin-message hidden" style="margin:0 18px 12px;"></div><div id="profileDetailsBody" class="profile-details-body"></div><div class="profile-details-actions"><button class="btn btn-danger" id="deleteProfileButton" type="button"><i class="fa-solid fa-trash"></i> Delete Profile</button><button class="btn btn-outline" id="closeProfileDetailsButton" type="button">Close</button></div></div></div>
+
+<div class="modal-backdrop hidden" id="profileAssociationModal" aria-hidden="true">
+  <div class="profile-modal profile-association-edit-modal" role="dialog" aria-modal="true" aria-labelledby="profileAssociationModalTitle">
+    <div class="modal-header">
+      <div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="profileAssociationModalTitle">Add Requirement Association</h2></div>
+      <button class="modal-close" id="closeProfileAssociationModal" type="button"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="requirement-associate-form">
+      <div class="field-group"><label>Profile</label><input id="profileAssociationProfileName" readonly></div>
+      <div class="field-group"><label for="profileAssociationRequirement">Requirement <span>*</span></label><select id="profileAssociationRequirement"><option value="">Select Requirement</option></select><small class="profile-form-help">A profile can be associated with multiple requirements. Each association has its own status and notes.</small></div>
+      <div class="field-group"><label for="profileAssociationStatus">Association Status <span>*</span></label><select id="profileAssociationStatus"></select></div>
+      <div class="field-group"><label for="profileAssociationNotes">Notes</label><textarea id="profileAssociationNotes" rows="4" maxlength="5000" placeholder="Enter notes specific to this requirement association"></textarea></div>
+      <div id="profileAssociationMessage" class="admin-message" role="alert"></div>
+      <div class="modal-actions"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelProfileAssociationButton" type="button">Cancel</button></div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
+  <div class="profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle" style="width:900px !important; max-width:calc(100vw - 40px) !important; box-sizing:border-box;">
+    <div class="modal-header"><div><span class="section-badge">JOB ASSOCIATION</span><h2 id="associationHistoryTitle">Status History</h2></div><button class="modal-close" id="closeAssociationHistoryModal" type="button"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="profile-interview-modal-body">
+      <div id="associationHistoryMessage" class="admin-message" role="alert"></div>
+      <div class="profile-interview-table-wrap"><table class="profile-interview-table"><thead><tr><th>Date &amp; Time</th><th>Previous Status</th><th>New Status</th><th>Notes</th><th>Changed By</th></tr></thead><tbody id="associationHistoryTableBody"></tbody></table></div>
+      <div class="profile-interview-modal-actions"><button class="btn btn-outline btn-small" id="closeAssociationHistoryButton" type="button">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="interviewModal" aria-hidden="true"><div class="profile-interview-modal-shell" role="dialog" style="width:1140px !important; max-width:calc(100vw - 40px) !important; box-sizing:border-box;" aria-modal="true" aria-labelledby="interviewModalTitle"><div class="modal-header"><div><span class="section-badge">INTERVIEW TRACKING</span><h2 id="interviewModalTitle">Interview Rounds</h2></div><button class="modal-close" id="closeInterviewModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="profile-interview-modal-body"><div id="interviewContext" class="profile-association-panel"></div><section class="profile-interview-section"><div class="profile-interview-heading"><h3>Interview Rounds</h3><button class="btn btn-primary btn-small" id="addInterviewButton" type="button">Add Interview</button></div><div id="interviewMessage" class="admin-message" role="alert"></div><div id="interviewTableWrap" class="profile-interview-table-wrap"><table class="profile-interview-table"><colgroup><col style="width:4%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:6%"><col style="width:9%"><col style="width:13%"><col style="width:26%"><col style="width:10%"></colgroup><thead><tr><th>#</th><th>Round</th><th>Result</th><th>Scheduled Date</th><th>Time</th><th>Mode</th><th>Interviewer</th><th>Feedback</th><th>Actions</th></tr></thead><tbody id="interviewTableBody"></tbody></table></div><div id="noInterviews" class="profile-interviews-empty hidden">No interview rounds have been added.</div></section><div class="profile-interview-modal-actions"><button class="btn btn-outline btn-small" id="cancelInterviewModalButton" type="button">Cancel</button></div></div></div></div>
+
+<div class="modal-backdrop hidden application-child-modal" id="interviewFormModal" aria-hidden="true"><div class="job-modal application-child-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="interviewFormTitle"><div class="modal-header application-child-modal-header"><div><h2 id="interviewFormTitle">Add Interview Round</h2><p id="interviewFormNumber">Interview details</p></div><button aria-label="Close" class="modal-close" id="closeInterviewFormModal" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button></div><form class="application-child-modal-body" id="interviewForm" novalidate><input type="hidden" id="interviewId"><div class="application-interview-form-grid"><div class="application-form-field"><label for="interviewRound">Interview Type <span>*</span></label><select id="interviewRound" required><option value="">Select type</option><option value="Technical">Technical</option><option value="HR">HR</option><option value="Managerial">Managerial</option><option value="Client">Client</option><option value="Other">Other</option></select></div><div class="application-form-field"><label for="interviewResult">Result <span>*</span></label><select id="interviewResult" required><option value="Pending">Pending</option><option value="Passed">Passed</option><option value="Failed">Failed</option><option value="Cancelled">Cancelled</option><option value="Rescheduled">Rescheduled</option><option value="No Show">No Show</option></select></div><div class="application-form-field"><label for="interviewDate">Scheduled Date <span>*</span></label><input id="interviewDate" required type="date"></div><div class="application-form-field"><label for="interviewTime">Scheduled Time</label><input id="interviewTime" type="time"></div><div class="application-form-field"><label for="interviewInterviewer">Interviewer <span>*</span></label><input id="interviewInterviewer" maxlength="150" placeholder="Enter interviewer name" required type="text"></div><div class="application-form-field"><label for="interviewMode">Mode <span>*</span></label><select id="interviewMode" required><option value="Phone">Phone</option><option value="Video">Video</option><option value="In Person">In Person</option><option value="Online">Online</option><option value="Other">Other</option></select></div><div class="application-form-field application-form-field-wide"><label for="interviewFeedback">Feedback / Notes</label><textarea id="interviewFeedback" maxlength="5000" placeholder="Enter interview feedback or notes" rows="4"></textarea></div></div><div aria-live="polite" class="admin-message" id="interviewFormMessage" role="status"></div><div class="application-child-modal-actions"><button class="btn btn-outline btn-small" id="cancelInterviewButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveInterviewButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Interview Round</button></div></form></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=12"></script><script src="js/navigation.js?v=33"></script>
+</body></html>
