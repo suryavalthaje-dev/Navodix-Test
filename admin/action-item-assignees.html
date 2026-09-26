@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow,noarchive"><title>Action Item Assignees | Navodix Careers Admin</title><link rel="icon" href="../assets/images/favicon.png"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="css/admin.css?v=30">
+<style id="master-list-ui-spec">
+/* Master Data List Pages — visual alignment with Action Items List specification.
+   UI-only overrides. No data, JS, modal or functional changes. */
+body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; }
+.admin-main > .admin-container { max-width:1200px; width:calc(100% - 40px); }
+.master-heading { margin-bottom:10px !important; }
+.master-heading h1 { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:32px !important; line-height:1.15 !important; color:#071B4D !important; font-weight:700 !important; }
+.master-heading p { font-size:14px !important; line-height:1.35 !important; color:#556579 !important; }
+.master-heading .btn { height:42px !important; min-height:42px !important; font-size:11px !important; white-space:nowrap; }
+.master-toolbar { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important; padding:14px !important; gap:8px !important; margin-bottom:16px !important; }
+.master-toolbar select,.master-toolbar .toolbar-search input { height:42px !important; font-size:12px !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; }
+.master-toolbar .toolbar-search input::placeholder { font-size:12px !important; }
+.master-toolbar .btn { height:42px !important; min-height:42px !important; font-size:11px !important; }
+.master-card { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:14px !important; overflow:hidden !important; }
+.master-table { width:100% !important; min-width:0 !important; table-layout:fixed !important; border-collapse:collapse !important; border:1px solid #1F1F1F !important; }
+.master-table thead th { background:#C7DDF2 !important; color:#0B2A5B !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:13px !important; font-weight:700 !important; letter-spacing:0 !important; text-transform:none !important; text-align:left !important; padding:9px 10px !important; line-height:1.1 !important; white-space:nowrap !important; border-top:2px solid #B8C1CC !important; border-bottom:2px solid #B8C1CC !important; border-right:1px solid #B8C1CC !important; }
+.master-table thead th:first-child { border-left:2px solid #B8C1CC !important; }
+.master-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
+.master-table tbody tr:nth-child(odd) { background:#FFFFFF !important; }
+.master-table tbody tr:nth-child(even) { background:#DDE2E8 !important; }
+.master-table tbody tr:hover { background:#E8F1FA !important; }
+.master-table tbody td { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; color:#071B4D !important; padding:13px 10px !important; border-right:1px solid #B8C1CC !important; border-bottom:1px solid #B8C1CC !important; vertical-align:middle !important; white-space:normal !important; overflow-wrap:anywhere !important; }
+.master-table tbody td:first-child { border-left:2px solid #1F1F1F !important; }
+.master-table tbody td:last-child { border-right:2px solid #B8C1CC !important; }
+.master-table tbody tr:last-child td { border-bottom:2px solid #1F1F1F !important; }
+.master-table .actions-column { text-align:right !important; }
+.master-table td:last-child { text-align:right !important; white-space:nowrap !important; }
+.master-table td .btn { min-height:32px !important; height:32px !important; min-width:0 !important; padding:6px 10px !important; font-size:10px !important; border-radius:7px !important; white-space:nowrap !important; }
+.master-code { font-size:12px !important; color:#071B4D !important; }
+@media (max-width:899px) {
+  .master-toolbar { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  .master-toolbar .toolbar-search { grid-column:1 / -1 !important; }
+}
+@media (max-width:760px) {
+  .admin-main > .admin-container { width:calc(100% - 28px); }
+  .master-toolbar { grid-template-columns:1fr !important; }
+  .master-toolbar .toolbar-search { grid-column:auto !important; }
+  .master-table thead th,.master-table tbody td { padding-left:8px !important; padding-right:8px !important; }
+}
+</style>
+
+</head>
+<body class="admin-app-page" data-master-custom="assignees">
+<header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
+<nav class="admin-section-nav"><div class="admin-container admin-section-nav-inner"><a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a><a class="admin-section-nav-link" href="applications.html?v=17">Applications</a><details class="admin-section-nav-dropdown" open><summary class="admin-section-nav-link active">Master Data</summary><div class="master-data-menu"><a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a href="projects-areas.html?v=30">Projects / Areas</a><a class="current" href="action-item-assignees.html?v=30">Action Item Assignees</a></div></details><a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a><a class="admin-section-nav-link" href="action-items.html?v=30">Action Items</a></div></nav>
+<main class="admin-main"><div class="admin-container"><div class="admin-page-heading master-heading"><div><h1>Action Item Assignees</h1><p>Manage people who can be responsible for Action Items. They do not need an Admin/HR login.</p></div><button class="btn btn-primary" id="addCustomMasterButton"><i class="fa-solid fa-plus"></i> Add Assignee</button></div><div id="customMasterMessage" class="admin-message"></div><div class="master-toolbar"><div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="customMasterSearch" type="search" placeholder="Search name, email or mobile"></div><select id="customMasterStatus"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select><button class="btn btn-outline" id="refreshCustomMaster"><i class="fa-solid fa-rotate"></i> Refresh</button></div><div class="master-card"><div class="table-wrap"><table class="master-table"><thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Notes</th><th class="actions-column">Actions</th></tr></thead><tbody id="customMasterBody"></tbody></table></div><div id="customMasterEmpty" class="empty-state hidden"><i class="fa-solid fa-user-check"></i><h3>No assignees found</h3><p>Use “Add Assignee” to create the first record.</p></div></div></div></main>
+<div class="modal-backdrop hidden" id="customMasterModal" aria-hidden="true"><div class="master-modal" role="dialog" aria-modal="true"><div class="modal-header"><div><span class="section-badge">MASTER DATA</span><h2 id="customMasterTitle">Add Assignee</h2></div><button class="modal-close" id="closeCustomMaster"><i class="fa-solid fa-xmark"></i></button></div><form id="customMasterForm"><input type="hidden" id="customMasterId"><div class="master-form-grid custom-master-grid"><div class="field-group field-span-2"><label for="customMasterName">Name <span>*</span></label><input id="customMasterName" maxlength="150" required placeholder="e.g. Hima Rao"></div><div class="field-group"><label for="customMasterEmail">Email</label><input id="customMasterEmail" type="email" maxlength="254" placeholder="name@example.com"></div><div class="field-group"><label for="customMasterMobile">Mobile</label><input id="customMasterMobile" maxlength="30" placeholder="+91-XXXXXXXXXX"></div><div class="field-group"><label for="customMasterActive">Status <span>*</span></label><select id="customMasterActive"><option value="true">Active</option><option value="false">Inactive</option></select></div><div class="field-group field-span-2"><label for="customMasterNotes">Notes</label><textarea id="customMasterNotes" rows="4" placeholder="Optional notes"></textarea></div></div><div id="customMasterFormMessage" class="admin-message"></div><div class="modal-actions"><button class="btn btn-outline" type="button" id="cancelCustomMaster">Cancel</button><button class="btn btn-primary" type="submit" id="saveCustomMaster"><i class="fa-solid fa-floppy-disk"></i> Save</button></div></form></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/custom-master.js?v=30"></script><script src="js/navigation.js?v=33"></script>
+</body></html>
