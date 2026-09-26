@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Manage Requirements | Navodix Careers Admin</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=28">
+
+<style>
+/* Manage Requirements — Add/Edit Requirement form aligned with Profile Add/Edit UI specification. */
+#jobModal .job-modal {
+  width:min(760px,100%);
+  max-height:calc(100vh - 32px);
+  overflow-y:auto;
+  background:#FFFFFF;
+  border-radius:16px;
+  box-shadow:0 24px 70px rgba(7,29,73,.25);
+}
+#jobModal .modal-header {
+  background:#2878E8;
+  border-bottom:0;
+  padding:16px 26px 14px;
+  color:#FFFFFF;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+#jobModal .modal-header h2 {
+  color:#FFFFFF;
+  font-size:23px;
+  line-height:1.2;
+  margin:0;
+}
+#jobModal .modal-close {
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#FFFFFF;
+  font-size:21px;
+}
+#jobModal .modal-close:hover {
+  border-color:transparent;
+  background:rgba(255,255,255,.10);
+  color:#FFFFFF;
+}
+#jobModal #jobForm { padding:0; }
+#jobModal .requirement-form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 18px;
+  padding:24px 26px 4px;
+}
+#jobModal .requirement-form-grid .field-group { margin-bottom:10px; }
+#jobModal .requirement-form-grid .field-span-2 { grid-column:1/-1; }
+#jobModal .requirement-form-section-title {
+  grid-column:1/-1;
+  margin:8px 0 14px;
+  padding:8px 10px;
+  background:#F4F7FA;
+  border-left:3px solid #2878E8;
+  border-bottom:1px solid #D8E0EA;
+  color:#263F62;
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.35px;
+}
+#jobModal .requirement-form-grid .field-group label {
+  display:block;
+  color:#263F62;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+#jobModal .requirement-form-grid .field-group label span { color:#B42318; }
+#jobModal .requirement-form-grid input,
+#jobModal .requirement-form-grid select,
+#jobModal .requirement-form-grid textarea {
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid var(--border-color);
+  border-radius:7px;
+  background:#FFFFFF;
+  color:var(--text-dark);
+  outline:none;
+  transition:border-color .2s ease,box-shadow .2s ease;
+  font-family:inherit;
+  font-size:12px;
+}
+#jobModal .requirement-form-grid input,
+#jobModal .requirement-form-grid select {
+  height:34px;
+  padding:0 9px;
+  line-height:1.2;
+}
+#jobModal .requirement-form-grid textarea {
+  min-height:60px;
+  padding:7px 9px;
+  resize:vertical;
+  line-height:1.35;
+}
+#jobModal .requirement-form-grid input::placeholder,
+#jobModal .requirement-form-grid textarea::placeholder {
+  font-family:inherit;
+  font-size:12px;
+  color:#8A97A8;
+}
+#jobModal .requirement-form-grid input:focus,
+#jobModal .requirement-form-grid select:focus,
+#jobModal .requirement-form-grid textarea:focus {
+  border-color:var(--blue-primary);
+  box-shadow:0 0 0 3px rgba(26,86,219,.1);
+}
+#jobModal .requirement-form-grid input[readonly] {
+  background:#F8FAFC;
+  color:#52637A;
+  font-weight:400;
+}
+#jobModal .field-help {
+  display:block;
+  margin-top:6px;
+  color:#667085;
+  font-size:11px;
+  line-height:1.4;
+}
+#jobModal .requirement-repeat-section {
+  grid-column:1/-1;
+  margin:0 0 14px;
+  padding:0;
+  border:1px solid #DCE4EE;
+  border-radius:5px;
+  overflow:hidden;
+  background:#FFFFFF;
+}
+#jobModal .requirement-repeat-section .repeat-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0;
+  padding:8px 10px;
+  background:#F4F7FA;
+  border-left:3px solid #2878E8;
+  border-bottom:1px solid #D8E0EA;
+}
+#jobModal .requirement-repeat-section .repeat-heading h3 {
+  margin:0 0 2px;
+  color:#263F62;
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.35px;
+}
+#jobModal .requirement-repeat-section .repeat-heading p {
+  margin:0;
+  color:#667085;
+  font-size:11px;
+  line-height:1.4;
+}
+#jobModal .requirement-repeat-section .repeat-heading .btn {
+  flex:0 0 auto;
+  height:30px;
+  padding:5px 11px;
+  border-radius:5px;
+  font-size:10px;
+}
+#jobModal .requirement-repeat-section .repeat-list {
+  padding:10px 12px 12px;
+  display:grid;
+  gap:8px;
+}
+#jobModal .requirement-repeat-section .repeat-row {
+  display:grid;
+  grid-template-columns:1fr 34px;
+  gap:8px;
+}
+#jobModal .requirement-repeat-section .repeat-input {
+  width:100%;
+  box-sizing:border-box;
+  height:34px !important;
+  padding:0 9px;
+  border:1px solid var(--border-color);
+  border-radius:7px;
+  background:#FFFFFF;
+  color:var(--text-dark);
+  font-family:inherit;
+  font-size:12px;
+}
+#jobModal .requirement-repeat-section .remove-item {
+  height:34px;
+  border:1px solid var(--border-color);
+  border-radius:7px;
+  background:#FFFFFF;
+  color:#B42318;
+}
+#jobModal .requirement-repeat-section .remove-item:hover {
+  background:#FFF5F4;
+  border-color:#F1A7A2;
+}
+#jobModal #jobFormMessage { margin:4px 26px 0; }
+#jobModal .modal-actions {
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  margin-top:0;
+  padding:10px 26px 18px;
+  border-top:0;
+}
+#jobModal .modal-actions .btn {
+  min-width:112px;
+  height:32px;
+  padding:6px 13px;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:600;
+  line-height:1;
+}
+#jobModal .modal-actions #saveJobButton { order:1; }
+#jobModal .modal-actions #cancelJobButton { order:2; }
+@media(max-width:700px){
+  #jobModal .requirement-form-grid { grid-template-columns:1fr; }
+  #jobModal .requirement-form-grid .field-span-2,
+  #jobModal .requirement-form-section-title,
+  #jobModal .requirement-repeat-section { grid-column:auto; }
+}
+@media(max-width:560px){
+  #jobModal .requirement-form-grid { padding-left:18px; padding-right:18px; }
+  #jobModal #jobFormMessage { margin-left:18px; margin-right:18px; }
+  #jobModal .modal-actions { padding-left:18px; padding-right:18px; }
+}
+</style>
+
+<style>
+
+/* Action Items List Specification — visual treatment applied to this list page only. */
+body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; }
+.admin-main > .admin-container { max-width:1200px; width:calc(100% - 40px); }
+.admin-page-heading { margin-bottom:10px !important; }
+.admin-page-heading h1 { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:32px !important; line-height:1.15 !important; color:#071B4D !important; font-weight:700 !important; }
+.jobs-heading-subtitle { font-size:14px !important; line-height:1.35 !important; color:#556579 !important; }
+.admin-page-heading .btn { height:42px !important; white-space:nowrap; }
+
+/* Requirements toolbar */
+.jobs-toolbar {
+  gap:8px !important; padding:14px !important; margin-bottom:16px !important;
+  background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important;
+}
+.jobs-toolbar select, .jobs-toolbar .toolbar-search input { height:42px !important; font-size:12px !important; }
+.jobs-toolbar .toolbar-search input::placeholder { font-size:12px !important; color:#8A97A8 !important; }
+.jobs-toolbar .btn { height:42px !important; font-size:11px !important; }
+/* Requirements summary cards */
+.jobs-summary { gap:14px !important; margin-bottom:18px !important; }
+.jobs-summary .summary-card { min-height:46px !important; height:46px !important; padding:12px 18px !important; box-sizing:border-box; border:1px solid #E2E8F0 !important; border-radius:12px !important; }
+.jobs-summary .summary-card span { font-size:12px !important; font-weight:700 !important; color:#556579 !important; }
+.jobs-summary .summary-card strong { font-size:14px !important; font-weight:700 !important; color:#071B4D !important; }
+/* Requirements list card/table */
+.jobs-card { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:14px !important; overflow:hidden !important; }
+.jobs-table { width:100% !important; min-width:0 !important; table-layout:fixed !important; border-collapse:collapse !important; border:1px solid #1F1F1F !important; }
+.jobs-table thead th {
+  background:#C7DDF2 !important; color:#0B2A5B !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important; font-weight:700 !important; letter-spacing:0 !important; text-transform:none !important;
+  text-align:left !important; padding:9px 10px !important; line-height:1.1 !important; white-space:nowrap !important;
+  border-top:2px solid #B8C1CC !important; border-bottom:2px solid #B8C1CC !important; border-right:1px solid #B8C1CC !important;
+}
+.jobs-table thead th:first-child{border-left:2px solid #B8C1CC !important}.jobs-table thead th:last-child{border-right:2px solid #B8C1CC !important}
+.jobs-table thead th:nth-child(1){width:28% !important}.jobs-table thead th:nth-child(2){width:14% !important}.jobs-table thead th:nth-child(3){width:10% !important}.jobs-table thead th:nth-child(4){width:13% !important}.jobs-table thead th:nth-child(5){width:11% !important}.jobs-table thead th:nth-child(6){width:12% !important}.jobs-table thead th:nth-child(7){width:12% !important}
+.jobs-table tbody tr:nth-child(odd){background:#FFFFFF !important}.jobs-table tbody tr:nth-child(even){background:#DDE2E8 !important}.jobs-table tbody tr:hover{background:#E8F1FA !important}
+.jobs-table tbody td { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; color:#071B4D !important; padding:13px 10px !important; border-right:1px solid #B8C1CC !important; border-bottom:1px solid #B8C1CC !important; vertical-align:middle !important; white-space:normal !important; overflow-wrap:anywhere !important; }
+.jobs-table tbody td:first-child{border-left:2px solid #1F1F1F !important}.jobs-table tbody td:last-child{border-right:2px solid #B8C1CC !important}.jobs-table tbody tr:last-child td{border-bottom:2px solid #1F1F1F !important}
+.jobs-table .btn { font-size:10px !important; min-height:32px !important; padding:6px 10px !important; border-radius:7px !important; }
+@media(max-width:899px){.jobs-summary{grid-template-columns:repeat(3,minmax(0,1fr)) !important}.jobs-toolbar{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.jobs-toolbar .toolbar-search{grid-column:1/-1}}
+@media(max-width:760px){.jobs-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.jobs-toolbar{grid-template-columns:1fr !important}.jobs-toolbar .toolbar-search{grid-column:auto}.jobs-table thead th,.jobs-table tbody td{padding-left:7px !important;padding-right:7px !important}}
+
+</style>
+
+<style id="requirements-final-v16-table-design">
+/* Finalized Action Items v16 table design — visual-only.
+   Existing requirement columns, widths, data and functionality remain unchanged. */
+.jobs-card {
+  border-left:6px solid #2878E8 !important;
+  position:relative !important;
+}
+.jobs-table {
+  border-left:0 !important;
+}
+.jobs-table thead th {
+  height:50px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-family:'Calibri Light','Segoe UI Light','Segoe UI',sans-serif !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+  letter-spacing:.1px !important;
+  padding:0 10px !important;
+  line-height:1.1 !important;
+  border-top:2px solid #B8C1CC !important;
+  border-bottom:2px solid #B8C1CC !important;
+  border-right:1px solid #B8C1CC !important;
+}
+.jobs-table thead th:first-child { border-left:0 !important; }
+.jobs-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
+.jobs-table tbody td {
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+}
+.jobs-table tbody td:first-child { border-left:0 !important; }
+</style>
+</head>
+<body class="admin-app-page">
+  <header class="admin-header">
+    <div class="admin-container admin-nav">
+      <a class="admin-brand" href="../index.html" aria-label="Back to Navodix website">
+        <img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions">
+      </a>
+      <nav class="admin-main-nav" aria-label="Admin main menu">
+        <a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a>
+        <span class="admin-main-nav-link disabled">Employee Management</span>
+      </nav>
+      <div class="admin-nav-right">
+        <span class="admin-user" id="adminUser"></span>
+        <button class="btn btn-outline" id="logoutButton" type="button">
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="admin-section-nav" aria-label="Manage Requirements sections">
+    <div class="admin-container admin-section-nav-inner">
+      <a class="admin-section-nav-link active" href="recruitment.html?v=16">Manage Requirements</a>
+      <a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
+      <a class="admin-section-nav-link" href="applications.html?v=17">Applications</a>
+      <details class="admin-section-nav-dropdown">
+        <summary class="admin-section-nav-link">Master Data</summary>
+        <div class="master-data-menu" role="menu">
+          <a href="clients.html?v=16" role="menuitem">Clients</a>
+          <a href="job-categories.html?v=16" role="menuitem">Job Categories</a>
+          <a href="locations.html?v=16" role="menuitem">Locations</a><a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a><a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
+        </div>
+      </details>
+      <a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
+      <a class="admin-section-nav-link" href="action-items.html">Action Items</a>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+    <div class="admin-container">
+      <div class="admin-page-heading jobs-heading">
+        <div class="jobs-heading-text">
+          <h1>Manage Requirements</h1>
+          <span class="jobs-heading-subtitle">Create, edit and manage recruitment requirements</span>
+        </div>
+        <button class="btn btn-primary add-job-button" id="addJobButton" type="button">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement
+        </button>
+      </div>
+
+
+      <section class="jobs-toolbar" aria-label="Requirement filters">
+        <div class="toolbar-search">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="jobSearch" type="search" placeholder="Search by requirement code, title or location">
+        </div>
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="">All Statuses</option>
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+          <option value="paused">Paused</option>
+          <option value="closed">Closed</option>
+          <option value="archived">Archived</option>
+        </select>
+        <button class="btn btn-outline" id="refreshJobsButton" type="button">
+          <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
+        </button>
+      </section>
+
+      <div id="jobsMessage" class="admin-message" role="status" aria-live="polite"></div>
+
+      <section class="jobs-summary" aria-label="Requirement summary">
+        <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
+        <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
+        <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
+        <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
+      </section>
+
+      <section class="jobs-card">
+        <div class="table-wrap">
+          <table class="jobs-table">
+            <thead>
+              <tr>
+                <th>Job</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Experience</th>
+                <th>Status</th>
+                <th>Open Date</th>
+                <th class="actions-column">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobsTableBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyJobs" class="empty-state hidden">
+          <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+          <h3>No requirements found</h3>
+          <p>Use “Add New Requirement” to create the first career opportunity.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="jobModal" aria-hidden="true">
+    <div class="job-modal" role="dialog" aria-modal="true" aria-labelledby="jobModalTitle">
+      <div class="modal-header">
+        <div>
+          <span class="section-badge">REQUIREMENT DETAILS</span>
+          <h2 id="jobModalTitle">Add New Requirement</h2>
+        </div>
+        <button class="modal-close" id="closeJobModal" type="button" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form id="jobForm" novalidate>
+        <input type="hidden" id="jobId">
+
+        <div class="requirement-form-grid">
+          <div class="requirement-form-section-title">Requirement Information</div>
+          <div class="field-group">
+            <label for="clientName">Client Name <span>*</span></label>
+            <select id="clientName" required>
+              <option value="">Select Client</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="jobCategory">Job Category <span>*</span></label>
+            <select id="jobCategory" required>
+              <option value="">Select Category</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="jobOpenDate">Job Open Date <span>*</span></label>
+            <input id="jobOpenDate" type="date" required>
+          </div>
+          <div class="field-group">
+            <label for="jobCode">Job Code</label>
+            <input id="jobCode" readonly maxlength="50" placeholder="Select client, category and open date">
+            <small class="field-help">Auto-generated when the job is saved</small>
+          </div>
+          <div class="requirement-form-section-title">Position Details</div>
+          <div class="field-group">
+            <label for="jobTitle">Job Title <span>*</span></label>
+            <input id="jobTitle" required maxlength="150" placeholder="e.g. IT Infrastructure Engineer">
+          </div>
+          <div class="field-group">
+            <label for="jobLocation">Location <span>*</span></label>
+            <select id="jobLocation" required>
+              <option value="">Select Location</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="employmentType">Employment Type <span>*</span></label>
+            <select id="employmentType" required>
+              <option value="full_time">Full Time</option>
+              <option value="part_time">Part Time</option>
+              <option value="contract">Contract</option>
+              <option value="internship">Internship</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="jobExperience">Experience <span>*</span></label>
+            <input id="jobExperience" required maxlength="100" placeholder="e.g. 2–5 years">
+          </div>
+          <div class="field-group">
+            <label for="skillLevel">Skill Level</label>
+            <input id="skillLevel" maxlength="80" placeholder="e.g. Junior, Mid, Senior">
+          </div>
+          <div class="field-group">
+            <label for="jobStatus">Status <span>*</span></label>
+            <select id="jobStatus" required>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="paused">Paused</option>
+              <option value="closed">Closed</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="closingDate">Closing Date</label>
+            <input id="closingDate" type="date">
+          </div>
+          <div class="requirement-form-section-title">Description</div>
+          <div class="field-group field-span-2">
+            <label for="shortDescription">Short Description</label>
+            <textarea id="shortDescription" rows="3" maxlength="500" placeholder="Brief description shown on the Careers listing."></textarea>
+          </div>
+          <div class="field-group field-span-2">
+            <label for="detailedDescription">Detailed Description</label>
+            <textarea id="detailedDescription" rows="5" placeholder="Full description of the opportunity."></textarea>
+          </div>
+
+          <div class="requirement-form-section-title">Key Responsibilities</div>
+          <div class="requirement-repeat-section field-span-2">
+            <div class="repeat-heading">
+              <div>
+                <h3>Key Responsibilities</h3>
+                <p>Add responsibilities individually. They can be reordered later.</p>
+              </div>
+              <button class="btn btn-outline btn-small" type="button" data-add-list="responsibilities">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+              </button>
+            </div>
+            <div id="responsibilitiesList" class="repeat-list"></div>
+          </div>
+
+          <div class="requirement-form-section-title">Requirements</div>
+          <div class="requirement-repeat-section field-span-2">
+            <div class="repeat-heading">
+              <div>
+                <h3>Requirements</h3>
+                <p>Add the essential requirements for this role.</p>
+              </div>
+              <button class="btn btn-outline btn-small" type="button" data-add-list="requirements">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+              </button>
+            </div>
+            <div id="requirementsList" class="repeat-list"></div>
+          </div>
+
+          <div class="requirement-form-section-title">Preferred Qualifications</div>
+          <div class="requirement-repeat-section field-span-2">
+            <div class="repeat-heading">
+              <div>
+                <h3>Preferred Qualifications</h3>
+                <p>Add optional or preferred qualifications for this role.</p>
+              </div>
+              <button class="btn btn-outline btn-small" type="button" data-add-list="qualifications">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+              </button>
+            </div>
+            <div id="qualificationsList" class="repeat-list"></div>
+          </div>
+
+        <div id="jobFormMessage" class="admin-message" role="alert"></div>
+
+        <div class="modal-actions">
+          <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
+          <button class="btn btn-primary" id="saveJobButton" type="submit">
+            <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Requirement
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="deleteModal" aria-hidden="true">
+    <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <div class="confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
+      <h2 id="deleteTitle">Delete this requirement?</h2>
+      <p id="deleteText">This will permanently remove the requirement and its requirements, responsibilities and qualifications.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="cancelDeleteButton" type="button">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteButton" type="button">
+          <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Requirement
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js?v=17"></script>
+  <script src="js/supabase-client.js?v=17"></script>
+  <script src="js/auth.js?v=17"></script>
+  <script src="js/jobs.js?v=17"></script>
+<script src="js/navigation.js?v=33"></script>
+</body>
+</html>
