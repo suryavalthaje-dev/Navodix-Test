@@ -807,8 +807,8 @@
     #detailsModal .nxv-close{position:absolute !important;top:5px !important;right:16px !important;z-index:3 !important;border:0 !important;background:transparent !important;color:#fff !important;font-size:28px !important;line-height:28px !important;padding:0 !important;margin:0 !important;cursor:pointer !important;}
     #detailsModal .nxv-body{min-height:0 !important;height:auto !important;max-height:none !important;margin:0 !important;box-sizing:border-box !important;overflow-y:auto !important;overflow-x:hidden !important;padding:0 26px 16px !important;scrollbar-width:thin !important;}
     #detailsModal .nxv-meta{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:0 18px !important;margin:0 !important;padding:14px 0 8px !important;border-bottom:1px solid #D8E0EA !important;color:#52657C !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;line-height:1.4 !important;}
-    #detailsModal .nxv-meta span{display:flex !important;align-items:center !important;gap:6px !important;min-width:0 !important;padding:4px 0 !important;}
-    #detailsModal .nxv-meta i{color:#2878E8 !important;font-size:11px !important;flex:0 0 auto !important;}
+    #detailsModal .nxv-meta span{display:flex !important;align-items:baseline !important;gap:5px !important;min-width:0 !important;padding:4px 0 !important;}
+    #detailsModal .nxv-meta strong{color:#263F62 !important;font-weight:700 !important;flex:0 0 auto !important;}
     #detailsModal .nxv-section{margin:18px 0 0 !important;padding:0 !important;}
     #detailsModal .nxv-section-title{margin:8px 0 14px !important;padding:8px 10px !important;background:#F4F7FA !important;border-left:3px solid #2878E8 !important;border-bottom:1px solid #D8E0EA !important;color:#263F62 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:800 !important;text-transform:uppercase !important;letter-spacing:.35px !important;line-height:1.2 !important;}
     #detailsModal .nxv-text{margin:0 !important;color:#556579 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:13px !important;line-height:1.6 !important;}
@@ -2185,13 +2185,13 @@ function openDetailsModal(jobId){
 
   document.getElementById('detailsModalTitle').textContent=job.title;
   document.getElementById('detailsModalMeta').innerHTML=`
-    <span><i class="fa-solid fa-location-dot"></i> ${escapeHtml(job.location)}</span>
-    <span><i class="fa-solid fa-briefcase"></i> ${escapeHtml(formatEmploymentType(job.type))}</span>
-    <span><i class="fa-solid fa-clock"></i> ${escapeHtml(job.experience)}</span>
-    ${job.skill_level ? `<span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(job.skill_level)}</span>` : ''}
-    ${job.client ? `<span><i class="fa-solid fa-building"></i> ${escapeHtml(job.client)}</span>` : ''}
-    ${job.job_code ? `<span><i class="fa-solid fa-hashtag"></i> ${escapeHtml(job.job_code)}</span>` : ''}
-    ${job.closing_date ? `<span><i class="fa-solid fa-calendar-days"></i> Closing Date: ${escapeHtml(job.closing_date)}</span>` : ''}
+    <span><strong>Location :</strong> ${escapeHtml(job.location)}</span>
+    <span><strong>Employment Type :</strong> ${escapeHtml(formatEmploymentType(job.type))}</span>
+    <span><strong>Experience :</strong> ${escapeHtml(job.experience)}</span>
+    ${job.skill_level ? `<span><strong>Level :</strong> ${escapeHtml(job.skill_level)}</span>` : ''}
+    ${job.client ? `<span><strong>Client :</strong> ${escapeHtml(job.client)}</span>` : ''}
+    ${job.job_code ? `<span><strong>Code :</strong> ${escapeHtml(job.job_code)}</span>` : ''}
+    ${job.closing_date ? `<span><strong>Closing Date :</strong> ${escapeHtml(job.closing_date)}</span>` : ''}
   `;
 
   const details=job.details || {};
