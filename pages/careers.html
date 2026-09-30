@@ -795,6 +795,34 @@
       #submitProfileModal .career-form-action-buttons .career-form-submit{flex:1;width:auto}
       #submitProfileModal .career-form-notice{position:absolute;left:18px;right:18px;bottom:100%;margin-bottom:4px}
     }
+
+
+    /* View Details — TRUE isolated modal architecture matching Submit Your Profile */
+    #detailsModal.nxv-modal{position:fixed !important;inset:0 !important;z-index:10000 !important;display:none !important;align-items:center !important;justify-content:center !important;padding:4px !important;box-sizing:border-box !important;margin:0 !important;background:rgba(7,29,73,.35) !important;}
+    #detailsModal.nxv-modal.is-open{display:flex !important;}
+    #detailsModal .nxv-dialog{width:min(820px,100%) !important;height:min(860px,calc(100dvh - 8px)) !important;max-height:calc(100dvh - 8px) !important;min-height:0 !important;margin:0 !important;padding:0 !important;box-sizing:border-box !important;overflow:hidden !important;display:grid !important;grid-template-rows:auto minmax(0,1fr) 54px !important;background:#fff !important;border:0 !important;border-radius:16px !important;box-shadow:0 24px 70px rgba(7,29,73,.25) !important;}
+    #detailsModal .nxv-header{min-height:0 !important;margin:0 !important;box-sizing:border-box !important;padding:10px 26px 12px !important;background:#2878E8 !important;border-radius:16px 16px 0 0 !important;position:relative !important;}
+    #detailsModal .nxv-head h3{margin:0 !important;color:#fff !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:23px !important;line-height:1.2 !important;font-weight:700 !important;}
+    #detailsModal .nxv-head p{margin:3px 0 0 !important;color:rgba(255,255,255,.88) !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:11px !important;line-height:1.4 !important;}
+    #detailsModal .nxv-close{position:absolute !important;top:5px !important;right:16px !important;z-index:3 !important;border:0 !important;background:transparent !important;color:#fff !important;font-size:28px !important;line-height:28px !important;padding:0 !important;margin:0 !important;cursor:pointer !important;}
+    #detailsModal .nxv-body{min-height:0 !important;height:auto !important;max-height:none !important;margin:0 !important;box-sizing:border-box !important;overflow-y:auto !important;overflow-x:hidden !important;padding:0 26px 16px !important;scrollbar-width:thin !important;}
+    #detailsModal .nxv-meta{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:0 18px !important;margin:0 !important;padding:14px 0 8px !important;border-bottom:1px solid #D8E0EA !important;color:#52657C !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;line-height:1.4 !important;}
+    #detailsModal .nxv-meta span{display:flex !important;align-items:center !important;gap:6px !important;min-width:0 !important;padding:4px 0 !important;}
+    #detailsModal .nxv-meta i{color:#2878E8 !important;font-size:11px !important;flex:0 0 auto !important;}
+    #detailsModal .nxv-section{margin:18px 0 0 !important;padding:0 !important;}
+    #detailsModal .nxv-section-title{margin:8px 0 14px !important;padding:8px 10px !important;background:#F4F7FA !important;border-left:3px solid #2878E8 !important;border-bottom:1px solid #D8E0EA !important;color:#263F62 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:800 !important;text-transform:uppercase !important;letter-spacing:.35px !important;line-height:1.2 !important;}
+    #detailsModal .nxv-text{margin:0 !important;color:#556579 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:13px !important;line-height:1.6 !important;}
+    #detailsModal .nxv-list{margin:0 0 0 18px !important;padding:0 !important;color:#556579 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:13px !important;line-height:1.55 !important;}
+    #detailsModal .nxv-list li{margin:0 0 6px !important;padding-left:2px !important;}
+    #detailsModal .nxv-footer{position:static !important;width:auto !important;height:54px !important;min-height:54px !important;max-height:54px !important;margin:0 !important;padding:7px 26px !important;box-sizing:border-box !important;display:flex !important;align-items:center !important;justify-content:space-between !important;gap:12px !important;overflow:hidden !important;background:#C9D9EC !important;border-top:1px solid #B3C6DD !important;box-shadow:0 -2px 9px rgba(7,29,73,.09) !important;}
+    #detailsModal .nxv-notice{flex:1 1 auto !important;min-width:0 !important;height:30px !important;margin:0 !important;padding:0 !important;}
+    #detailsModal .nxv-buttons{flex:0 0 auto !important;display:flex !important;align-items:center !important;gap:8px !important;margin:0 !important;padding:0 !important;}
+    #detailsModal .nxv-buttons .nxv-apply,#detailsModal .nxv-buttons .nxv-close-btn{box-sizing:border-box !important;height:34px !important;min-height:34px !important;margin:0 !important;padding:6px 13px !important;border-radius:5px !important;border:1px solid #2878E8 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;line-height:20px !important;cursor:pointer !important;}
+    #detailsModal .nxv-buttons .nxv-apply{background:#2878E8 !important;color:#fff !important;}
+    #detailsModal .nxv-buttons .nxv-close-btn{background:#fff !important;color:#2878E8 !important;}
+    #detailsModal .nxv-buttons .nxv-apply:hover{background:#1D63C7 !important;border-color:#1D63C7 !important;}
+    #detailsModal .nxv-buttons .nxv-close-btn:hover{background:#F1F6FD !important;}
+    @media(max-width:640px){#detailsModal.nxv-modal{padding:4px !important;}#detailsModal .nxv-dialog{width:100% !important;height:calc(100dvh - 8px) !important;max-height:calc(100dvh - 8px) !important;border-radius:14px !important;grid-template-rows:auto minmax(0,1fr) 54px !important;}#detailsModal .nxv-header{border-radius:14px 14px 0 0 !important;padding:8px 18px 10px !important;}#detailsModal .nxv-body{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-meta{grid-template-columns:1fr !important;gap:0 !important;}#detailsModal .nxv-footer{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-buttons{width:auto !important;margin-left:auto !important;} }
 </style>
 
 
@@ -1691,37 +1719,46 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
     </div>
   </div>
 
-  <!-- Opportunity details popup -->
-  <div class="career-modal" id="detailsModal" aria-hidden="true">
-    <div class="career-modal-box" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
-      <div class="career-modal-header-band">
-        <button class="career-modal-close" type="button" aria-label="Close">&times;</button>
-        <div class="career-modal-label">Job Details</div>
-        <div class="career-modal-head">
+  <!-- Opportunity details popup — same isolated architecture as Submit Your Profile -->
+  <div class="nxv-modal" id="detailsModal" aria-hidden="true">
+    <div class="nxv-dialog" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+      <header class="nxv-header">
+        <button class="nxv-close" type="button" aria-label="Close">&times;</button>
+        <div class="nxv-head">
           <h3 id="detailsModalTitle">Opportunity Details</h3>
+          <p>Review the complete position details below. Click Apply Now to submit your application.</p>
         </div>
+      </header>
+      <div class="nxv-body">
+        <div class="nxv-meta" id="detailsModalMeta"></div>
+
+        <section class="nxv-section">
+          <h4 class="nxv-section-title">About the Opportunity</h4>
+          <p id="detailsModalDescription" class="nxv-text"></p>
+        </section>
+
+        <section class="nxv-section" id="detailsModalResponsibilitiesSection">
+          <h4 class="nxv-section-title">Key Responsibilities</h4>
+          <ul id="detailsModalResponsibilities" class="nxv-list"></ul>
+        </section>
+
+        <section class="nxv-section">
+          <h4 class="nxv-section-title">Requirements</h4>
+          <ul id="detailsModalRequirements" class="nxv-list"></ul>
+        </section>
+
+        <section class="nxv-section" id="detailsModalQualificationsSection">
+          <h4 class="nxv-section-title">Preferred Qualifications</h4>
+          <ul id="detailsModalQualifications" class="nxv-list"></ul>
+        </section>
       </div>
-      <div class="career-modal-meta" id="detailsModalMeta"></div>
-      <div class="career-modal-section">
-        <h4>About the Opportunity</h4>
-        <p id="detailsModalDescription"></p>
-      </div>
-      <div class="career-modal-section" id="detailsModalResponsibilitiesSection">
-        <h4>Key Responsibilities</h4>
-        <ul id="detailsModalResponsibilities"></ul>
-      </div>
-      <div class="career-modal-section">
-        <h4>Requirements</h4>
-        <ul id="detailsModalRequirements"></ul>
-      </div>
-      <div class="career-modal-section" id="detailsModalQualificationsSection">
-        <h4>Preferred Qualifications</h4>
-        <ul id="detailsModalQualifications"></ul>
-      </div>
-      <div class="career-modal-actions">
-        <button class="career-modal-close-btn" id="detailsModalCloseBtn" type="button">Close</button>
-        <button class="career-modal-apply" id="detailsModalApply" type="button">Apply Now <i class="fa-solid fa-arrow-right"></i></button>
-      </div>
+      <footer class="nxv-footer">
+        <div class="nxv-notice" aria-hidden="true"></div>
+        <div class="nxv-buttons">
+          <button class="nxv-close-btn" id="detailsModalCloseBtn" type="button">Close</button>
+          <button class="nxv-apply" id="detailsModalApply" type="button">Apply Now <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </footer>
     </div>
   </div>
 
@@ -2126,7 +2163,8 @@ function closeCareerModal(){
 function closeDetailsModal(){
   detailsModal.classList.remove('is-open');
   detailsModal.setAttribute('aria-hidden','true');
-  resetModalScroll(detailsModal.querySelector('.career-modal-box'));
+  const detailsBody=detailsModal.querySelector('.nxv-body');
+  if(detailsBody) detailsBody.scrollTop=0;
 }
 
 function openCareerModal(job){
@@ -2144,15 +2182,6 @@ function openDetailsModal(jobId){
   const job=openings.find(item=>item.id===jobId);
   if(!job)return;
   selectedOpening=job;
-
-  const card=document.querySelector(`.career-card[data-id="${CSS.escape(jobId)}"]`);
-  const accent=card ? getComputedStyle(card).getPropertyValue('--career-accent').trim() : '#2878E8';
-  const tint=card ? getComputedStyle(card).getPropertyValue('--career-tint').trim() : '#EFF6FF';
-  const bubble=card ? getComputedStyle(card).getPropertyValue('--career-bubble').trim() : '#D8E9FF';
-  const detailsBox=document.querySelector('#detailsModal .career-modal-box');
-  detailsBox.style.setProperty('--modal-accent',accent);
-  detailsBox.style.setProperty('--modal-tint',tint);
-  detailsBox.style.setProperty('--modal-bubble',bubble);
 
   document.getElementById('detailsModalTitle').textContent=job.title;
   document.getElementById('detailsModalMeta').innerHTML=`
@@ -2180,11 +2209,10 @@ function openDetailsModal(jobId){
     document.getElementById('detailsModalQualifications').innerHTML=details.qualifications.map(q=>`<li>${q}</li>`).join('');
   }else{qualificationsSection.style.display='none';}
 
-  const detailsBoxFinal=document.querySelector('#detailsModal .career-modal-box');
-  resetModalScroll(detailsBoxFinal);
+  const detailsBody=document.querySelector('#detailsModal .nxv-body');
+  if(detailsBody) detailsBody.scrollTop=0;
   detailsModal.classList.add('is-open');
   detailsModal.setAttribute('aria-hidden','false');
-  fitModalToContent(detailsBoxFinal);
 }
 
 document.addEventListener('click',e=>{
@@ -2379,7 +2407,7 @@ document.getElementById('careerApplicationForm').addEventListener('submit',async
   }
 });
 
-detailsModal.querySelector('.career-modal-close').addEventListener('click',closeDetailsModal);
+detailsModal.querySelector('.nxv-close').addEventListener('click',closeDetailsModal);
 document.getElementById('detailsModalCloseBtn').addEventListener('click',closeDetailsModal);
 detailsModal.addEventListener('click',e=>{if(e.target===detailsModal)closeDetailsModal()});
 document.getElementById('detailsModalApply').addEventListener('click',()=>{
