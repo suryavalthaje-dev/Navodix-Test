@@ -796,6 +796,136 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #emailNotificationSettingsModal .email-settings-switch input:checked+span:before{transform:translateX(19px)}
 @media(max-width:640px){#emailNotificationSettingsModal.nxr-modal{padding:4px !important}#emailNotificationSettingsModal .nxr-dialog{width:100% !important;height:calc(100dvh - 8px) !important;max-height:calc(100dvh - 8px) !important;border-radius:14px !important}#emailNotificationSettingsModal .nxr-header{border-radius:14px 14px 0 0 !important;padding:8px 18px 10px !important}#emailNotificationSettingsModal .nxr-body{padding:14px 18px 10px !important}#emailNotificationSettingsModal .nxr-footer{padding:7px 18px !important}}
 </style>
+
+<style id="profiles-standardized-profile-form-v1">
+/* Profile Add/Edit form — standardized with the public Submit Your Profile / Refer a Candidate modal architecture. */
+#profileModal.modal-backdrop{
+  position:fixed !important; inset:0 !important; z-index:10000 !important;
+  display:none !important; align-items:center !important; justify-content:center !important;
+  padding:4px !important; box-sizing:border-box !important; margin:0 !important;
+  background:rgba(7,29,73,.35) !important;
+}
+#profileModal.modal-backdrop:not(.hidden){display:flex !important;}
+#profileModal .npp-dialog{
+  width:min(820px,100%) !important; height:min(860px,calc(100dvh - 8px)) !important;
+  max-height:calc(100dvh - 8px) !important; min-height:0 !important;
+  margin:0 !important; padding:0 !important; box-sizing:border-box !important;
+  overflow:hidden !important; display:grid !important; grid-template-rows:auto minmax(0,1fr) !important;
+  background:#fff !important; border:0 !important; border-radius:16px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+}
+#profileModal .npp-header{
+  min-height:0 !important; margin:0 !important; box-sizing:border-box !important;
+  padding:6px 26px 10px !important; background:#2878E8 !important;
+  border-radius:16px 16px 0 0 !important; position:relative !important;
+}
+#profileModal .npp-head h3{
+  margin:0 !important; color:#fff !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:23px !important; line-height:1.2 !important; font-weight:700 !important;
+}
+#profileModal .npp-head p{
+  margin:3px 0 0 !important; color:rgba(255,255,255,.88) !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important; line-height:1.4 !important;
+}
+#profileModal .npp-close{
+  position:absolute !important; top:5px !important; right:16px !important; z-index:3 !important;
+  border:0 !important; background:transparent !important; color:#fff !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:28px !important; line-height:28px !important; padding:0 !important; margin:0 !important; cursor:pointer !important;
+}
+#profileModal .npp-close:hover{background:rgba(255,255,255,.10) !important; border:0 !important; color:#fff !important;}
+#profileModal .npp-form{
+  min-height:0 !important; height:auto !important; max-height:none !important; margin:0 !important; padding:0 !important;
+  box-sizing:border-box !important; overflow:hidden !important; display:grid !important;
+  grid-template-rows:minmax(0,1fr) 48px !important; grid-template-columns:minmax(0,1fr) !important;
+}
+#profileModal .npp-body{
+  min-height:0 !important; height:auto !important; max-height:none !important; margin:0 !important;
+  box-sizing:border-box !important; overflow-y:auto !important; overflow-x:hidden !important;
+  padding:0 26px 12px !important; scrollbar-width:thin !important;
+}
+#profileModal .profile-form-grid{
+  display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:8px 16px !important; padding:0 !important; margin:0 !important;
+}
+#profileModal .profile-form-section-title{
+  grid-column:1/-1 !important; margin:14px 0 5px !important; padding:7px 10px !important;
+  background:#F4F7FA !important; border-left:3px solid #2878E8 !important;
+  border-bottom:1px solid #D8E0EA !important; color:#263F62 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important; font-weight:800 !important; text-transform:uppercase !important; letter-spacing:.35px !important;
+}
+#profileModal .profile-form-section-title:first-child{margin-top:12px !important;}
+#profileModal .field-group{min-width:0 !important;}
+#profileModal .field-group label{
+  display:block !important; margin:0 0 5px !important; color:#263F62 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:11px !important; font-weight:700 !important;
+}
+#profileModal .field-group label span{color:#d92d20 !important;}
+#profileModal .profile-form-grid input,
+#profileModal .profile-form-grid select,
+#profileModal .profile-form-grid textarea{
+  box-sizing:border-box !important; width:100% !important; border:1px solid #CCD9E8 !important;
+  border-radius:7px !important; background:#fff !important; color:#334B65 !important; outline:none !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:13px !important;
+  transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+#profileModal .profile-form-grid input,
+#profileModal .profile-form-grid select{height:34px !important; min-height:34px !important; padding:0 9px !important; line-height:1.2 !important;}
+#profileModal .profile-form-grid textarea{min-height:60px !important; padding:7px 9px !important; resize:vertical !important; line-height:1.35 !important;}
+#profileModal .profile-form-grid #skills{height:48px !important; min-height:48px !important;}
+#profileModal .profile-form-grid #additionalInformation{height:48px !important; min-height:48px !important;}
+#profileModal .profile-form-grid input::placeholder,
+#profileModal .profile-form-grid textarea::placeholder{
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:13px !important; color:#8A97A8 !important;
+}
+#profileModal .profile-form-grid input:focus,
+#profileModal .profile-form-grid select:focus,
+#profileModal .profile-form-grid textarea:focus{
+  border-color:#1A56DB !important; box-shadow:0 0 0 3px rgba(26,86,219,.10) !important;
+}
+#profileModal .profile-form-help{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:11px !important; line-height:1.4 !important;}
+#profileModal .profile-category-box{border:1px solid #CCD9E8 !important; border-radius:7px !important; padding:8px 10px !important;}
+#profileModal .profile-category-item{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:12px !important;}
+#profileModal .referrer-fields{margin:0 0 3px !important; padding:10px 12px 0 !important; border-radius:7px !important;}
+#profileModal .resume-box{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;}
+#profileModal .resume-box input[type=file]{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:13px !important;}
+#profileModal .duplicate-box{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; margin-top:10px !important;}
+#profileModal .npp-footer{
+  position:static !important; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important;
+  z-index:2 !important; width:auto !important; height:48px !important; min-height:48px !important; max-height:48px !important;
+  margin:0 !important; padding:7px 26px 9px !important; box-sizing:border-box !important;
+  display:flex !important; align-items:center !important; justify-content:space-between !important; gap:12px !important;
+  overflow:hidden !important; background:#C9D9EC !important; border-top:1px solid #B3C6DD !important;
+  box-shadow:0 -2px 9px rgba(7,29,73,.09) !important;
+}
+#profileModal .npp-notice{
+  position:static !important; flex:1 1 auto !important; min-width:0 !important; width:auto !important;
+  max-width:none !important; height:30px !important; max-height:30px !important; margin:0 !important; padding:0 !important;
+  box-sizing:border-box !important; border:0 !important; background:transparent !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:12px !important; line-height:14px !important;
+  overflow:hidden !important; overflow-wrap:anywhere !important; word-break:break-word !important;
+}
+#profileModal .npp-buttons{flex:0 0 auto !important; display:flex !important; align-items:center !important; justify-content:flex-end !important; gap:8px !important; margin:0 !important; padding:0 !important;}
+#profileModal .npp-buttons .btn{
+  box-sizing:border-box !important; height:30px !important; min-height:30px !important; margin:0 !important;
+  padding:5px 13px !important; border-radius:5px !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:600 !important; line-height:18px !important;
+}
+@media(max-width:640px){
+  #profileModal.modal-backdrop{padding:4px !important;}
+  #profileModal .npp-dialog{width:100% !important; height:calc(100dvh - 8px) !important; max-height:calc(100dvh - 8px) !important; border-radius:14px !important;}
+  #profileModal .npp-header{border-radius:14px 14px 0 0 !important; padding:8px 18px 10px !important;}
+  #profileModal .npp-body{padding:0 18px 12px !important;}
+  #profileModal .profile-form-grid{grid-template-columns:1fr !important; gap:8px !important;}
+  #profileModal .profile-form-grid .field-span-2{grid-column:1 !important;}
+  #profileModal .npp-footer{padding:7px 18px 9px !important;}
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
@@ -858,8 +988,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   </div>
 </div>
 
-<div class="modal-backdrop hidden" id="profileModal" aria-hidden="true"><div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle"><div class="modal-header"><div><span class="section-badge">PROFILE DETAILS</span><h2 id="profileModalTitle">Add Profile</h2></div><button class="modal-close" id="closeProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div>
-<form id="profileForm"><input type="hidden" id="profileId"><input type="hidden" id="profileAssociationRequirementId"><div id="existingProfileNotice" class="profile-association-panel hidden"></div>
+<div class="modal-backdrop hidden" id="profileModal" aria-hidden="true"><div class="npp-dialog" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+<header class="npp-header">
+  <button class="npp-close" id="closeProfileModal" type="button" aria-label="Close">&times;</button>
+  <div class="npp-head">
+    <h3 id="profileModalTitle">Add Profile</h3>
+    <p>Create or update a central candidate profile. Fields marked with * are required.</p>
+  </div>
+</header>
+<form id="profileForm" class="npp-form" novalidate><input type="hidden" id="profileId"><input type="hidden" id="profileAssociationRequirementId">
+<div class="npp-body">
+<div id="existingProfileNotice" class="profile-association-panel hidden"></div>
 <div class="profile-form-grid">
 <div class="profile-form-section-title">Personal Information</div>
 <div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><input id="currentLocation"></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div>
@@ -877,7 +1016,11 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
 </div>
 <div id="resumeReplaceNotice" class="duplicate-box hidden"><strong>Existing resume found</strong><span>A resume is already stored for this profile. Choose whether to keep the existing resume or replace it with the newly selected file.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-outline" id="keepResumeButton">Keep Existing Resume</button><button type="button" class="btn btn-primary" id="replaceResumeButton">Replace with New Resume</button></div></div>
-<div id="profileFormMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveProfileButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button><button class="btn btn-outline" id="cancelProfileButton" type="button">Cancel</button></div>
+</div>
+<footer class="npp-footer">
+  <div id="profileFormMessage" class="npp-notice" role="alert" aria-live="polite"></div>
+  <div class="npp-buttons"><button class="btn btn-primary" id="saveProfileButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button><button class="btn btn-outline" id="cancelProfileButton" type="button">Cancel</button></div>
+</footer>
 </form></div></div>
 
 <div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
