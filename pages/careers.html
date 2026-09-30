@@ -800,7 +800,7 @@
     /* View Details — TRUE isolated modal architecture matching Submit Your Profile */
     #detailsModal.nxv-modal{position:fixed !important;inset:0 !important;z-index:10000 !important;display:none !important;align-items:center !important;justify-content:center !important;padding:4px !important;box-sizing:border-box !important;margin:0 !important;background:rgba(7,29,73,.35) !important;}
     #detailsModal.nxv-modal.is-open{display:flex !important;}
-    #detailsModal .nxv-dialog{width:min(820px,100%) !important;height:min(860px,calc(100dvh - 8px)) !important;max-height:calc(100dvh - 8px) !important;min-height:0 !important;margin:0 !important;padding:0 !important;box-sizing:border-box !important;overflow:hidden !important;display:grid !important;grid-template-rows:auto minmax(0,1fr) 54px !important;background:#fff !important;border:0 !important;border-radius:16px !important;box-shadow:0 24px 70px rgba(7,29,73,.25) !important;}
+    #detailsModal .nxv-dialog{width:min(820px,100%) !important;height:auto !important;max-height:min(860px,calc(100dvh - 8px)) !important;min-height:0 !important;margin:0 !important;padding:0 !important;box-sizing:border-box !important;overflow:hidden !important;display:grid !important;grid-template-rows:auto minmax(0,1fr) 54px !important;background:#fff !important;border:0 !important;border-radius:16px !important;box-shadow:0 24px 70px rgba(7,29,73,.25) !important;}
     #detailsModal .nxv-header{min-height:0 !important;margin:0 !important;box-sizing:border-box !important;padding:10px 26px 12px !important;background:#2878E8 !important;border-radius:16px 16px 0 0 !important;position:relative !important;}
     #detailsModal .nxv-head h3{margin:0 !important;color:#fff !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:23px !important;line-height:1.2 !important;font-weight:700 !important;}
     #detailsModal .nxv-head p{margin:3px 0 0 !important;color:rgba(255,255,255,.88) !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:11px !important;line-height:1.4 !important;}
@@ -822,7 +822,7 @@
     #detailsModal .nxv-buttons .nxv-close-btn{background:#fff !important;color:#2878E8 !important;}
     #detailsModal .nxv-buttons .nxv-apply:hover{background:#1D63C7 !important;border-color:#1D63C7 !important;}
     #detailsModal .nxv-buttons .nxv-close-btn:hover{background:#F1F6FD !important;}
-    @media(max-width:640px){#detailsModal.nxv-modal{padding:4px !important;}#detailsModal .nxv-dialog{width:100% !important;height:calc(100dvh - 8px) !important;max-height:calc(100dvh - 8px) !important;border-radius:14px !important;grid-template-rows:auto minmax(0,1fr) 54px !important;}#detailsModal .nxv-header{border-radius:14px 14px 0 0 !important;padding:8px 18px 10px !important;}#detailsModal .nxv-body{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-meta{grid-template-columns:1fr !important;gap:0 !important;}#detailsModal .nxv-footer{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-buttons{width:auto !important;margin-left:auto !important;} }
+    @media(max-width:640px){#detailsModal.nxv-modal{padding:4px !important;}#detailsModal .nxv-dialog{width:100% !important;height:auto !important;max-height:calc(100dvh - 8px) !important;border-radius:14px !important;grid-template-rows:auto minmax(0,1fr) 54px !important;}#detailsModal .nxv-header{border-radius:14px 14px 0 0 !important;padding:8px 18px 10px !important;}#detailsModal .nxv-body{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-meta{grid-template-columns:1fr !important;gap:0 !important;}#detailsModal .nxv-footer{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-buttons{width:auto !important;margin-left:auto !important;} }
 </style>
 
 
@@ -2160,11 +2160,40 @@ function closeCareerModal(){
   // The Apply form uses its own fixed shell; the body itself is the scroll area.
 }
 
+function fitDetailsModalToContent(){
+  const dialog=detailsModal.querySelector('.nxv-dialog');
+  const body=detailsModal.querySelector('.nxv-body');
+  const header=detailsModal.querySelector('.nxv-header');
+  const footer=detailsModal.querySelector('.nxv-footer');
+  if(!dialog || !body || !header || !footer)return;
+
+  const viewportMax=Math.max(240, Math.floor(window.innerHeight - 8));
+  const maxPopupHeight=Math.min(860, viewportMax);
+  const requiredHeight=header.offsetHeight + footer.offsetHeight + body.scrollHeight;
+  const targetHeight=Math.min(requiredHeight, maxPopupHeight);
+
+  dialog.style.height=targetHeight+'px';
+  dialog.style.maxHeight=maxPopupHeight+'px';
+  body.style.overflowY=requiredHeight > maxPopupHeight ? 'auto' : 'hidden';
+}
+
+function resetDetailsModalHeight(){
+  const dialog=detailsModal.querySelector('.nxv-dialog');
+  const body=detailsModal.querySelector('.nxv-body');
+  if(dialog){
+    dialog.style.height='auto';
+    dialog.style.maxHeight='';
+  }
+  if(body){
+    body.style.overflowY='auto';
+    body.scrollTop=0;
+  }
+}
+
 function closeDetailsModal(){
   detailsModal.classList.remove('is-open');
   detailsModal.setAttribute('aria-hidden','true');
-  const detailsBody=detailsModal.querySelector('.nxv-body');
-  if(detailsBody) detailsBody.scrollTop=0;
+  resetDetailsModalHeight();
 }
 
 function openCareerModal(job){
@@ -2211,9 +2240,15 @@ function openDetailsModal(jobId){
 
   const detailsBody=document.querySelector('#detailsModal .nxv-body');
   if(detailsBody) detailsBody.scrollTop=0;
+  resetDetailsModalHeight();
   detailsModal.classList.add('is-open');
   detailsModal.setAttribute('aria-hidden','false');
+  requestAnimationFrame(()=>fitDetailsModalToContent());
 }
+
+window.addEventListener('resize',()=>{
+  if(detailsModal.classList.contains('is-open'))fitDetailsModalToContent();
+});
 
 document.addEventListener('click',e=>{
   const apply=e.target.closest('.career-apply');
