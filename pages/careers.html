@@ -2719,6 +2719,21 @@ window.addEventListener('resize',()=>{
 loadOpenings();
 </script>
 <script src="../assets/js/script.js"></script>
+
+<style id="footer-buttons-always-right-fix">
+/* Keep form action buttons right-aligned whether the status message is empty or populated. */
+#submitProfileModal .nxp-buttons,
+#referCandidateModal .nxr-buttons{
+  margin-left:auto !important;
+  flex:0 0 auto !important;
+  justify-content:flex-end !important;
+}
+#submitProfileModal .nxp-notice,
+#referCandidateModal .nxr-notice{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+}
+</style>
 </body>
 </html>
 
