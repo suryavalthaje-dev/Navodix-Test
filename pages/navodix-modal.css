@@ -1,0 +1,147 @@
+/* Navodix Modal Standard v1.0 — Submit Your Profile pilot */
+/*
+   One modal shell: header + form + scroll area + footer.
+   The form is a 2-row grid. The scroll area is the only scrolling region.
+   No sticky/absolute/fixed footer positioning is used.
+*/
+.nx-profile-modal{
+  width:min(760px,100%) !important;
+  height:min(860px,calc(100dvh - 40px)) !important;
+  max-height:calc(100dvh - 40px) !important;
+  overflow:hidden !important;
+  display:grid !important;
+  grid-template-rows:auto minmax(0,1fr) !important;
+  padding:0 !important;
+  background:#FFFFFF !important;
+  border:0 !important;
+  border-radius:16px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+}
+.nx-profile-modal .career-modal-header-band{
+  position:relative !important;
+  top:auto !important;
+  z-index:2 !important;
+  flex:none !important;
+  padding:16px 26px 14px !important;
+  background:#2878E8 !important;
+  border:0 !important;
+  border-radius:16px 16px 0 0 !important;
+}
+.nx-profile-modal .career-modal-header-band::before{display:none !important}
+.nx-profile-modal .career-application-head h3{
+  color:#FFFFFF !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+  margin:0 !important;
+}
+.nx-profile-modal .career-application-subtitle{
+  color:rgba(255,255,255,.88) !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important;
+  line-height:1.4 !important;
+  margin:3px 0 0 !important;
+}
+/* The form itself owns the remaining modal height. */
+.nx-profile-modal .nx-modal-form{
+  min-height:0 !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  display:grid !important;
+  grid-template-rows:minmax(0,1fr) auto !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  align-content:stretch !important;
+  background:#FFFFFF !important;
+}
+/* Only this region can scroll. */
+.nx-profile-modal .nx-modal-scroll{
+  min-height:0 !important;
+  max-height:none !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:0 26px 14px !important;
+  scrollbar-width:thin;
+}
+/* Footer is a normal grid row — never sticky, absolute, or fixed. */
+.nx-profile-modal .nx-modal-footer{
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:3 !important;
+  width:auto !important;
+  min-height:48px !important;
+  margin:0 !important;
+  padding:7px 26px 9px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  overflow:hidden !important;
+  background:#C9D9EC !important;
+  border-top:1px solid #B3C6DD !important;
+  box-shadow:0 -2px 9px rgba(7,29,73,.09) !important;
+  backdrop-filter:none !important;
+}
+.nx-profile-modal .nx-modal-footer .career-form-notice{
+  position:static !important;
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  width:auto !important;
+  max-width:none !important;
+  height:auto !important;
+  max-height:30px !important;
+  margin:0 !important;
+  padding:0 !important;
+  line-height:14px !important;
+  overflow:hidden !important;
+  overflow-wrap:anywhere !important;
+  word-break:break-word !important;
+  white-space:normal !important;
+  box-sizing:border-box !important;
+}
+.nx-profile-modal .career-form-action-buttons{
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin-left:auto !important;
+}
+.nx-profile-modal .career-form-action-buttons .career-form-submit,
+.nx-profile-modal .career-form-action-buttons .career-modal-close-btn{
+  height:29px !important;
+  min-height:29px !important;
+  padding:4px 13px !important;
+}
+.nx-profile-modal .career-form-section{margin-top:0 !important;padding-top:24px !important;border-top:0 !important}
+.nx-profile-modal .career-form-section + .career-form-section{margin-top:0 !important;padding-top:18px !important}
+.nx-profile-modal .career-form-grid{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:0 18px !important}
+.nx-profile-modal .career-form-field{min-width:0 !important;margin-bottom:7px !important}
+.nx-profile-modal .career-form-field.full{grid-column:1/-1 !important}
+.nx-profile-modal .career-form-field label{display:block !important;margin:0 0 4px !important;color:#263F62 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:11px !important;font-weight:700 !important;line-height:1.2 !important}
+.nx-profile-modal .career-form-field label .required{color:#d92d20 !important}
+.nx-profile-modal .career-form-field input,.nx-profile-modal .career-form-field select,.nx-profile-modal .career-form-field textarea{width:100% !important;box-sizing:border-box !important;border:1px solid #E2E8F0 !important;border-radius:7px !important;background:#FFFFFF !important;color:#1E293B !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:13px !important;outline:none !important}
+.nx-profile-modal .career-form-field input,.nx-profile-modal .career-form-field select{height:32px !important;min-height:32px !important;padding:5px 9px !important;line-height:1.2 !important}
+.nx-profile-modal .career-form-field textarea{min-height:48px !important;height:48px !important;padding:6px 9px !important;line-height:1.25 !important}
+.nx-profile-modal .career-form-field input::placeholder,.nx-profile-modal .career-form-field textarea::placeholder{font-size:13px !important}
+.nx-profile-modal .career-form-field input[type="file"]{height:32px !important;min-height:32px !important;padding:4px 8px !important;font-size:13px !important}
+.nx-profile-modal .career-form-section-title{margin:8px 0 14px !important;padding:8px 10px !important;background:#F4F7FA !important;border-left:3px solid #2878E8 !important;border-bottom:1px solid #D8E0EA !important;color:#263F62 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:800 !important;text-transform:uppercase !important;letter-spacing:.35px !important}
+.nx-profile-modal .career-profile-consent{margin-top:18px !important}
+.nx-profile-modal .career-form-consent{margin:0 !important;padding:14px 15px !important;border:1px solid #d8e4f2 !important;border-radius:9px !important;background:#fff !important}
+.nx-profile-modal .career-form-help{font-size:11px !important}
+.nx-profile-modal .career-form-field input:focus,.nx-profile-modal .career-form-field select:focus,.nx-profile-modal .career-form-field textarea:focus{border-color:#2878E8 !important;box-shadow:0 0 0 3px rgba(40,120,232,.10) !important}
+@media(max-width:640px){
+  .nx-profile-modal{width:100% !important;height:calc(100dvh - 20px) !important;max-height:calc(100dvh - 20px) !important}
+  .nx-profile-modal .nx-modal-scroll{padding-left:18px !important;padding-right:18px !important;padding-bottom:14px !important}
+  .nx-profile-modal .nx-modal-footer{padding-left:18px !important;padding-right:18px !important}
+  .nx-profile-modal .career-form-grid{grid-template-columns:1fr !important}
+  .nx-profile-modal .career-form-field.full{grid-column:auto !important}
+  .nx-profile-modal .career-form-action-buttons{width:auto !important}
+}
+
+body.nx-modal-open{overflow:hidden !important;}
