@@ -1460,6 +1460,44 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
   #careerModal .career-form-field.full{grid-column:auto !important;}
 }
 </style>
+
+<style id="apply-job-position-labels-only">
+/* Apply for a Job — read-only position details shown as label/value rows */
+#careerModal .career-application-position-details{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  column-gap:24px;
+  row-gap:8px;
+  padding:2px 0 0;
+}
+#careerModal .career-application-position-row{
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+  min-width:0;
+  min-height:24px;
+}
+#careerModal .career-application-position-label{
+  flex:0 0 auto;
+  font-weight:600;
+  color:#556579;
+  font-size:13px;
+  line-height:1.35;
+}
+#careerModal .career-application-position-value{
+  min-width:0;
+  color:#071B4D;
+  font-size:13px;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+@media (max-width:700px){
+  #careerModal .career-application-position-details{
+    grid-template-columns:1fr;
+    row-gap:6px;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -1700,11 +1738,11 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
       <form id="careerApplicationForm" class="nxa-form" novalidate>
         <div class="nxa-body">
 
-        <div class="career-form-section"><h4 class="career-form-section-title">Position</h4><div class="career-form-grid">
-          <div class="career-form-field"><label for="applicationJobTitle">Job Title</label><input id="applicationJobTitle" type="text" readonly></div>
-          <div class="career-form-field"><label for="applicationJobCode">Job Code</label><input id="applicationJobCode" type="text" readonly></div>
-          <div class="career-form-field"><label for="applicationLocation">Location</label><input id="applicationLocation" type="text" readonly></div>
-          <div class="career-form-field"><label for="applicationEmploymentType">Employment Type</label><input id="applicationEmploymentType" type="text" readonly></div>
+        <div class="career-form-section"><h4 class="career-form-section-title">Position</h4><div class="career-application-position-details">
+          <div class="career-application-position-row"><span class="career-application-position-label">Job Title :</span><span id="applicationJobTitle" class="career-application-position-value"></span></div>
+          <div class="career-application-position-row"><span class="career-application-position-label">Job Code :</span><span id="applicationJobCode" class="career-application-position-value"></span></div>
+          <div class="career-application-position-row"><span class="career-application-position-label">Location :</span><span id="applicationLocation" class="career-application-position-value"></span></div>
+          <div class="career-application-position-row"><span class="career-application-position-label">Employment Type :</span><span id="applicationEmploymentType" class="career-application-position-value"></span></div>
         </div></div>
         <div class="career-form-section"><h4 class="career-form-section-title">Personal Information</h4><div class="career-form-grid">
           <div class="career-form-field"><label for="fullName">Full Name <span class="required">*</span></label><input id="fullName" type="text" required></div>
@@ -2089,10 +2127,10 @@ function closeDetailsModal(){
 
 function openCareerModal(job){
   selectedOpening=job || null;
-  document.getElementById('applicationJobTitle').value=job?.title || '';
-  document.getElementById('applicationJobCode').value=job?.job_code || '';
-  document.getElementById('applicationLocation').value=job?.location || '';
-  document.getElementById('applicationEmploymentType').value=job ? formatEmploymentType(job.type) : '';
+  document.getElementById('applicationJobTitle').textContent=job?.title || '';
+  document.getElementById('applicationJobCode').textContent=job?.job_code || '';
+  document.getElementById('applicationLocation').textContent=job?.location || '';
+  document.getElementById('applicationEmploymentType').textContent=job ? formatEmploymentType(job.type) : '';
   document.getElementById('careerFormNotice').style.display='none';
   modal.classList.add('is-open');
   modal.setAttribute('aria-hidden','false');
@@ -2320,10 +2358,10 @@ document.getElementById('careerApplicationForm').addEventListener('submit',async
     notice.style.color='#027a48';
     notice.textContent='Application submitted successfully. Your application ID is '+(result.application_number || result.application_id || 'confirmed')+'. Thank you for applying to Navodix.';
     form.reset();
-    document.getElementById('applicationJobTitle').value=selectedOpening.title || '';
-    document.getElementById('applicationJobCode').value=selectedOpening.job_code || '';
-    document.getElementById('applicationLocation').value=selectedOpening.location || '';
-    document.getElementById('applicationEmploymentType').value=formatEmploymentType(selectedOpening.type);
+    document.getElementById('applicationJobTitle').textContent=selectedOpening.title || '';
+    document.getElementById('applicationJobCode').textContent=selectedOpening.job_code || '';
+    document.getElementById('applicationLocation').textContent=selectedOpening.location || '';
+    document.getElementById('applicationEmploymentType').textContent=formatEmploymentType(selectedOpening.type);
     notice.scrollIntoView({behavior:'smooth',block:'nearest'});
   }catch(error){
     notice.style.background='#fff1f0';
