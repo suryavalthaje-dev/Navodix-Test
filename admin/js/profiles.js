@@ -490,7 +490,7 @@
   $('cancelProfileAssociationButton').addEventListener('click',closeProfileAssociationModal);
   $('saveProfileAssociationButton').addEventListener('click',saveProfileAssociation);
   $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal);
-  $('cancelProfileNoteButton').addEventListener('click',resetProfileNoteForm);
+  $('cancelProfileNoteButton').addEventListener('click',closeProfileNotesModal);
   $('profileNoteForm').addEventListener('submit',saveProfileRequirementNote);
   $('profileNotesTableBody').addEventListener('click',async e=>{
     const edit=e.target.closest('[data-profile-note-edit]');
