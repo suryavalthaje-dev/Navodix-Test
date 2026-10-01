@@ -1162,6 +1162,77 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   .profile-notes-new-body .profile-note-form-grid{ grid-template-columns:1fr !important; }
   .profile-notes-new-body .profile-note-form-grid .field-group-wide{ grid-column:auto !important; }
 }
+
+<style id="profile-association-notes-final-typography">
+/* Final form typography/alignment: match Submit Profile / Refer Candidate. */
+.profile-association-new-body .field-group label,
+.profile-notes-new-body .field-group label{
+  display:block !important;
+  margin:0 0 5px !important;
+  color:#263F62 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+}
+.profile-association-new-body input,
+.profile-association-new-body select,
+.profile-association-new-body textarea,
+.profile-notes-new-body input,
+.profile-notes-new-body select,
+.profile-notes-new-body textarea{
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+}
+.profile-association-new-body select,
+.profile-notes-new-body select{
+  height:34px !important;
+  padding:0 9px !important;
+  line-height:1.2 !important;
+}
+.profile-association-new-body textarea,
+.profile-notes-new-body textarea{
+  width:100% !important;
+  box-sizing:border-box !important;
+  padding:7px 9px !important;
+  line-height:1.35 !important;
+}
+.profile-association-new-body textarea{ min-height:60px !important; }
+.profile-notes-new-body .profile-note-form-grid{
+  grid-template-columns:1fr !important;
+}
+.profile-notes-new-body .profile-note-form-grid .field-group-wide{
+  grid-column:1 / -1 !important;
+}
+.profile-notes-new-body .profile-note-form textarea{
+  min-height:60px !important;
+  height:60px !important;
+  width:100% !important;
+  resize:vertical !important;
+}
+.profile-association-profile-value{
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  padding:0 9px !important;
+  color:#1E293B !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+}
+.profile-association-new-buttons .btn,
+.profile-notes-new-buttons .btn{
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+}
+.profile-association-new-buttons .btn:hover,
+.profile-notes-new-buttons .btn:hover{
+  background:#1F67D1 !important;
+  border-color:#1F67D1 !important;
+}
+</style>
 </style>
 </head>
 <body class="admin-app-page">
@@ -1289,14 +1360,14 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       <button class="modal-close" id="closeProfileAssociationModal" type="button"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="profile-association-new-body">
-      <div class="field-group"><label>Profile</label><input id="profileAssociationProfileName" readonly></div>
+      <div class="field-group"><label for="profileAssociationProfileNameDisplay">Profile</label><div id="profileAssociationProfileNameDisplay" class="profile-association-profile-value" aria-live="polite"></div><span id="profileAssociationProfileName" hidden></span></div>
       <div class="field-group"><label for="profileAssociationRequirement">Requirement <span>*</span></label><select id="profileAssociationRequirement"><option value="">Select Requirement</option></select><small class="profile-form-help">A profile can be associated with multiple requirements. Each association has its own status and notes.</small></div>
       <div class="field-group"><label for="profileAssociationStatus">Association Status <span>*</span></label><select id="profileAssociationStatus"></select></div>
       <div class="field-group"><label for="profileAssociationNotes">Notes</label><textarea id="profileAssociationNotes" rows="4" maxlength="5000" placeholder="Enter notes specific to this requirement association"></textarea></div>
     </div>
     <footer class="profile-association-new-footer">
       <div id="profileAssociationMessage" class="admin-message profile-association-new-notice" role="alert" aria-live="polite"></div>
-      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelProfileAssociationButton" type="button">Cancel</button></div>
+      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-primary" id="cancelProfileAssociationButton" type="button">Cancel</button></div>
     </footer>
   </div>
 </div>
@@ -1328,7 +1399,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </div>
     <footer class="profile-notes-new-footer">
       <div id="profileNoteFormMessage" class="admin-message profile-notes-new-notice" role="alert" aria-live="polite"></div>
-      <div class="profile-notes-new-buttons"><button class="btn btn-outline btn-small" id="cancelProfileNoteButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveProfileNoteButton" type="submit" form="profileNoteForm"><i class="fa-solid fa-plus"></i> Add Note</button></div>
+      <div class="profile-notes-new-buttons"><button class="btn btn-primary btn-small" id="cancelProfileNoteButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveProfileNoteButton" type="submit" form="profileNoteForm"><i class="fa-solid fa-plus"></i> Add Note</button></div>
     </footer>
   </div>
 </div>
