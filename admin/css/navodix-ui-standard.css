@@ -216,3 +216,124 @@
     border-right-width:5px !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Final common modal header geometry
+   All Admin modal headers use the same physical height/alignment.
+   This standardizes presentation only; modal content/layout is untouched.
+   ------------------------------------------------------------------ */
+.profile-modal .modal-header,
+.profile-details-modal .modal-header,
+.profile-association-new-modal .modal-header,
+.profile-notes-new-modal .modal-header,
+.profile-interview-modal-shell .modal-header,
+.profile-interview-form-modal .modal-header,
+.application-child-modal-header,
+#profileModal .npp-header,
+#existingProfileModal .modal-header,
+#associateRequirementModal .modal-header,
+#associationHistoryModal .modal-header,
+#profileNotesModal .modal-header,
+#interviewModal .modal-header,
+#interviewFormModal .modal-header{
+  min-height:56px !important;
+  height:56px !important;
+  padding:10px 18px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+}
+
+.profile-modal .modal-header > div:first-child,
+.profile-details-modal .modal-header > div:first-child,
+.profile-association-new-modal .modal-header > div:first-child,
+.profile-notes-new-modal .modal-header > div:first-child,
+.profile-interview-modal-shell .modal-header > div:first-child,
+.profile-interview-form-modal .modal-header > div:first-child,
+.application-child-modal-header > div:first-child,
+#profileModal .npp-head,
+#existingProfileModal .modal-header > div:first-child,
+#associateRequirementModal .modal-header > div:first-child,
+#associationHistoryModal .modal-header > div:first-child,
+#profileNotesModal .modal-header > div:first-child,
+#interviewModal .modal-header > div:first-child,
+#interviewFormModal .modal-header > div:first-child{
+  min-width:0 !important;
+}
+
+.profile-modal .modal-header h2,
+.profile-details-modal .modal-header h2,
+.profile-association-new-modal .modal-header h2,
+.profile-notes-new-modal .modal-header h2,
+.profile-interview-modal-shell .modal-header h2,
+.profile-interview-form-modal .modal-header h2,
+.application-child-modal-header h2,
+#profileModal .npp-head h3,
+#existingProfileModal .modal-header h2,
+#associateRequirementModal .modal-header h2,
+#associationHistoryModal .modal-header h2,
+#profileNotesModal .modal-header h2,
+#interviewModal .modal-header h2,
+#interviewFormModal .modal-header h2{
+  margin:0 !important;
+  padding:0 !important;
+  font-size:20px !important;
+  font-weight:600 !important;
+  line-height:24px !important;
+  color:#FFFFFF !important;
+}
+
+.profile-modal .modal-close,
+.profile-details-modal .modal-close,
+.profile-association-new-modal .modal-close,
+.profile-notes-new-modal .modal-close,
+.profile-interview-modal-shell .modal-close,
+.profile-interview-form-modal .modal-close,
+.application-child-modal-header .modal-close,
+#profileModal .npp-close,
+#existingProfileModal .modal-close,
+#associateRequirementModal .modal-close,
+#associationHistoryModal .modal-close,
+#profileNotesModal .modal-close,
+#interviewModal .modal-close,
+#interviewFormModal .modal-close{
+  width:32px !important;
+  min-width:32px !important;
+  height:32px !important;
+  min-height:32px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  background:transparent !important;
+  border:0 !important;
+  color:#FFFFFF !important;
+  font-size:21px !important;
+  line-height:1 !important;
+}
+
+@media(max-width:700px){
+  .profile-modal .modal-header,
+  .profile-details-modal .modal-header,
+  .profile-association-new-modal .modal-header,
+  .profile-notes-new-modal .modal-header,
+  .profile-interview-modal-shell .modal-header,
+  .profile-interview-form-modal .modal-header,
+  .application-child-modal-header,
+  #profileModal .npp-header,
+  #existingProfileModal .modal-header,
+  #associateRequirementModal .modal-header,
+  #associationHistoryModal .modal-header,
+  #profileNotesModal .modal-header,
+  #interviewModal .modal-header,
+  #interviewFormModal .modal-header{
+    height:56px !important;
+    min-height:56px !important;
+    padding:10px 14px !important;
+  }
+}
