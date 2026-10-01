@@ -272,7 +272,7 @@
     .profile-notes-modal-body { padding:18px 22px 20px; }
     .profile-notes-context { margin-bottom:14px; }
     .profile-notes-table-wrap { width:100%; overflow-x:auto; }
-    .profile-notes-table { width:100%; border-collapse:collapse; table-layout:fixed; min-width:0; }
+    .profile-notes-table { width:100%; border-collapse:collapse; min-width:700px; }
     .profile-notes-table th { background:#F4F7FA; color:#52647D; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.25px; padding:9px 10px; border-bottom:1px solid #D8E0EA; text-align:left; white-space:nowrap; }
     .profile-notes-table td { padding:10px; border-bottom:1px solid #EEF2F6; color:#475569; font-size:12px; vertical-align:top; }
     .profile-notes-table tbody tr:last-child td { border-bottom:0; }
@@ -1064,7 +1064,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
   font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
 }
-.profile-notes-new-modal{ width:min(620px, calc(100vw - 32px)) !important; max-width:620px !important; }
+.profile-notes-new-modal{ width:min(1000px, calc(100vw - 32px)) !important; max-width:1000px !important; }
 .profile-association-new-header,
 .profile-notes-new-header{
   flex:0 0 auto !important;
@@ -1090,20 +1090,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-family:inherit !important;
 }
 .profile-association-new-body .field-group{ margin-bottom:14px !important; }
-.profile-association-profile-value{
-  min-height:34px !important;
-  display:flex !important;
-  align-items:center !important;
-  width:100% !important;
-  box-sizing:border-box !important;
-  padding:0 9px !important;
-  color:#1E293B !important;
-  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important;
-  font-weight:400 !important;
-  line-height:1.2 !important;
-}
-
 .profile-association-new-body .field-group:last-child{ margin-bottom:0 !important; }
 .profile-association-new-body input,
 .profile-association-new-body select,
@@ -1246,11 +1232,38 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:#1F67D1 !important;
   border-color:#1F67D1 !important;
 }
-
-.profile-notes-new-body .profile-notes-context{ width:100% !important; box-sizing:border-box !important; }
-.profile-notes-new-body .profile-note-form{ width:100% !important; box-sizing:border-box !important; }
-.profile-notes-new-body .profile-note-form-grid{ width:100% !important; box-sizing:border-box !important; }
 </style>
+</style>
+<style id="profile-notes-alignment-v11">
+/* Profile Notes table/context alignment — requested visual correction only. */
+.profile-notes-new-body .profile-notes-context{
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+.profile-notes-new-body .profile-notes-table-wrap{
+  width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  overflow-x:auto !important;
+}
+.profile-notes-new-body .profile-notes-table{
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+}
+.profile-notes-new-body .profile-notes-table th:nth-child(1),
+.profile-notes-new-body .profile-notes-table td:nth-child(1){width:23% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(2),
+.profile-notes-new-body .profile-notes-table td:nth-child(2){width:14% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(3),
+.profile-notes-new-body .profile-notes-table td:nth-child(3){width:48% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(4),
+.profile-notes-new-body .profile-notes-table td:nth-child(4){width:15% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(4){text-align:right !important;}
+.profile-notes-new-body .profile-notes-table .profile-notes-actions{
+  text-align:right !important;
+  white-space:nowrap !important;
+}
 </style>
 </head>
 <body class="admin-app-page">
@@ -1351,7 +1364,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
 
-<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><div id="associateRequirementProfileName" class="profile-association-profile-value" aria-live="polite"></div></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
+<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><input id="associateRequirementProfileName" readonly></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
 <div class="modal-backdrop hidden" id="profileDetailsModal" aria-hidden="true">
   <div class="profile-details-modal" role="dialog" aria-modal="true" aria-labelledby="profileDetailsTitle">
     <div class="modal-header">
