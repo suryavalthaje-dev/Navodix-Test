@@ -158,7 +158,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           <a href="locations.html?v=16" role="menuitem">Locations</a>
           <a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a>
           <a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
-          <a href="email-notifications.html?v=1" role="menuitem" class="current">Email Notifications</a>
+          <a href="email-notifications.html?v=2" role="menuitem" class="current">Email Notifications</a>
         </div>
       </details>
       <a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
@@ -173,71 +173,80 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       <div class="email-settings-intro">Changes made here are stored centrally and apply to the corresponding recruitment workflow.</div>
       <form id="emailNotificationSettingsForm" class="email-settings-form" novalidate>
         <div class="email-settings-section"><div class="email-settings-section-title" id="emailSettingsHeading">Admin – Add Profile</div>
-          <div class="email-settings-row"><span>HR notification</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingAdminHr"><span></span></label></div>
-          <div class="email-settings-row"><span>Candidate acknowledgement</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingAdminCandidate"><span></span></label></div>
+          <div class="email-settings-row"><span>Referrer acknowledgement</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingReferralReferrer"><span></span></label></div>
         </div>
-        <div class="email-settings-section"><div class="email-settings-section-title">Submit Your Profile</div>
-          <div class="email-settings-row"><span>HR notification</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingSubmitHr"><span></span></label></div>
-          <div class="email-settings-row"><span>Candidate acknowledgement</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingSubmitCandidate"><span></span></label></div>
+        <div class="email-settings-actions">
+          <div id="emailNotificationSettingsMessage" class="admin-message" role="status" aria-live="polite"></div>
+          <button class="btn btn-primary" id="saveEmailNotificationSettingsButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
         </div>
-        <div class="email-settings-section"><div class="email-settings-section-title">Refer a Candidate</div>
-          <div class="email-settings-row"><span>HR notification</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingReferralHr"><span></span></label></div>
-          <div class="email-settings-row"><span>Candidate acknowledgement</span><label class="email-settings-switch"><input type="checkbox" id="emailSettingReferralCandidate"><span></span></label></div>
-          <div class="email-settings-r<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/navigation.js?v=33"></script>
-<style id="email-notifications-page">
-.email-settings-card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 3px 12px rgba(20,58,103,.055);padding:20px 22px 18px;max-width:860px}
-.email-settings-form{font-family:Segoe UI,system-ui,-apple-system,sans-serif}
-.email-settings-intro{margin:0 0 16px;padding:11px 13px;background:#F4F8FC;border:1px solid #D8E3EF;border-radius:7px;color:#52637A;font-size:12px;line-height:1.5}
-.email-settings-section{border:1px solid #D8E0EA;border-radius:8px;overflow:hidden;margin-bottom:12px}
-.email-settings-section-title{padding:10px 13px;background:#F4F7FA;border-bottom:1px solid #D8E0EA;color:#263F62;font-size:12px;font-weight:700}
-.email-settings-row{min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:9px 13px;border-bottom:1px solid #EEF2F6;color:#263F62;font-size:13px}
-.email-settings-row:last-child{border-bottom:0}
-.email-settings-switch{position:relative;flex:0 0 42px;width:42px;height:23px}
-.email-settings-switch input{opacity:0;width:0;height:0;position:absolute}
-.email-settings-switch>span{position:absolute;inset:0;cursor:pointer;background:#B8C1CC;border-radius:999px;transition:.18s ease}
-.email-settings-switch>span:before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.18s ease}
-.email-settings-switch input:checked+span{background:#2878E8}
-.email-settings-switch input:checked+span:before{transform:translateX(19px)}
-.email-settings-actions{display:flex;justify-content:flex-end;padding-top:4px}
-@media(max-width:700px){.email-settings-card{padding:16px 14px}.email-settings-row{font-size:12px}}
-</style>
-<script id="email-notifications-js">
-(function(){
-  const TABLE='recruitment_email_notification_settings';
-  const saveButton=document.getElementById('saveEmailNotificationSettingsButton');
-  const message=document.getElementById('emailNotificationSettingsMessage');
-  const map={
-    'admin_add_profile:hr_notification':document.getElementById('emailSettingAdminHr'),
-    'admin_add_profile:candidate_acknowledgement':document.getElementById('emailSettingAdminCandidate'),
-    'submit_your_profile:hr_notification':document.getElementById('emailSettingSubmitHr'),
-    'submit_your_profile:candidate_acknowledgement':document.getElementById('emailSettingSubmitCandidate'),
-    'refer_candidate:hr_notification':document.getElementById('emailSettingReferralHr'),
-    'refer_candidate:candidate_acknowledgement':document.getElementById('emailSettingReferralCandidate'),
-    'refer_candidate:referrer_acknowledgement':document.getElementById('emailSettingReferralReferrer')
-  };
-  function msg(t,c){message.textContent=t||'';message.className='admin-message'+(c?' '+c:'')}
-  async function load(){
-    saveButton.disabled=true;msg('Loading notification settings…','');
-    try{
-      const {data,error}=await window.navodixSupabase.from(TABLE).select('workflow_key,notification_key,enabled');
-      if(error) throw error;
-      Object.values(map).forEach(i=>{if(i)i.checked=true});
-      (data||[]).forEach(r=>{const i=map[r.workflow_key+':'+r.notification_key];if(i)i.checked=r.enabled!==false});
-      msg('','');
-    }catch(e){console.error(e);msg('Unable to load notification settings.','error')}
-    finally{saveButton.disabled=false}
-  }
-  async function save(){
-    saveButton.disabled=true;msg('Saving notification settings…','');
-    try{
-      const rows=Object.entries(map).map(([k,i])=>{const [workflow_key,notification_key]=k.split(':');return {workflow_key,notification_key,enabled:!!i.checked}});
-      const {error}=await window.navodixSupabase.from(TABLE).upsert(rows,{onConflict:'workflow_key,notification_key'});
-      if(error) throw error;msg('Notification settings saved successfully.','success');
-    }catch(e){console.error(e);msg(e?.message||'Unable to save notification settings.','error')}
-    finally{saveButton.disabled=false}
-  }
-  document.getElementById('emailNotificationSettingsForm').addEventListener('submit',e=>{e.preventDefault();save()});
-  load();
-})();
-</script>
+      </form>
+    </section>
+  </div></main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js?v=17"></script>
+  <script src="js/supabase-client.js?v=17"></script>
+  <script src="js/auth.js?v=17"></script>
+  <script src="js/navigation.js?v=33"></script>
+  <style id="email-notifications-page">
+  .email-settings-card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 3px 12px rgba(20,58,103,.055);padding:20px 22px 18px;max-width:860px}
+  .email-settings-form{font-family:Segoe UI,system-ui,-apple-system,sans-serif}
+  .email-settings-intro{margin:0 0 16px;padding:11px 13px;background:#F4F8FC;border:1px solid #D8E3EF;border-radius:7px;color:#52637A;font-size:12px;line-height:1.5}
+  .email-settings-section{border:1px solid #D8E0EA;border-radius:8px;overflow:hidden;margin-bottom:12px}
+  .email-settings-section-title{padding:10px 13px;background:#F4F7FA;border-bottom:1px solid #D8E0EA;color:#263F62;font-size:12px;font-weight:700}
+  .email-settings-row{min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:9px 13px;border-bottom:1px solid #EEF2F6;color:#263F62;font-size:13px}
+  .email-settings-row:last-child{border-bottom:0}
+  .email-settings-switch{position:relative;flex:0 0 42px;width:42px;height:23px}
+  .email-settings-switch input{opacity:0;width:0;height:0;position:absolute}
+  .email-settings-switch>span{position:absolute;inset:0;cursor:pointer;background:#B8C1CC;border-radius:999px;transition:.18s ease}
+  .email-settings-switch>span:before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.18s ease}
+  .email-settings-switch input:checked+span{background:#2878E8}
+  .email-settings-switch input:checked+span:before{transform:translateX(19px)}
+  .email-settings-actions{display:flex;align-items:center;justify-content:flex-end;gap:14px;padding-top:4px}
+  .email-settings-actions .admin-message{margin:0 auto 0 0}
+  @media(max-width:700px){.email-settings-card{padding:16px 14px}.email-settings-row{font-size:12px}.email-settings-actions{flex-wrap:wrap}.email-settings-actions .admin-message{width:100%;margin:0 0 6px}}
+  </style>
+  <script id="email-notifications-js">
+  (function(){
+    const TABLE='recruitment_email_notification_settings';
+    const saveButton=document.getElementById('saveEmailNotificationSettingsButton');
+    const message=document.getElementById('emailNotificationSettingsMessage');
+    const map={
+      'admin_add_profile:hr_notification':document.getElementById('emailSettingAdminHr'),
+      'admin_add_profile:candidate_acknowledgement':document.getElementById('emailSettingAdminCandidate'),
+      'submit_your_profile:hr_notification':document.getElementById('emailSettingSubmitHr'),
+      'submit_your_profile:candidate_acknowledgement':document.getElementById('emailSettingSubmitCandidate'),
+      'refer_candidate:hr_notification':document.getElementById('emailSettingReferralHr'),
+      'refer_candidate:candidate_acknowledgement':document.getElementById('emailSettingReferralCandidate'),
+      'refer_candidate:referrer_acknowledgement':document.getElementById('emailSettingReferralReferrer')
+    };
+    function msg(t,c){message.textContent=t||'';message.className='admin-message'+(c?' '+c:'')}
+    async function load(){
+      saveButton.disabled=true;msg('Loading notification settings…','');
+      try{
+        const {data,error}=await window.navodixSupabase.from(TABLE).select('workflow_key,notification_key,enabled');
+        if(error) throw error;
+        Object.values(map).forEach(i=>{if(i)i.checked=true});
+        (data||[]).forEach(r=>{const i=map[r.workflow_key+':'+r.notification_key];if(i)i.checked=r.enabled!==false});
+        msg('','');
+      }catch(e){console.error(e);msg('Unable to load notification settings.','error')}
+      finally{saveButton.disabled=false}
+    }
+    async function save(){
+      saveButton.disabled=true;msg('Saving notification settings…','');
+      try{
+        const rows=Object.entries(map).map(([k,i])=>{const [workflow_key,notification_key]=k.split(':');return {workflow_key,notification_key,enabled:!!i.checked}});
+        const {error}=await window.navodixSupabase.from(TABLE).upsert(rows,{onConflict:'workflow_key,notification_key'});
+        if(error) throw error;msg('Notification settings saved successfully.','success');
+      }catch(e){console.error(e);msg(e?.message||'Unable to save notification settings.','error')}
+      finally{saveButton.disabled=false}
+    }
+    document.getElementById('emailNotificationSettingsForm').addEventListener('submit',e=>{e.preventDefault();save()});
+    if (window.navodixAdminReady) {
+      window.navodixAdminReady.then(function(ok){ if(ok) load(); });
+    } else {
+      document.addEventListener('DOMContentLoaded', load);
+    }
+  })();
+  </script>
 </body></html>
