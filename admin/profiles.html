@@ -272,7 +272,7 @@
     .profile-notes-modal-body { padding:18px 22px 20px; }
     .profile-notes-context { margin-bottom:14px; }
     .profile-notes-table-wrap { width:100%; overflow-x:auto; }
-    .profile-notes-table { width:100%; border-collapse:collapse; min-width:700px; }
+    .profile-notes-table { width:100%; border-collapse:collapse; table-layout:fixed; min-width:0; }
     .profile-notes-table th { background:#F4F7FA; color:#52647D; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.25px; padding:9px 10px; border-bottom:1px solid #D8E0EA; text-align:left; white-space:nowrap; }
     .profile-notes-table td { padding:10px; border-bottom:1px solid #EEF2F6; color:#475569; font-size:12px; vertical-align:top; }
     .profile-notes-table tbody tr:last-child td { border-bottom:0; }
@@ -1064,7 +1064,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
   font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
 }
-.profile-notes-new-modal{ width:min(1000px, calc(100vw - 32px)) !important; max-width:1000px !important; }
+.profile-notes-new-modal{ width:min(620px, calc(100vw - 32px)) !important; max-width:620px !important; }
 .profile-association-new-header,
 .profile-notes-new-header{
   flex:0 0 auto !important;
@@ -1246,6 +1246,10 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:#1F67D1 !important;
   border-color:#1F67D1 !important;
 }
+
+.profile-notes-new-body .profile-notes-context{ width:100% !important; box-sizing:border-box !important; }
+.profile-notes-new-body .profile-note-form{ width:100% !important; box-sizing:border-box !important; }
+.profile-notes-new-body .profile-note-form-grid{ width:100% !important; box-sizing:border-box !important; }
 </style>
 </style>
 </head>
