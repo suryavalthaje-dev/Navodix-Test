@@ -1,0 +1,218 @@
+/*
+ * Navodix Admin UI Standard
+ * Finalized from Navodix UI Architecture Prototype v16.
+ * Visual standards only. Page-specific content/layout remains in each page.
+ */
+:root{
+  --navodix-ui-blue:#2878E8;
+  --navodix-ui-blue-hover:#1D63C7;
+  --navodix-ui-footer:#C9D9EC;
+  --navodix-ui-border:#CBD8E8;
+  --navodix-ui-text:#1E293B;
+  --navodix-ui-label:#263F62;
+  --navodix-ui-table-head:#EAF2FB;
+}
+
+/* Common modal shell: retain each page's existing width/height variant. */
+.profile-modal,
+.profile-details-modal,
+.profile-association-new-modal,
+.profile-notes-new-modal,
+.profile-interview-modal-shell,
+.npp-dialog,
+.nxr-dialog,
+.job-modal{
+  border-radius:10px !important;
+  overflow:hidden;
+}
+
+/* Common modal header */
+.profile-modal .modal-header,
+.profile-details-modal .modal-header,
+.profile-association-new-modal .modal-header,
+.profile-notes-new-modal .modal-header,
+.profile-interview-modal-shell .modal-header,
+.profile-interview-form-modal .modal-header,
+.npp-header,
+.nxr-header,
+.application-child-modal-header{
+  background:#2878E8 !important;
+  color:#fff !important;
+}
+
+.profile-modal .modal-header h2,
+.profile-details-modal .modal-header h2,
+.profile-association-new-modal .modal-header h2,
+.profile-notes-new-modal .modal-header h2,
+.profile-interview-modal-shell .modal-header h2,
+.profile-interview-form-modal .modal-header h2,
+.npp-head h2,
+.nxr-head h2,
+.application-child-modal-header h2{
+  font-size:20px !important;
+  font-weight:600 !important;
+  color:#fff !important;
+}
+
+/* Scroll/content area: finalized 5px blue side borders. */
+.profile-details-body,
+.profile-association-new-body,
+.profile-notes-new-body,
+.profile-interview-modal-body,
+.npp-body,
+.nxr-body,
+.application-child-modal-body{
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+}
+
+/* Fixed footer/action areas: finalized deeper light-blue footer and 5px borders. */
+.profile-details-actions,
+.profile-association-new-footer,
+.profile-notes-new-footer,
+.profile-interview-modal-actions,
+.npp-footer,
+.nxr-footer,
+.application-child-modal-actions{
+  background:#C9D9EC !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+}
+
+/* Common modal buttons: finalized single blue treatment. */
+.profile-modal .btn,
+.profile-details-modal .btn,
+.profile-association-new-modal .btn,
+.profile-notes-new-modal .btn,
+.profile-interview-modal-shell .btn,
+.profile-interview-form-modal .btn,
+.npp-dialog .btn,
+.nxr-dialog .btn,
+.job-modal .btn{
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#fff !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+}
+
+.profile-modal .btn:hover:not(:disabled),
+.profile-details-modal .btn:hover:not(:disabled),
+.profile-association-new-modal .btn:hover:not(:disabled),
+.profile-notes-new-modal .btn:hover:not(:disabled),
+.profile-interview-modal-shell .btn:hover:not(:disabled),
+.profile-interview-form-modal .btn:hover:not(:disabled),
+.npp-dialog .btn:hover:not(:disabled),
+.nxr-dialog .btn:hover:not(:disabled),
+.job-modal .btn:hover:not(:disabled){
+  background:#1D63C7 !important;
+  border-color:#1D63C7 !important;
+  color:#fff !important;
+}
+
+/* Common form typography. Do not alter field order/grid structure. */
+.profile-modal label,
+.profile-details-modal label,
+.profile-association-new-modal label,
+.profile-notes-new-modal label,
+.profile-interview-modal-shell label,
+.profile-interview-form-modal label,
+.npp-dialog label,
+.nxr-dialog label,
+.job-modal label{
+  text-align:left !important;
+  padding-left:0 !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  color:#263F62 !important;
+}
+
+.profile-modal input,
+.profile-modal select,
+.profile-modal textarea,
+.profile-association-new-modal input,
+.profile-association-new-modal select,
+.profile-association-new-modal textarea,
+.profile-notes-new-modal input,
+.profile-notes-new-modal select,
+.profile-notes-new-modal textarea,
+.profile-interview-form-modal input,
+.profile-interview-form-modal select,
+.profile-interview-form-modal textarea,
+.npp-dialog input,
+.npp-dialog select,
+.npp-dialog textarea,
+.nxr-dialog input,
+.nxr-dialog select,
+.nxr-dialog textarea,
+.job-modal input,
+.job-modal select,
+.job-modal textarea{
+  font-size:13px !important;
+}
+
+/* Modal tables: compact, left-aligned, fully gridded standard. */
+.profile-modal table,
+.profile-details-modal table,
+.profile-association-new-modal table,
+.profile-notes-new-modal table,
+.profile-interview-modal-shell table,
+.profile-interview-form-modal table,
+.npp-dialog table,
+.nxr-dialog table,
+.job-modal table{
+  border-collapse:collapse !important;
+}
+
+.profile-modal table th,
+.profile-modal table td,
+.profile-details-modal table th,
+.profile-details-modal table td,
+.profile-association-new-modal table th,
+.profile-association-new-modal table td,
+.profile-notes-new-modal table th,
+.profile-notes-new-modal table td,
+.profile-interview-modal-shell table th,
+.profile-interview-modal-shell table td,
+.profile-interview-form-modal table th,
+.profile-interview-form-modal table td,
+.npp-dialog table th,
+.npp-dialog table td,
+.nxr-dialog table th,
+.nxr-dialog table td,
+.job-modal table th,
+.job-modal table td{
+  text-align:left !important;
+  border:1px solid #CBD8E8 !important;
+  font-size:11px !important;
+}
+
+.profile-modal table th,
+.profile-details-modal table th,
+.profile-association-new-modal table th,
+.profile-notes-new-modal table th,
+.profile-interview-modal-shell table th,
+.profile-interview-form-modal table th,
+.npp-dialog table th,
+.nxr-dialog table th,
+.job-modal table th{
+  background:#EAF2FB !important;
+  color:#25456F !important;
+  font-weight:700 !important;
+}
+
+@media(max-width:700px){
+  .profile-details-body,
+  .profile-association-new-body,
+  .profile-notes-new-body,
+  .profile-interview-modal-body,
+  .npp-body,
+  .nxr-body,
+  .application-child-modal-body{
+    border-left-width:5px !important;
+    border-right-width:5px !important;
+  }
+}
