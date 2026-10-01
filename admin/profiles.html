@@ -810,7 +810,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   width:min(820px,100%) !important; height:min(860px,calc(100dvh - 8px)) !important;
   max-height:calc(100dvh - 8px) !important; min-height:0 !important;
   margin:0 !important; padding:0 !important; box-sizing:border-box !important;
-  overflow:hidden !important; display:grid !important; grid-template-rows:auto minmax(0,1fr) !important;
+  overflow:hidden !important; display:flex !important; flex-direction:column !important;
   background:#fff !important; border:0 !important; border-radius:16px !important;
   box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
   font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
@@ -838,13 +838,13 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 #profileModal .npp-close:hover{background:rgba(255,255,255,.10) !important; border:0 !important; color:#fff !important;}
 #profileModal .npp-form{
-  min-height:0 !important; height:auto !important; max-height:none !important; margin:0 !important; padding:0 !important;
-  box-sizing:border-box !important; overflow:hidden !important; display:grid !important;
-  grid-template-rows:minmax(0,1fr) 48px !important; grid-template-columns:minmax(0,1fr) !important;
+  min-height:0 !important; height:auto !important; max-height:none !important; flex:1 1 auto !important;
+  margin:0 !important; padding:0 !important; box-sizing:border-box !important; overflow:hidden !important;
+  display:flex !important; flex-direction:column !important;
 }
 #profileModal .npp-body{
-  min-height:0 !important; height:auto !important; max-height:none !important; margin:0 !important;
-  box-sizing:border-box !important; overflow-y:auto !important; overflow-x:hidden !important;
+  min-height:0 !important; height:auto !important; max-height:none !important; flex:1 1 auto !important;
+  margin:0 !important; box-sizing:border-box !important; overflow-y:auto !important; overflow-x:hidden !important;
   padding:0 26px 12px !important; scrollbar-width:thin !important;
 }
 #profileModal .profile-form-grid{
@@ -895,13 +895,16 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #profileModal .resume-box input[type=file]{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:13px !important;}
 #profileModal .duplicate-box{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; margin-top:10px !important;}
 #profileModal .npp-footer{
-  position:static !important; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important;
-  z-index:2 !important; width:auto !important; height:48px !important; min-height:48px !important; max-height:48px !important;
+  position:relative !important; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important;
+  z-index:2 !important; width:100% !important; flex:0 0 48px !important; height:48px !important; min-height:48px !important; max-height:48px !important;
   margin:0 !important; padding:7px 26px 9px !important; box-sizing:border-box !important;
   display:flex !important; align-items:center !important; justify-content:space-between !important; gap:12px !important;
   overflow:hidden !important; background:#C9D9EC !important; border-top:1px solid #B3C6DD !important;
   box-shadow:0 -2px 9px rgba(7,29,73,.09) !important;
 }
+#profileModal .npp-footer,
+#profileModal .npp-footer *{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;}
+#profileModal .npp-footer .npp-buttons{visibility:visible !important; display:flex !important;}
 #profileModal .npp-notice{
   position:static !important; flex:1 1 auto !important; min-width:0 !important; width:auto !important;
   max-width:none !important; height:30px !important; max-height:30px !important; margin:0 !important; padding:0 !important;
@@ -924,14 +927,29 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   #profileModal .profile-form-grid .field-span-2{grid-column:1 !important;}
   #profileModal .npp-footer{padding:7px 18px 9px !important;}
 }
+/* Profile Management UI refinement v3: compact native checkboxes and Master Data email settings menu */
+#profileModal .profile-category-item input[type="checkbox"]{
+  width:14px !important; height:14px !important; min-width:14px !important; min-height:14px !important;
+  max-width:14px !important; max-height:14px !important; padding:0 !important; margin:0 !important;
+  box-sizing:border-box !important; flex:0 0 14px !important;
+  appearance:auto !important; accent-color:#2878E8 !important;
+}
+.master-data-menu .master-data-menu-action{
+  display:block !important; width:100% !important; margin:0 !important; padding:8px 12px !important;
+  border:0 !important; background:transparent !important; color:inherit !important;
+  font:inherit !important; font-size:13px !important; text-align:left !important;
+  cursor:pointer !important; white-space:nowrap !important;
+}
+.master-data-menu .master-data-menu-action:hover{background:#F1F5F9 !important;}
+.master-data-menu .master-data-menu-action i{width:16px !important; margin-right:6px !important;}
 </style>
 
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
-<nav class="admin-section-nav"><div class="admin-container admin-section-nav-inner"><a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link active" href="profiles.html?v=1">Profiles Management</a><a class="admin-section-nav-link" href="applications.html?v=17">Applications</a><details class="admin-section-nav-dropdown"><summary class="admin-section-nav-link">Master Data</summary><div class="master-data-menu"><a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a href="projects-areas.html?v=30">Projects / Areas</a><a href="action-item-assignees.html?v=30">Action Item Assignees</a></div></details><a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a><a class="admin-section-nav-link" href="action-items.html">Action Items</a></div></nav>
+<nav class="admin-section-nav"><div class="admin-container admin-section-nav-inner"><a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link active" href="profiles.html?v=1">Profiles Management</a><a class="admin-section-nav-link" href="applications.html?v=17">Applications</a><details class="admin-section-nav-dropdown"><summary class="admin-section-nav-link">Master Data</summary><div class="master-data-menu"><a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a href="projects-areas.html?v=30">Projects / Areas</a><a href="action-item-assignees.html?v=30">Action Item Assignees</a><button type="button" id="emailNotificationSettingsButton" class="master-data-menu-action"><i class="fa-solid fa-envelope"></i> Email Notifications</button></div></details><a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a><a class="admin-section-nav-link" href="action-items.html">Action Items</a></div></nav>
 <main class="admin-main"><div class="admin-container">
-  <div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Profiles Management</h1><span class="jobs-heading-subtitle">Central candidate profiles and requirement associations</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline hidden" id="associateExistingButton"><i class="fa-solid fa-link"></i> Associate Existing Profile</button><button class="btn btn-outline" id="emailNotificationSettingsButton" type="button"><i class="fa-solid fa-envelope"></i> Email Notifications</button><button class="btn btn-primary add-job-button" id="addProfileButton"><i class="fa-solid fa-plus"></i> Add Profile</button></div></div>
+  <div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Profiles Management</h1><span class="jobs-heading-subtitle">Central candidate profiles and requirement associations</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline hidden" id="associateExistingButton"><i class="fa-solid fa-link"></i> Associate Existing Profile</button><button class="btn btn-primary add-job-button" id="addProfileButton"><i class="fa-solid fa-plus"></i> Add Profile</button></div></div>
   <div id="requirementContext" class="profile-context hidden"></div>
   <section class="profile-toolbar"><div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="profileSearch" type="search" placeholder="Search name, email, phone, profile number"></div><select id="profileStatusFilter"><option value="">All Profile Statuses</option><option>New</option><option>Under Review</option><option>Available</option><option>Available – Future Opportunities</option><option>Considering</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Not Useful</option><option>Do Not Contact</option><option>Archived</option></select><select id="profileSourceFilter"><option value="">All Sources</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select><button class="btn btn-outline" id="refreshProfilesButton"><i class="fa-solid fa-rotate"></i> Refresh</button></section>
   <div id="profilesMessage" class="admin-message" role="status"></div>
