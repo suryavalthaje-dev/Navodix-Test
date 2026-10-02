@@ -252,28 +252,44 @@
   background:#FFF5F4;
   border-color:#F1A7A2;
 }
-#jobModal #jobFormMessage {
-  margin:0;
-  padding:4px 21px 0;
-  flex:0 0 auto;
-  min-height:0;
-  border-left:5px solid #2878E8;
-  border-right:5px solid #2878E8;
-  box-sizing:border-box;
-}
 #jobModal .modal-actions {
   display:flex;
-  justify-content:flex-end;
+  justify-content:space-between;
   align-items:center;
-  gap:8px;
+  gap:12px;
   margin-top:0;
-  padding:10px 21px 12px;
+  padding:7px 21px 9px;
+  min-height:48px;
   background:#C9D9EC;
   border-left:5px solid #2878E8;
   border-right:5px solid #2878E8;
   border-bottom:5px solid #2878E8;
   box-sizing:border-box;
   flex:0 0 auto;
+  overflow:hidden;
+}
+#jobModal #jobFormMessage {
+  flex:1 1 auto;
+  min-width:0;
+  width:auto;
+  max-height:30px;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-sizing:border-box;
+  line-height:14px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow:hidden;
+}
+#jobModal .modal-action-buttons {
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
 }
 #jobModal .modal-actions .btn {
   min-width:112px;
@@ -292,8 +308,8 @@
   border-color:#1D63C7;
   color:#FFFFFF;
 }
-#jobModal .modal-actions #saveJobButton { order:1; }
-#jobModal .modal-actions #cancelJobButton { order:2; }
+#jobModal .modal-actions #saveJobButton { order:2; }
+#jobModal .modal-actions #cancelJobButton { order:1; }
 @media(max-width:700px){
   #jobModal .requirement-form-grid { grid-template-columns:1fr; }
   #jobModal .requirement-form-grid .field-span-2,
@@ -681,13 +697,14 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           </div>
         </div>
 
-        <div id="jobFormMessage" class="admin-message" role="alert"></div>
-
         <div class="modal-actions">
-          <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
-          <button class="btn btn-primary" id="saveJobButton" type="submit">
-            <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Requirement
-          </button>
+          <div id="jobFormMessage" class="admin-message" role="alert"></div>
+          <div class="modal-action-buttons">
+            <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
+            <button class="btn btn-primary" id="saveJobButton" type="submit">
+              <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Requirement
+            </button>
+          </div>
         </div>
       </form>
     </div>
