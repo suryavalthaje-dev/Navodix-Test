@@ -1349,6 +1349,43 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="associate-profile-standard-v1">
+/* Associate Profile: common Navodix form-control standard. */
+.requirement-associate-form input,
+.requirement-associate-form select,
+.requirement-associate-form textarea{
+  width:100% !important;
+  box-sizing:border-box !important;
+  border:1px solid var(--border-color) !important;
+  border-radius:7px !important;
+  background:#FFFFFF !important;
+  color:var(--text-dark) !important;
+  outline:none !important;
+  transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+.requirement-associate-form select{
+  height:34px !important;
+  padding:0 9px !important;
+  line-height:1.2 !important;
+}
+.associate-profile-display{
+  display:block !important;
+  width:100% !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#1E293B !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:34px !important;
+  text-align:left !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
@@ -1448,7 +1485,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
 
-<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><input id="associateRequirementProfileName" readonly></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
+<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><span id="associateRequirementProfileDisplay" class="associate-profile-display" aria-live="polite"></span><input id="associateRequirementProfileName" type="hidden" aria-hidden="true"></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
 <div class="modal-backdrop hidden" id="profileDetailsModal" aria-hidden="true">
   <div class="profile-details-modal" role="dialog" aria-modal="true" aria-labelledby="profileDetailsTitle">
     <div class="modal-header">
