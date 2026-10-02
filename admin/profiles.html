@@ -1665,6 +1665,65 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 
 
+/* ============================================================
+   Reusable Navodix modal medium variant
+   Uses the exact same Header -> Scrollable Body -> Fixed Footer
+   architecture as modal-wide; only the dimensions differ.
+   ============================================================ */
+.profile-notes-new-modal.modal-medium{
+  width:min(900px, calc(100vw - 32px)) !important;
+  max-width:900px !important;
+  height:min(760px, calc(100dvh - 8px)) !important;
+  max-height:calc(100dvh - 8px) !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+}
+
+.profile-notes-new-modal.modal-medium .profile-notes-new-header{
+  flex:0 0 auto !important;
+  position:relative !important;
+  top:auto !important;
+  z-index:2 !important;
+}
+
+.profile-notes-new-modal.modal-medium .profile-notes-new-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+}
+
+.profile-notes-new-modal.modal-medium .profile-notes-new-footer{
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+
+@media(max-width:700px){
+  .profile-notes-new-modal.modal-medium{
+    width:calc(100vw - 20px) !important;
+    max-width:calc(100vw - 20px) !important;
+    height:min(760px, calc(100dvh - 20px)) !important;
+    max-height:calc(100dvh - 20px) !important;
+  }
+}
+
 /* Interview content only — the modal architecture itself is shared. */
 #interviewModal .profile-notes-new-body{
   padding:18px 24px 16px !important;
@@ -2014,7 +2073,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 
 <div class="modal-backdrop hidden" id="interviewModal" aria-hidden="true">
-  <div class="profile-notes-new-modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
+  <div class="profile-notes-new-modal modal-medium" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
     <div class="modal-header profile-notes-new-header">
       <div><span class="section-badge">INTERVIEW TRACKING</span><h2 id="interviewModalTitle">Interview Rounds</h2></div>
       <button class="modal-close" id="closeInterviewModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
