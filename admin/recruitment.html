@@ -162,12 +162,12 @@
   grid-column:1/-1;
   display:block;
   width:100%;
-  min-height:92px;
+  min-height:0;
   margin:0 0 14px;
   padding:0;
   border:1px solid #DCE4EE;
   border-radius:5px;
-  overflow:hidden;
+  overflow:visible;
   background:#FFFFFF;
   box-sizing:border-box;
 }
@@ -205,7 +205,7 @@
   font-size:10px;
 }
 #jobModal .requirement-repeat-section .repeat-list {
-  min-height:54px;
+  min-height:0;
   padding:8px 12px 10px;
   display:grid;
   gap:8px;
@@ -731,8 +731,8 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     })();
   </script>
 
-  <!-- Fallback for the Add New Requirement form: keep one editable row in each repeat section.
-       Existing jobs.js behavior is preserved; rows are added only when a section is empty. -->
+  <!-- Requirement repeat-list UI helper. The main jobs.js save/read logic uses .repeat-input rows.
+       This handler guarantees Add works even if the page's delegated binding is unavailable. -->
   <script>
     (function () {
       const modal = document.getElementById('jobModal');
@@ -744,33 +744,50 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
         qualifications: ['qualificationsList', 'Enter a preferred qualification']
       };
 
-      function ensureRow(type) {
-        const [listId, placeholder] = definitions[type];
+      function addRow(type, value = '') {
+        const definition = definitions[type];
+        if (!definition) return null;
+        const [listId, placeholder] = definition;
         const list = document.getElementById(listId);
-        if (!list || list.querySelector('.repeat-row')) return;
+        if (!list) return null;
 
         const row = document.createElement('div');
         row.className = 'repeat-row';
         row.innerHTML = `
-          <input type="text" class="repeat-input" data-list-type="${type}" maxlength="500" placeholder="${placeholder}">
+          <input type="text" class="repeat-input" data-list-type="${type}" maxlength="500" value="${String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}" placeholder="${placeholder}">
           <button type="button" class="remove-item" aria-label="Remove item"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         `;
         row.querySelector('.remove-item').addEventListener('click', () => row.remove());
         list.appendChild(row);
+        return row;
       }
 
-      function ensureNewRequirementRows() {
-        const jobId = document.getElementById('jobId');
-        if (!jobId || jobId.value) return;
+      function ensureInitialRows() {
         if (modal.classList.contains('hidden') || modal.getAttribute('aria-hidden') === 'true') return;
-        ensureRow('responsibilities');
-        ensureRow('requirements');
-        ensureRow('qualifications');
+        const jobId = document.getElementById('jobId');
+        if (jobId && jobId.value) return;
+        Object.entries(definitions).forEach(([type, [listId]]) => {
+          const list = document.getElementById(listId);
+          if (list && !list.querySelector('.repeat-row')) addRow(type);
+        });
       }
 
-      const observer = new MutationObserver(ensureNewRequirementRows);
+      // Capture phase prevents a second handler in jobs.js from adding a duplicate row.
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('#jobModal [data-add-list]');
+        if (!button || button.disabled || button.classList.contains('hidden')) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const row = addRow(button.dataset.addList);
+        if (row) {
+          row.querySelector('.repeat-input')?.focus();
+          row.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+        }
+      }, true);
+
+      const observer = new MutationObserver(ensureInitialRows);
       observer.observe(modal, { attributes: true, attributeFilter: ['class', 'aria-hidden'] });
-      ensureNewRequirementRows();
+      ensureInitialRows();
     })();
   </script>
 
