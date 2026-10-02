@@ -16,6 +16,7 @@
   width:min(760px,100%);
   max-height:calc(100vh - 32px);
   height:min(calc(100vh - 32px),900px);
+  box-sizing:border-box;
   display:flex;
   flex-direction:column;
   overflow:hidden;
@@ -231,6 +232,7 @@
   margin:0;
   padding:4px 21px 0;
   flex:0 0 auto;
+  min-height:0;
 }
 #jobModal .modal-actions {
   display:flex;
@@ -650,6 +652,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             </div>
             <div id="qualificationsList" class="repeat-list"></div>
           </div>
+        </div>
 
         <div id="jobFormMessage" class="admin-message" role="alert"></div>
 
