@@ -8,7 +8,36 @@
   <link rel="icon" type="image/png" href="../assets/images/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css?v=27">
-  <link rel="stylesheet" href="css/navodix-ui-standard.css?v=25">
+  <link rel="stylesheet" href="css/navodix-ui-standard.css?v=26">
+
+  <style id="user-management-modal-structure">
+    /* Structural layout only. Visual modal standards come from navodix-ui-standard.css. */
+    .user-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;overflow:hidden;}
+    .user-modal.hidden{display:none;}
+    .user-modal-backdrop{position:absolute;inset:0;background:rgba(7,27,77,.42);}
+    .user-modal-dialog{position:relative;z-index:1;display:flex;flex-direction:column;width:min(680px,calc(100vw - 32px));max-width:680px;height:min(640px,calc(100dvh - 32px));max-height:calc(100dvh - 32px);min-height:0;margin:0;padding:0;overflow:hidden;background:#fff;}
+    .user-modal-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;}
+    .user-modal-footer{flex:0 0 54px;min-height:54px;max-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-sizing:border-box;padding:8px 18px;}
+    .user-modal-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex:0 0 auto;}
+    .user-modal-actions .btn{min-width:120px;height:38px;}
+    .user-modal-note{margin:0 0 18px;}
+    .user-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 14px;width:100%;margin:0;padding:0;}
+    .user-form-grid .field-group{min-width:0;display:flex;flex-direction:column;margin:0;}
+    .user-form-grid .user-form-full{grid-column:1/-1;}
+    .user-form-grid label{margin:0 0 6px;}
+    .user-form-grid input,.user-form-grid select{width:100%;box-sizing:border-box;height:40px;min-height:40px;margin:0;padding:0 11px;}
+    .user-form-grid select{line-height:normal;padding-right:32px;}
+    .user-form-message{flex:1 1 auto;min-width:0;margin:0;}
+    @media(max-width:700px){
+      .user-modal{padding:8px;}
+      .user-modal-dialog{width:calc(100vw - 16px);max-width:none;height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);}
+      .user-form-grid{grid-template-columns:1fr;}
+      .user-form-grid .user-form-full{grid-column:auto;}
+      .user-modal-footer{height:auto;min-height:54px;max-height:none;flex-wrap:wrap;padding:8px 12px;}
+      .user-modal-actions{width:100%;}
+      .user-modal-actions .btn{flex:1 1 0;min-width:0;}
+    }
+  </style>
 
   <style>
     .user-summary-grid{grid-template-columns:repeat(5,minmax(0,1fr));}
@@ -280,18 +309,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
       <div class="user-modal hidden" id="addUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
+          <div class="user-modal-header modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div>
               <div>
                 <h2 id="addUserTitle">Add Admin / HR User</h2>
                 <p>Create an account and send an invitation securely.</p>
               </div>
             </div>
-            <button class="user-modal-close" id="cancelAddUserButton" type="button" data-close-user-modal aria-label="Close Add User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <button class="user-modal-close modal-close" id="cancelAddUserButton" type="button" data-close-user-modal aria-label="Close Add User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
           </div>
-          <div class="user-modal-body">
+          <div class="user-modal-body profile-interview-modal-body">
             <div class="user-modal-note"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>An invitation will be sent to the user's email address. They will set their own password.</span></div>
             <form id="addUserForm" class="user-form-grid" novalidate>
               <div class="field-group">
@@ -311,7 +339,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
               </div>
             </form>
           </div>
-          <footer class="user-modal-footer">
+          <footer class="user-modal-footer profile-interview-modal-actions">
             <div id="addUserFormMessage" class="user-form-message" role="alert" aria-live="assertive"></div>
             <div class="user-modal-actions">
               <button class="btn btn-primary" id="createUserSubmit" type="submit" form="addUserForm"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
@@ -324,18 +352,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
       <div class="user-modal hidden" id="editUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
+          <div class="user-modal-header modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></div>
               <div>
                 <h2 id="editUserTitle">Edit User</h2>
                 <p>Update the user's Careers Admin profile.</p>
               </div>
             </div>
-            <button class="user-modal-close" type="button" data-close-user-modal aria-label="Close Edit User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <button class="user-modal-close modal-close" type="button" data-close-user-modal aria-label="Close Edit User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
           </div>
-          <div class="user-modal-body">
+          <div class="user-modal-body profile-interview-modal-body">
             <form id="saveUserEditForm" class="user-form-grid" novalidate>
               <input id="editUserId" type="hidden">
               <div class="field-group user-form-full">
@@ -357,7 +384,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
               </div>
             </form>
           </div>
-          <footer class="user-modal-footer">
+          <footer class="user-modal-footer profile-interview-modal-actions">
             <div class="user-modal-footer-spacer" aria-hidden="true"></div>
             <div class="user-modal-actions">
               <button class="btn btn-primary" id="saveUserEditButton" type="submit" form="saveUserEditForm"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
