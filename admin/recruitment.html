@@ -8,31 +8,43 @@
   <link rel="icon" type="image/png" href="../assets/images/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css?v=28">
+  <link rel="stylesheet" href="css/navodix-ui-standard.css?v=1">
 
 <style>
 /* Manage Requirements — Add/Edit Requirement form aligned with Profile Add/Edit UI specification. */
 #jobModal .job-modal {
   width:min(760px,100%);
   max-height:calc(100vh - 32px);
-  overflow-y:auto;
+  height:min(calc(100vh - 32px),900px);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
   background:#FFFFFF;
-  border-radius:16px;
+  border-radius:10px;
   box-shadow:0 24px 70px rgba(7,29,73,.25);
 }
 #jobModal .modal-header {
+  min-height:56px;
+  height:56px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   background:#2878E8;
   border-bottom:0;
-  padding:16px 26px 14px;
+  padding:10px 18px;
   color:#FFFFFF;
-  position:sticky;
-  top:0;
+  flex:0 0 56px;
   z-index:20;
 }
 #jobModal .modal-header h2 {
   color:#FFFFFF;
-  font-size:23px;
-  line-height:1.2;
+  font-size:20px;
+  font-weight:600;
+  line-height:24px;
   margin:0;
+  padding:0;
 }
 #jobModal .modal-close {
   width:32px;
@@ -49,12 +61,29 @@
   background:rgba(255,255,255,.10);
   color:#FFFFFF;
 }
-#jobModal #jobForm { padding:0; }
+#jobModal #jobForm {
+  padding:0;
+  min-height:0;
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
 #jobModal .requirement-form-grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:0 18px;
-  padding:24px 26px 4px;
+  padding:20px 21px 10px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  min-height:0;
+  flex:1 1 auto;
+  border-left:5px solid #2878E8;
+  border-right:5px solid #2878E8;
+  box-sizing:border-box;
+  overscroll-behavior:contain;
+  overflow-anchor:none;
+  scroll-behavior:auto;
 }
 #jobModal .requirement-form-grid .field-group { margin-bottom:10px; }
 #jobModal .requirement-form-grid .field-span-2 { grid-column:1/-1; }
@@ -91,7 +120,7 @@
   outline:none;
   transition:border-color .2s ease,box-shadow .2s ease;
   font-family:inherit;
-  font-size:12px;
+  font-size:13px;
 }
 #jobModal .requirement-form-grid input,
 #jobModal .requirement-form-grid select {
@@ -108,7 +137,7 @@
 #jobModal .requirement-form-grid input::placeholder,
 #jobModal .requirement-form-grid textarea::placeholder {
   font-family:inherit;
-  font-size:12px;
+  font-size:13px;
   color:#8A97A8;
 }
 #jobModal .requirement-form-grid input:focus,
@@ -131,18 +160,23 @@
 }
 #jobModal .requirement-repeat-section {
   grid-column:1/-1;
+  display:block;
+  width:100%;
+  min-height:92px;
   margin:0 0 14px;
   padding:0;
   border:1px solid #DCE4EE;
   border-radius:5px;
   overflow:hidden;
   background:#FFFFFF;
+  box-sizing:border-box;
 }
 #jobModal .requirement-repeat-section .repeat-heading {
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
+  min-height:54px;
   margin:0;
   padding:8px 10px;
   background:#F4F7FA;
@@ -171,9 +205,11 @@
   font-size:10px;
 }
 #jobModal .requirement-repeat-section .repeat-list {
-  padding:10px 12px 12px;
+  min-height:54px;
+  padding:8px 12px 10px;
   display:grid;
   gap:8px;
+  box-sizing:border-box;
 }
 #jobModal .requirement-repeat-section .repeat-row {
   display:grid;
@@ -190,7 +226,7 @@
   background:#FFFFFF;
   color:var(--text-dark);
   font-family:inherit;
-  font-size:12px;
+  font-size:13px;
 }
 #jobModal .requirement-repeat-section .remove-item {
   height:34px;
@@ -203,24 +239,42 @@
   background:#FFF5F4;
   border-color:#F1A7A2;
 }
-#jobModal #jobFormMessage { margin:4px 26px 0; }
+#jobModal #jobFormMessage {
+  margin:0;
+  padding:4px 21px 0;
+  flex:0 0 auto;
+  min-height:0;
+}
 #jobModal .modal-actions {
   display:flex;
   justify-content:flex-end;
   align-items:center;
   gap:8px;
   margin-top:0;
-  padding:10px 26px 18px;
-  border-top:0;
+  padding:10px 21px 12px;
+  background:#C9D9EC;
+  border-left:5px solid #2878E8;
+  border-right:5px solid #2878E8;
+  border-bottom:5px solid #2878E8;
+  box-sizing:border-box;
+  flex:0 0 auto;
 }
 #jobModal .modal-actions .btn {
   min-width:112px;
   height:32px;
   padding:6px 13px;
   border-radius:5px;
-  font-size:10px;
+  font-size:12px;
   font-weight:600;
   line-height:1;
+  background:#2878E8;
+  border-color:#2878E8;
+  color:#FFFFFF;
+}
+#jobModal .modal-actions .btn:hover:not(:disabled) {
+  background:#1D63C7;
+  border-color:#1D63C7;
+  color:#FFFFFF;
 }
 #jobModal .modal-actions #saveJobButton { order:1; }
 #jobModal .modal-actions #cancelJobButton { order:2; }
@@ -231,9 +285,9 @@
   #jobModal .requirement-repeat-section { grid-column:auto; }
 }
 @media(max-width:560px){
-  #jobModal .requirement-form-grid { padding-left:18px; padding-right:18px; }
-  #jobModal #jobFormMessage { margin-left:18px; margin-right:18px; }
-  #jobModal .modal-actions { padding-left:18px; padding-right:18px; }
+  #jobModal .requirement-form-grid { padding-left:13px; padding-right:13px; }
+  #jobModal #jobFormMessage { padding-left:13px; padding-right:13px; }
+  #jobModal .modal-actions { padding-left:13px; padding-right:13px; }
 }
 </style>
 
@@ -609,6 +663,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             </div>
             <div id="qualificationsList" class="repeat-list"></div>
           </div>
+        </div>
 
         <div id="jobFormMessage" class="admin-message" role="alert"></div>
 
@@ -641,6 +696,84 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
   <script src="js/jobs.js?v=17"></script>
+
+  <!-- Keep the Add/Edit Requirement form at the top whenever the modal is opened.
+       This prevents the scrollable form body from reopening at a previous scroll position. -->
+  <script>
+    (function () {
+      const modal = document.getElementById('jobModal');
+      const scrollArea = modal ? modal.querySelector('.requirement-form-grid') : null;
+      if (!modal || !scrollArea) return;
+
+      const resetRequirementScroll = () => {
+        requestAnimationFrame(() => {
+          scrollArea.scrollTop = 0;
+          scrollArea.scrollLeft = 0;
+        });
+      };
+
+      const observer = new MutationObserver(() => {
+        if (!modal.classList.contains('hidden') && modal.getAttribute('aria-hidden') !== 'true') {
+          resetRequirementScroll();
+        }
+      });
+
+      observer.observe(modal, {
+        attributes: true,
+        attributeFilter: ['class', 'aria-hidden']
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target.closest('#closeJobModal, #cancelJobButton')) {
+          resetRequirementScroll();
+        }
+      });
+    })();
+  </script>
+
+  <!-- Fallback for the Add New Requirement form: keep one editable row in each repeat section.
+       Existing jobs.js behavior is preserved; rows are added only when a section is empty. -->
+  <script>
+    (function () {
+      const modal = document.getElementById('jobModal');
+      if (!modal) return;
+
+      const definitions = {
+        responsibilities: ['responsibilitiesList', 'Enter a key responsibility'],
+        requirements: ['requirementsList', 'Enter a requirement'],
+        qualifications: ['qualificationsList', 'Enter a preferred qualification']
+      };
+
+      function ensureRow(type) {
+        const [listId, placeholder] = definitions[type];
+        const list = document.getElementById(listId);
+        if (!list || list.querySelector('.repeat-row')) return;
+
+        const row = document.createElement('div');
+        row.className = 'repeat-row';
+        row.innerHTML = `
+          <input type="text" class="repeat-input" data-list-type="${type}" maxlength="500" placeholder="${placeholder}">
+          <button type="button" class="remove-item" aria-label="Remove item"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        `;
+        row.querySelector('.remove-item').addEventListener('click', () => row.remove());
+        list.appendChild(row);
+      }
+
+      function ensureNewRequirementRows() {
+        const jobId = document.getElementById('jobId');
+        if (!jobId || jobId.value) return;
+        if (modal.classList.contains('hidden') || modal.getAttribute('aria-hidden') === 'true') return;
+        ensureRow('responsibilities');
+        ensureRow('requirements');
+        ensureRow('qualifications');
+      }
+
+      const observer = new MutationObserver(ensureNewRequirementRows);
+      observer.observe(modal, { attributes: true, attributeFilter: ['class', 'aria-hidden'] });
+      ensureNewRequirementRows();
+    })();
+  </script>
+
 <script src="js/navigation.js?v=33"></script>
 </body>
 </html>
