@@ -1267,11 +1267,11 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
   <link rel="stylesheet" href="css/navodix-ui-standard.css?v=1">
 
-<style id="profile-association-form-control-standard-v1">
-/* Add Requirement Association — use the same form-control standard as Profile forms. */
-.profile-association-new-body input,
-.profile-association-new-body select,
-.profile-association-new-body textarea{
+<style id="profile-notes-final-standard-v1">
+/* Profile Notes: use the same form-control standard as the Profile forms. */
+.profile-notes-new-body input,
+.profile-notes-new-body select,
+.profile-notes-new-body textarea{
   width:100% !important;
   box-sizing:border-box !important;
   border:1px solid var(--border-color) !important;
@@ -1281,37 +1281,71 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   outline:none !important;
   transition:border-color .2s ease,box-shadow .2s ease !important;
 }
-
-.profile-association-new-body select{
+.profile-notes-new-body select{
   height:34px !important;
   padding:0 9px !important;
   line-height:1.2 !important;
 }
-
-.profile-association-new-body textarea{
+.profile-notes-new-body textarea{
   min-height:60px !important;
   padding:7px 9px !important;
   resize:vertical !important;
   line-height:1.35 !important;
 }
 
-/* Profile is a display value, not an input box. Align its text exactly
-   with the Profile label/content start. */
-.profile-association-profile-value{
-  min-height:34px !important;
+/* The notes list must fit the modal width; do not create a horizontal scrollbar. */
+.profile-notes-new-body .profile-notes-table-wrap{
   width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  overflow-x:hidden !important;
+  overflow-y:visible !important;
+}
+.profile-notes-new-body .profile-notes-table{
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+}
+.profile-notes-new-body .profile-notes-table th,
+.profile-notes-new-body .profile-notes-table td{
   box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  color:#1E293B !important;
-  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important;
-  line-height:1.2 !important;
-  text-align:left !important;
+  overflow:hidden !important;
+}
+.profile-notes-new-body .profile-notes-table th:nth-child(1),
+.profile-notes-new-body .profile-notes-table td:nth-child(1){width:22% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(2),
+.profile-notes-new-body .profile-notes-table td:nth-child(2){width:13% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(3),
+.profile-notes-new-body .profile-notes-table td:nth-child(3){width:49% !important;}
+.profile-notes-new-body .profile-notes-table th:nth-child(4),
+.profile-notes-new-body .profile-notes-table td:nth-child(4){width:16% !important;}
+
+.profile-notes-new-body .profile-notes-table .profile-notes-actions{
+  text-align:center !important;
+  white-space:nowrap !important;
+  overflow:visible !important;
+}
+.profile-notes-new-body .profile-notes-table .profile-notes-actions .btn{
+  width:28px !important;
+  min-width:28px !important;
+  height:28px !important;
+  padding:4px !important;
+  margin:0 2px !important;
+  border-radius:5px !important;
+  font-size:11px !important;
+  line-height:1 !important;
+}
+
+/* Move the notes list closer to the profile-level notes context. */
+.profile-notes-new-body .profile-notes-context{
+  margin-bottom:8px !important;
+}
+.profile-notes-new-body .profile-notes-table-wrap{
+  margin-top:0 !important;
+}
+.profile-notes-new-body .profile-note-form{
+  margin-top:12px !important;
+  padding-top:12px !important;
 }
 </style>
 
