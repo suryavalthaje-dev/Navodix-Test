@@ -1386,6 +1386,226 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="associate-profile-standard-template-v1">
+/* ============================================================
+   Associate Profile — canonical Navodix modal architecture
+   Header -> Scrollable Body -> Fixed Footer
+   ============================================================ */
+.associate-profile-standard-modal{
+  width:min(620px, calc(100vw - 28px));
+  max-height:calc(100vh - 32px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:#FFFFFF;
+  border-radius:10px;
+  box-shadow:0 24px 70px rgba(7,29,73,.25);
+}
+
+.associate-profile-standard-header{
+  flex:0 0 56px;
+  min-height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 18px;
+  box-sizing:border-box;
+  background:#2878E8;
+  color:#FFFFFF;
+}
+
+.associate-profile-standard-header h2{
+  margin:0;
+  color:#FFFFFF;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif;
+  font-size:20px;
+  font-weight:600;
+  line-height:1.2;
+}
+
+.associate-profile-standard-close{
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  border:0;
+  border-radius:4px;
+  background:transparent;
+  color:#FFFFFF;
+  font-size:21px;
+  cursor:pointer;
+}
+
+.associate-profile-standard-close:hover{
+  background:rgba(255,255,255,.10);
+  color:#FFFFFF;
+}
+
+.associate-profile-standard-body{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:18px 26px 16px;
+  box-sizing:border-box;
+  border-left:5px solid #2878E8;
+  border-right:5px solid #2878E8;
+  background:#FFFFFF;
+}
+
+.associate-profile-standard-body .field-group{
+  margin:0 0 14px !important;
+}
+
+.associate-profile-standard-body .field-group:last-child{
+  margin-bottom:0 !important;
+}
+
+.associate-profile-standard-body .field-group label{
+  display:block !important;
+  margin:0 0 5px !important;
+  color:#263F62 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  text-align:left !important;
+}
+
+.associate-profile-standard-body .field-group label span{
+  color:#D92D20 !important;
+}
+
+.associate-profile-standard-body select{
+  width:100% !important;
+  height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 9px !important;
+  border:1px solid #D5E0EC !important;
+  border-radius:7px !important;
+  background:#FFFFFF !important;
+  color:#1E293B !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+  outline:none !important;
+}
+
+.associate-profile-standard-body select:focus{
+  border-color:#2878E8 !important;
+  box-shadow:0 0 0 2px rgba(40,120,232,.10) !important;
+}
+
+.associate-profile-standard-body .profile-form-help{
+  display:block;
+  margin-top:6px;
+  color:#64748B;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif;
+  font-size:11px;
+  line-height:1.35;
+}
+
+.associate-profile-display{
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#1E293B !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+  line-height:1.2 !important;
+  text-align:left !important;
+}
+
+.associate-profile-standard-footer{
+  flex:0 0 auto;
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:10px 26px;
+  box-sizing:border-box;
+  background:#C9D9EC;
+  border-left:5px solid #2878E8;
+  border-right:5px solid #2878E8;
+  border-bottom:5px solid #2878E8;
+}
+
+.associate-profile-standard-message{
+  flex:1 1 auto;
+  min-width:0;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#C62828;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif;
+  font-size:12px;
+  line-height:1.3;
+  text-align:left;
+}
+
+.associate-profile-standard-message:empty{
+  display:block;
+}
+
+.associate-profile-standard-actions{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+.associate-profile-standard-actions .btn{
+  min-width:112px;
+  height:32px;
+  padding:6px 13px;
+  border:1px solid #2878E8 !important;
+  border-radius:5px;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif;
+  font-size:12px;
+  font-weight:600;
+  line-height:1;
+}
+
+.associate-profile-standard-actions .btn:hover:not(:disabled){
+  background:#1D63C7 !important;
+  border-color:#1D63C7 !important;
+}
+
+@media (max-width:640px){
+  .associate-profile-standard-modal{
+    width:calc(100vw - 20px);
+    max-height:calc(100vh - 20px);
+  }
+
+  .associate-profile-standard-body{
+    padding:16px 18px 14px;
+  }
+
+  .associate-profile-standard-footer{
+    padding:9px 18px;
+  }
+
+  .associate-profile-standard-actions .btn{
+    min-width:100px;
+  }
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
@@ -1485,7 +1705,45 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
 
-<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true"><div class="profile-modal" style="max-width:560px" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="associateRequirementModalTitle">Associate Profile</h2></div><button class="modal-close" id="closeAssociateRequirementModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div class="requirement-associate-form"><div class="field-group"><label>Profile</label><span id="associateRequirementProfileDisplay" class="associate-profile-display" aria-live="polite"></span><input id="associateRequirementProfileName" type="hidden" aria-hidden="true"></div><div class="field-group"><label for="associateRequirementSelect">Requirement <span>*</span></label><select id="associateRequirementSelect"><option value="">Select Requirement</option></select><small class="profile-form-help">Select the requirement with which this profile should be associated.</small></div><div id="associateRequirementMessage" class="admin-message" role="alert"></div><div class="modal-actions"><button class="btn btn-primary" id="saveAssociateRequirementButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-outline" id="cancelAssociateRequirementButton" type="button">Cancel</button></div></div></div></div>
+<div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true">
+  <div class="associate-profile-standard-modal" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle">
+    <div class="associate-profile-standard-header">
+      <h2 id="associateRequirementModalTitle">Associate Profile</h2>
+      <button class="associate-profile-standard-close" id="closeAssociateRequirementModal" type="button" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="associate-profile-standard-body">
+      <div class="field-group">
+        <label for="associateRequirementProfileDisplay">Profile</label>
+        <span id="associateRequirementProfileDisplay" class="associate-profile-display" aria-live="polite"></span>
+        <input id="associateRequirementProfileName" type="hidden" aria-hidden="true">
+      </div>
+
+      <div class="field-group">
+        <label for="associateRequirementSelect">Requirement <span>*</span></label>
+        <select id="associateRequirementSelect">
+          <option value="">Select Requirement</option>
+        </select>
+        <small class="profile-form-help">Select the requirement with which this profile should be associated.</small>
+      </div>
+    </div>
+
+    <div class="associate-profile-standard-footer">
+      <div id="associateRequirementMessage" class="associate-profile-standard-message admin-message" role="alert" aria-live="polite"></div>
+      <div class="associate-profile-standard-actions">
+        <button class="btn btn-primary" id="saveAssociateRequirementButton" type="button">
+          <i class="fa-solid fa-link"></i> Associate
+        </button>
+        <button class="btn btn-primary" id="cancelAssociateRequirementButton" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop hidden" id="profileDetailsModal" aria-hidden="true">
   <div class="profile-details-modal" role="dialog" aria-modal="true" aria-labelledby="profileDetailsTitle">
     <div class="modal-header">
