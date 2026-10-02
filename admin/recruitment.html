@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/navodix-ui-standard.css?v=1">
 
 <style>
-/* Manage Requirements — Add/Edit Requirement form aligned with Profile Add/Edit UI specification. */
+/* Manage Requirements — common Navodix modal standard. */
 #jobModal .job-modal {
   width:min(760px,100%);
   max-height:calc(100vh - 32px);
@@ -35,6 +35,7 @@
   border-bottom:0;
   padding:10px 18px;
   color:#FFFFFF;
+  position:relative;
   flex:0 0 56px;
   z-index:20;
 }
@@ -44,7 +45,6 @@
   font-weight:600;
   line-height:24px;
   margin:0;
-  padding:0;
 }
 #jobModal .modal-close {
   width:32px;
@@ -72,8 +72,10 @@
 #jobModal .requirement-form-grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-auto-rows:max-content;
+  align-content:start;
   gap:0 18px;
-  padding:20px 21px 10px;
+  padding:20px 21px 12px;
   overflow-y:auto;
   overflow-x:hidden;
   min-height:0;
@@ -82,7 +84,6 @@
   border-right:5px solid #2878E8;
   box-sizing:border-box;
   overscroll-behavior:contain;
-  overflow-anchor:none;
   scroll-behavior:auto;
 }
 #jobModal .requirement-form-grid .field-group { margin-bottom:10px; }
@@ -106,6 +107,7 @@
   font-size:11px;
   font-weight:700;
   margin-bottom:5px;
+  text-align:left;
 }
 #jobModal .requirement-form-grid .field-group label span { color:#B42318; }
 #jobModal .requirement-form-grid input,
@@ -158,16 +160,17 @@
   font-size:11px;
   line-height:1.4;
 }
+/* Repeat sections must retain their intrinsic height. This prevents the three
+   sections from collapsing/overlapping inside the scrollable CSS grid. */
 #jobModal .requirement-repeat-section {
   grid-column:1/-1;
-  display:block;
-  width:100%;
-  min-height:0;
+  min-height:max-content;
+  align-self:start;
   margin:0 0 14px;
   padding:0;
   border:1px solid #DCE4EE;
   border-radius:5px;
-  overflow:visible;
+  overflow:hidden;
   background:#FFFFFF;
   box-sizing:border-box;
 }
@@ -182,6 +185,7 @@
   background:#F4F7FA;
   border-left:3px solid #2878E8;
   border-bottom:1px solid #D8E0EA;
+  box-sizing:border-box;
 }
 #jobModal .requirement-repeat-section .repeat-heading h3 {
   margin:0 0 2px;
@@ -202,24 +206,32 @@
   height:30px;
   padding:5px 11px;
   border-radius:5px;
-  font-size:10px;
+  font-size:12px;
+  font-weight:600;
+  line-height:1;
+  background:#2878E8;
+  border-color:#2878E8;
+  color:#FFFFFF;
 }
 #jobModal .requirement-repeat-section .repeat-list {
-  min-height:0;
-  padding:8px 12px 10px;
+  min-height:52px;
+  padding:10px 12px 12px;
   display:grid;
+  grid-auto-rows:max-content;
   gap:8px;
   box-sizing:border-box;
 }
 #jobModal .requirement-repeat-section .repeat-row {
   display:grid;
-  grid-template-columns:1fr 34px;
+  grid-template-columns:minmax(0,1fr) 34px;
   gap:8px;
+  min-height:34px;
 }
 #jobModal .requirement-repeat-section .repeat-input {
   width:100%;
   box-sizing:border-box;
   height:34px !important;
+  min-height:34px;
   padding:0 9px;
   border:1px solid var(--border-color);
   border-radius:7px;
@@ -229,6 +241,7 @@
   font-size:13px;
 }
 #jobModal .requirement-repeat-section .remove-item {
+  width:34px;
   height:34px;
   border:1px solid var(--border-color);
   border-radius:7px;
@@ -663,7 +676,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             </div>
             <div id="qualificationsList" class="repeat-list"></div>
           </div>
-        </div>
 
         <div id="jobFormMessage" class="admin-message" role="alert"></div>
 
@@ -696,101 +708,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
   <script src="js/jobs.js?v=17"></script>
-
-  <!-- Keep the Add/Edit Requirement form at the top whenever the modal is opened.
-       This prevents the scrollable form body from reopening at a previous scroll position. -->
-  <script>
-    (function () {
-      const modal = document.getElementById('jobModal');
-      const scrollArea = modal ? modal.querySelector('.requirement-form-grid') : null;
-      if (!modal || !scrollArea) return;
-
-      const resetRequirementScroll = () => {
-        requestAnimationFrame(() => {
-          scrollArea.scrollTop = 0;
-          scrollArea.scrollLeft = 0;
-        });
-      };
-
-      const observer = new MutationObserver(() => {
-        if (!modal.classList.contains('hidden') && modal.getAttribute('aria-hidden') !== 'true') {
-          resetRequirementScroll();
-        }
-      });
-
-      observer.observe(modal, {
-        attributes: true,
-        attributeFilter: ['class', 'aria-hidden']
-      });
-
-      modal.addEventListener('click', (event) => {
-        if (event.target.closest('#closeJobModal, #cancelJobButton')) {
-          resetRequirementScroll();
-        }
-      });
-    })();
-  </script>
-
-  <!-- Requirement repeat-list UI helper. The main jobs.js save/read logic uses .repeat-input rows.
-       This handler guarantees Add works even if the page's delegated binding is unavailable. -->
-  <script>
-    (function () {
-      const modal = document.getElementById('jobModal');
-      if (!modal) return;
-
-      const definitions = {
-        responsibilities: ['responsibilitiesList', 'Enter a key responsibility'],
-        requirements: ['requirementsList', 'Enter a requirement'],
-        qualifications: ['qualificationsList', 'Enter a preferred qualification']
-      };
-
-      function addRow(type, value = '') {
-        const definition = definitions[type];
-        if (!definition) return null;
-        const [listId, placeholder] = definition;
-        const list = document.getElementById(listId);
-        if (!list) return null;
-
-        const row = document.createElement('div');
-        row.className = 'repeat-row';
-        row.innerHTML = `
-          <input type="text" class="repeat-input" data-list-type="${type}" maxlength="500" value="${String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}" placeholder="${placeholder}">
-          <button type="button" class="remove-item" aria-label="Remove item"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-        `;
-        row.querySelector('.remove-item').addEventListener('click', () => row.remove());
-        list.appendChild(row);
-        return row;
-      }
-
-      function ensureInitialRows() {
-        if (modal.classList.contains('hidden') || modal.getAttribute('aria-hidden') === 'true') return;
-        const jobId = document.getElementById('jobId');
-        if (jobId && jobId.value) return;
-        Object.entries(definitions).forEach(([type, [listId]]) => {
-          const list = document.getElementById(listId);
-          if (list && !list.querySelector('.repeat-row')) addRow(type);
-        });
-      }
-
-      // Capture phase prevents a second handler in jobs.js from adding a duplicate row.
-      document.addEventListener('click', (event) => {
-        const button = event.target.closest('#jobModal [data-add-list]');
-        if (!button || button.disabled || button.classList.contains('hidden')) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const row = addRow(button.dataset.addList);
-        if (row) {
-          row.querySelector('.repeat-input')?.focus();
-          row.scrollIntoView({ block: 'nearest', behavior: 'auto' });
-        }
-      }, true);
-
-      const observer = new MutationObserver(ensureInitialRows);
-      observer.observe(modal, { attributes: true, attributeFilter: ['class', 'aria-hidden'] });
-      ensureInitialRows();
-    })();
-  </script>
-
 <script src="js/navigation.js?v=33"></script>
 </body>
 </html>
