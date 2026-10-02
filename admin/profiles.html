@@ -1266,6 +1266,55 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
   <link rel="stylesheet" href="css/navodix-ui-standard.css?v=1">
+
+<style id="profile-association-form-control-standard-v1">
+/* Add Requirement Association — use the same form-control standard as Profile forms. */
+.profile-association-new-body input,
+.profile-association-new-body select,
+.profile-association-new-body textarea{
+  width:100% !important;
+  box-sizing:border-box !important;
+  border:1px solid var(--border-color) !important;
+  border-radius:7px !important;
+  background:#FFFFFF !important;
+  color:var(--text-dark) !important;
+  outline:none !important;
+  transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+
+.profile-association-new-body select{
+  height:34px !important;
+  padding:0 9px !important;
+  line-height:1.2 !important;
+}
+
+.profile-association-new-body textarea{
+  min-height:60px !important;
+  padding:7px 9px !important;
+  resize:vertical !important;
+  line-height:1.35 !important;
+}
+
+/* Profile is a display value, not an input box. Align its text exactly
+   with the Profile label/content start. */
+.profile-association-profile-value{
+  min-height:34px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#1E293B !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+  text-align:left !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
