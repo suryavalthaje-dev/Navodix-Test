@@ -136,6 +136,124 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <style id="last-row-line-standard-v18">
 .applications-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
 </style>
+<style id="application-view-details-standard-architecture">
+/* Applications — View Details modal: standard Header / Scrollable Body / Fixed Footer architecture. */
+#applicationModal {
+  overflow:hidden !important;
+  padding:16px !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-modal-standard {
+  width:min(1000px, calc(100vw - 32px)) !important;
+  height:min(900px, calc(100dvh - 32px)) !important;
+  max-width:calc(100vw - 32px) !important;
+  max-height:calc(100dvh - 32px) !important;
+  margin:0 auto !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  border-radius:10px !important;
+}
+
+#applicationModal .application-details-modal-header {
+  flex:0 0 56px !important;
+  min-height:56px !important;
+  height:56px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+
+#applicationModal .application-modal-standard-body {
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  height:auto !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+  padding:18px 20px 20px !important;
+  overscroll-behavior:contain !important;
+}
+
+#applicationModal .application-modal-standard-footer {
+  flex:0 0 auto !important;
+  min-height:58px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:14px !important;
+  padding:8px 16px !important;
+  background:#C9D9EC !important;
+  border-top:1px solid #AFC1D5 !important;
+  border-bottom:0 !important;
+  overflow:hidden !important;
+}
+
+#applicationModal .application-modal-standard-message {
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  overflow-wrap:anywhere !important;
+}
+
+#applicationModal .application-modal-footer-actions {
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+#applicationModal .application-modal-footer-actions .btn {
+  min-height:36px !important;
+  height:36px !important;
+  white-space:nowrap !important;
+}
+
+#applicationModal .application-modal-standard-body > .application-detail-section:first-child {
+  margin-top:0 !important;
+}
+
+@media (max-width:760px) {
+  #applicationModal { padding:8px !important; }
+  #applicationModal .application-modal-standard {
+    width:calc(100vw - 16px) !important;
+    max-width:calc(100vw - 16px) !important;
+    height:calc(100dvh - 16px) !important;
+    max-height:calc(100dvh - 16px) !important;
+  }
+  #applicationModal .application-modal-standard-body {
+    padding:14px 12px 16px !important;
+  }
+  #applicationModal .application-modal-standard-footer {
+    min-height:70px !important;
+    padding:8px 10px !important;
+    gap:8px !important;
+  }
+  #applicationModal .application-modal-standard-message {
+    font-size:11px !important;
+  }
+  #applicationModal .application-modal-footer-actions {
+    gap:6px !important;
+  }
+  #applicationModal .application-modal-footer-actions .btn {
+    padding-left:9px !important;
+    padding-right:9px !important;
+    font-size:11px !important;
+  }
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -281,7 +399,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 </main>
 <div aria-hidden="true" class="modal-backdrop hidden" id="applicationModal">
-<div aria-labelledby="applicationModalTitle" aria-modal="true" class="job-modal application-modal" role="dialog">
+<div aria-labelledby="applicationModalTitle" aria-modal="true" class="job-modal application-modal application-modal-standard" role="dialog">
 <div class="modal-header application-details-modal-header">
 <div class="application-modal-title-wrap">
 <h2 id="applicationModalTitle">Application Details</h2>
@@ -294,8 +412,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <i aria-hidden="true" class="fa-solid fa-xmark"></i>
 </button>
 </div>
-<div class="application-modal-body">
-<div aria-live="polite" class="admin-message" id="applicationModalMessage" role="status"></div>
+<div class="application-modal-standard-body">
 
 
 
@@ -374,11 +491,15 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-grid" id="applicationContactDetails"></div>
 <div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
 </section>
+</div>
+<footer class="application-modal-standard-footer">
+<div aria-live="polite" class="admin-message application-modal-standard-message" id="applicationModalMessage" role="status"></div>
 <div class="application-modal-footer-actions">
 <button aria-disabled="true" class="btn btn-outline" id="applicationDownloadResumeButton" type="button">Download Resume</button>
 <button aria-disabled="true" class="btn btn-outline" id="applicationResumeButton" type="button">Open Resume</button>
 <button class="btn btn-outline" id="applicationModalCloseBtn" type="button">Close</button>
 </div>
+</footer>
 </div>
 </div>
 </div>
