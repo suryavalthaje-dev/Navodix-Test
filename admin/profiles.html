@@ -1883,6 +1883,61 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="profile-interview-shared-standard-v2">
+/* Interview reuses the established Profile Notes / Association modal architecture. */
+.profile-interview-shared-modal{
+  width:min(1140px, calc(100vw - 32px)) !important;
+  max-width:1140px !important;
+}
+.profile-interview-shared-body{
+  padding:18px 24px 16px !important;
+}
+.profile-interview-shared-footer{
+  min-height:60px !important;
+}
+.profile-interview-shared-body .profile-association-panel{
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 0 14px !important;
+}
+.profile-interview-shared-body .profile-interview-section{
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  border:1px solid #C9D9EA !important;
+  border-radius:7px !important;
+  overflow:hidden !important;
+  background:#FFFFFF !important;
+}
+.profile-interview-shared-body .profile-interview-heading{
+  min-height:48px !important; display:flex !important; align-items:center !important; justify-content:space-between !important; gap:12px !important;
+  padding:8px 12px !important; box-sizing:border-box !important; background:#F1F5FA !important; border-bottom:1px solid #D5E0EC !important;
+}
+.profile-interview-shared-body .profile-interview-heading h3{margin:0 !important;color:#25456F !important;font-size:12px !important;font-weight:800 !important;}
+.profile-interview-shared-body .profile-interview-heading .btn{height:32px !important;padding:6px 13px !important;}
+.profile-interview-shared-body .profile-interview-table-wrap{width:100% !important;min-height:190px !important;overflow:hidden !important;}
+.profile-interview-shared-body .profile-interview-table{width:100% !important;min-width:0 !important;table-layout:fixed !important;border-collapse:collapse !important;}
+.profile-interview-shared-body .profile-interview-table th,.profile-interview-shared-body .profile-interview-table td{box-sizing:border-box !important;}
+.profile-interview-shared-body .profile-interview-table th{background:#EAF2FB !important;color:#25456F !important;font-size:10px !important;font-weight:700 !important;padding:7px 8px !important;text-align:left !important;white-space:nowrap !important;border-right:1px solid #D7E0EA !important;border-bottom:1px solid #D7E0EA !important;}
+.profile-interview-shared-body .profile-interview-table td{font-size:11px !important;color:#263F62 !important;padding:7px 8px !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;border-right:1px solid #D7E0EA !important;border-bottom:1px solid #D7E0EA !important;}
+.profile-interview-shared-body .profile-interview-table th:first-child,.profile-interview-shared-body .profile-interview-table td:first-child{text-align:center !important;}
+.profile-interview-shared-body .profile-interview-actions{white-space:nowrap !important;text-align:center !important;overflow:visible !important;}
+.profile-interview-shared-body .profile-interview-actions .btn{min-width:52px !important;height:27px !important;margin:0 2px !important;padding:4px 8px !important;font-size:10px !important;}
+.profile-interview-shared-body .profile-interviews-empty{padding:16px !important;text-align:center !important;color:#64748B !important;font-size:12px !important;}
+.profile-interview-form-shared-modal{width:min(620px,calc(100vw - 32px)) !important;max-width:620px !important;}
+.profile-interview-form-shared-body{display:block !important;overflow-y:auto !important;overflow-x:hidden !important;}
+.profile-interview-form-shared-body .application-interview-form-grid{display:grid !important;grid-template-columns:1fr 1fr !important;gap:12px !important;}
+.profile-interview-form-shared-body .application-form-field{min-width:0 !important;}
+.profile-interview-form-shared-body .application-form-field-wide{grid-column:1 / -1 !important;}
+.profile-interview-form-shared-body label{display:block !important;margin:0 0 5px !important;color:#263F62 !important;font-size:11px !important;font-weight:700 !important;text-align:left !important;}
+.profile-interview-form-shared-body label span{color:#D92D20 !important;}
+.profile-interview-form-shared-body input,.profile-interview-form-shared-body select,.profile-interview-form-shared-body textarea{width:100% !important;box-sizing:border-box !important;border:1px solid #CBD8E8 !important;border-radius:7px !important;background:#FFFFFF !important;color:#1E293B !important;font-size:13px !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;outline:none !important;}
+.profile-interview-form-shared-body input,.profile-interview-form-shared-body select{height:34px !important;padding:0 9px !important;}
+.profile-interview-form-shared-body textarea{min-height:96px !important;padding:7px 9px !important;resize:vertical !important;line-height:1.35 !important;}
+.profile-interview-form-shared-footer{min-height:60px !important;}
+@media(max-width:700px){.profile-interview-shared-modal{width:calc(100vw - 20px) !important;max-width:calc(100vw - 20px) !important;}.profile-interview-shared-body{padding:14px 18px 16px !important;}.profile-interview-form-shared-body .application-interview-form-grid{grid-template-columns:1fr !important;}.profile-interview-form-shared-body .application-form-field-wide{grid-column:auto !important;}}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
@@ -2092,15 +2147,13 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 
 <div class="modal-backdrop hidden" id="interviewModal" aria-hidden="true">
-  <div class="profile-interview-standard-modal" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
-    <div class="profile-interview-standard-header">
-      <h2 id="interviewModalTitle">Interview Rounds</h2>
-      <button class="profile-interview-standard-close" id="closeInterviewModal" type="button" aria-label="Close">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <div class="profile-notes-new-modal profile-interview-shared-modal" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
+    <div class="modal-header profile-notes-new-header">
+      <div><span class="section-badge">INTERVIEW TRACKING</span><h2 id="interviewModalTitle">Interview Rounds</h2></div>
+      <button class="modal-close" id="closeInterviewModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="profile-interview-standard-body">
+    <div class="profile-notes-new-body profile-interview-shared-body">
       <div id="interviewContext" class="profile-association-panel"></div>
 
       <section class="profile-interview-section">
@@ -2108,52 +2161,57 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           <h3>Interview Rounds</h3>
           <button class="btn btn-primary btn-small" id="addInterviewButton" type="button">Add Interview</button>
         </div>
-
         <div id="interviewTableWrap" class="profile-interview-table-wrap">
           <table class="profile-interview-table">
             <colgroup>
-              <col style="width:4%">
-              <col style="width:10%">
-              <col style="width:10%">
-              <col style="width:12%">
-              <col style="width:6%">
-              <col style="width:9%">
-              <col style="width:13%">
-              <col style="width:26%">
-              <col style="width:10%">
+              <col style="width:4%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:6%"><col style="width:9%"><col style="width:13%"><col style="width:26%"><col style="width:10%">
             </colgroup>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Round</th>
-                <th>Result</th>
-                <th>Scheduled Date</th>
-                <th>Time</th>
-                <th>Mode</th>
-                <th>Interviewer</th>
-                <th>Feedback</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+            <thead><tr><th>#</th><th>Round</th><th>Result</th><th>Scheduled Date</th><th>Time</th><th>Mode</th><th>Interviewer</th><th>Feedback</th><th>Actions</th></tr></thead>
             <tbody id="interviewTableBody"></tbody>
           </table>
         </div>
-
         <div id="noInterviews" class="profile-interviews-empty hidden">No interview rounds have been added.</div>
       </section>
     </div>
 
-    <footer class="profile-interview-standard-footer">
-      <div id="interviewMessage" class="profile-interview-standard-message admin-message" role="alert" aria-live="polite"></div>
-      <div class="profile-interview-standard-actions">
+    <footer class="profile-notes-new-footer profile-interview-shared-footer">
+      <div id="interviewMessage" class="admin-message profile-notes-new-notice" role="alert" aria-live="polite"></div>
+      <div class="profile-notes-new-buttons">
         <button class="btn btn-primary btn-small" id="cancelInterviewModalButton" type="button">Cancel</button>
       </div>
     </footer>
   </div>
 </div>
 
-<div class="modal-backdrop hidden application-child-modal" id="interviewFormModal" aria-hidden="true"><div class="job-modal application-child-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="interviewFormTitle"><div class="modal-header application-child-modal-header"><div><h2 id="interviewFormTitle">Add Interview Round</h2><p id="interviewFormNumber">Interview details</p></div><button aria-label="Close" class="modal-close" id="closeInterviewFormModal" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button></div><form class="application-child-modal-body" id="interviewForm" novalidate><input type="hidden" id="interviewId"><div class="application-interview-form-grid"><div class="application-form-field"><label for="interviewRound">Interview Type <span>*</span></label><select id="interviewRound" required><option value="">Select type</option><option value="Technical">Technical</option><option value="HR">HR</option><option value="Managerial">Managerial</option><option value="Client">Client</option><option value="Other">Other</option></select></div><div class="application-form-field"><label for="interviewResult">Result <span>*</span></label><select id="interviewResult" required><option value="Pending">Pending</option><option value="Passed">Passed</option><option value="Failed">Failed</option><option value="Cancelled">Cancelled</option><option value="Rescheduled">Rescheduled</option><option value="No Show">No Show</option></select></div><div class="application-form-field"><label for="interviewDate">Scheduled Date <span>*</span></label><input id="interviewDate" required type="date"></div><div class="application-form-field"><label for="interviewTime">Scheduled Time</label><input id="interviewTime" type="time"></div><div class="application-form-field"><label for="interviewInterviewer">Interviewer <span>*</span></label><input id="interviewInterviewer" maxlength="150" placeholder="Enter interviewer name" required type="text"></div><div class="application-form-field"><label for="interviewMode">Mode <span>*</span></label><select id="interviewMode" required><option value="Phone">Phone</option><option value="Video">Video</option><option value="In Person">In Person</option><option value="Online">Online</option><option value="Other">Other</option></select></div><div class="application-form-field application-form-field-wide"><label for="interviewFeedback">Feedback / Notes</label><textarea id="interviewFeedback" maxlength="5000" placeholder="Enter interview feedback or notes" rows="4"></textarea></div></div><div aria-live="polite" class="admin-message" id="interviewFormMessage" role="status"></div><div class="application-child-modal-actions"><button class="btn btn-outline btn-small" id="cancelInterviewButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveInterviewButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Interview Round</button></div></form></div></div>
+<div class="modal-backdrop hidden application-child-modal" id="interviewFormModal" aria-hidden="true">
+  <div class="profile-association-new-modal profile-interview-form-shared-modal" role="dialog" aria-modal="true" aria-labelledby="interviewFormTitle">
+    <div class="modal-header profile-association-new-header">
+      <div><h2 id="interviewFormTitle">Add Interview Round</h2><p id="interviewFormNumber">Interview details</p></div>
+      <button aria-label="Close" class="modal-close" id="closeInterviewFormModal" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+    </div>
 
+    <form class="profile-association-new-body profile-interview-form-shared-body" id="interviewForm" novalidate>
+      <input type="hidden" id="interviewId">
+      <div class="application-interview-form-grid">
+        <div class="application-form-field"><label for="interviewRound">Interview Type <span>*</span></label><select id="interviewRound" required><option value="">Select type</option><option value="Technical">Technical</option><option value="HR">HR</option><option value="Managerial">Managerial</option><option value="Client">Client</option><option value="Other">Other</option></select></div>
+        <div class="application-form-field"><label for="interviewResult">Result <span>*</span></label><select id="interviewResult" required><option value="Pending">Pending</option><option value="Passed">Passed</option><option value="Failed">Failed</option><option value="Cancelled">Cancelled</option><option value="Rescheduled">Rescheduled</option><option value="No Show">No Show</option></select></div>
+        <div class="application-form-field"><label for="interviewDate">Scheduled Date <span>*</span></label><input id="interviewDate" required type="date"></div>
+        <div class="application-form-field"><label for="interviewTime">Scheduled Time</label><input id="interviewTime" type="time"></div>
+        <div class="application-form-field"><label for="interviewInterviewer">Interviewer <span>*</span></label><input id="interviewInterviewer" maxlength="150" placeholder="Enter interviewer name" required type="text"></div>
+        <div class="application-form-field"><label for="interviewMode">Mode <span>*</span></label><select id="interviewMode" required><option value="Phone">Phone</option><option value="Video">Video</option><option value="In Person">In Person</option><option value="Online">Online</option><option value="Other">Other</option></select></div>
+        <div class="application-form-field application-form-field-wide"><label for="interviewFeedback">Feedback / Notes</label><textarea id="interviewFeedback" maxlength="5000" placeholder="Enter interview feedback or notes" rows="4"></textarea></div>
+      </div>
+    </form>
+
+    <footer class="profile-association-new-footer profile-interview-form-shared-footer">
+      <div aria-live="polite" class="admin-message profile-association-new-notice" id="interviewFormMessage" role="status"></div>
+      <div class="profile-association-new-buttons">
+        <button class="btn btn-primary btn-small" id="cancelInterviewButton" type="button">Cancel</button>
+        <button class="btn btn-primary btn-small" id="saveInterviewButton" type="submit" form="interviewForm"><i class="fa-solid fa-floppy-disk"></i> Save Interview Round</button>
+      </div>
+    </footer>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=13"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
