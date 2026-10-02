@@ -237,12 +237,11 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
 
 
-<style id="applications-interview-standard-architecture">
-/* Applications -> View Details -> Add Interview Round
-   Canonical Navodix modal architecture, matching Profile Management:
-   Header -> Scrollable Body -> Fixed Footer.
-   The form fields/content themselves are unchanged. */
-#interviewRoundModal .application-interview-standard-modal{
+<style id="applications-child-standard-architecture">
+/* Applications child modals — canonical Navodix architecture matching Profiles Management.
+   Header -> Scrollable Body -> Fixed Footer. */
+#interviewRoundModal .application-interview-standard-modal,
+#applicationNoteModal .application-note-standard-modal{
   width:min(620px, calc(100vw - 32px)) !important;
   max-width:620px !important;
   max-height:calc(100vh - 32px) !important;
@@ -257,16 +256,22 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
 }
 
-#interviewRoundModal .application-interview-standard-header{
+#interviewRoundModal .application-interview-standard-header,
+#applicationNoteModal .application-note-standard-header{
   flex:0 0 auto !important;
+  position:relative !important;
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:space-between !important;
   background:#2878E8 !important;
   border-bottom:0 !important;
-  padding:16px 26px 14px !important;
+  padding:16px 58px 14px 26px !important;
   color:#FFFFFF !important;
   box-sizing:border-box !important;
 }
 
-#interviewRoundModal .application-interview-standard-header h2{
+#interviewRoundModal .application-interview-standard-header h2,
+#applicationNoteModal .application-note-standard-header h2{
   color:#FFFFFF !important;
   font-family:inherit !important;
   font-size:23px !important;
@@ -274,7 +279,8 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   margin:0 !important;
 }
 
-#interviewRoundModal .application-interview-standard-header p{
+#interviewRoundModal .application-interview-standard-header p,
+#applicationNoteModal .application-note-standard-header p{
   margin:5px 0 0 !important;
   color:rgba(255,255,255,.86) !important;
   font-family:inherit !important;
@@ -282,14 +288,30 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   line-height:1.3 !important;
 }
 
-#interviewRoundModal .application-interview-standard-header .modal-close{
+/* Close is deliberately positioned on the right so it cannot be displaced by header content. */
+#interviewRoundModal .application-interview-standard-header .modal-close,
+#applicationNoteModal .application-note-standard-header .modal-close{
+  position:absolute !important;
+  top:50% !important;
+  right:18px !important;
+  transform:translateY(-50%) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:32px !important;
+  height:32px !important;
+  margin:0 !important;
+  padding:0 !important;
   color:#FFFFFF !important;
   background:transparent !important;
   border:0 !important;
   font-size:21px !important;
+  line-height:1 !important;
+  z-index:2 !important;
 }
 
-#interviewRoundModal .application-interview-standard-body{
+#interviewRoundModal .application-interview-standard-body,
+#applicationNoteModal .application-note-standard-body{
   flex:1 1 auto !important;
   min-height:0 !important;
   overflow-y:auto !important;
@@ -299,23 +321,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-family:inherit !important;
 }
 
-/* Keep the existing Add Interview form content styling, while making the
-   form itself the sole scrollable region. */
 #interviewRoundModal .application-interview-standard-body .application-interview-form-grid{
   display:grid !important;
   grid-template-columns:1fr 1fr !important;
   gap:12px !important;
 }
+#interviewRoundModal .application-interview-standard-body .application-form-field,
+#applicationNoteModal .application-note-standard-body .application-form-field{min-width:0 !important;}
+#interviewRoundModal .application-interview-standard-body .application-form-field-wide{grid-column:1 / -1 !important;}
 
-#interviewRoundModal .application-interview-standard-body .application-form-field{
-  min-width:0 !important;
-}
-
-#interviewRoundModal .application-interview-standard-body .application-form-field-wide{
-  grid-column:1 / -1 !important;
-}
-
-#interviewRoundModal .application-interview-standard-body label{
+#interviewRoundModal .application-interview-standard-body label,
+#applicationNoteModal .application-note-standard-body label{
   display:block !important;
   margin:0 0 5px !important;
   color:#263F62 !important;
@@ -324,14 +340,15 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-weight:700 !important;
   text-align:left !important;
 }
-
-#interviewRoundModal .application-interview-standard-body label span{
-  color:#D92D20 !important;
-}
+#interviewRoundModal .application-interview-standard-body label span,
+#applicationNoteModal .application-note-standard-body label span{color:#D92D20 !important;}
 
 #interviewRoundModal .application-interview-standard-body input,
 #interviewRoundModal .application-interview-standard-body select,
-#interviewRoundModal .application-interview-standard-body textarea{
+#interviewRoundModal .application-interview-standard-body textarea,
+#applicationNoteModal .application-note-standard-body input,
+#applicationNoteModal .application-note-standard-body select,
+#applicationNoteModal .application-note-standard-body textarea{
   width:100% !important;
   box-sizing:border-box !important;
   border:1px solid #CBD8E8 !important;
@@ -342,21 +359,14 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-size:13px !important;
   outline:none !important;
 }
-
 #interviewRoundModal .application-interview-standard-body input,
-#interviewRoundModal .application-interview-standard-body select{
-  height:34px !important;
-  padding:0 9px !important;
-}
+#interviewRoundModal .application-interview-standard-body select{height:34px !important;padding:0 9px !important;}
+#interviewRoundModal .application-interview-standard-body textarea{min-height:96px !important;padding:7px 9px !important;resize:vertical !important;line-height:1.35 !important;}
+#applicationNoteModal .application-note-standard-body textarea{min-height:110px !important;padding:7px 9px !important;resize:vertical !important;line-height:1.35 !important;}
+#applicationNoteModal .application-note-counter{margin-top:6px !important;text-align:right !important;color:#355B91 !important;font-size:10px !important;line-height:1.2 !important;}
 
-#interviewRoundModal .application-interview-standard-body textarea{
-  min-height:96px !important;
-  padding:7px 9px !important;
-  resize:vertical !important;
-  line-height:1.35 !important;
-}
-
-#interviewRoundModal .application-interview-standard-footer{
+#interviewRoundModal .application-interview-standard-footer,
+#applicationNoteModal .application-note-standard-footer{
   flex:0 0 auto !important;
   min-height:48px !important;
   box-sizing:border-box !important;
@@ -368,14 +378,16 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:#C9D9EC !important;
   border-top:1px solid #B8CADE !important;
   font-family:inherit !important;
-  overflow:hidden !important;
 }
 
-#interviewRoundModal .application-interview-standard-message{
+#interviewRoundModal .application-interview-standard-message,
+#applicationNoteModal .application-note-standard-message{
   flex:1 1 auto !important;
   min-width:0 !important;
   margin:0 !important;
   padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
   font-family:inherit !important;
   font-size:12px !important;
   line-height:1.3 !important;
@@ -383,7 +395,8 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   overflow-wrap:anywhere !important;
 }
 
-#interviewRoundModal .application-interview-standard-actions{
+#interviewRoundModal .application-interview-standard-actions,
+#applicationNoteModal .application-note-standard-actions{
   flex:0 0 auto !important;
   display:flex !important;
   align-items:center !important;
@@ -392,7 +405,9 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   margin-left:auto !important;
 }
 
-#interviewRoundModal .application-interview-standard-actions .btn{
+/* Button treatment is the same as the approved Profiles Management standard. */
+#interviewRoundModal .application-interview-standard-actions .btn,
+#applicationNoteModal .application-note-standard-actions .btn{
   min-width:86px !important;
   height:30px !important;
   padding:5px 12px !important;
@@ -402,32 +417,26 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-weight:600 !important;
   line-height:1 !important;
 }
-
-#interviewRoundModal .application-interview-standard-actions #saveInterviewRoundButton{
-  min-width:128px !important;
-}
+#interviewRoundModal .application-interview-standard-actions #saveInterviewRoundButton{min-width:128px !important;}
+#applicationNoteModal .application-note-standard-actions #saveApplicationNoteButton{min-width:86px !important;}
 
 @media(max-width:700px){
-  #interviewRoundModal .application-interview-standard-modal{
+  #interviewRoundModal .application-interview-standard-modal,
+  #applicationNoteModal .application-note-standard-modal{
     width:calc(100vw - 20px) !important;
     max-width:calc(100vw - 20px) !important;
     max-height:calc(100vh - 20px) !important;
   }
-  #interviewRoundModal .application-interview-standard-header{
-    padding:14px 18px 12px !important;
-  }
-  #interviewRoundModal .application-interview-standard-body{
-    padding:14px 18px 16px !important;
-  }
-  #interviewRoundModal .application-interview-standard-footer{
-    padding:8px 18px !important;
-  }
-  #interviewRoundModal .application-interview-standard-body .application-interview-form-grid{
-    grid-template-columns:1fr !important;
-  }
-  #interviewRoundModal .application-interview-standard-body .application-form-field-wide{
-    grid-column:auto !important;
-  }
+  #interviewRoundModal .application-interview-standard-header,
+  #applicationNoteModal .application-note-standard-header{padding:14px 54px 12px 18px !important;}
+  #interviewRoundModal .application-interview-standard-header .modal-close,
+  #applicationNoteModal .application-note-standard-header .modal-close{right:12px !important;}
+  #interviewRoundModal .application-interview-standard-body,
+  #applicationNoteModal .application-note-standard-body{padding:14px 18px 16px !important;}
+  #interviewRoundModal .application-interview-standard-footer,
+  #applicationNoteModal .application-note-standard-footer{padding:8px 18px !important;}
+  #interviewRoundModal .application-interview-standard-body .application-interview-form-grid{grid-template-columns:1fr !important;}
+  #interviewRoundModal .application-interview-standard-body .application-form-field-wide{grid-column:auto !important;}
 }
 </style>
 
@@ -705,7 +714,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <footer class="application-interview-standard-footer">
 <div aria-live="polite" class="admin-message application-interview-standard-message" id="interviewFormMessage" role="status"></div>
 <div class="application-interview-standard-actions">
-<button class="btn btn-outline btn-small" id="cancelInterviewRoundButton" type="button">Cancel</button>
+<button class="btn btn-primary btn-small" id="cancelInterviewRoundButton" type="button">Cancel</button>
 <button class="btn btn-primary btn-small" id="saveInterviewRoundButton" type="submit" form="addInterviewRoundForm">Save Interview Round</button>
 </div>
 </footer>
@@ -714,16 +723,21 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <!-- Add Note popup -->
 <div aria-hidden="true" class="modal-backdrop hidden application-child-modal" id="applicationNoteModal">
-<div aria-labelledby="applicationNoteModalTitle" aria-modal="true" class="job-modal application-child-modal-dialog application-note-modal-dialog" role="dialog">
-<div class="modal-header application-child-modal-header">
+<div aria-labelledby="applicationNoteModalTitle" aria-modal="true" class="application-note-standard-modal" role="dialog">
+<div class="application-note-standard-header">
 <div><h2 id="applicationNoteModalTitle">Add Note</h2><p>Application activity note</p></div>
 <button aria-label="Close" class="modal-close" id="closeApplicationNoteModal" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
 </div>
-<form class="application-child-modal-body" id="applicationNoteForm" novalidate>
+<form class="application-note-standard-body" id="applicationNoteForm" novalidate>
 <div class="application-form-field"><label for="applicationNote">Note <span>*</span></label><textarea id="applicationNote" maxlength="5000" placeholder="Enter your note here…" rows="5"></textarea><div class="application-note-counter" id="applicationNoteCounter">0 / 5000</div></div>
-<div aria-live="polite" class="admin-message" id="applicationNoteMessage" role="status"></div>
-<div class="application-child-modal-actions"><button class="btn btn-outline btn-small" id="cancelApplicationNoteButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveApplicationNoteButton" type="submit">Save Note</button></div>
 </form>
+<footer class="application-note-standard-footer">
+<div aria-live="polite" class="admin-message application-note-standard-message" id="applicationNoteMessage" role="status"></div>
+<div class="application-note-standard-actions">
+<button class="btn btn-primary btn-small" id="cancelApplicationNoteButton" type="button">Cancel</button>
+<button class="btn btn-primary btn-small" id="saveApplicationNoteButton" type="submit" form="applicationNoteForm">Save Note</button>
+</div>
+</footer>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
