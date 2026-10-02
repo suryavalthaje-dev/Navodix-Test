@@ -1715,6 +1715,171 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   overflow:hidden !important;
 }
 
+/* ============================================================
+   Reusable Navodix list-modal standard
+   Header -> Scrollable Body -> Fixed Footer
+   Used by profile selection/list dialogs.
+   ============================================================ */
+.profile-list-modal-standard{
+  width:min(900px, calc(100vw - 32px)) !important;
+  max-width:900px !important;
+  height:min(700px, calc(100dvh - 32px)) !important;
+  max-height:calc(100dvh - 32px) !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  background:#FFFFFF !important;
+  border-radius:10px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+}
+.profile-list-modal-standard-header{
+  flex:0 0 56px !important;
+  height:56px !important;
+  min-height:56px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding:0 20px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  border:0 !important;
+}
+.profile-list-modal-standard-header .section-badge{
+  display:none !important;
+}
+.profile-list-modal-standard-header h2{
+  margin:0 !important;
+  color:#FFFFFF !important;
+  font-family:inherit !important;
+  font-size:20px !important;
+  font-weight:600 !important;
+  line-height:1.2 !important;
+}
+.profile-list-modal-standard-header .modal-close{
+  width:32px !important;
+  height:32px !important;
+  flex:0 0 32px !important;
+  border:0 !important;
+  border-radius:5px !important;
+  background:transparent !important;
+  color:#FFFFFF !important;
+  font-size:21px !important;
+}
+.profile-list-modal-standard-header .modal-close:hover{
+  background:rgba(255,255,255,.10) !important;
+  color:#FFFFFF !important;
+}
+.profile-list-modal-standard-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+  padding:20px 20px 16px !important;
+  background:#FFFFFF !important;
+}
+.profile-list-modal-search{
+  width:100% !important;
+  margin:0 0 16px !important;
+  box-sizing:border-box !important;
+}
+.profile-list-modal-table-wrap{
+  width:100% !important;
+  overflow-x:auto !important;
+  overflow-y:visible !important;
+  box-sizing:border-box !important;
+}
+.profile-list-modal-table{
+  width:100% !important;
+  min-width:0 !important;
+}
+.profile-list-modal-table th{
+  padding:10px 10px !important;
+  font-size:10px !important;
+}
+.profile-list-modal-table td{
+  padding:10px 10px !important;
+  font-size:12px !important;
+}
+.profile-list-modal-table .profile-name-cell strong{
+  font-size:13px !important;
+}
+.profile-list-modal-table .profile-name-cell span{
+  font-size:10px !important;
+}
+.profile-list-modal-standard-footer{
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding:8px 20px !important;
+  background:#C9D9EC !important;
+  border-top:1px solid #B8CADE !important;
+  overflow:hidden !important;
+}
+.profile-list-modal-standard-message{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  font-family:inherit !important;
+  font-size:12px !important;
+  line-height:1.3 !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+.profile-list-modal-standard-actions{
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin-left:auto !important;
+}
+.profile-list-modal-standard-actions .btn{
+  min-width:86px !important;
+  height:30px !important;
+  padding:5px 12px !important;
+  border-radius:5px !important;
+  font-family:inherit !important;
+  font-size:10px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+}
+@media(max-width:700px){
+  .profile-list-modal-standard{
+    width:calc(100vw - 20px) !important;
+    max-width:calc(100vw - 20px) !important;
+    height:calc(100dvh - 20px) !important;
+    max-height:calc(100dvh - 20px) !important;
+  }
+  .profile-list-modal-standard-header{
+    padding:0 18px !important;
+  }
+  .profile-list-modal-standard-body{
+    padding:14px 18px 14px !important;
+  }
+  .profile-list-modal-standard-footer{
+    padding:8px 18px !important;
+  }
+}
+
 @media(max-width:700px){
   .profile-notes-new-modal.modal-medium{
     width:calc(100vw - 20px) !important;
@@ -1961,7 +2126,39 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </footer>
 </form></div></div>
 
-<div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true"><div class="profile-modal" style="max-width:850px" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle"><div class="modal-header"><div><span class="section-badge">REQUIREMENT ASSOCIATION</span><h2 id="existingProfileModalTitle">Associate Existing Profile</h2></div><button class="modal-close" id="closeExistingProfileModal" type="button"><i class="fa-solid fa-xmark"></i></button></div><div style="padding:22px 26px"><div class="toolbar-search" style="margin-bottom:14px"><i class="fa-solid fa-magnifying-glass"></i><input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone"></div><div id="existingProfileMessage" class="admin-message"></div><div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="existingProfileTableBody"></tbody></table></div></div></div></div>
+<div class="modal-backdrop hidden" id="existingProfileModal" aria-hidden="true">
+  <div class="profile-list-modal-standard" role="dialog" aria-modal="true" aria-labelledby="existingProfileModalTitle">
+    <div class="profile-list-modal-standard-header">
+      <div>
+        <span class="section-badge">REQUIREMENT ASSOCIATION</span>
+        <h2 id="existingProfileModalTitle">Associate Existing Profile</h2>
+      </div>
+      <button class="modal-close" id="closeExistingProfileModal" type="button" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="profile-list-modal-standard-body">
+      <div class="toolbar-search profile-list-modal-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="existingProfileSearch" type="search" placeholder="Search profile number, name, email or phone">
+      </div>
+      <div class="table-wrap profile-list-modal-table-wrap">
+        <table class="profiles-table profile-list-modal-table">
+          <thead><tr><th>Profile</th><th>Location</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="existingProfileTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="profile-list-modal-standard-footer">
+      <div id="existingProfileMessage" class="admin-message profile-list-modal-standard-message" role="alert" aria-live="polite"></div>
+      <div class="profile-list-modal-standard-actions">
+        <button class="btn btn-primary btn-small" type="button" onclick="document.getElementById('closeExistingProfileModal').click()">Cancel</button>
+      </div>
+    </footer>
+  </div>
+</div>
 
 <div class="modal-backdrop hidden" id="associateRequirementModal" aria-hidden="true">
   <div class="associate-profile-standard-modal" role="dialog" aria-modal="true" aria-labelledby="associateRequirementModalTitle">
