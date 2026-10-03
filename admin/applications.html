@@ -469,6 +469,101 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+<style id="application-inline-resume-viewer">
+/* Application Details — inline resume viewer. Existing Contact & Resume content is preserved. */
+#applicationModal .application-inline-resume-actions{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  margin-top:10px !important;
+  flex-wrap:wrap !important;
+}
+
+#applicationModal .application-inline-resume-actions .btn{
+  min-height:32px !important;
+  height:32px !important;
+  white-space:nowrap !important;
+}
+
+#applicationModal .application-inline-resume-viewer{
+  margin-top:14px !important;
+  border:1px solid #D8E0EA !important;
+  border-radius:8px !important;
+  overflow:hidden !important;
+  background:#F8FAFC !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-inline-resume-viewer-header{
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  padding:7px 10px 7px 14px !important;
+  background:#F3F6FA !important;
+  border-bottom:1px solid #D8E0EA !important;
+  color:#263B5A !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-inline-resume-loading{
+  min-height:80px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:18px !important;
+  color:#52647D !important;
+  font-size:12px !important;
+  text-align:center !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-inline-resume-frame{
+  display:block !important;
+  width:100% !important;
+  height:720px !important;
+  border:0 !important;
+  background:#FFFFFF !important;
+}
+
+#applicationModal .application-inline-resume-docx{
+  width:100% !important;
+  min-height:720px !important;
+  padding:24px !important;
+  box-sizing:border-box !important;
+  background:#EEF2F7 !important;
+  overflow:auto !important;
+}
+
+#applicationModal .application-inline-resume-docx .docx-wrapper{
+  background:transparent !important;
+  padding:0 !important;
+}
+
+#applicationModal .application-inline-resume-docx .docx{
+  margin:0 auto 18px !important;
+  background:#FFFFFF !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.12) !important;
+}
+
+#applicationModal .application-inline-resume-docx .docx table{
+  max-width:100% !important;
+}
+
+#applicationModal .application-inline-resume-docx img{
+  max-width:100% !important;
+}
+
+@media(max-width:700px){
+  #applicationModal .application-inline-resume-docx{padding:10px !important;}
+  #applicationModal .application-inline-resume-docx .docx{max-width:100% !important;overflow-x:auto !important;}
+  #applicationModal .application-inline-resume-frame{height:600px !important;}
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -706,6 +801,15 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-heading"><h3>Contact &amp; Resume</h3></div>
 <div class="application-detail-grid" id="applicationContactDetails"></div>
 <div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
+<div class="application-inline-resume-actions">
+<button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
+<button class="btn btn-outline btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
+</div>
+<div aria-label="Application resume viewer" class="application-inline-resume-viewer hidden" id="applicationInlineResumeViewer">
+<div class="application-inline-resume-loading" id="applicationInlineResumeLoading">Loading resume…</div>
+<iframe class="application-inline-resume-frame hidden" id="applicationInlineResumeFrame" title="Application Resume"></iframe>
+<div aria-label="Application Resume" class="application-inline-resume-docx hidden" id="applicationInlineResumeDocxViewer"></div>
+</div>
 </section>
 </div>
 <footer class="application-modal-standard-footer">
