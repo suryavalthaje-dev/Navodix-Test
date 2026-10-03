@@ -91,11 +91,20 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <style id="user-row-fit-fix">
 /* User Management rows/columns: keep each user to one row where possible, maximum two rows. */
 .users-table th:nth-child(1), .users-table td:nth-child(1) { width:19% !important; }
-.users-table th:nth-child(2), .users-table td:nth-child(2) { width:27% !important; }
+.users-table th:nth-child(2), .users-table td:nth-child(2) { width:25% !important; }
 .users-table th:nth-child(3), .users-table td:nth-child(3) { width:10% !important; }
-.users-table th:nth-child(4), .users-table td:nth-child(4) { width:11% !important; }
-.users-table th:nth-child(5), .users-table td:nth-child(5) { width:16% !important; }
-.users-table th:nth-child(6), .users-table td:nth-child(6) { width:17% !important; }
+.users-table th:nth-child(4), .users-table td:nth-child(4) { width:13% !important; }
+.users-table th:nth-child(5), .users-table td:nth-child(5) { width:15% !important; }
+.users-table th:nth-child(6), .users-table td:nth-child(6) { width:18% !important; }
+.users-table tbody td:nth-child(3) > *,
+.users-table tbody td:nth-child(4) > * {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
 .users-table tbody td:nth-child(1),
 .users-table tbody td:nth-child(2),
 .users-table tbody td:nth-child(3),
