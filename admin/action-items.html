@@ -439,7 +439,7 @@
 
 <div class="modal-backdrop hidden" id="actionDetailModal" aria-hidden="true">
 <div aria-labelledby="actionDetailTitle" aria-modal="true" class="job-modal application-modal action-detail-modal" role="dialog">
-  <div class="modal-header application-details-modal-header">
+  <div class="modal-header application-details-modal-header application-child-modal-header">
     <div class="application-modal-title-wrap">
       <h2 id="actionDetailTitle">Action Item</h2>
       <p class="application-modal-number" id="actionDetailMeta">View complete action item information</p>
@@ -447,7 +447,7 @@
     <div aria-label="Action item status" class="application-modal-header-status"><span id="actionDetailStatus">Pending</span></div>
     <button aria-label="Close" class="modal-close" id="closeActionDetail" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
   </div>
-  <div class="application-modal-body">
+  <div class="application-modal-body application-child-modal-body">
     <div aria-live="polite" class="admin-message" id="actionDetailMessage" role="status"></div>
 
     <section class="application-detail-section">
@@ -479,11 +479,11 @@
       <div class="application-activity-list" id="actionHistoryList"></div>
     </section>
 
-    <div class="application-modal-footer-actions">
-      <button class="btn btn-danger action-delete-detail-button" id="actionDetailDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Delete Action Item</button>
-      <button class="btn btn-primary action-edit-detail-button" id="actionDetailEditBtn" type="button"><i class="fa-solid fa-pen-to-square"></i> Edit Action Item</button>
-      <button class="btn btn-outline" id="actionDetailCloseBtn" type="button">Close</button>
-    </div>
+  </div>
+  <div class="application-modal-footer-actions application-child-modal-actions">
+    <button class="btn btn-danger action-delete-detail-button" id="actionDetailDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Delete Action Item</button>
+    <button class="btn btn-primary action-edit-detail-button" id="actionDetailEditBtn" type="button"><i class="fa-solid fa-pen-to-square"></i> Edit Action Item</button>
+    <button class="btn btn-outline" id="actionDetailCloseBtn" type="button">Close</button>
   </div>
 </div>
 </div>
