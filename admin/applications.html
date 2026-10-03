@@ -136,6 +136,106 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <style id="last-row-line-standard-v18">
 .applications-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
 </style>
+
+<style id="application-details-modal-standard-bridge">
+/* Application Details modal: use the frozen Navodix UI standard.
+   Only the modal shell/header/footer/button structure is bridged here.
+   The content inside .application-modal-body is intentionally untouched. */
+#applicationModal .application-modal {
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  border-radius:10px !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-details-modal-header.application-child-modal-header {
+  flex:0 0 56px !important;
+  height:56px !important;
+  min-height:56px !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-modal-title-wrap {
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+
+#applicationModal .application-modal-title-wrap h2 {
+  font-size:20px !important;
+  font-weight:600 !important;
+  line-height:24px !important;
+  color:#FFFFFF !important;
+  margin:0 !important;
+}
+
+#applicationModal .application-modal-header-status {
+  flex:0 0 auto !important;
+  margin-left:auto !important;
+}
+
+#applicationModal .application-modal-header-status span {
+  font-size:12px !important;
+  font-weight:600 !important;
+  color:#FFFFFF !important;
+}
+
+#applicationModal .application-modal-body.application-child-modal-body {
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-modal-standard-footer {
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  padding:0 20px !important;
+  box-sizing:border-box !important;
+  background:#C9D9EC !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  overflow:hidden !important;
+}
+
+#applicationModal .application-modal-footer-actions {
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:10px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+#applicationModal .application-modal-footer-actions .btn {
+  min-height:36px !important;
+  height:36px !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+  white-space:nowrap !important;
+}
+
+@media (max-width:760px) {
+  #applicationModal .application-modal-standard-footer {
+    padding:0 10px !important;
+  }
+  #applicationModal .application-modal-footer-actions {
+    gap:6px !important;
+  }
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -374,10 +474,12 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-grid" id="applicationContactDetails"></div>
 <div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
 </section>
-<div class="application-modal-footer-actions application-child-modal-actions">
-<button aria-disabled="true" class="btn btn-outline" id="applicationDownloadResumeButton" type="button">Download Resume</button>
-<button aria-disabled="true" class="btn btn-outline" id="applicationResumeButton" type="button">Open Resume</button>
-<button class="btn btn-outline" id="applicationModalCloseBtn" type="button">Close</button>
+</div>
+<div class="application-modal-standard-footer application-child-modal-actions">
+<div class="application-modal-footer-actions">
+<button aria-disabled="true" class="btn btn-primary" id="applicationDownloadResumeButton" type="button">Download Resume</button>
+<button aria-disabled="true" class="btn btn-primary" id="applicationResumeButton" type="button">Open Resume</button>
+<button class="btn btn-primary" id="applicationModalCloseBtn" type="button">Close</button>
 </div>
 </div>
 </div>
