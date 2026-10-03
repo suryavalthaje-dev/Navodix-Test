@@ -328,6 +328,7 @@
       $('employmentType').value = job.employment_type || 'full_time';
       $('jobExperience').value = job.experience || '';
       $('jobStatus').value = job.status || 'draft';
+      $('salaryRange').value = job.salary_budget || '';
       $('closingDate').value = job.closing_date || '';
       $('shortDescription').value = job.short_description || '';
       $('detailedDescription').value = job.detailed_description || '';
@@ -426,6 +427,7 @@
     const experience = $('jobExperience').value.trim();
     const skillLevel = $('skillLevel').value.trim() || null;
     const status = $('jobStatus').value;
+    const salaryRange = $('salaryRange').value.trim() || null;
     const closingDate = $('closingDate').value || null;
     const shortDescription = $('shortDescription').value.trim() || null;
     const detailedDescription = $('detailedDescription').value.trim() || null;
@@ -455,6 +457,7 @@
           short_description: shortDescription,
           detailed_description: detailedDescription,
           status,
+          salary_budget: salaryRange,
           closing_date: closingDate,
           job_open_date: jobOpenDate,
           skill_level: skillLevel,
@@ -496,6 +499,15 @@
         });
         if (error) throw error;
         savedJob = Array.isArray(data) ? data[0] : data;
+
+        // Salary Range is stored in the existing jobs.salary_budget field.
+        const { data: salaryUpdatedJob, error: salaryError } = await supabase.from('jobs')
+          .update({ salary_budget: salaryRange })
+          .eq('id', savedJob.id)
+          .select('*')
+          .single();
+        if (salaryError) throw salaryError;
+        savedJob = salaryUpdatedJob;
       }
 
       await Promise.all([
