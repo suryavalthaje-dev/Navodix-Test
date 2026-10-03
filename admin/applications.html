@@ -521,8 +521,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   box-sizing:border-box !important;
 }
 
+/* Keep hidden viewer elements out of the document flow. */
+#applicationModal .application-inline-resume-viewer.hidden,
+#applicationModal .application-inline-resume-loading.hidden,
+#applicationModal .application-inline-resume-frame.hidden,
+#applicationModal .application-inline-resume-docx.hidden,
+#applicationModal #applicationInlineCloseResumeButton.hidden{
+  display:none !important;
+}
+
 #applicationModal .application-inline-resume-frame{
-  display:block !important;
+  display:block;
   width:100% !important;
   height:720px !important;
   border:0 !important;
