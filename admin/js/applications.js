@@ -6,10 +6,6 @@
   let applications = [];
   let currentPage = 1;
   let selectedApplication = null;
-  let editingInterviewId = null;
-  let interviewResultsByApplication = new Map();
-  let jobCategories = [];
-  let locations = [];
 
   const $ = (id) => document.getElementById(id);
 
@@ -73,15 +69,6 @@
   function filteredApplications() {
     const search = $('applicationSearch').value.trim().toLowerCase();
     const status = $('applicationStatusFilter').value;
-    const clientId = $('applicationClientFilter').value;
-    const jobId = $('applicationJobFilter').value;
-    const categoryId = $('applicationCategoryFilter').value;
-    const locationId = $('applicationLocationFilter').value;
-    const dateFrom = $('applicationDateFrom').value;
-    const dateTo = $('applicationDateTo').value;
-    const interviewResult = $('applicationInterviewResultFilter').value;
-    const submittedClient = $('applicationSubmittedClientFilter').value;
-    const futureConsideration = $('applicationFutureConsiderationFilter').value;
 
     return applications.filter(application => {
       const applicant = application.applicants || {};
@@ -98,91 +85,8 @@
 
       const matchesSearch = !search || haystack.some(value => value.includes(search));
       const matchesStatus = !status || application.status === status;
-      const matchesClient = !clientId || String(job.client_id || '') === clientId;
-      const matchesJob = !jobId || String(job.id || '') === jobId;
-      const matchesCategory = !categoryId || String(job.job_category_id || '') === categoryId;
-      const matchesLocation = !locationId || String(job.location_id || '') === locationId;
-      const applicationDate = String(application.submitted_at || application.applied_at || '').slice(0, 10);
-      const matchesDateFrom = !dateFrom || (applicationDate && applicationDate >= dateFrom);
-      const matchesDateTo = !dateTo || (applicationDate && applicationDate <= dateTo);
-      const roundResults = interviewResultsByApplication.get(String(application.id)) || [];
-      const matchesInterviewResult = !interviewResult || roundResults.includes(interviewResult);
-      const matchesSubmittedClient = !submittedClient || (submittedClient === 'yes' ? application.status === 'submitted_to_client' : application.status !== 'submitted_to_client');
-      const matchesFutureConsideration = !futureConsideration || (futureConsideration === 'yes' ? application.status === 'future_consideration' : application.status !== 'future_consideration');
-
-      return matchesSearch && matchesStatus && matchesClient && matchesJob &&
-        matchesCategory && matchesLocation && matchesDateFrom && matchesDateTo &&
-        matchesInterviewResult && matchesSubmittedClient && matchesFutureConsideration;
+      return matchesSearch && matchesStatus;
     });
-  }
-
-  function populateFilterOptions() {
-    const clientMap = new Map();
-    const jobMap = new Map();
-
-    applications.forEach(application => {
-      const job = application.jobs || {};
-      const client = job.clients || {};
-      if (job.id) jobMap.set(String(job.id), job);
-      if (job.client_id && client.client_name) clientMap.set(String(job.client_id), client.client_name);
-    });
-
-    const categoryMap = new Map(jobCategories.map(item => [String(item.id), item.category_name]));
-    const locationMap = new Map(locations.map(item => [String(item.id), item.location_name]));
-
-    const fill = (id, entries, placeholder) => {
-      const select = $(id);
-      const current = select.value;
-      select.innerHTML = `<option value="">${placeholder}</option>` + entries
-        .sort((a, b) => a[1].localeCompare(b[1]))
-        .map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
-        .join('');
-      if ([...select.options].some(option => option.value === current)) select.value = current;
-    };
-
-    fill('applicationClientFilter', [...clientMap.entries()], 'All Clients');
-    fill('applicationJobFilter', [...jobMap.entries()].map(([id, job]) => [id, `${job.title || 'Untitled Requirement'}${job.job_code ? ` (${job.job_code})` : ''}`]), 'All Requirements');
-    fill('applicationCategoryFilter', [...categoryMap.entries()], 'All Job Categories');
-    fill('applicationLocationFilter', [...locationMap.entries()], 'All Locations');
-    updateApplicationFilterHighlights();
-  }
-
-  function updateApplicationFilterHighlights() {
-    const filterIds = [
-      'applicationStatusFilter',
-      'applicationClientFilter',
-      'applicationJobFilter',
-      'applicationCategoryFilter',
-      'applicationLocationFilter',
-      'applicationDateFrom',
-      'applicationDateTo',
-      'applicationInterviewResultFilter',
-      'applicationSubmittedClientFilter',
-      'applicationFutureConsiderationFilter'
-    ];
-
-    filterIds.forEach(id => {
-      const control = $(id);
-      if (!control) return;
-      control.classList.toggle('application-filter-active', Boolean(control.value));
-    });
-  }
-
-  function clearApplicationFilters() {
-    $('applicationSearch').value = '';
-    $('applicationStatusFilter').value = '';
-    $('applicationClientFilter').value = '';
-    $('applicationJobFilter').value = '';
-    $('applicationCategoryFilter').value = '';
-    $('applicationLocationFilter').value = '';
-    $('applicationDateFrom').value = '';
-    $('applicationDateTo').value = '';
-    $('applicationInterviewResultFilter').value = '';
-    $('applicationSubmittedClientFilter').value = '';
-    $('applicationFutureConsiderationFilter').value = '';
-    currentPage = 1;
-    updateApplicationFilterHighlights();
-    renderApplications();
   }
 
   function renderApplications() {
@@ -228,7 +132,7 @@
           <td>${escapeHtml(formatExperience(applicant.total_experience))}</td>
           <td>${escapeHtml(formatDate(application.submitted_at || application.applied_at))}</td>
           <td><span class="status-pill ${statusClass(application.status)}">${escapeHtml(statusLabel(application.status))}</span></td>
-          <td><button class="btn btn-outline btn-small application-view-button" type="button" data-id="${escapeHtml(application.id)}"><i class="fa-solid fa-eye" aria-hidden="true"></i> Details</button></td>
+          <td><button class="btn btn-outline btn-small application-view-button" type="button" data-id="${escapeHtml(application.id)}"><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button></td>
         </tr>
       `;
     }).join('');
@@ -237,14 +141,9 @@
     empty.classList.toggle('hidden', hasRows);
     body.parentElement.classList.toggle('hidden', !hasRows);
 
-    const showingStart = rows.length ? start + 1 : 0;
-    const showingEnd = rows.length ? start + pageRows.length : 0;
-    $('applicationsPageInfo').textContent = `Showing ${showingStart}-${showingEnd} of ${rows.length}`;
-    $('applicationsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
-    $('applicationsFirst').disabled = currentPage <= 1;
+    $('applicationsPageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
     $('applicationsPrev').disabled = currentPage <= 1;
     $('applicationsNext').disabled = currentPage >= totalPages;
-    $('applicationsLast').disabled = currentPage >= totalPages;
     $('applicationsPagination').classList.toggle('hidden', !rows.length);
 
     updateSummary();
@@ -294,9 +193,6 @@
             title,
             job_code,
             location,
-            location_id,
-            job_category_id,
-            client_id,
             employment_type,
             clients:client_id(client_name)
           )
@@ -306,27 +202,6 @@
       if (error) throw error;
 
       applications = data || [];
-
-      const [categoryResult, locationResult, interviewResult] = await Promise.all([
-        supabase.from('job_categories').select('id, category_name').order('category_name'),
-        supabase.from('locations').select('id, location_name').order('location_name'),
-        supabase.from('application_interviews').select('application_id, result')
-      ]);
-
-      if (categoryResult.error) throw categoryResult.error;
-      if (locationResult.error) throw locationResult.error;
-      if (interviewResult.error) throw interviewResult.error;
-
-      jobCategories = categoryResult.data || [];
-      locations = locationResult.data || [];
-      interviewResultsByApplication = new Map();
-      (interviewResult.data || []).forEach(row => {
-        const key = String(row.application_id);
-        if (!interviewResultsByApplication.has(key)) interviewResultsByApplication.set(key, []);
-        interviewResultsByApplication.get(key).push(row.result);
-      });
-
-      populateFilterOptions();
       currentPage = 1;
       renderApplications();
       showMessage(applications.length ? '' : 'No applications have been submitted yet.', '');
@@ -368,672 +243,6 @@
     el.className = 'admin-message' + (type ? ' ' + type : '');
   }
 
-  function setApplicationStatusMessage(text, type = '') {
-    const el = $('applicationStatusMessage');
-    if (!el) return;
-    el.textContent = text || '';
-    el.className = 'admin-message' + (type ? ' ' + type : '');
-  }
-
-  function resetApplicationStatusForm(status) {
-    if ($('applicationStatusSelect')) $('applicationStatusSelect').value = status || 'new';
-    if ($('applicationStatusNote')) $('applicationStatusNote').value = '';
-    setApplicationStatusMessage('');
-    if ($('saveApplicationStatusButton')) {
-      $('saveApplicationStatusButton').disabled = false;
-      $('saveApplicationStatusButton').textContent = 'Save Status';
-    }
-  }
-
-  function interviewTypeLabel(value) {
-    return statusLabel(value);
-  }
-
-  function interviewResultLabel(value) {
-    return statusLabel(value);
-  }
-
-  function interviewModeLabel(value) {
-    return value === 'in_person' ? 'In Person' : statusLabel(value);
-  }
-
-  function renderInterviewRounds(rounds) {
-    const container = $('applicationInterviewsList');
-    if (!container) return;
-    if (!rounds || !rounds.length) {
-      container.innerHTML = '<div class="application-interviews-empty">No interview rounds have been added.</div>';
-      return;
-    }
-
-    container.innerHTML = `
-      <div class="application-interview-table-wrap">
-        <table class="application-interview-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Round</th>
-              <th>Result</th>
-              <th>Scheduled Date</th>
-              <th>Time</th>
-              <th>Mode</th>
-              <th>Interviewer</th>
-              <th>Feedback</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rounds.map(round => `
-              <tr data-interview-id="${escapeHtml(round.id)}">
-                <td>${escapeHtml(round.round_number)}</td>
-                <td>${escapeHtml(interviewTypeLabel(round.interview_type))}</td>
-                <td><span class="interview-result-pill interview-result-${escapeHtml(round.result)}">${escapeHtml(interviewResultLabel(round.result))}</span></td>
-                <td>${escapeHtml(formatDate(round.scheduled_date))}</td>
-                <td>${escapeHtml(round.scheduled_time ? String(round.scheduled_time).slice(0,5) : '—')}</td>
-                <td>${escapeHtml(interviewModeLabel(round.mode))}</td>
-                <td>${escapeHtml(round.interviewer || '—')}</td>
-                <td class="application-interview-feedback-cell">${escapeHtml(round.feedback || '—')}</td>
-                <td class="application-interview-table-actions">
-                  <button type="button" class="btn btn-outline btn-small interview-edit-button" data-interview-id="${escapeHtml(round.id)}">Edit</button>
-                  <button type="button" class="btn btn-outline btn-small interview-delete-button" data-interview-id="${escapeHtml(round.id)}">Delete</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>`;
-  }
-
-  async function loadInterviewRounds(applicationId) {
-    const container = $('applicationInterviewsList');
-    if (container) container.innerHTML = '<div class="application-interviews-empty">Loading interview rounds…</div>';
-
-    const { data, error } = await supabase
-      .from('application_interviews')
-      .select('id, application_id, round_number, interview_type, scheduled_date, scheduled_time, interviewer, mode, result, feedback, created_by, created_at, updated_at')
-      .eq('application_id', applicationId)
-      .order('round_number', { ascending: true });
-
-    if (error) {
-      console.error('Navodix interview rounds load failed:', error);
-      if (container) container.innerHTML = '<div class="application-interviews-empty error">Interview rounds could not be loaded.</div>';
-      return;
-    }
-    renderInterviewRounds(data || []);
-  }
-
-  function setInterviewFormMessage(text, type = '') {
-    const el = $('interviewFormMessage');
-    if (!el) return;
-    el.textContent = text || '';
-    el.className = 'admin-message' + (type ? ' ' + type : '');
-  }
-
-  function resetInterviewForm() {
-    editingInterviewId = null;
-    const form = $('addInterviewRoundForm');
-    if (form) form.reset();
-    if ($('interviewResult')) $('interviewResult').value = 'pending';
-    if ($('interviewMode')) $('interviewMode').value = 'online';
-    if ($('interviewRoundModalTitle')) $('interviewRoundModalTitle').textContent = 'Add Interview Round';
-    if ($('interviewRoundModalNumber')) $('interviewRoundModalNumber').textContent = 'Interview details';
-    if ($('saveInterviewRoundButton')) $('saveInterviewRoundButton').textContent = 'Save Interview Round';
-    setInterviewFormMessage('');
-  }
-
-  function toggleInterviewForm(show) {
-    const modal = $('interviewRoundModal');
-    const form = $('addInterviewRoundForm');
-    if (!modal || !form) return;
-    if (show) {
-      modal.classList.remove('hidden');
-      modal.setAttribute('aria-hidden', 'false');
-      setInterviewFormMessage('');
-      setTimeout(() => $('interviewType')?.focus(), 0);
-    } else {
-      modal.classList.add('hidden');
-      modal.setAttribute('aria-hidden', 'true');
-      resetInterviewForm();
-    }
-  }
-
-  async function getCurrentUserId() {
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) throw sessionError;
-    const userId = sessionData?.session?.user?.id;
-    if (!userId) throw new Error('Your session has expired. Please sign in again.');
-    return userId;
-  }
-
-  function interviewActivityNote(round, action) {
-    const date = formatDate(round.scheduled_date);
-    const time = round.scheduled_time ? String(round.scheduled_time).slice(0, 5) : '—';
-    const details = [
-      `${interviewTypeLabel(round.interview_type)} interview`,
-      `Date: ${date}`,
-      `Time: ${time}`,
-      `Interviewer: ${round.interviewer || '—'}`,
-      `Mode: ${interviewModeLabel(round.mode)}`,
-      `Result: ${interviewResultLabel(round.result)}`
-    ].join(' | ');
-    const feedback = round.feedback ? ` | Feedback: ${round.feedback}` : '';
-    return `${action} Round ${round.round_number} — ${details}${feedback}`;
-  }
-
-  async function saveInterviewRound(event) {
-    event.preventDefault();
-    if (!selectedApplication) return;
-
-    const type = $('interviewType').value;
-    const date = $('interviewDate').value;
-    const time = $('interviewTime').value || null;
-    const interviewer = $('interviewer').value.trim();
-    const mode = $('interviewMode').value;
-    const result = $('interviewResult').value;
-    const feedback = $('interviewFeedback').value.trim() || null;
-
-    if (!type || !date || !interviewer || !mode || !result) {
-      setInterviewFormMessage('Please complete all required interview fields.', 'error');
-      return;
-    }
-
-    const saveButton = $('saveInterviewRoundButton');
-    saveButton.disabled = true;
-    saveButton.textContent = editingInterviewId ? 'Updating…' : 'Saving…';
-    setInterviewFormMessage('');
-
-    try {
-      const userId = await getCurrentUserId();
-      const newValues = {
-        interview_type: type,
-        scheduled_date: date,
-        scheduled_time: time,
-        interviewer,
-        mode,
-        result,
-        feedback
-      };
-
-      if (editingInterviewId) {
-        const { data: existingRound, error: existingError } = await supabase
-          .from('application_interviews')
-          .select('id, application_id, round_number, interview_type, scheduled_date, scheduled_time, interviewer, mode, result, feedback')
-          .eq('id', editingInterviewId)
-          .eq('application_id', selectedApplication.id)
-          .maybeSingle();
-        if (existingError || !existingRound) {
-          throw existingError || new Error('Interview round could not be found.');
-        }
-
-        const { error: updateError } = await supabase
-          .from('application_interviews')
-          .update(newValues)
-          .eq('id', editingInterviewId)
-          .eq('application_id', selectedApplication.id);
-        if (updateError) throw updateError;
-
-        const updatedRound = { ...existingRound, ...newValues };
-        const { error: activityError } = await supabase
-          .from('application_activity')
-          .insert({
-            application_id: selectedApplication.id,
-            activity_type: 'interview_updated',
-            note: interviewActivityNote(updatedRound, 'Updated'),
-            created_by: userId
-          });
-
-        if (activityError) {
-          await supabase
-            .from('application_interviews')
-            .update({
-              interview_type: existingRound.interview_type,
-              scheduled_date: existingRound.scheduled_date,
-              scheduled_time: existingRound.scheduled_time,
-              interviewer: existingRound.interviewer,
-              mode: existingRound.mode,
-              result: existingRound.result,
-              feedback: existingRound.feedback
-            })
-            .eq('id', existingRound.id)
-            .eq('application_id', selectedApplication.id);
-          throw activityError;
-        }
-
-        setInterviewFormMessage('Interview round updated successfully.', 'success');
-      } else {
-        const { data: nextRound, error: roundError } = await supabase.rpc('get_next_interview_round', {
-          p_application_id: selectedApplication.id
-        });
-        if (roundError) throw roundError;
-
-        const roundNumber = Number(nextRound);
-        const roundToInsert = {
-          application_id: selectedApplication.id,
-          round_number: roundNumber,
-          ...newValues,
-          created_by: userId
-        };
-
-        const { data: insertedRound, error: insertError } = await supabase
-          .from('application_interviews')
-          .insert(roundToInsert)
-          .select('id, application_id, round_number, interview_type, scheduled_date, scheduled_time, interviewer, mode, result, feedback')
-          .single();
-        if (insertError) throw insertError;
-
-        const { error: activityError } = await supabase
-          .from('application_activity')
-          .insert({
-            application_id: selectedApplication.id,
-            activity_type: 'interview_created',
-            note: interviewActivityNote(insertedRound, 'Created'),
-            created_by: userId
-          });
-
-        if (activityError) {
-          await supabase
-            .from('application_interviews')
-            .delete()
-            .eq('id', insertedRound.id)
-            .eq('application_id', selectedApplication.id);
-          throw activityError;
-        }
-
-        setInterviewFormMessage(`Round ${roundNumber} saved successfully.`, 'success');
-      }
-
-      toggleInterviewForm(false);
-      await Promise.all([
-        loadInterviewRounds(selectedApplication.id),
-        loadApplicationActivity(selectedApplication.id)
-      ]);
-    } catch (error) {
-      console.error('Navodix interview round save failed:', error);
-      setInterviewFormMessage(`Could not save the interview round: ${error.message || error}`, 'error');
-    } finally {
-      saveButton.disabled = false;
-      saveButton.textContent = 'Save Interview Round';
-    }
-  }
-
-  async function editInterviewRound(interviewId) {
-    if (!selectedApplication) return;
-    const { data: round, error } = await supabase
-      .from('application_interviews')
-      .select('id, application_id, round_number, interview_type, scheduled_date, scheduled_time, interviewer, mode, result, feedback')
-      .eq('id', interviewId)
-      .eq('application_id', selectedApplication.id)
-      .maybeSingle();
-    if (error || !round) {
-      setApplicationModalMessage(error?.message || 'Interview round could not be found.', 'error');
-      return;
-    }
-    editingInterviewId = round.id;
-    $('interviewType').value = round.interview_type || '';
-    $('interviewDate').value = round.scheduled_date || '';
-    $('interviewTime').value = round.scheduled_time ? String(round.scheduled_time).slice(0,5) : '';
-    $('interviewer').value = round.interviewer || '';
-    $('interviewMode').value = round.mode || 'online';
-    $('interviewResult').value = round.result || 'pending';
-    $('interviewFeedback').value = round.feedback || '';
-    $('interviewRoundModalTitle').textContent = `Edit Round ${round.round_number}`;
-    $('interviewRoundModalNumber').textContent = 'Update interview details';
-    $('saveInterviewRoundButton').textContent = 'Update Interview Round';
-    setInterviewFormMessage('');
-    toggleInterviewForm(true);
-  }
-
-  async function deleteInterviewRound(interviewId) {
-    if (!selectedApplication) return;
-    const confirmed = window.confirm('Delete this interview round? This action cannot be undone.');
-    if (!confirmed) return;
-
-    try {
-      const userId = await getCurrentUserId();
-      const { data: round, error: roundError } = await supabase
-        .from('application_interviews')
-        .select('id, application_id, round_number, interview_type, scheduled_date, scheduled_time, interviewer, mode, result, feedback')
-        .eq('id', interviewId)
-        .eq('application_id', selectedApplication.id)
-        .maybeSingle();
-      if (roundError || !round) throw roundError || new Error('Interview round could not be found.');
-
-      const { error: deleteError } = await supabase
-        .from('application_interviews')
-        .delete()
-        .eq('id', interviewId)
-        .eq('application_id', selectedApplication.id);
-      if (deleteError) throw deleteError;
-
-      const { error: activityError } = await supabase
-        .from('application_activity')
-        .insert({
-          application_id: selectedApplication.id,
-          activity_type: 'interview_deleted',
-          note: interviewActivityNote(round, 'Deleted'),
-          created_by: userId
-        });
-
-      if (activityError) {
-        await supabase
-          .from('application_interviews')
-          .insert({
-            id: round.id,
-            application_id: round.application_id,
-            round_number: round.round_number,
-            interview_type: round.interview_type,
-            scheduled_date: round.scheduled_date,
-            scheduled_time: round.scheduled_time,
-            interviewer: round.interviewer,
-            mode: round.mode,
-            result: round.result,
-            feedback: round.feedback,
-            created_by: userId
-          });
-        throw activityError;
-      }
-
-      await Promise.all([
-        loadInterviewRounds(selectedApplication.id),
-        loadApplicationActivity(selectedApplication.id)
-      ]);
-      setApplicationModalMessage('Interview round deleted successfully.', 'success');
-    } catch (error) {
-      console.error('Navodix interview round delete failed:', error);
-      setApplicationModalMessage(`Could not delete the interview round: ${error.message || error}`, 'error');
-    }
-  }
-
-  function activityTypeLabel(value) {
-    if (value === 'status_change') return 'Status Changed';
-    if (value === 'note') return 'Note Added';
-    if (value === 'interview_created') return 'Interview Round Added';
-    if (value === 'interview_updated') return 'Interview Round Updated';
-    if (value === 'interview_deleted') return 'Interview Round Deleted';
-    return statusLabel(value || 'Activity');
-  }
-
-  function setApplicationNoteMessage(text, type = '') {
-    const el = $('applicationNoteMessage');
-    if (!el) return;
-    el.textContent = text || '';
-    el.className = 'admin-message' + (type ? ' ' + type : '');
-  }
-
-  function toggleApplicationNoteForm(show) {
-    const modal = $('applicationNoteModal');
-    const form = $('applicationNoteForm');
-    if (!modal || !form) return;
-    if (show) {
-      modal.classList.remove('hidden');
-      modal.setAttribute('aria-hidden', 'false');
-      if ($('applicationNote')) $('applicationNote').value = '';
-      updateApplicationNoteCounter();
-      setApplicationNoteMessage('');
-      setTimeout(() => $('applicationNote')?.focus(), 0);
-    } else {
-      modal.classList.add('hidden');
-      modal.setAttribute('aria-hidden', 'true');
-      if ($('applicationNote')) $('applicationNote').value = '';
-      updateApplicationNoteCounter();
-      setApplicationNoteMessage('');
-    }
-  }
-
-  function updateApplicationNoteCounter() {
-    const note = $('applicationNote');
-    const counter = $('applicationNoteCounter');
-    if (note && counter) counter.textContent = `${note.value.length} / 5000`;
-  }
-
-  function renderActivityTable(rows, kind) {
-    if (!rows || !rows.length) {
-      const message = kind === 'notes'
-        ? 'No notes have been added for this application.'
-        : 'No status changes have been recorded for this application.';
-      return `<div class="application-activity-empty">${message}</div>`;
-    }
-
-    if (kind === 'notes') {
-      return `
-        <div class="application-activity-table-wrap">
-          <table class="application-activity-table application-notes-history-table">
-            <thead>
-              <tr>
-                <th>By</th>
-                <th>Date &amp; Time</th>
-                <th>Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows.map(item => {
-                const actor = item.created_by ? (item.created_by_name || item.created_by_email || 'Unknown User') : 'System';
-                return `
-                  <tr>
-                    <td>${escapeHtml(actor)}</td>
-                    <td>${escapeHtml(formatDateTime(item.created_at))}</td>
-                    <td class="application-activity-details-cell">${escapeHtml(item.note || '—').replace(/\n/g, '<br>')}</td>
-                  </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>`;
-    }
-
-    return `
-      <div class="application-activity-table-wrap">
-        <table class="application-activity-table application-status-history-table">
-          <thead>
-            <tr>
-              <th>By</th>
-              <th>Date &amp; Time</th>
-              <th>Previous Status</th>
-              <th>New Status</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows.map(item => {
-              const actor = item.created_by ? (item.created_by_name || item.created_by_email || 'Unknown User') : 'System';
-              return `
-                <tr>
-                  <td>${escapeHtml(actor)}</td>
-                  <td>${escapeHtml(formatDateTime(item.created_at))}</td>
-                  <td>${escapeHtml(statusLabel(item.from_status || '—'))}</td>
-                  <td><strong>${escapeHtml(statusLabel(item.to_status || '—'))}</strong></td>
-                  <td class="application-activity-details-cell">${escapeHtml(item.note || '—').replace(/\n/g, '<br>')}</td>
-                </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>`;
-  }
-
-  function renderApplicationActivity(rows) {
-    const notesContainer = $('applicationNotesHistoryList');
-    const statusContainer = $('applicationStatusHistoryList');
-    const notes = (rows || []).filter(item => item.activity_type === 'note');
-    const statusChanges = (rows || []).filter(item => item.activity_type === 'status_change');
-
-    if (notesContainer) notesContainer.innerHTML = renderActivityTable(notes, 'notes');
-    if (statusContainer) statusContainer.innerHTML = renderActivityTable(statusChanges, 'status');
-  }
-
-  async function loadApplicationActivity(applicationId) {
-    const notesContainer = $('applicationNotesHistoryList');
-    const statusContainer = $('applicationStatusHistoryList');
-    if (notesContainer) notesContainer.innerHTML = '<div class="application-activity-empty">Loading notes history…</div>';
-    if (statusContainer) statusContainer.innerHTML = '<div class="application-activity-empty">Loading status history…</div>';
-
-    const { data, error } = await supabase
-      .from('application_activity')
-      .select('id, application_id, activity_type, from_status, to_status, note, created_by, created_at')
-      .eq('application_id', applicationId)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Navodix application activity load failed:', error);
-      if (notesContainer) notesContainer.innerHTML = '<div class="application-activity-empty error">Notes history could not be loaded.</div>';
-      if (statusContainer) statusContainer.innerHTML = '<div class="application-activity-empty error">Status history could not be loaded.</div>';
-      return;
-    }
-
-    const rows = data || [];
-    const userIds = [...new Set(rows.map(item => item.created_by).filter(Boolean))];
-    let names = new Map();
-
-    if (userIds.length) {
-      const { data: admins, error: adminError } = await supabase
-        .from('careers_admins')
-        .select('user_id, display_name')
-        .in('user_id', userIds);
-      if (adminError) {
-        console.warn('Navodix activity user-name lookup failed:', adminError);
-      } else {
-        names = new Map((admins || []).map(user => [user.user_id, user.display_name || '']));
-      }
-    }
-
-    renderApplicationActivity(rows.map(item => ({
-      ...item,
-      created_by_name: names.get(item.created_by) || ''
-    })));
-  }
-
-  async function saveApplicationNote(event) {
-    event.preventDefault();
-    if (!selectedApplication) return;
-
-    const note = $('applicationNote').value.trim();
-    if (!note) {
-      setApplicationNoteMessage('Please enter a note or comment.', 'error');
-      $('applicationNote')?.focus();
-      return;
-    }
-
-    const saveButton = $('saveApplicationNoteButton');
-    saveButton.disabled = true;
-    saveButton.textContent = 'Saving…';
-    setApplicationNoteMessage('');
-
-    try {
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) throw sessionError;
-      const userId = sessionData?.session?.user?.id;
-      if (!userId) throw new Error('Your session has expired. Please sign in again.');
-
-      const { error } = await supabase
-        .from('application_activity')
-        .insert({
-          application_id: selectedApplication.id,
-          activity_type: 'note',
-          note,
-          created_by: userId
-        });
-      if (error) throw error;
-
-      toggleApplicationNoteForm(false);
-      await loadApplicationActivity(selectedApplication.id);
-      setApplicationModalMessage('Note added successfully.', 'success');
-    } catch (error) {
-      console.error('Navodix application note save failed:', error);
-      setApplicationNoteMessage(`Could not save the note: ${error.message || error}`, 'error');
-    } finally {
-      saveButton.disabled = false;
-      saveButton.textContent = 'Save Note';
-    }
-  }
-
-  async function saveApplicationStatus() {
-    if (!selectedApplication) return;
-
-    const oldStatus = selectedApplication.status || 'new';
-    const newStatus = $('applicationStatusSelect')?.value || '';
-    const note = $('applicationStatusNote')?.value.trim() || null;
-
-    if (!newStatus) {
-      setApplicationStatusMessage('Please select a status.', 'error');
-      return;
-    }
-
-    if (newStatus === oldStatus) {
-      setApplicationStatusMessage('Please select a different status.', 'error');
-      return;
-    }
-
-    const saveButton = $('saveApplicationStatusButton');
-    saveButton.disabled = true;
-    saveButton.textContent = 'Saving…';
-    setApplicationStatusMessage('');
-    setApplicationModalMessage('');
-
-    try {
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) throw sessionError;
-      const userId = sessionData?.session?.user?.id;
-      if (!userId) throw new Error('Your session has expired. Please sign in again.');
-
-      const { error: updateError } = await supabase
-        .from('applications')
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
-        .eq('id', selectedApplication.id);
-      if (updateError) throw updateError;
-
-      const { error: activityError } = await supabase
-        .from('application_activity')
-        .insert({
-          application_id: selectedApplication.id,
-          activity_type: 'status_change',
-          from_status: oldStatus,
-          to_status: newStatus,
-          note,
-          created_by: userId
-        });
-
-      if (activityError) {
-        // Keep status and history consistent if the activity insert is rejected.
-        await supabase
-          .from('applications')
-          .update({ status: oldStatus, updated_at: selectedApplication.updated_at || new Date().toISOString() })
-          .eq('id', selectedApplication.id);
-        throw activityError;
-      }
-
-      selectedApplication.status = newStatus;
-      selectedApplication.updated_at = new Date().toISOString();
-      const modalStatus = $('applicationModalStatus');
-      if (modalStatus) modalStatus.textContent = statusLabel(newStatus);
-      const localApplication = applications.find(item => String(item.id) === String(selectedApplication.id));
-      if (localApplication) {
-        localApplication.status = newStatus;
-        localApplication.updated_at = selectedApplication.updated_at;
-      }
-
-      const updatedJob = selectedApplication.jobs || {};
-      const updatedCategoryName = (jobCategories.find(item => String(item.id) === String(updatedJob.job_category_id)) || {}).category_name || '—';
-      $('applicationJobDetails').innerHTML = [
-        detailItem('Application Number', selectedApplication.application_number),
-        detailItem('Application Date', formatDateTime(selectedApplication.applied_at)),
-        detailItem('Requirement Title', updatedJob.title),
-        detailItem('Requirement Code', updatedJob.job_code),
-        detailItem('Client', updatedJob.clients?.client_name),
-        detailItem('Job Category', updatedCategoryName),
-        detailItem('Location', updatedJob.location),
-        detailItem('Employment Type', statusLabel(updatedJob.employment_type))
-      ].join('');
-
-      resetApplicationStatusForm(newStatus);
-      renderApplications();
-      await loadApplicationActivity(selectedApplication.id);
-      setApplicationModalMessage(`Application status changed to ${statusLabel(newStatus)}.`, 'success');
-    } catch (error) {
-      console.error('Navodix application status update failed:', error);
-      setApplicationStatusMessage(`Could not update the application status: ${error.message || error}`, 'error');
-    } finally {
-      saveButton.disabled = false;
-      saveButton.textContent = 'Save Status';
-    }
-  }
-
   async function openApplicationModal(applicationId) {
     const application = applications.find(item => String(item.id) === String(applicationId));
     if (!application) return;
@@ -1042,28 +251,20 @@
     const applicant = application.applicants || {};
     const job = application.jobs || {};
 
-    $('applicationModalTitle').textContent = 'Application Details';
-    $('applicationModalNumber').textContent = application.application_number ? `Application No. ${application.application_number}` : 'View complete application information';
-    const modalStatus = $('applicationModalStatus');
-    if (modalStatus) modalStatus.textContent = statusLabel(application.status);
+    $('applicationModalTitle').textContent = applicant.full_name || 'Application';
+    $('applicationModalNumber').textContent = application.application_number || '—';
     setApplicationModalMessage('');
-    resetApplicationStatusForm(application.status);
-    toggleInterviewForm(false);
-    toggleApplicationNoteForm(false);
-    loadInterviewRounds(application.id);
-    loadApplicationActivity(application.id);
-
-    const jobCategoryName = (jobCategories.find(item => String(item.id) === String(job.job_category_id)) || {}).category_name || '—';
 
     $('applicationJobDetails').innerHTML = [
       detailItem('Application Number', application.application_number),
-      detailItem('Application Date', formatDateTime(application.applied_at)),
-      detailItem('Requirement Title', job.title),
-      detailItem('Requirement Code', job.job_code),
-      detailItem('Client', job.clients?.client_name),
-      detailItem('Job Category', jobCategoryName),
-      detailItem('Location', job.location),
-      detailItem('Employment Type', statusLabel(job.employment_type))
+      detailItem('Status', statusLabel(application.status)),
+      detailItem('Job Title', job.title),
+      detailItem('Job Code', job.job_code),
+      detailItem('Job Location', job.location),
+      detailItem('Employment Type', statusLabel(job.employment_type)),
+      detailItem('Applied', formatDateTime(application.applied_at)),
+      detailItem('Submitted', formatDateTime(application.submitted_at)),
+      detailItem('Last Updated', formatDateTime(application.updated_at))
     ].join('');
 
     $('applicationApplicantDetails').innerHTML = [
@@ -1072,23 +273,21 @@
       detailItem('Mobile', applicant.phone),
       detailItem('Alternate Phone', applicant.alternate_phone),
       detailItem('Current Location', applicant.current_location),
-      detailItem('Total Experience', applicant.total_experience)
+      detailItem('Total Experience', applicant.total_experience),
+      detailItem('Current Job Title', applicant.current_job_title),
+      detailItem('Current Company', applicant.current_company),
+      detailItem('Notice Period', applicant.notice_period),
+      detailItem('Current CTC', applicant.current_ctc),
+      detailItem('Expected CTC', applicant.expected_ctc)
     ].join('');
 
     $('applicationEducationDetails').innerHTML = [
       detailItem('Highest Qualification', applicant.highest_qualification),
       detailItem('Specialization', applicant.specialization),
       detailItem('Graduation Year', applicant.graduation_year),
+      detailItem('Skills', applicant.skills, true),
       linkDetailItem('LinkedIn', applicant.linkedin_url),
-      detailItem('Skills', applicant.skills, true)
-    ].join('');
-
-    $('applicationApplicationDetails').innerHTML = [
-      detailItem('Current / Most Recent Job Title', applicant.current_job_title),
-      detailItem('Current Company', applicant.current_company),
-      detailItem('Notice Period', applicant.notice_period),
-      detailItem('Current CTC', applicant.current_ctc),
-      detailItem('Expected CTC', applicant.expected_ctc)
+      linkDetailItem('GitHub', applicant.github_url)
     ].join('');
 
     $('applicationCoverMessage').textContent = application.cover_message || '—';
@@ -1097,10 +296,13 @@
     $('applicationContactDetails').innerHTML = [
       detailItem('HR Email Status', application.email_status === 'sent' ? 'Sent' : application.email_status === 'failed' ? 'Failed' : 'Not Sent'),
       detailItem('HR Email Error', application.email_error),
-      detailItem('Resume File', application.resume_path ? String(application.resume_path).split('/').pop() : '—')
+      detailItem('Consent', applicant.consent_at ? `Given ${formatDateTime(applicant.consent_at)}` : '—')
     ].join('');
 
+    resetApplicationInlineResumeViewer();
+
     const resumeButton = $('applicationResumeButton');
+    const inlineViewResumeButton = $('applicationInlineViewResumeButton');
     const downloadResumeButton = $('applicationDownloadResumeButton');
     resumeButton.removeAttribute('data-resume-url');
     resumeButton.setAttribute('aria-disabled', 'true');
@@ -1108,6 +310,9 @@
     downloadResumeButton.removeAttribute('data-resume-url');
     downloadResumeButton.setAttribute('aria-disabled', 'true');
     downloadResumeButton.classList.add('disabled');
+    inlineViewResumeButton.removeAttribute('data-resume-url');
+    inlineViewResumeButton.setAttribute('aria-disabled', 'true');
+    inlineViewResumeButton.classList.add('disabled');
     $('applicationResumeStatus').textContent = application.resume_path
       ? 'Preparing a secure resume link…'
       : 'No resume path is stored for this application.';
@@ -1130,23 +335,118 @@
         downloadResumeButton.setAttribute('data-resume-url', data.signedUrl);
         downloadResumeButton.setAttribute('aria-disabled', 'false');
         downloadResumeButton.classList.remove('disabled');
+        inlineViewResumeButton.setAttribute('data-resume-url', data.signedUrl);
+        inlineViewResumeButton.setAttribute('aria-disabled', 'false');
+        inlineViewResumeButton.classList.remove('disabled');
         $('applicationResumeStatus').textContent = 'Secure resume link ready. The link expires after 10 minutes.';
       } catch (error) {
         console.error('Navodix resume link failed:', error);
         $('applicationResumeStatus').textContent = 'Resume could not be opened. Please try again.';
+        inlineViewResumeButton.setAttribute('aria-disabled', 'true');
+        inlineViewResumeButton.classList.add('disabled');
         setApplicationModalMessage(`Could not prepare the resume: ${error.message || error}`, 'error');
       }
+    }
+  }
+
+  function resetApplicationInlineResumeViewer() {
+    const viewer = $('applicationInlineResumeViewer');
+    const frame = $('applicationInlineResumeFrame');
+    const docxViewer = $('applicationInlineResumeDocxViewer');
+    const loading = $('applicationInlineResumeLoading');
+    const closeButton = $('applicationInlineCloseResumeButton');
+    if (viewer) viewer.classList.add('hidden');
+    if (frame) {
+      frame.classList.add('hidden');
+      frame.src = '';
+    }
+    if (docxViewer) {
+      docxViewer.classList.add('hidden');
+      docxViewer.innerHTML = '';
+    }
+    if (loading) {
+      loading.classList.remove('hidden');
+      loading.textContent = 'Loading resume…';
+    }
+    if (closeButton) closeButton.classList.add('hidden');
+  }
+
+  function closeApplicationInlineResume() {
+    resetApplicationInlineResumeViewer();
+  }
+
+  async function viewApplicationInlineResume() {
+    const button = $('applicationInlineViewResumeButton');
+    const viewer = $('applicationInlineResumeViewer');
+    const frame = $('applicationInlineResumeFrame');
+    const docxViewer = $('applicationInlineResumeDocxViewer');
+    const loading = $('applicationInlineResumeLoading');
+    const closeButton = $('applicationInlineCloseResumeButton');
+    if (!button || button.getAttribute('aria-disabled') === 'true') return;
+
+    const signedUrl = button.getAttribute('data-resume-url');
+    if (!signedUrl || !viewer || !frame || !docxViewer) return;
+
+    try {
+      viewer.classList.remove('hidden');
+      frame.classList.add('hidden');
+      frame.src = '';
+      docxViewer.classList.add('hidden');
+      docxViewer.innerHTML = '';
+      if (loading) {
+        loading.classList.remove('hidden');
+        loading.textContent = 'Loading resume…';
+      }
+      if (closeButton) closeButton.classList.remove('hidden');
+
+      const resumePath = selectedApplication && selectedApplication.resume_path
+        ? selectedApplication.resume_path
+        : '';
+      const fileName = resumePath.split('/').pop() || 'resume';
+      const extension = fileName.includes('.')
+        ? fileName.split('.').pop().toLowerCase()
+        : '';
+
+      if (extension === 'docx') {
+        if (typeof window.docx === 'undefined' || typeof window.docx.renderAsync !== 'function') {
+          throw new Error('DOCX preview support is not available. Please refresh the page and try again.');
+        }
+        const response = await fetch(signedUrl, { credentials: 'omit' });
+        if (!response.ok) throw new Error(`Resume request failed (HTTP ${response.status})`);
+        const blob = await response.blob();
+        await window.docx.renderAsync(blob, docxViewer, null, {
+          breakPages: true,
+          ignoreLastRenderedPageBreak: false,
+          renderHeaders: true,
+          renderFooters: true,
+          renderFootnotes: true,
+          renderEndnotes: true
+        });
+        docxViewer.classList.remove('hidden');
+        if (loading) loading.classList.add('hidden');
+      } else {
+        frame.src = signedUrl + '#toolbar=1&navpanes=0&view=FitH';
+        frame.onload = () => {
+          if (loading) loading.classList.add('hidden');
+          frame.classList.remove('hidden');
+        };
+        if (loading) loading.textContent = 'Preparing resume…';
+      }
+    } catch (error) {
+      resetApplicationInlineResumeViewer();
+      console.error('Navodix inline resume view failed:', error);
+      $('applicationResumeStatus').textContent = 'Resume could not be opened. Please try again.';
+      setApplicationModalMessage(`Could not open the resume: ${error.message || error}`, 'error');
     }
   }
 
   function closeApplicationModal() {
     const modal = $('applicationModal');
     if (!modal) return;
+    resetApplicationInlineResumeViewer();
     modal.classList.add('hidden');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
-    toggleInterviewForm(false);
-    toggleApplicationNoteForm(false);
     selectedApplication = null;
   }
 
@@ -1156,32 +456,27 @@
       renderApplications();
     });
 
-    [
-      'applicationStatusFilter',
-      'applicationClientFilter',
-      'applicationJobFilter',
-      'applicationCategoryFilter',
-      'applicationLocationFilter',
-      'applicationDateFrom',
-      'applicationDateTo',
-      'applicationInterviewResultFilter',
-      'applicationSubmittedClientFilter',
-      'applicationFutureConsiderationFilter'
-    ].forEach(id => {
-      $(id).addEventListener('change', function () {
-        currentPage = 1;
-        updateApplicationFilterHighlights();
-        renderApplications();
-      });
+    $('applicationStatusFilter').addEventListener('change', function () {
+      currentPage = 1;
+      renderApplications();
     });
 
-    $('clearApplicationFiltersButton').addEventListener('click', clearApplicationFilters);
     $('refreshApplicationsButton').addEventListener('click', loadApplications);
 
-    $('applicationsFirst').addEventListener('click', function () { currentPage = 1; renderApplications(); });
-    $('applicationsPrev').addEventListener('click', function () { if (currentPage > 1) { currentPage -= 1; renderApplications(); } });
-    $('applicationsNext').addEventListener('click', function () { const totalPages = Math.max(1, Math.ceil(filteredApplications().length / PAGE_SIZE)); if (currentPage < totalPages) { currentPage += 1; renderApplications(); } });
-    $('applicationsLast').addEventListener('click', function () { const totalPages = Math.max(1, Math.ceil(filteredApplications().length / PAGE_SIZE)); currentPage = totalPages; renderApplications(); });
+    $('applicationsPrev').addEventListener('click', function () {
+      if (currentPage > 1) {
+        currentPage -= 1;
+        renderApplications();
+      }
+    });
+
+    $('applicationsNext').addEventListener('click', function () {
+      const totalPages = Math.max(1, Math.ceil(filteredApplications().length / PAGE_SIZE));
+      if (currentPage < totalPages) {
+        currentPage += 1;
+        renderApplications();
+      }
+    });
 
     $('applicationsTableBody').addEventListener('click', function (event) {
       const button = event.target.closest('.application-view-button');
@@ -1196,36 +491,15 @@
       if (event.target === $('applicationModal')) closeApplicationModal();
     });
 
-    $('addApplicationNoteButton').addEventListener('click', function () { toggleApplicationNoteForm(true); });
-    $('cancelApplicationNoteButton').addEventListener('click', function () { toggleApplicationNoteForm(false); });
-    $('closeApplicationNoteModal').addEventListener('click', function () { toggleApplicationNoteForm(false); });
-    $('applicationNoteModal').addEventListener('click', function (event) {
-      if (event.target === $('applicationNoteModal')) toggleApplicationNoteForm(false);
+    $('applicationInlineViewResumeButton').addEventListener('click', function (event) {
+      event.preventDefault();
+      viewApplicationInlineResume();
     });
-    $('applicationNote').addEventListener('input', updateApplicationNoteCounter);
-    $('applicationNoteForm').addEventListener('submit', saveApplicationNote);
 
-    $('saveApplicationStatusButton').addEventListener('click', saveApplicationStatus);
-    $('applicationStatusSelect').addEventListener('change', function () { setApplicationStatusMessage(''); });
-
-    $('addInterviewRoundButton').addEventListener('click', function () { resetInterviewForm(); toggleInterviewForm(true); });
-    $('cancelInterviewRoundButton').addEventListener('click', function () { toggleInterviewForm(false); });
-    $('closeInterviewRoundModal').addEventListener('click', function () { toggleInterviewForm(false); });
-    $('interviewRoundModal').addEventListener('click', function (event) {
-      if (event.target === $('interviewRoundModal')) toggleInterviewForm(false);
+    $('applicationInlineCloseResumeButton').addEventListener('click', function (event) {
+      event.preventDefault();
+      closeApplicationInlineResume();
     });
-    $('applicationInterviewsList').addEventListener('click', function (event) {
-      const editButton = event.target.closest('.interview-edit-button');
-      if (editButton) {
-        editInterviewRound(editButton.dataset.interviewId);
-        return;
-      }
-      const deleteButton = event.target.closest('.interview-delete-button');
-      if (deleteButton) {
-        deleteInterviewRound(deleteButton.dataset.interviewId);
-      }
-    });
-    $('addInterviewRoundForm').addEventListener('submit', saveInterviewRound);
 
     $('applicationDownloadResumeButton').addEventListener('click', async function (event) {
       event.preventDefault();
