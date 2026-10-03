@@ -440,6 +440,35 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="applications-final-standard-borders">
+/* Final Navodix border standard only. Existing modal content/layout is preserved. */
+#applicationModal .application-modal-standard,
+#interviewRoundModal .application-interview-standard-modal,
+#applicationNoteModal .application-note-standard-modal{
+  border:0 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+}
+
+#applicationModal .application-modal-body,
+#interviewRoundModal .application-interview-standard-body,
+#applicationNoteModal .application-note-standard-body{
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-modal-standard-footer,
+#interviewRoundModal .application-interview-standard-footer,
+#applicationNoteModal .application-note-standard-footer{
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
