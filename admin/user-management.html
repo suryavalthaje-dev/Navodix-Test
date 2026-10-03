@@ -218,6 +218,45 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 
 
+
+<style id="user-management-modal-standard-structure">
+/* Navodix modal standard — structural geometry only. Visual treatment remains in navodix-ui-standard.css. */
+.user-modal-dialog.profile-interview-form-modal{
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+}
+.user-modal-body.profile-interview-modal-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+.user-modal-footer.profile-interview-modal-actions{
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  padding:0 20px !important;
+  box-sizing:border-box !important;
+}
+.user-modal-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:10px !important;
+  margin:0 !important;
+  flex:0 0 auto !important;
+}
+.user-modal-footer-spacer{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -314,7 +353,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           </div>
           <footer class="user-modal-footer profile-interview-modal-actions">
             <div id="addUserFormMessage" class="user-form-message user-modal-footer-spacer" role="alert" aria-live="assertive"></div>
-            <div class="user-modal-actions" style="margin-right:20px;">
+            <div class="user-modal-actions">
               <button class="btn btn-primary" id="createUserSubmit" type="submit" form="addUserForm"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
               <button class="btn btn-outline" id="cancelAddUserButtonBottom" type="button" data-close-user-modal>Cancel</button>
             </div>
