@@ -8,6 +8,9 @@
   <link rel="icon" type="image/png" href="../assets/images/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css?v=27">
+  <link rel="stylesheet" href="css/navodix-ui-standard.css?v=26">
+
+
 
   <style>
     .user-summary-grid{grid-template-columns:repeat(5,minmax(0,1fr));}
@@ -88,11 +91,20 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <style id="user-row-fit-fix">
 /* User Management rows/columns: keep each user to one row where possible, maximum two rows. */
 .users-table th:nth-child(1), .users-table td:nth-child(1) { width:19% !important; }
-.users-table th:nth-child(2), .users-table td:nth-child(2) { width:27% !important; }
+.users-table th:nth-child(2), .users-table td:nth-child(2) { width:25% !important; }
 .users-table th:nth-child(3), .users-table td:nth-child(3) { width:10% !important; }
-.users-table th:nth-child(4), .users-table td:nth-child(4) { width:11% !important; }
-.users-table th:nth-child(5), .users-table td:nth-child(5) { width:16% !important; }
-.users-table th:nth-child(6), .users-table td:nth-child(6) { width:17% !important; }
+.users-table th:nth-child(4), .users-table td:nth-child(4) { width:13% !important; }
+.users-table th:nth-child(5), .users-table td:nth-child(5) { width:15% !important; }
+.users-table th:nth-child(6), .users-table td:nth-child(6) { width:18% !important; }
+.users-table tbody td:nth-child(3) > *,
+.users-table tbody td:nth-child(4) > * {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
 .users-table tbody td:nth-child(1),
 .users-table tbody td:nth-child(2),
 .users-table tbody td:nth-child(3),
@@ -212,7 +224,50 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .users-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
 </style>
 
-<style id="user-list-email-font-match">
+
+
+
+
+<style id="user-management-modal-standard-structure">
+/* Navodix modal standard — structural geometry only. Visual treatment remains in navodix-ui-standard.css. */
+.user-modal-dialog.profile-interview-form-modal{
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+}
+.user-modal-body.profile-interview-modal-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+.user-modal-footer.profile-interview-modal-actions{
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  padding:0 20px !important;
+  box-sizing:border-box !important;
+}
+.user-modal-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:10px !important;
+  margin:0 !important;
+  flex:0 0 auto !important;
+}
+.user-modal-footer-spacer{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+}
+</style>
+
+
+<style id="user-list-value-font-standard">
 .users-table tbody td:nth-child(2),
 .users-table tbody td:nth-child(3),
 .users-table tbody td:nth-child(4),
@@ -225,6 +280,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-weight:400 !important;
 }
 </style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -289,81 +345,88 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
       <div class="user-modal hidden" id="addUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
+          <div class="user-modal-header modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div>
               <div>
                 <h2 id="addUserTitle">Add Admin / HR User</h2>
                 <p>Create an account and send an invitation securely.</p>
               </div>
             </div>
-            <button class="user-modal-close" id="cancelAddUserButton" type="button" data-close-user-modal aria-label="Close Add User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <button class="user-modal-close modal-close" id="cancelAddUserButton" type="button" data-close-user-modal aria-label="Close Add User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
           </div>
-          <div class="user-modal-note"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>An invitation will be sent to the user's email address. They will set their own password.</span></div>
-          <div id="addUserFormMessage" class="user-form-message" role="alert" aria-live="assertive"></div>
-          <form id="addUserForm" class="user-form-grid" novalidate>
-            <div class="field-group">
-              <label for="userDisplayName">Display Name</label>
-              <input id="userDisplayName" name="display_name" type="text" maxlength="120" placeholder="Enter user's name" required>
-            </div>
-            <div class="field-group">
-              <label for="userEmail">Email Address</label>
-              <input id="userEmail" name="email" type="email" maxlength="320" placeholder="Enter user's email" required>
-            </div>
-            <div class="field-group">
-              <label for="userRole">Role</label>
-              <select id="userRole" name="role" required>
-                <option value="hr" selected>HR</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div class="user-form-actions">
-              <button class="btn btn-primary" id="createUserSubmit" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
+          <div class="user-modal-body profile-interview-modal-body">
+            <div class="user-modal-note"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>An invitation will be sent to the user's email address. They will set their own password.</span></div>
+            <form id="addUserForm" class="user-form-grid" novalidate>
+              <div class="field-group user-form-full">
+                <label for="userDisplayName">Display Name</label>
+                <input id="userDisplayName" name="display_name" type="text" maxlength="120" placeholder="Enter user's name" required>
+              </div>
+              <div class="field-group user-form-full">
+                <label for="userEmail">Email Address</label>
+                <input id="userEmail" name="email" type="email" maxlength="320" placeholder="Enter user's email" required>
+              </div>
+              <div class="field-group">
+                <label for="userRole">Role</label>
+                <select id="userRole" name="role" required>
+                  <option value="hr" selected>HR</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <footer class="user-modal-footer profile-interview-modal-actions">
+            <div id="addUserFormMessage" class="user-form-message user-modal-footer-spacer" role="alert" aria-live="assertive"></div>
+            <div class="user-modal-actions">
+              <button class="btn btn-primary" id="createUserSubmit" type="submit" form="addUserForm"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
               <button class="btn btn-outline" id="cancelAddUserButtonBottom" type="button" data-close-user-modal>Cancel</button>
             </div>
-          </form>
+          </footer>
         </section>
       </div>
 
 
       <div class="user-modal hidden" id="editUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog profile-interview-form-modal" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
+          <div class="user-modal-header modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></div>
               <div>
                 <h2 id="editUserTitle">Edit User</h2>
                 <p>Update the user's Careers Admin profile.</p>
               </div>
             </div>
-            <button class="user-modal-close" type="button" data-close-user-modal aria-label="Close Edit User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <button class="user-modal-close modal-close" type="button" data-close-user-modal aria-label="Close Edit User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
           </div>
-          <form id="saveUserEditForm" class="user-form-grid" novalidate>
-            <input id="editUserId" type="hidden">
-            <div class="field-group user-form-full">
-              <label for="editDisplayName">Display Name</label>
-              <input id="editDisplayName" type="text" maxlength="120" required>
-            </div>
-            <div class="field-group user-form-full">
-              <label for="editEmail">Email Address</label>
-              <input id="editEmail" type="email" disabled>
-              <div class="user-field-help">Email is managed by Supabase Auth and cannot be edited here.</div>
-            </div>
-            <div class="field-group">
-              <label for="editRole">Role</label>
-              <select id="editRole">
-                <option value="hr">HR</option>
-                <option value="admin">Admin</option>
-              </select>
-              <div class="user-field-help" id="editRoleHelp">Only Admin can change a user's role.</div>
-            </div>
-            <div class="user-form-actions">
-              <button class="btn btn-primary" id="saveUserEditButton" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
+          <div class="user-modal-body profile-interview-modal-body">
+            <form id="saveUserEditForm" class="user-form-grid" novalidate>
+              <input id="editUserId" type="hidden">
+              <div class="field-group user-form-full">
+                <label for="editDisplayName">Display Name</label>
+                <input id="editDisplayName" type="text" maxlength="120" required>
+              </div>
+              <div class="field-group user-form-full">
+                <label for="editEmail">Email Address</label>
+                <input id="editEmail" type="email" disabled>
+                <div class="user-field-help">Email is managed by Supabase Auth and cannot be edited here.</div>
+              </div>
+              <div class="field-group">
+                <label for="editRole">Role</label>
+                <select id="editRole">
+                  <option value="hr">HR</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <div class="user-field-help" id="editRoleHelp">Only Admin can change a user's role.</div>
+              </div>
+            </form>
+          </div>
+          <footer class="user-modal-footer profile-interview-modal-actions">
+            <div class="user-modal-footer-spacer" aria-hidden="true"></div>
+            <div class="user-modal-actions">
+              <button class="btn btn-primary" id="saveUserEditButton" type="submit" form="saveUserEditForm"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
               <button class="btn btn-outline" type="button" data-close-user-modal>Cancel</button>
             </div>
-          </form>
+          </footer>
         </section>
       </div>
 
