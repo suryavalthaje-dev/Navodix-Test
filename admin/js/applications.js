@@ -301,6 +301,16 @@
 
     resetApplicationInlineResumeViewer();
 
+    const resumeFileName = application.resume_path
+      ? (() => {
+          const rawName = application.resume_path.split('/').pop() || '';
+          try { return decodeURIComponent(rawName); } catch (_) { return rawName; }
+        })()
+      : '';
+    $('applicationResumeFileName').textContent = resumeFileName
+      ? `Resume: ${resumeFileName}`
+      : 'Resume: —';
+
     const resumeButton = $('applicationResumeButton');
     const inlineViewResumeButton = $('applicationInlineViewResumeButton');
     const downloadResumeButton = $('applicationDownloadResumeButton');
