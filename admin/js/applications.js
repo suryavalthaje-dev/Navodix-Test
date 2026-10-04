@@ -1099,11 +1099,12 @@
       detailItem('Current Company', applicant.current_company)
     ].join('');
 
-    $('applicationCoverMessage').textContent = application.cover_message || '—';
-    $('applicationAdditionalInformation').textContent = applicant.additional_information || '—';
     $('applicationCurrentCtc').textContent = applicant.current_ctc || '—';
     $('applicationExpectedCtc').textContent = applicant.expected_ctc || '—';
     $('applicationNoticePeriod').textContent = applicant.notice_period || '—';
+
+    $('applicationCoverMessage').textContent = application.cover_message || '—';
+    $('applicationAdditionalInformation').textContent = applicant.additional_information || '—';
 
     $('applicationContactDetails').innerHTML = [
       detailItem(
