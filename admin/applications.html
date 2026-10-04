@@ -822,28 +822,19 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   min-width:0 !important;
 }
 
-/* Save Status uses the same compact button geometry and typography as Add Note. */
+/* Application action buttons use one shared compact geometry and typography. */
+#applicationModal #applicationInlineViewResumeButton,
+#applicationModal #addInterviewRoundButton,
+#applicationModal #addApplicationNoteButton,
 #applicationModal #saveApplicationStatusButton {
-  min-height:36px !important;
-  height:36px !important;
-  padding:8px 13px !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:12px !important;
-  font-weight:600 !important;
-  line-height:1.2 !important;
-  border-radius:7px !important;
-  box-sizing:border-box !important;
-}
-
-/* View Resume matches the Add Interview button dimensions and typography. */
-#applicationModal #applicationInlineViewResumeButton {
   width:110px !important;
   min-width:110px !important;
   max-width:110px !important;
-  min-height:34px !important;
   height:34px !important;
+  min-height:34px !important;
   max-height:34px !important;
   padding:6px 13px !important;
+  margin:0 !important;
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
   font-size:12px !important;
   font-weight:600 !important;
@@ -851,6 +842,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-radius:5px !important;
   box-sizing:border-box !important;
   justify-content:center !important;
+  align-items:center !important;
 }
 
 @media (max-width:760px) {
