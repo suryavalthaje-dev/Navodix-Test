@@ -728,6 +728,58 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="applications-education-application-info-layout">
+/* Requested layout only: Education & Skills and Application Information. */
+#applicationModal #applicationEducationDetails {
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  text-align:left !important;
+}
+#applicationModal #applicationEducationDetails .application-detail-item,
+#applicationModal #applicationEducationDetails .application-detail-item > span,
+#applicationModal #applicationEducationDetails .application-detail-item > strong {
+  text-align:left !important;
+}
+#applicationModal #applicationEducationDetails .application-detail-item-wide {
+  grid-column:span 2 !important;
+}
+#applicationModal #applicationApplicationDetails {
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+}
+#applicationModal .application-information-second-row {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:14px !important;
+  margin-top:14px !important;
+}
+#applicationModal .application-information-third-row {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:14px !important;
+  margin-top:14px !important;
+}
+#applicationModal .application-information-first-row .application-detail-item,
+#applicationModal .application-information-second-row .application-long-field,
+#applicationModal .application-information-third-row .application-detail-item {
+  min-width:0 !important;
+  text-align:left !important;
+}
+#applicationModal .application-information-second-row .application-long-field {
+  width:auto !important;
+  margin:0 !important;
+}
+@media (max-width:760px) {
+  #applicationModal #applicationEducationDetails,
+  #applicationModal #applicationApplicationDetails,
+  #applicationModal .application-information-second-row,
+  #applicationModal .application-information-third-row {
+    grid-template-columns:1fr !important;
+  }
+  #applicationModal #applicationEducationDetails .application-detail-item-wide {
+    grid-column:auto !important;
+  }
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -907,8 +959,16 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-grid" id="applicationEducationDetails"></div>
 </section><section class="application-detail-section">
 <div class="application-detail-heading"><h3>Application Information</h3></div>
-<div class="application-detail-grid" id="applicationApplicationDetails"></div>
-<div class="application-long-fields-grid"><div class="application-long-field"><span>Cover Message</span><p id="applicationCoverMessage">—</p></div><div class="application-long-field"><span>Additional Information</span><p id="applicationAdditionalInformation">—</p></div></div></section><section class="application-detail-section application-interviews-section">
+<div class="application-detail-grid application-information-first-row" id="applicationApplicationDetails"></div>
+<div class="application-information-second-row">
+<div class="application-long-field"><span>Cover Message</span><p id="applicationCoverMessage">—</p></div>
+<div class="application-long-field"><span>Additional Information</span><p id="applicationAdditionalInformation">—</p></div>
+</div>
+<div class="application-information-third-row">
+<div class="application-detail-item"><span>Current CTC</span><strong id="applicationCurrentCtc">—</strong></div>
+<div class="application-detail-item"><span>Expected CTC</span><strong id="applicationExpectedCtc">—</strong></div>
+<div class="application-detail-item"><span>Notice Period</span><strong id="applicationNoticePeriod">—</strong></div>
+</div></section><section class="application-detail-section application-interviews-section">
 <div class="application-detail-heading application-interviews-heading">
 <div><h3>Interview Rounds</h3></div>
 <button class="btn btn-primary btn-small" id="addInterviewRoundButton" type="button">Add Interview</button>
