@@ -381,7 +381,7 @@
     if(aError)throw aError;
     const associatedIds=new Set((assocRows||[]).map(x=>String(x.requirement_id)));
     const assoc=associationId ? (assocRows||[]).find(x=>String(x.id)===String(associationId)) : null;
-    const profileAssociationName=`${p.full_name||''} (${p.profile_number||''})`; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
+    const profileAssociationName=p.full_name||''; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
     const reqSelect=$('profileAssociationRequirement');
     reqSelect.innerHTML='<option value="">Select Requirement</option>'+requirements
       .filter(r=>!associationId || String(r.id)===String(assoc?.requirement_id) || !associatedIds.has(String(r.id)))
