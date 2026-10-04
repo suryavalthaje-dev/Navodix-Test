@@ -1090,8 +1090,8 @@
       detailItem('Highest Qualification', applicant.highest_qualification),
       detailItem('Specialization', applicant.specialization),
       detailItem('Graduation Year', applicant.graduation_year),
-      linkDetailItem('LinkedIn', applicant.linkedin_url),
-      detailItem('Skills', applicant.skills, true)
+      detailItem('Skills', applicant.skills, true),
+      linkDetailItem('LinkedIn', applicant.linkedin_url)
     ].join('');
 
     $('applicationApplicationDetails').innerHTML = [
