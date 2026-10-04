@@ -593,7 +593,21 @@
   width:100% !important;
 }
 .profile-personal-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
-.profile-personal-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+.profile-personal-row-2{grid-template-columns:minmax(0,1fr) minmax(0,2fr) !important;}
+/* Professional Information: exactly three label/value pairs per row. */
+.profile-professional-detail-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:0 !important;
+}
+.profile-professional-detail-grid .profile-detail-item:nth-child(3n){
+  border-right:0 !important;
+}
+.profile-professional-detail-grid .profile-detail-item:nth-child(-n+3){
+  border-bottom:1px solid #D8E0EA !important;
+}
+.profile-professional-detail-grid .profile-detail-item:nth-child(n+4){
+  border-bottom:0 !important;
+}
 .profile-personal-row-2 .profile-detail-item:first-child,
 .profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:auto !important;}
 .profile-personal-detail-grid .profile-detail-item,
@@ -607,7 +621,7 @@
   border-right:1px solid #D8E0EA !important;
 }
 .profile-personal-row-3 .profile-detail-item:nth-child(3),
-.profile-personal-row-2 .profile-detail-item:last-child,
+.profile-personal-row-2 .profile-detail-item:nth-child(2),
 .profile-professional-detail-grid .profile-detail-item:nth-child(3n){border-right:0 !important;}
 .profile-personal-detail-grid .profile-detail-item .profile-detail-label,
 .profile-professional-detail-grid .profile-detail-item .profile-detail-label{
@@ -620,6 +634,12 @@
   background:#F4F7FA !important;
   border-right:1px solid #D8E0EA !important;
   font-size:10px !important;
+}
+.profile-personal-row-2 .profile-detail-item:first-child{
+  border-right:1px solid #D8E0EA !important;
+}
+.profile-personal-row-2 .profile-detail-item:nth-child(2){
+  border-right:0 !important;
 }
 .profile-personal-detail-grid .profile-detail-item .profile-detail-value,
 .profile-professional-detail-grid .profile-detail-item .profile-detail-value{
@@ -636,7 +656,7 @@
 @media (max-width:900px){
   .profile-personal-row-3,
   .profile-professional-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-  .profile-personal-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .profile-personal-row-2{grid-template-columns:minmax(0,1fr) minmax(0,2fr) !important;}
   .profile-personal-row-2 .profile-detail-item:first-child,
   .profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:auto !important;}
   .profile-personal-row-3 .profile-detail-item:nth-child(2n),
