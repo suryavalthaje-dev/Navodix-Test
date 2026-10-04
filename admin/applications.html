@@ -693,6 +693,30 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:#FFFFFF !important;
 }
 
+#applicationModal .application-inline-resume-bottom-actions{
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  padding:10px 12px !important;
+  background:#F3F6FA !important;
+  border-top:1px solid #D8E0EA !important;
+  box-sizing:border-box !important;
+}
+
+#applicationModal .application-inline-resume-bottom-actions .btn{
+  min-width:110px !important;
+  width:110px !important;
+  min-height:34px !important;
+  height:34px !important;
+  padding:6px 10px !important;
+  border-radius:5px !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+}
+
 #applicationModal .application-inline-resume-docx{
   width:100% !important;
   min-height:720px !important;
@@ -1103,6 +1127,9 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-inline-resume-loading" id="applicationInlineResumeLoading">Loading resume…</div>
 <iframe class="application-inline-resume-frame hidden" id="applicationInlineResumeFrame" title="Application Resume"></iframe>
 <div aria-label="Application Resume" class="application-inline-resume-docx hidden" id="applicationInlineResumeDocxViewer"></div>
+<div class="application-inline-resume-bottom-actions">
+<button class="btn btn-primary btn-small" id="applicationInlineBottomCloseResumeButton" type="button">Close Resume</button>
+</div>
 </div>
 </section><section class="application-detail-section application-interviews-section">
 <div class="application-detail-heading application-interviews-heading">
