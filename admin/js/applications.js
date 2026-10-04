@@ -1011,14 +1011,14 @@
       const updatedJob = selectedApplication.jobs || {};
       const updatedCategoryName = (jobCategories.find(item => String(item.id) === String(updatedJob.job_category_id)) || {}).category_name || '—';
       $('applicationJobDetails').innerHTML = [
-        detailItem('Application Number', selectedApplication.application_number),
-        detailItem('Application Date', formatDateTime(selectedApplication.applied_at)),
         detailItem('Requirement Title', updatedJob.title),
-        detailItem('Requirement Code', updatedJob.job_code),
-        detailItem('Client', updatedJob.clients?.client_name),
         detailItem('Job Category', updatedCategoryName),
         detailItem('Location', updatedJob.location),
-        detailItem('Employment Type', statusLabel(updatedJob.employment_type))
+        detailItem('Client', updatedJob.clients?.client_name),
+        detailItem('Requirement Code', updatedJob.job_code),
+        detailItem('Application Number', selectedApplication.application_number),
+        detailItem('Employment Type', statusLabel(updatedJob.employment_type)),
+        detailItem('Application Date', formatDate(selectedApplication.applied_at))
       ].join('');
 
       resetApplicationStatusForm(newStatus);
@@ -1042,7 +1042,9 @@
     const applicant = application.applicants || {};
     const job = application.jobs || {};
 
-    $('applicationModalTitle').textContent = `${job.title || 'Requirement'} (${applicant.full_name || '—'})`;
+    $('applicationModalTitle').textContent = job.title
+      ? `${job.title} (${applicant.full_name || '—'})`
+      : (applicant.full_name || 'Application');
     $('applicationModalNumber').textContent = application.application_number
       ? `Application No. ${application.application_number}`
       : 'View complete application information';
@@ -1065,14 +1067,14 @@
       (jobCategories.find(item => String(item.id) === String(job.job_category_id)) || {}).category_name || '—';
 
     $('applicationJobDetails').innerHTML = [
-      detailItem('Application Number', application.application_number),
-      detailItem('Application Date', formatDateTime(application.applied_at)),
       detailItem('Requirement Title', job.title),
-      detailItem('Requirement Code', job.job_code),
-      detailItem('Client', job.clients?.client_name),
       detailItem('Job Category', jobCategoryName),
       detailItem('Location', job.location),
-      detailItem('Employment Type', statusLabel(job.employment_type))
+      detailItem('Client', job.clients?.client_name),
+      detailItem('Requirement Code', job.job_code),
+      detailItem('Application Number', application.application_number),
+      detailItem('Employment Type', statusLabel(job.employment_type)),
+      detailItem('Application Date', formatDate(application.applied_at))
     ].join('');
 
     $('applicationApplicantDetails').innerHTML = [
