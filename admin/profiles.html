@@ -593,9 +593,9 @@
   width:100% !important;
 }
 .profile-personal-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
-.profile-personal-row-2{grid-template-columns:repeat(6,minmax(0,1fr)) !important;}
-.profile-personal-row-2 .profile-detail-item:first-child{grid-column:span 2 !important;}
-.profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:span 4 !important;}
+.profile-personal-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+.profile-personal-row-2 .profile-detail-item:first-child,
+.profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:auto !important;}
 .profile-personal-detail-grid .profile-detail-item,
 .profile-professional-detail-grid .profile-detail-item{
   display:grid !important;
@@ -636,9 +636,9 @@
 @media (max-width:900px){
   .profile-personal-row-3,
   .profile-professional-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-  .profile-personal-row-2{grid-template-columns:1fr 1fr !important;}
+  .profile-personal-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
   .profile-personal-row-2 .profile-detail-item:first-child,
-  .profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:span 1 !important;}
+  .profile-personal-row-2 .profile-detail-item:nth-child(2){grid-column:auto !important;}
   .profile-personal-row-3 .profile-detail-item:nth-child(2n),
   .profile-professional-detail-grid .profile-detail-item:nth-child(2n){border-right:0 !important;}
   .profile-personal-row-3 .profile-detail-item,
@@ -2324,18 +2324,19 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
 
 <style id="profile-delete-confirmation-modal">
-/* Profile delete confirmation — same visual treatment as the Recruitment delete confirmation. */
+/* Profile delete confirmation — match the Recruitment delete confirmation modal. */
 #deleteProfileModal{
   z-index:11000 !important;
   align-items:center !important;
   justify-content:center !important;
-  padding:16px !important;
+  padding:4px !important;
   box-sizing:border-box !important;
   background:rgba(7,29,73,.35) !important;
 }
 #deleteProfileModal:not(.hidden){display:flex !important;}
 #deleteProfileModal .profile-delete-confirm-modal{
-  width:min(440px,calc(100vw - 32px)) !important;
+  width:440px !important;
+  max-width:calc(100vw - 8px) !important;
   box-sizing:border-box !important;
   padding:30px 30px 26px !important;
   background:#FFFFFF !important;
@@ -2724,7 +2725,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </footer>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=13"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=14"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
