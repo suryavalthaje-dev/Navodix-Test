@@ -542,6 +542,25 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   }
 }
 </style>
+<style id="applications-section3-three-column">
+/* Education & Skills only: three-column layout with Skills spanning two columns. */
+#applicationModal #applicationEducationDetails{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+
+#applicationModal #applicationEducationDetails .application-detail-item-wide{
+  grid-column:span 2 !important;
+}
+
+@media (max-width:760px){
+  #applicationModal #applicationEducationDetails{
+    grid-template-columns:1fr !important;
+  }
+  #applicationModal #applicationEducationDetails .application-detail-item-wide{
+    grid-column:auto !important;
+  }
+}
+</style>
 <style id="applications-final-standard-borders">
 /* Final Navodix border standard only. Existing modal content/layout is preserved. */
 #applicationModal .application-modal-standard,
