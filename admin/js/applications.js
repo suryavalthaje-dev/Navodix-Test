@@ -1042,7 +1042,7 @@
     const applicant = application.applicants || {};
     const job = application.jobs || {};
 
-    $('applicationModalTitle').textContent = 'Application Details';
+    $('applicationModalTitle').textContent = `${job.title || 'Requirement'} (${applicant.full_name || '—'})`;
     $('applicationModalNumber').textContent = application.application_number
       ? `Application No. ${application.application_number}`
       : 'View complete application information';
