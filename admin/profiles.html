@@ -724,6 +724,70 @@
   }
 }
 </style>
+<style id="profile-education-skills-three-column-layout">
+/* Education & Skills: Application View label/value structure.
+   Row 1 = 3 equal pairs. Rows 2 and 3 = 2 equal pairs with no blank column. */
+.profile-education-detail-grid{
+  display:block !important;
+  width:100% !important;
+}
+.profile-education-row{
+  display:grid !important;
+  gap:0 !important;
+  width:100% !important;
+}
+.profile-education-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+.profile-education-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+.profile-education-row + .profile-education-row{
+  border-top:1px solid #D8E0EA !important;
+}
+.profile-education-row .profile-detail-item{
+  display:grid !important;
+  grid-template-columns:120px minmax(0,1fr) !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  border-bottom:0 !important;
+  border-right:1px solid #D8E0EA !important;
+}
+.profile-education-row .profile-detail-item:last-child{
+  border-right:0 !important;
+}
+.profile-education-row .profile-detail-item .profile-detail-label{
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:9px 10px !important;
+  box-sizing:border-box !important;
+  background:#F4F7FA !important;
+  border-right:1px solid #D8E0EA !important;
+  font-size:10px !important;
+}
+.profile-education-row .profile-detail-item .profile-detail-value{
+  min-width:0 !important;
+  padding:9px 10px !important;
+  box-sizing:border-box !important;
+  font-size:12px !important;
+  white-space:pre-wrap !important;
+  word-break:break-word !important;
+}
+@media (max-width:900px){
+  .profile-education-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+  .profile-education-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .profile-education-row .profile-detail-item{grid-template-columns:105px minmax(0,1fr) !important;}
+}
+@media (max-width:700px){
+  .profile-education-row-3,
+  .profile-education-row-2{grid-template-columns:1fr !important;}
+  .profile-education-row .profile-detail-item,
+  .profile-education-row .profile-detail-item:last-child{
+    border-right:0 !important;
+    border-bottom:1px solid #D8E0EA !important;
+  }
+  .profile-education-row:last-child .profile-detail-item:last-child{border-bottom:0 !important;}
+}
+</style>
 <style>
 
 /* Action Items List Specification — visual treatment applied to this list page only. */
