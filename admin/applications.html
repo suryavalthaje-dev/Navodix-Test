@@ -237,6 +237,96 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
 
 
+
+<style id="application-interview-delete-confirm-style">
+/* Interview deletion confirmation — centered confirmation dialog. */
+#interviewDeleteConfirmModal{
+  z-index:2000 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:16px !important;
+  box-sizing:border-box !important;
+}
+#interviewDeleteConfirmModal .application-delete-confirm-dialog{
+  width:min(440px, calc(100vw - 32px)) !important;
+  max-width:440px !important;
+  background:#FFFFFF !important;
+  border-radius:16px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.28) !important;
+  box-sizing:border-box !important;
+  padding:30px 28px 22px !important;
+  text-align:center !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+}
+#interviewDeleteConfirmModal .application-delete-confirm-icon{
+  width:56px !important;
+  height:56px !important;
+  margin:0 auto 18px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#FFF1F1 !important;
+  color:#C62828 !important;
+  font-size:24px !important;
+}
+#interviewDeleteConfirmModal h2{
+  margin:0 0 10px !important;
+  color:#071B4D !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+}
+#interviewDeleteConfirmModal p{
+  margin:0 auto !important;
+  max-width:370px !important;
+  color:#52647D !important;
+  font-size:13px !important;
+  line-height:1.55 !important;
+}
+#interviewDeleteConfirmModal .application-delete-confirm-actions{
+  display:flex !important;
+  justify-content:center !important;
+  gap:10px !important;
+  margin-top:24px !important;
+}
+#interviewDeleteConfirmModal .application-delete-confirm-actions .btn{
+  min-width:92px !important;
+  height:50px !important;
+  padding:6px 14px !important;
+  border-radius:6px !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+}
+#interviewDeleteConfirmModal #cancelInterviewDeleteButton{
+  background:#FFFFFF !important;
+  color:#17305D !important;
+  border:1px solid #D7E0EC !important;
+}
+#interviewDeleteConfirmModal #confirmInterviewDeleteButton{
+  min-width:190px !important;
+  background:#C62828 !important;
+  color:#FFFFFF !important;
+  border:1px solid #C62828 !important;
+}
+#interviewDeleteConfirmModal #confirmInterviewDeleteButton:hover{
+  background:#A91F1F !important;
+  border-color:#A91F1F !important;
+}
+@media(max-width:520px){
+  #interviewDeleteConfirmModal .application-delete-confirm-dialog{
+    padding:26px 20px 20px !important;
+  }
+  #interviewDeleteConfirmModal .application-delete-confirm-actions{
+    flex-direction:column-reverse !important;
+  }
+  #interviewDeleteConfirmModal .application-delete-confirm-actions .btn{
+    width:100% !important;
+  }
+}
+</style>
+
 <style id="applications-child-standard-architecture">
 /* Applications child modals — canonical Navodix architecture matching Profiles Management.
    Header -> Scrollable Body -> Fixed Footer. */
@@ -1227,6 +1317,24 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 </footer>
 </div>
+</div>
+
+
+<!-- Delete Interview Round confirmation -->
+<div aria-hidden="true" class="modal-backdrop hidden application-child-modal" id="interviewDeleteConfirmModal">
+  <div aria-labelledby="interviewDeleteConfirmTitle" aria-modal="true" class="application-delete-confirm-dialog" role="dialog">
+    <div class="application-delete-confirm-icon" aria-hidden="true">
+      <i class="fa-solid fa-trash"></i>
+    </div>
+    <h2 id="interviewDeleteConfirmTitle">Delete this interview round?</h2>
+    <p>This interview round and its details will be permanently removed.</p>
+    <div class="application-delete-confirm-actions">
+      <button class="btn btn-outline" id="cancelInterviewDeleteButton" type="button">Cancel</button>
+      <button class="btn btn-primary" id="confirmInterviewDeleteButton" type="button">
+        <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Interview Round
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Add Note popup -->
