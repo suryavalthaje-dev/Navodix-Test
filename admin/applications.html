@@ -835,17 +835,22 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   box-sizing:border-box !important;
 }
 
-/* View Resume uses the same compact button dimensions and typography as Add Note. */
+/* View Resume matches the Add Interview button dimensions and typography. */
 #applicationModal #applicationInlineViewResumeButton {
-  min-height:36px !important;
-  height:36px !important;
-  padding:8px 13px !important;
+  width:110px !important;
+  min-width:110px !important;
+  max-width:110px !important;
+  min-height:34px !important;
+  height:34px !important;
+  max-height:34px !important;
+  padding:6px 13px !important;
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
   font-size:12px !important;
   font-weight:600 !important;
-  line-height:1.2 !important;
-  border-radius:7px !important;
+  line-height:1 !important;
+  border-radius:5px !important;
   box-sizing:border-box !important;
+  justify-content:center !important;
 }
 
 @media (max-width:760px) {
@@ -1069,7 +1074,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </span>
 <div class="application-inline-resume-button-group">
 <button class="btn btn-primary btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
-<button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
+<button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button">View Resume</button>
 </div>
 </div>
 <div aria-label="Application resume viewer" class="application-inline-resume-viewer hidden" id="applicationInlineResumeViewer">
