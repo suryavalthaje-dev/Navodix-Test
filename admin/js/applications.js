@@ -7,6 +7,7 @@
   let currentPage = 1;
   let selectedApplication = null;
   let editingInterviewId = null;
+  let pendingInterviewDeleteId = null;
   let interviewResultsByApplication = new Map();
   let jobCategories = [];
   let locations = [];
@@ -682,10 +683,28 @@
     toggleInterviewForm(true);
   }
 
-  async function deleteInterviewRound(interviewId) {
-    if (!selectedApplication) return;
-    const confirmed = window.confirm('Delete this interview round? This action cannot be undone.');
-    if (!confirmed) return;
+  function toggleInterviewDeleteConfirm(show, interviewId = null) {
+    const modal = $('interviewDeleteConfirmModal');
+    if (!modal) return;
+
+    if (show) {
+      pendingInterviewDeleteId = interviewId;
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+    } else {
+      pendingInterviewDeleteId = null;
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function deleteInterviewRound(interviewId) {
+    if (!selectedApplication || !interviewId) return;
+    toggleInterviewDeleteConfirm(true, interviewId);
+  }
+
+  async function executeDeleteInterviewRound(interviewId) {
+    if (!selectedApplication || !interviewId) return;
 
     try {
       const userId = await getCurrentUserId();
@@ -1090,18 +1109,17 @@
       detailItem('Highest Qualification', applicant.highest_qualification),
       detailItem('Specialization', applicant.specialization),
       detailItem('Graduation Year', applicant.graduation_year),
-      detailItem('Skills', applicant.skills, true),
-      linkDetailItem('LinkedIn', applicant.linkedin_url)
+      linkDetailItem('LinkedIn', applicant.linkedin_url),
+      detailItem('Skills', applicant.skills, true)
     ].join('');
 
     $('applicationApplicationDetails').innerHTML = [
       detailItem('Current / Most Recent Job Title', applicant.current_job_title),
-      detailItem('Current Company', applicant.current_company)
+      detailItem('Current Company', applicant.current_company),
+      detailItem('Notice Period', applicant.notice_period),
+      detailItem('Current CTC', applicant.current_ctc),
+      detailItem('Expected CTC', applicant.expected_ctc)
     ].join('');
-
-    $('applicationCurrentCtc').textContent = applicant.current_ctc || '—';
-    $('applicationExpectedCtc').textContent = applicant.expected_ctc || '—';
-    $('applicationNoticePeriod').textContent = applicant.notice_period || '—';
 
     $('applicationCoverMessage').textContent = application.cover_message || '—';
     $('applicationAdditionalInformation').textContent = applicant.additional_information || '—';
@@ -1378,6 +1396,18 @@
     $('interviewRoundModal').addEventListener('click', function (event) {
       if (event.target === $('interviewRoundModal')) toggleInterviewForm(false);
     });
+    $('cancelInterviewDeleteButton').addEventListener('click', function () {
+      toggleInterviewDeleteConfirm(false);
+    });
+    $('confirmInterviewDeleteButton').addEventListener('click', async function () {
+      const interviewId = pendingInterviewDeleteId;
+      toggleInterviewDeleteConfirm(false);
+      if (interviewId) await executeDeleteInterviewRound(interviewId);
+    });
+    $('interviewDeleteConfirmModal').addEventListener('click', function (event) {
+      if (event.target === $('interviewDeleteConfirmModal')) toggleInterviewDeleteConfirm(false);
+    });
+
     $('applicationInterviewsList').addEventListener('click', function (event) {
       const editButton = event.target.closest('.interview-edit-button');
       if (editButton) {
@@ -1397,11 +1427,6 @@
     });
 
     $('applicationInlineCloseResumeButton').addEventListener('click', function (event) {
-      event.preventDefault();
-      closeApplicationInlineResume();
-    });
-
-    $('applicationInlineBottomCloseResumeButton').addEventListener('click', function (event) {
       event.preventDefault();
       closeApplicationInlineResume();
     });
