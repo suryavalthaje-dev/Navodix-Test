@@ -254,7 +254,7 @@
     const sourceRows=uniqueSourceRows(srcRes.data||[]);
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
-    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="profile-resume-bottom-actions"><button type="button" class="btn btn-primary btn-small" id="bottomCloseProfileResumeButton">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="profile-resume-bottom-actions" style="display:flex;justify-content:flex-end;margin-top:8px;"><button type="button" class="btn btn-primary btn-small" id="bottomCloseProfileResumeButton">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
     body.innerHTML=`
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid">
         ${detailItem('Profile Number',p.profile_number)}${detailItem('Profile Status',p.status)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Availability',p.availability)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}
@@ -459,6 +459,18 @@
     if(interview){
       try{ await openInterviewsForAssociation(profileAssociationCurrentProfileId, interview.dataset.profileAssociationInterviews, interview.dataset.profileAssociationRequirement, interview.dataset.profileAssociationLabel); }
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
+      return;
+    }
+    if(e.target.closest('#bottomCloseProfileResumeButton')){
+      e.preventDefault();
+      const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
+      if(frame)frame.src='';
+      if(docxViewer){docxViewer.innerHTML='';docxViewer.classList.add('hidden');}
+      if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
+      if(frame)frame.classList.add('hidden');
+      if(viewer)viewer.classList.add('hidden');
+      const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
+      const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
       return;
     }
     if(e.target.closest('#closeProfileResumeButton')){
