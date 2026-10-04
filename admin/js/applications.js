@@ -1081,9 +1081,9 @@
       detailItem('Full Name', applicant.full_name),
       detailItem('Email', applicant.email),
       detailItem('Mobile', applicant.phone),
+      detailItem('Alternate Phone', applicant.alternate_phone),
       detailItem('Current Location', applicant.current_location),
-      detailItem('Total Experience', applicant.total_experience),
-      detailItem('Alternate Phone', applicant.alternate_phone)
+      detailItem('Total Experience', applicant.total_experience)
     ].join('');
 
     $('applicationEducationDetails').innerHTML = [
@@ -1096,14 +1096,14 @@
 
     $('applicationApplicationDetails').innerHTML = [
       detailItem('Current / Most Recent Job Title', applicant.current_job_title),
-      detailItem('Current Company', applicant.current_company),
-      detailItem('Notice Period', applicant.notice_period),
-      detailItem('Current CTC', applicant.current_ctc),
-      detailItem('Expected CTC', applicant.expected_ctc)
+      detailItem('Current Company', applicant.current_company)
     ].join('');
 
     $('applicationCoverMessage').textContent = application.cover_message || '—';
     $('applicationAdditionalInformation').textContent = applicant.additional_information || '—';
+    $('applicationCurrentCtc').textContent = applicant.current_ctc || '—';
+    $('applicationExpectedCtc').textContent = applicant.expected_ctc || '—';
+    $('applicationNoticePeriod').textContent = applicant.notice_period || '—';
 
     $('applicationContactDetails').innerHTML = [
       detailItem(
