@@ -808,6 +808,33 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-right:0 !important;
 }
 
+/* Keep the first-row and second-row label columns exactly aligned. */
+#applicationModal #applicationApplicationDetails .application-detail-item {
+  grid-template-columns:170px minmax(0,1fr) !important;
+}
+#applicationModal .application-information-second-row .application-long-field {
+  display:grid !important;
+  grid-template-columns:170px minmax(0,1fr) !important;
+  min-width:0 !important;
+}
+#applicationModal .application-information-second-row .application-long-field > span,
+#applicationModal .application-information-second-row .application-long-field > p {
+  min-width:0 !important;
+}
+
+/* Save Status uses the same compact button geometry and typography as Add Note. */
+#applicationModal #saveApplicationStatusButton {
+  min-height:36px !important;
+  height:36px !important;
+  padding:8px 13px !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:1.2 !important;
+  border-radius:7px !important;
+  box-sizing:border-box !important;
+}
+
 @media (max-width:760px) {
   #applicationModal #applicationEducationDetails,
   #applicationModal #applicationApplicationDetails,
@@ -1017,7 +1044,26 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-item"><span>Current CTC</span><strong id="applicationCurrentCtc">—</strong></div>
 <div class="application-detail-item"><span>Expected CTC</span><strong id="applicationExpectedCtc">—</strong></div>
 <div class="application-detail-item"><span>Notice Period</span><strong id="applicationNoticePeriod">—</strong></div>
-</div></section><section class="application-detail-section application-interviews-section">
+</div><section class="application-detail-section application-contact-section">
+<div class="application-detail-heading"><h3>Contact &amp; Resume</h3></div>
+<div class="application-detail-grid" id="applicationContactDetails"></div>
+<div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
+<div class="application-inline-resume-actions">
+<span class="application-resume-file-name" id="applicationResumeFileName">
+  <span class="application-resume-label">Resume:</span>
+  <span class="application-resume-filename-value" id="applicationResumeFileNameValue">—</span>
+</span>
+<div class="application-inline-resume-button-group">
+<button class="btn btn-primary btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
+<button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
+</div>
+</div>
+<div aria-label="Application resume viewer" class="application-inline-resume-viewer hidden" id="applicationInlineResumeViewer">
+<div class="application-inline-resume-loading" id="applicationInlineResumeLoading">Loading resume…</div>
+<iframe class="application-inline-resume-frame hidden" id="applicationInlineResumeFrame" title="Application Resume"></iframe>
+<div aria-label="Application Resume" class="application-inline-resume-docx hidden" id="applicationInlineResumeDocxViewer"></div>
+</div>
+</section><section class="application-detail-section application-interviews-section">
 <div class="application-detail-heading application-interviews-heading">
 <div><h3>Interview Rounds</h3></div>
 <button class="btn btn-primary btn-small" id="addInterviewRoundButton" type="button">Add Interview</button>
@@ -1069,25 +1115,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <button class="btn btn-primary btn-small application-status-save-inline" id="saveApplicationStatusButton" type="button">Save Status</button>
 </div>
 <div aria-live="polite" class="admin-message" id="applicationStatusMessage" role="status"></div>
-</section><section class="application-detail-section application-contact-section">
-<div class="application-detail-heading"><h3>Contact &amp; Resume</h3></div>
-<div class="application-detail-grid" id="applicationContactDetails"></div>
-<div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
-<div class="application-inline-resume-actions">
-<span class="application-resume-file-name" id="applicationResumeFileName">
-  <span class="application-resume-label">Resume:</span>
-  <span class="application-resume-filename-value" id="applicationResumeFileNameValue">—</span>
-</span>
-<div class="application-inline-resume-button-group">
-<button class="btn btn-primary btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
-<button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
-</div>
-</div>
-<div aria-label="Application resume viewer" class="application-inline-resume-viewer hidden" id="applicationInlineResumeViewer">
-<div class="application-inline-resume-loading" id="applicationInlineResumeLoading">Loading resume…</div>
-<iframe class="application-inline-resume-frame hidden" id="applicationInlineResumeFrame" title="Application Resume"></iframe>
-<div aria-label="Application Resume" class="application-inline-resume-docx hidden" id="applicationInlineResumeDocxViewer"></div>
-</div>
 </section>
 </div>
 <footer class="application-modal-standard-footer">
