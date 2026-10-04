@@ -735,7 +735,11 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   grid-template-columns:repeat(3,minmax(0,1fr)) !important;
   text-align:left !important;
 }
-#applicationModal #applicationEducationDetails .application-detail-item,
+#applicationModal #applicationEducationDetails .application-detail-item {
+  grid-template-columns:120px minmax(0,1fr) !important;
+  min-width:0 !important;
+  text-align:left !important;
+}
 #applicationModal #applicationEducationDetails .application-detail-item > span,
 #applicationModal #applicationEducationDetails .application-detail-item > strong {
   text-align:left !important;
@@ -743,31 +747,67 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #applicationModal #applicationEducationDetails .application-detail-item-wide {
   grid-column:span 2 !important;
 }
+
+/* Application Information: four clean rows with continuous gridlines. */
 #applicationModal #applicationApplicationDetails {
   grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:0 !important;
+  margin:0 !important;
+  border:1px solid #CBD8E8 !important;
+  border-bottom:0 !important;
+  box-sizing:border-box !important;
 }
-#applicationModal .application-information-second-row {
-  display:grid !important;
-  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  gap:14px !important;
-  margin-top:14px !important;
+#applicationModal #applicationApplicationDetails .application-detail-item {
+  min-width:0 !important;
+  text-align:left !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  border-right:1px solid #CBD8E8 !important;
+  border-bottom:1px solid #CBD8E8 !important;
 }
+#applicationModal #applicationApplicationDetails .application-detail-item:nth-child(2n) {
+  border-right:0 !important;
+}
+#applicationModal .application-information-second-row,
 #applicationModal .application-information-third-row {
   display:grid !important;
-  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-  gap:14px !important;
-  margin-top:14px !important;
+  gap:0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  border-left:1px solid #CBD8E8 !important;
+  border-right:1px solid #CBD8E8 !important;
 }
-#applicationModal .application-information-first-row .application-detail-item,
+#applicationModal .application-information-second-row {
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+}
+#applicationModal .application-information-third-row {
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  border-bottom:1px solid #CBD8E8 !important;
+}
 #applicationModal .application-information-second-row .application-long-field,
 #applicationModal .application-information-third-row .application-detail-item {
   min-width:0 !important;
-  text-align:left !important;
-}
-#applicationModal .application-information-second-row .application-long-field {
   width:auto !important;
   margin:0 !important;
+  text-align:left !important;
+  box-sizing:border-box !important;
 }
+#applicationModal .application-information-second-row .application-long-field {
+  border:0 !important;
+  border-right:1px solid #CBD8E8 !important;
+  border-bottom:1px solid #CBD8E8 !important;
+}
+#applicationModal .application-information-second-row .application-long-field:last-child {
+  border-right:0 !important;
+}
+#applicationModal .application-information-third-row .application-detail-item {
+  border:0 !important;
+  border-right:1px solid #CBD8E8 !important;
+}
+#applicationModal .application-information-third-row .application-detail-item:last-child {
+  border-right:0 !important;
+}
+
 @media (max-width:760px) {
   #applicationModal #applicationEducationDetails,
   #applicationModal #applicationApplicationDetails,
@@ -777,6 +817,15 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   }
   #applicationModal #applicationEducationDetails .application-detail-item-wide {
     grid-column:auto !important;
+  }
+  #applicationModal #applicationEducationDetails .application-detail-item {
+    grid-template-columns:120px minmax(0,1fr) !important;
+  }
+  #applicationModal #applicationApplicationDetails .application-detail-item,
+  #applicationModal .application-information-second-row .application-long-field,
+  #applicationModal .application-information-third-row .application-detail-item {
+    border-right:0 !important;
+    border-bottom:1px solid #CBD8E8 !important;
   }
 }
 </style>
