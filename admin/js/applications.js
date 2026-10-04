@@ -1401,6 +1401,11 @@
       closeApplicationInlineResume();
     });
 
+    $('applicationInlineBottomCloseResumeButton').addEventListener('click', function (event) {
+      event.preventDefault();
+      closeApplicationInlineResume();
+    });
+
     $('applicationDownloadResumeButton').addEventListener('click', async function (event) {
       event.preventDefault();
       if (this.getAttribute('aria-disabled') === 'true') return;
