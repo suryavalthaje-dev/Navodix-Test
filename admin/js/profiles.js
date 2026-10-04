@@ -77,6 +77,33 @@
     if(!url) throw new Error('The Profile Management service did not return a secure resume URL.');
     return url;
   }
+  async function openProfileResumeInNewTab(profile){
+    const popup=window.open('about:blank','_blank');
+    if(!popup){ profileDetailsMessage('Please allow pop-ups to open the resume in a new tab.','error'); return; }
+    try{
+      const url=await getProfileResumeUrl(profile);
+      popup.location.href=url;
+    }catch(err){
+      try{ popup.close(); }catch(_){}
+      profileDetailsMessage(`Could not open the resume: ${err.message||String(err)}`,'error');
+    }
+  }
+
+  function closeProfileInlineResume(){
+    const viewer=$('profileResumeViewer');
+    const frame=$('profileResumeFrame');
+    const docxViewer=$('profileResumeDocxViewer');
+    const loading=$('profileResumeLoading');
+    if(frame)frame.src='';
+    if(docxViewer)docxViewer.innerHTML='';
+    if(frame)frame.classList.add('hidden');
+    if(docxViewer)docxViewer.classList.add('hidden');
+    if(loading){loading.classList.remove('hidden');loading.textContent='Loading resume…';}
+    if(viewer)viewer.classList.add('hidden');
+    const closeBtn=$('closeProfileResumeButton');
+    if(closeBtn)closeBtn.classList.add('hidden');
+  }
+
   async function viewProfileResume(profile){
     const viewer=$('profileResumeViewer');
     const frame=$('profileResumeFrame');
@@ -84,6 +111,7 @@
     const loading=$('profileResumeLoading');
     const openBtn=$('openProfileResumeNewTabButton');
     const closeBtn=$('closeProfileResumeButton');
+    const bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
     if(!viewer||!frame||!docxViewer){ profileDetailsMessage('Resume viewer is not available.','error'); return; }
     try{
       profileDetailsMessage('');
@@ -117,10 +145,11 @@
       }
 
       if(openBtn){
-        openBtn.onclick=()=>window.open(url,'_blank','noopener,noreferrer');
+        openBtn.onclick=()=>openProfileResumeInNewTab(profile);
         openBtn.classList.remove('hidden');
       }
       if(closeBtn) closeBtn.classList.remove('hidden');
+      if(bottomCloseBtn) bottomCloseBtn.classList.remove('hidden');
     }catch(err){
       viewer.classList.add('hidden');
       if(frame)frame.src='';
@@ -254,7 +283,7 @@
     const sourceRows=uniqueSourceRows(srcRes.data||[]);
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
-    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="application-inline-resume-bottom-actions"><button class="btn btn-primary btn-small hidden" id="profileInlineBottomCloseResumeButton" type="button">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
     body.innerHTML=`
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid profile-source-detail-grid">
         ${detailItem('Profile Number',p.profile_number)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Profile Status',p.status)}${detailItem('Availability',p.availability)}
@@ -284,9 +313,11 @@
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile Status History</div>${renderDetailTable(['Date & Time','Status','Notes'],histories.map(h=>[esc(formatDateTime(h.changed_at)),`<span class="status-pill ${statusClass(h.status)}">${esc(h.status||'—')}</span>`,esc(h.notes||'—')]),'No status history found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Interview Rounds</div>${renderDetailTable(['Round','Requirement','Result','Date','Time','Mode','Interviewer','Feedback'],interviews.map(i=>{const r=reqMap[i.requirement_id]||{};return [esc(i.round_name||('Round '+i.round_number)),esc(r.job_code||r.title||'Requirement'),esc(i.result||'Pending'),esc(i.scheduled_date||'—'),esc(formatInterviewTime(i.scheduled_time)),esc(i.mode||'—'),esc(i.interviewer||'—'),esc(i.feedback||'—')]}),'No profile requirement interviews found.')}</div>`;
     profileDetailsMessage(''); $('profileDetailsTitle').textContent=`${p.full_name||'Profile'} — ${p.profile_number||''}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
-    const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton');
+    const viewBtn=$('viewProfileResumeButton'), openBtn=$('openProfileResumeNewTabButton'), downloadBtn=$('downloadProfileResumeButton'), bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
     if(viewBtn)viewBtn.onclick=()=>viewProfileResume(p);
+    if(openBtn)openBtn.onclick=()=>openProfileResumeInNewTab(p);
     if(downloadBtn)downloadBtn.onclick=()=>downloadProfileResume(p);
+    if(bottomCloseBtn)bottomCloseBtn.onclick=(event)=>{ event.preventDefault(); closeProfileInlineResume(); };
     const addProfileNoteButton=$('addProfileNoteButton');
     if(addProfileNoteButton)addProfileNoteButton.onclick=()=>openProfileLevelNotes(profileAssociationCurrentProfileId);
     document.querySelectorAll('[data-profile-association-edit]').forEach(btn=>{
@@ -461,12 +492,9 @@
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       return;
     }
-    if(e.target.closest('#closeProfileResumeButton')){
-      const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
-      if(frame)frame.src=''; if(docxViewer)docxViewer.innerHTML=''; if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
-      if(viewer)viewer.classList.add('hidden');
-      const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
-      const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
+    if(e.target.closest('#closeProfileResumeButton') || e.target.closest('#profileInlineBottomCloseResumeButton')){
+      e.preventDefault();
+      closeProfileInlineResume();
       return;
     }
     const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
