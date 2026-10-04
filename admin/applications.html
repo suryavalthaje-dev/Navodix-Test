@@ -441,6 +441,83 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
 
 
+<style id="applications-application-modal-standard-header-footer">
+/* Application Details modal — use the finalized Navodix modal architecture. */
+#applicationModal .application-details-modal-header{
+  flex:0 0 56px !important;
+  min-height:56px !important;
+  height:56px !important;
+  padding:10px 18px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+}
+
+#applicationModal .application-details-modal-header > div:first-child{
+  min-width:0 !important;
+}
+
+#applicationModal .application-details-modal-header h2{
+  margin:0 !important;
+  padding:0 !important;
+  font-size:20px !important;
+  font-weight:600 !important;
+  line-height:24px !important;
+  color:#FFFFFF !important;
+}
+
+#applicationModal .application-modal-number{
+  margin:2px 0 0 !important;
+  padding:0 !important;
+  font-size:11px !important;
+  font-weight:400 !important;
+  line-height:14px !important;
+  color:#FFFFFF !important;
+  opacity:.92 !important;
+}
+
+#applicationModal .application-details-modal-header .modal-close{
+  width:32px !important;
+  height:32px !important;
+  min-width:32px !important;
+  min-height:32px !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:transparent !important;
+  border:0 !important;
+  color:#FFFFFF !important;
+  font-size:21px !important;
+}
+
+#applicationModal .application-modal-standard-footer{
+  justify-content:space-between !important;
+  gap:14px !important;
+}
+
+#applicationModal .application-modal-standard-message{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  font-size:12px !important;
+  line-height:16px !important;
+  text-align:left !important;
+  white-space:normal !important;
+  overflow:hidden !important;
+}
+
+#applicationModal .application-modal-standard-message:empty{
+  display:none !important;
+}
+</style>
+
 <style id="applications-final-standard-borders">
 /* Final Navodix border standard only. Existing modal content/layout is preserved. */
 #applicationModal .application-modal-standard,
@@ -767,7 +844,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </button>
 </div>
 <div class="application-modal-body">
-<div aria-live="polite" class="admin-message" id="applicationModalMessage" role="status"></div>
 
 
 
@@ -863,6 +939,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </section>
 </div>
 <footer class="application-modal-standard-footer">
+<div aria-live="polite" class="admin-message application-modal-standard-message" id="applicationModalMessage" role="status"></div>
 <div class="application-modal-footer-actions">
 <button aria-disabled="true" class="btn btn-outline" id="applicationDownloadResumeButton" type="button">Download Resume</button>
 <button aria-disabled="true" class="btn btn-outline" id="applicationResumeButton" type="button">Open Resume</button>
