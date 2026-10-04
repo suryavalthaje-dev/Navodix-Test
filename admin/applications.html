@@ -866,6 +866,36 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   }
 }
 </style>
+
+<style id="applications-action-buttons-final-alignment">
+/* Final Applications modal action-button alignment only. */
+#applicationModal #applicationInlineViewResumeButton,
+#applicationModal #addInterviewRoundButton,
+#applicationModal #addApplicationNoteButton,
+#applicationModal #saveApplicationStatusButton{
+  width:110px !important;
+  min-width:110px !important;
+  max-width:110px !important;
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
+  box-sizing:border-box !important;
+  padding:6px 10px !important;
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:20px !important;
+  border-radius:5px !important;
+}
+
+/* Match the right edge of View Resume for the two section-heading buttons. */
+#applicationModal #addInterviewRoundButton,
+#applicationModal #addApplicationNoteButton{
+  transform:translateX(10px) !important;
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
