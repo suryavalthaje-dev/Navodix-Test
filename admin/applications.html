@@ -483,12 +483,26 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #applicationModal .application-resume-file-name{
   flex:1 1 auto !important;
   min-width:0 !important;
+  padding-left:9px !important;
   color:#263F62 !important;
-  font-size:12px !important;
-  font-weight:600 !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1.3 !important;
   overflow:hidden !important;
   text-overflow:ellipsis !important;
   white-space:nowrap !important;
+}
+
+#applicationModal .application-resume-label{
+  color:#173F78 !important;
+  font-size:9px !important;
+  font-weight:700 !important;
+}
+
+#applicationModal .application-resume-filename-value{
+  color:#263F62 !important;
+  font-size:11px !important;
+  font-weight:500 !important;
 }
 
 #applicationModal .application-inline-resume-button-group{
@@ -832,7 +846,10 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-grid" id="applicationContactDetails"></div>
 <div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
 <div class="application-inline-resume-actions">
-<span class="application-resume-file-name" id="applicationResumeFileName">Resume: —</span>
+<span class="application-resume-file-name" id="applicationResumeFileName">
+  <span class="application-resume-label">Resume:</span>
+  <span class="application-resume-filename-value" id="applicationResumeFileNameValue">—</span>
+</span>
 <div class="application-inline-resume-button-group">
 <button class="btn btn-primary btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
 <button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
@@ -912,7 +929,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <script src="js/config.js?v=17"></script>
 <script src="js/supabase-client.js?v=17"></script>
 <script src="js/auth.js?v=17"></script>
-<script src="js/applications.js?v=32"></script>
+<script src="js/applications.js?v=33"></script>
 <script src="js/navigation.js?v=33"></script>
 </body>
 </html>
