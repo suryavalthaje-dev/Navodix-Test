@@ -580,6 +580,77 @@
     .profile-detail-table td:last-child { min-width:120px; }
     @media (max-width:700px){ .profile-resume-actions{display:flex;margin:10px 0 0;} .profile-resume-actions .btn{width:auto;} }
 </style>
+<style id="profile-personal-professional-three-column-layout">
+/* Personal Information + Professional Information: same 3 label/value pairs per row as Application View. */
+.profile-personal-detail-grid,
+.profile-professional-detail-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:0 !important;
+}
+.profile-personal-detail-grid .profile-detail-item,
+.profile-professional-detail-grid .profile-detail-item{
+  display:grid !important;
+  grid-template-columns:120px minmax(0,1fr) !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  border-bottom:1px solid #D8E0EA !important;
+  border-right:1px solid #D8E0EA !important;
+}
+.profile-personal-detail-grid .profile-detail-item:nth-child(3n),
+.profile-professional-detail-grid .profile-detail-item:nth-child(3n){
+  border-right:0 !important;
+}
+.profile-personal-detail-grid .profile-detail-item .profile-detail-label,
+.profile-professional-detail-grid .profile-detail-item .profile-detail-label{
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:9px 10px !important;
+  box-sizing:border-box !important;
+  background:#F4F7FA !important;
+  border-right:1px solid #D8E0EA !important;
+  font-size:10px !important;
+}
+.profile-personal-detail-grid .profile-detail-item .profile-detail-value,
+.profile-professional-detail-grid .profile-detail-item .profile-detail-value{
+  min-width:0 !important;
+  padding:9px 10px !important;
+  box-sizing:border-box !important;
+  font-size:12px !important;
+  white-space:pre-wrap !important;
+  word-break:break-word !important;
+}
+.profile-personal-detail-grid .profile-detail-item:nth-last-child(-n+3),
+.profile-professional-detail-grid .profile-detail-item:nth-last-child(-n+3){
+  border-bottom:0 !important;
+}
+.profile-personal-detail-grid .profile-detail-empty-pair{
+  min-height:39px !important;
+  background:#FFFFFF !important;
+}
+@media (max-width:900px){
+  .profile-personal-detail-grid,
+  .profile-professional-detail-grid{grid-template-columns:1fr 1fr !important;}
+  .profile-personal-detail-grid .profile-detail-item:nth-child(3n),
+  .profile-professional-detail-grid .profile-detail-item:nth-child(3n){border-right:1px solid #D8E0EA !important;}
+  .profile-personal-detail-grid .profile-detail-item:nth-child(2n),
+  .profile-professional-detail-grid .profile-detail-item:nth-child(2n){border-right:0 !important;}
+  .profile-personal-detail-grid .profile-detail-item:nth-last-child(-n+3),
+  .profile-professional-detail-grid .profile-detail-item:nth-last-child(-n+3){border-bottom:1px solid #D8E0EA !important;}
+  .profile-personal-detail-grid .profile-detail-item:nth-last-child(-n+2),
+  .profile-professional-detail-grid .profile-detail-item:nth-last-child(-n+2){border-bottom:0 !important;}
+}
+@media (max-width:700px){
+  .profile-personal-detail-grid,
+  .profile-professional-detail-grid{grid-template-columns:1fr !important;}
+  .profile-personal-detail-grid .profile-detail-item,
+  .profile-professional-detail-grid .profile-detail-item{border-right:0 !important;border-bottom:1px solid #D8E0EA !important;}
+  .profile-personal-detail-grid .profile-detail-item:last-child,
+  .profile-professional-detail-grid .profile-detail-item:last-child{border-bottom:0 !important;}
+}
+</style>
 <style id="profile-source-three-column-layout">
 /* Profile & Source only: match the Application View structure —
    three label/value pairs per row. */
