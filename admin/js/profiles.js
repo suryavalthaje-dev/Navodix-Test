@@ -77,23 +77,6 @@
     if(!url) throw new Error('The Profile Management service did not return a secure resume URL.');
     return url;
   }
-  function resetProfileInlineResumeViewer(){
-    const viewer=$('profileResumeViewer');
-    const frame=$('profileResumeFrame');
-    const docxViewer=$('profileResumeDocxViewer');
-    const loading=$('profileResumeLoading');
-    const closeButton=$('closeProfileResumeButton');
-    if(viewer)viewer.classList.add('hidden');
-    if(frame){frame.classList.add('hidden');frame.src='';}
-    if(docxViewer){docxViewer.classList.add('hidden');docxViewer.innerHTML='';}
-    if(loading){loading.classList.remove('hidden');loading.textContent='Loading resume…';}
-    if(closeButton)closeButton.classList.add('hidden');
-  }
-
-  function closeProfileInlineResume(){
-    resetProfileInlineResumeViewer();
-  }
-
   async function viewProfileResume(profile){
     const viewer=$('profileResumeViewer');
     const frame=$('profileResumeFrame');
@@ -271,10 +254,10 @@
     const sourceRows=uniqueSourceRows(srcRes.data||[]);
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
-    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="application-inline-resume-bottom-actions"><button class="btn btn-primary btn-small" id="profileInlineBottomCloseResumeButton" type="button">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
     body.innerHTML=`
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid">
-        ${detailItem('Profile Number',p.profile_number)}${detailItem('Profile Status',p.status)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Availability',p.availability)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}
+        ${detailItem('Profile Number',p.profile_number)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Profile Status',p.status)}${detailItem('Availability',p.availability)}
         ${primary?.referrer_name?detailItem('Referrer Name',primary.referrer_name):''}${primary?.referrer_mobile?detailItem('Referrer Mobile',primary.referrer_mobile):''}${primary?.referrer_email?detailItem('Referrer Email',primary.referrer_email):''}
       </div></div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Personal Information</div><div class="profile-detail-grid">${detailItem('Full Name',p.full_name)}${detailItem('Email',p.email)}${detailItem('Mobile',p.phone)}${detailItem('Alternate Phone',p.alternate_phone)}${detailItem('Current Location',p.current_location)}</div></div>
@@ -301,10 +284,9 @@
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile Status History</div>${renderDetailTable(['Date & Time','Status','Notes'],histories.map(h=>[esc(formatDateTime(h.changed_at)),`<span class="status-pill ${statusClass(h.status)}">${esc(h.status||'—')}</span>`,esc(h.notes||'—')]),'No status history found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Interview Rounds</div>${renderDetailTable(['Round','Requirement','Result','Date','Time','Mode','Interviewer','Feedback'],interviews.map(i=>{const r=reqMap[i.requirement_id]||{};return [esc(i.round_name||('Round '+i.round_number)),esc(r.job_code||r.title||'Requirement'),esc(i.result||'Pending'),esc(i.scheduled_date||'—'),esc(formatInterviewTime(i.scheduled_time)),esc(i.mode||'—'),esc(i.interviewer||'—'),esc(i.feedback||'—')]}),'No profile requirement interviews found.')}</div>`;
     profileDetailsMessage(''); $('profileDetailsTitle').textContent=`${p.full_name||'Profile'} — ${p.profile_number||''}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
-    const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton'), bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
+    const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton');
     if(viewBtn)viewBtn.onclick=()=>viewProfileResume(p);
     if(downloadBtn)downloadBtn.onclick=()=>downloadProfileResume(p);
-    if(bottomCloseBtn)bottomCloseBtn.onclick=(event)=>{ event.preventDefault(); closeProfileInlineResume(); };
     const addProfileNoteButton=$('addProfileNoteButton');
     if(addProfileNoteButton)addProfileNoteButton.onclick=()=>openProfileLevelNotes(profileAssociationCurrentProfileId);
     document.querySelectorAll('[data-profile-association-edit]').forEach(btn=>{
@@ -479,14 +461,12 @@
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       return;
     }
-    if(e.target.closest('#profileInlineBottomCloseResumeButton')){
-      e.preventDefault();
-      closeProfileInlineResume();
-      return;
-    }
     if(e.target.closest('#closeProfileResumeButton')){
-      e.preventDefault();
-      closeProfileInlineResume();
+      const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
+      if(frame)frame.src=''; if(docxViewer)docxViewer.innerHTML=''; if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
+      if(viewer)viewer.classList.add('hidden');
+      const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
+      const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
       return;
     }
     const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
