@@ -1081,9 +1081,9 @@
       detailItem('Full Name', applicant.full_name),
       detailItem('Email', applicant.email),
       detailItem('Mobile', applicant.phone),
-      detailItem('Alternate Phone', applicant.alternate_phone),
       detailItem('Current Location', applicant.current_location),
-      detailItem('Total Experience', applicant.total_experience)
+      detailItem('Total Experience', applicant.total_experience),
+      detailItem('Alternate Phone', applicant.alternate_phone)
     ].join('');
 
     $('applicationEducationDetails').innerHTML = [
