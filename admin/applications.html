@@ -530,6 +530,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   }
 }
 </style>
+<style id="applications-section2-three-column">
+/* Applicant Information only: match the three-column layout of Application & Requirement. */
+#applicationModal #applicationApplicantDetails{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+
+@media (max-width:760px){
+  #applicationModal #applicationApplicantDetails{
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
 <style id="applications-final-standard-borders">
 /* Final Navodix border standard only. Existing modal content/layout is preserved. */
 #applicationModal .application-modal-standard,
