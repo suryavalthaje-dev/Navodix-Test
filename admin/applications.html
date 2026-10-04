@@ -474,9 +474,30 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #applicationModal .application-inline-resume-actions{
   display:flex !important;
   align-items:center !important;
+  justify-content:space-between !important;
   gap:8px !important;
   margin-top:10px !important;
   flex-wrap:wrap !important;
+}
+
+#applicationModal .application-resume-file-name{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  color:#263F62 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+#applicationModal .application-inline-resume-button-group{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin-left:auto !important;
+  flex:0 0 auto !important;
 }
 
 #applicationModal .application-inline-resume-actions .btn{
@@ -811,8 +832,11 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="application-detail-grid" id="applicationContactDetails"></div>
 <div class="application-resume-status" id="applicationResumeStatus">Resume is securely stored in Careers Admin.</div>
 <div class="application-inline-resume-actions">
+<span class="application-resume-file-name" id="applicationResumeFileName">Resume: —</span>
+<div class="application-inline-resume-button-group">
+<button class="btn btn-primary btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
 <button aria-disabled="true" class="btn btn-primary btn-small disabled" id="applicationInlineViewResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Resume</button>
-<button class="btn btn-outline btn-small hidden" id="applicationInlineCloseResumeButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close Resume</button>
+</div>
 </div>
 <div aria-label="Application resume viewer" class="application-inline-resume-viewer hidden" id="applicationInlineResumeViewer">
 <div class="application-inline-resume-loading" id="applicationInlineResumeLoading">Loading resume…</div>
