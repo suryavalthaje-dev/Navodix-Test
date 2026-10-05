@@ -229,7 +229,7 @@
     }
   }
 
-  let pendingDeleteProfileId='' '';
+  let pendingDeleteProfileId='';
   let pendingDeleteProfileName='';
 
   function openDeleteProfileModal(profileId, profileName){
