@@ -6,6 +6,9 @@
   let deleteJobId = null;
   let saving = false;
   let viewMode = false;
+  let selectedJDFile = null;
+  let existingJDFile = null;
+  let jdRemoveRequested = false;
   let clients = [];
   let jobCategories = [];
   let locations = [];
@@ -32,6 +35,78 @@
     if (!el) return;
     el.textContent = text || '';
     el.className = 'admin-message' + (type ? ' ' + type : '');
+  }
+
+  async function callRequirementDocumentFunction(formData) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) throw new Error('Your session has expired. Please sign in again.');
+
+    const response = await fetch(
+      window.NAVODIX_SUPABASE_URL + '/functions/v1/requirement-documents',
+      {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + session.access_token },
+        body: formData
+      }
+    );
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.success === false) {
+      throw new Error(payload.error || payload.message || 'Requirement document operation failed.');
+    }
+    return payload;
+  }
+
+  function resetJDState() {
+    selectedJDFile = null;
+    existingJDFile = null;
+    jdRemoveRequested = false;
+    const file = $('jdFile');
+    const name = $('existingJDFileName');
+    const remove = $('removeJDButton');
+    const help = $('jdFileHelp');
+    if (file) file.value = '';
+    if (name) {
+      name.textContent = '';
+      name.title = '';
+      name.classList.add('hidden');
+    }
+    if (remove) remove.classList.add('hidden');
+    if (help) help.textContent = 'Optional. Maximum 5 MB. PDF, DOC or DOCX.';
+  }
+
+  function renderJDState() {
+    const file = $('jdFile');
+    const name = $('existingJDFileName');
+    const remove = $('removeJDButton');
+    const help = $('jdFileHelp');
+    if (!file || !name || !remove || !help) return;
+
+    if (selectedJDFile) {
+      name.textContent = selectedJDFile.name;
+      name.title = selectedJDFile.name;
+      name.classList.remove('hidden');
+      remove.classList.add('hidden');
+      help.textContent = `Selected: ${selectedJDFile.name} (${Math.ceil(selectedJDFile.size / 1024)} KB). It will be uploaded when the requirement is saved.`;
+      return;
+    }
+
+    if (existingJDFile && !jdRemoveRequested) {
+      name.textContent = existingJDFile.name || 'Existing JD document';
+      name.title = existingJDFile.name || '';
+      name.classList.remove('hidden');
+      remove.classList.toggle('hidden', viewMode);
+      help.textContent = 'An existing JD document is stored for this requirement. Select a new file to replace it.';
+      return;
+    }
+
+    name.textContent = '';
+    name.title = '';
+    name.classList.add('hidden');
+    remove.classList.add('hidden');
+    help.textContent = jdRemoveRequested
+      ? 'The existing JD will be removed when you save this requirement.'
+      : 'Optional. Maximum 5 MB. PDF, DOC or DOCX.';
   }
 
   function formatType(type) {
@@ -308,6 +383,7 @@
     clearList('responsibilities');
     clearList('requirements');
     clearList('qualifications');
+    resetJDState();
     showFormMessage('');
   }
 
@@ -331,6 +407,7 @@
     $('saveJobButton').classList.toggle('hidden', enabled);
     $('cancelJobButton').textContent = enabled ? 'Close' : 'Cancel';
     $('jobModalTitle').textContent = enabled ? 'View Requirement' : ($('jobId').value ? 'Edit Requirement' : 'Add New Requirement');
+    renderJDState();
   }
 
   function openModal(job = null, mode = 'edit') {
@@ -345,6 +422,15 @@
       $('jobCategory').value = job.job_category_id || '';
       $('jobOpenDate').value = job.job_open_date || '';
       $('skillLevel').value = job.skill_level || '';
+      $('numberOfPositions').value = job.number_of_positions ?? '';
+      existingJDFile = job.jd_file_name ? {
+        name: job.jd_file_name,
+        objectPath: job.jd_object_path || '',
+        type: job.jd_file_type || '',
+        size: job.jd_file_size || null,
+        uploadedAt: job.jd_uploaded_at || null
+      } : null;
+      jdRemoveRequested = false;
       $('jobTitle').value = job.title || '';
       const matchedLocation = locations.find(item => item.id === job.location_id) ||
         locations.find(item => String(item.location_name || '').trim().toLowerCase() === String(job.location || '').trim().toLowerCase());
@@ -365,6 +451,8 @@
       addListItem('requirements');
       addListItem('qualifications');
     }
+
+    renderJDState();
 
     if (mode === 'view') {
       setViewMode(true);
@@ -470,6 +558,8 @@
     const employmentType = $('employmentType').value;
     const experience = $('jobExperience').value.trim();
     const skillLevel = $('skillLevel').value.trim() || null;
+    const numberOfPositionsRaw = $('numberOfPositions').value.trim();
+    const numberOfPositions = numberOfPositionsRaw ? Number(numberOfPositionsRaw) : null;
     const status = $('jobStatus').value;
     const salaryRange = $('salaryRange').value.trim() || null;
     const closingDate = $('closingDate').value || null;
@@ -478,6 +568,14 @@
 
     if (!clientId || !categoryId || !locationId || !jobOpenDate || !title || !location || !experience) {
       showFormMessage('Please complete all required fields.', 'error');
+      return;
+    }
+    if (numberOfPositions !== null && (!Number.isInteger(numberOfPositions) || numberOfPositions < 1)) {
+      showFormMessage('Number of Positions must be a whole number greater than 0.', 'error');
+      return;
+    }
+    if (selectedJDFile && selectedJDFile.size > 5 * 1024 * 1024) {
+      showFormMessage('JD document must not exceed 5 MB.', 'error');
       return;
     }
 
@@ -505,6 +603,7 @@
           closing_date: closingDate,
           job_open_date: jobOpenDate,
           skill_level: skillLevel,
+          number_of_positions: numberOfPositions,
           client_id: clientId,
           job_category_id: categoryId
         };
@@ -546,12 +645,13 @@
 
         // Salary Range is stored in the existing jobs.salary_budget field.
         const { data: salaryUpdatedJob, error: salaryError } = await supabase.from('jobs')
-          .update({ salary_budget: salaryRange })
+          .update({ salary_budget: salaryRange, number_of_positions: numberOfPositions })
           .eq('id', savedJob.id)
           .select('*')
           .single();
         if (salaryError) throw salaryError;
         savedJob = salaryUpdatedJob;
+        $('jobId').value = savedJob.id;
       }
 
       await Promise.all([
@@ -559,6 +659,19 @@
         saveList('job_requirements', savedJob.id, 'requirement', getListValues('requirements')),
         saveList('job_qualifications', savedJob.id, 'qualification', getListValues('qualifications'))
       ]);
+
+      if (selectedJDFile) {
+        const fd = new FormData();
+        fd.append('action', 'upload');
+        fd.append('job_id', savedJob.id);
+        fd.append('file', selectedJDFile);
+        await callRequirementDocumentFunction(fd);
+      } else if (jdRemoveRequested && existingJDFile?.objectPath) {
+        const fd = new FormData();
+        fd.append('action', 'delete');
+        fd.append('job_id', savedJob.id);
+        await callRequirementDocumentFunction(fd);
+      }
 
       jobFormDirty = false;
       closeModal(true);
@@ -642,6 +755,29 @@
     $('jobForm').addEventListener('click', (event) => {
       if (event.target.closest('[data-add-list], .remove-item')) markJobFormDirty();
     });
+
+    const jdFileInput = $('jdFile');
+    if (jdFileInput) {
+      jdFileInput.addEventListener('change', () => {
+        const file = jdFileInput.files?.[0] || null;
+        selectedJDFile = file;
+        if (file) jdRemoveRequested = false;
+        markJobFormDirty();
+        renderJDState();
+      });
+    }
+
+    const removeJDButton = $('removeJDButton');
+    if (removeJDButton) {
+      removeJDButton.addEventListener('click', () => {
+        if (!existingJDFile && !selectedJDFile) return;
+        selectedJDFile = null;
+        if (jdFileInput) jdFileInput.value = '';
+        if (existingJDFile) jdRemoveRequested = true;
+        markJobFormDirty();
+        renderJDState();
+      });
+    }
 
     $('clientName').addEventListener('change', updateJobCodePreview);
     $('jobCategory').addEventListener('change', updateJobCodePreview);
