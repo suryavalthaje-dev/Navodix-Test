@@ -275,7 +275,7 @@
             esc(a.association_type||'manual'),
             esc(formatDateTime(a.associated_at)),
             esc(a.notes||'—'),
-            `<button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button> <button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button> <button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button> <button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button> <button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button>`
+            `<button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button> <button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.title||'Requirement'))}" data-profile-association-profile="${esc(p.full_name||'Profile')}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button> <button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button> <button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button> <button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button>`
           ];
         }),'No job associations.')}
       </div>
@@ -401,9 +401,9 @@
     if(error) throw error;
   }
 
-  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement') {
+  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement', profileName='Profile') {
     if(!associationId) return;
-    $('associationHistoryTitle').textContent=`Status History — ${requirementLabel}`;
+    $('associationHistoryTitle').textContent=`Status History : ${requirementLabel} — ${profileName}`;
     $('associationHistoryMessage').textContent='Loading…';
     $('associationHistoryMessage').className='admin-message';
     $('associationHistoryTableBody').innerHTML='';
@@ -431,7 +431,7 @@
         // changed_by stores the authenticated user's UUID. Do not expose the UUID as the visible value.
         return 'Admin / HR User';
       };
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class="status-pill ${statusClass(x.new_status)}">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(changedByLabel(x.changed_by))}</td></tr>`).join('');
+      $('associationHistoryTableBody').innerHTML=rows.map(x=>{ const d=x.changed_at?new Date(x.changed_at).toLocaleDateString('en-GB'):'—'; return `<tr><td>${esc(d)}</td><td>${esc(x.previous_status||'—')}</td><td><span class="status-pill ${statusClass(x.new_status)}">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(changedByLabel(x.changed_by))}</td></tr>`; }).join('');
       $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
     } catch(err) {
       $('associationHistoryMessage').textContent=err.message||String(err);
@@ -486,7 +486,7 @@
     }
     const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
     const hist=e.target.closest('[data-profile-association-history]');
-    if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
+    if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement',hist.dataset.profileAssociationProfile||'Profile'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
     const del=e.target.closest('[data-profile-association-delete]');
     if(del){ try{ await removeProfileAssociation(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
     const edit=e.target.closest('[data-profile-association-edit]');
