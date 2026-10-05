@@ -323,332 +323,576 @@
 }
 </style>
 
-<style>
-
-/* Action Items List Specification — visual treatment applied to this list page only. */
-body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; }
-.admin-main > .admin-container { max-width:1200px; width:calc(100% - 40px); }
-.admin-page-heading { margin-bottom:10px !important; }
-.admin-page-heading h1 { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:32px !important; line-height:1.15 !important; color:#071B4D !important; font-weight:700 !important; }
-.jobs-heading-subtitle { font-size:14px !important; line-height:1.35 !important; color:#556579 !important; }
-.admin-page-heading .btn { height:42px !important; white-space:nowrap; }
-
-/* Requirements toolbar */
-.jobs-toolbar {
-  gap:8px !important; padding:14px !important; margin-bottom:16px !important;
-  background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important;
+<style id="navodix-list-standard-final-v3">
+/* ================================================================
+   NAVODIX ADMIN — FINAL MENU + LIST STANDARD
+   Page-scoped to Manage Requirements. Existing business logic is untouched.
+   ================================================================ */
+body.admin-app-page{
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+  background:#F6F8FB;
 }
-.jobs-toolbar select, .jobs-toolbar .toolbar-search input { height:42px !important; font-size:12px !important; }
-.jobs-toolbar .toolbar-search input::placeholder { font-size:12px !important; color:#8A97A8 !important; }
-.jobs-toolbar .btn { height:42px !important; font-size:11px !important; }
-/* Requirements summary cards */
-.jobs-summary { gap:14px !important; margin-bottom:18px !important; }
-.jobs-summary .summary-card { min-height:46px !important; height:46px !important; padding:12px 18px !important; box-sizing:border-box; border:1px solid #E2E8F0 !important; border-radius:12px !important; }
-.jobs-summary .summary-card span { font-size:12px !important; font-weight:700 !important; color:#556579 !important; }
-.jobs-summary .summary-card strong { font-size:14px !important; font-weight:700 !important; color:#071B4D !important; }
-/* Requirements list card/table */
-.jobs-card { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:14px !important; overflow:hidden !important; }
-.jobs-table { width:100% !important; min-width:0 !important; table-layout:fixed !important; border-collapse:collapse !important; border:1px solid #1F1F1F !important; }
-.jobs-table thead th {
-  background:#C7DDF2 !important; color:#0B2A5B !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important; font-weight:700 !important; letter-spacing:0 !important; text-transform:none !important;
-  text-align:left !important; padding:9px 10px !important; line-height:1.1 !important; white-space:nowrap !important;
-  border-top:2px solid #B8C1CC !important; border-bottom:2px solid #B8C1CC !important; border-right:1px solid #B8C1CC !important;
+
+/* ---------- FINAL ADMIN MENU ---------- */
+.admin-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#FFFFFF;
+  border-bottom:1px solid #D7E1ED;
+  box-shadow:0 2px 10px rgba(25,55,90,.06);
 }
-.jobs-table thead th:first-child{border-left:2px solid #B8C1CC !important}.jobs-table thead th:last-child{border-right:2px solid #B8C1CC !important}
-.jobs-table thead th:nth-child(1){width:28% !important}.jobs-table thead th:nth-child(2){width:14% !important}.jobs-table thead th:nth-child(3){width:10% !important}.jobs-table thead th:nth-child(4){width:13% !important}.jobs-table thead th:nth-child(5){width:11% !important}.jobs-table thead th:nth-child(6){width:12% !important}.jobs-table thead th:nth-child(7){width:12% !important}
-.jobs-table tbody tr:nth-child(odd){background:#FFFFFF !important}.jobs-table tbody tr:nth-child(even){background:#DDE2E8 !important}.jobs-table tbody tr:hover{background:#E8F1FA !important}
-.jobs-table tbody td { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; color:#071B4D !important; padding:13px 10px !important; border-right:1px solid #B8C1CC !important; border-bottom:1px solid #B8C1CC !important; vertical-align:middle !important; white-space:normal !important; overflow-wrap:anywhere !important; }
-.jobs-table tbody td:first-child{border-left:2px solid #1F1F1F !important}.jobs-table tbody td:last-child{border-right:2px solid #B8C1CC !important}.jobs-table tbody tr:last-child td{border-bottom:2px solid #1F1F1F !important}
-.jobs-table .btn { font-size:10px !important; min-height:32px !important; padding:6px 10px !important; border-radius:7px !important; }
-@media(max-width:899px){.jobs-summary{grid-template-columns:repeat(3,minmax(0,1fr)) !important}.jobs-toolbar{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.jobs-toolbar .toolbar-search{grid-column:1/-1}}
-@media(max-width:760px){.jobs-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.jobs-toolbar{grid-template-columns:1fr !important}.jobs-toolbar .toolbar-search{grid-column:auto}.jobs-table thead th,.jobs-table tbody td{padding-left:7px !important;padding-right:7px !important}}
+.admin-header .admin-container{
+  width:min(1400px,calc(100% - 56px));
+}
+.admin-nav{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+.admin-brand{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+  min-width:245px;
+}
+.admin-brand img{
+  display:block;
+  width:auto;
+  height:48px;
+  max-width:215px;
+  max-height:48px;
+  object-fit:contain;
+}
+.admin-main-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex:1 1 auto;
+  min-width:0;
+}
+.admin-main-nav-link{
+  position:relative;
+  display:flex;
+  align-items:center;
+  height:40px;
+  padding:0 15px;
+  border-radius:8px;
+  color:#4A5D73;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+}
+.admin-main-nav-link:hover{background:#F1F6FC;color:#173F78;}
+.admin-main-nav-link.active{background:#EAF3FF;color:#0B55B5;font-weight:700;}
+.admin-main-nav-link.disabled{cursor:default;}
+.admin-main-nav-link.active:after{
+  content:"";
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:-16px;
+  height:3px;
+  border-radius:3px 3px 0 0;
+  background:#2878E8;
+}
+.admin-nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-left:auto;
+}
+.admin-user{
+  font-size:11px;
+  color:#435A72;
+  font-weight:400;
+  white-space:nowrap;
+}
+.admin-nav-right #logoutButton{
+  height:36px !important;
+  min-height:36px !important;
+  min-width:96px;
+  padding:0 13px !important;
+  border:1px solid #B8CBE0 !important;
+  border-radius:8px !important;
+  background:#F7FAFE !important;
+  color:#173F78 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+}
+.admin-nav-right #logoutButton:hover{
+  background:#EEF5FC !important;
+  border-color:#9FB6D1 !important;
+  color:#173F78 !important;
+}
+.admin-nav-right #logoutButton i{margin-right:7px;font-size:12px;}
 
-</style>
+.admin-section-nav{
+  position:sticky;
+  top:72px;
+  z-index:990;
+  background:#F7F9FC;
+  border-top:1px solid #E5EBF2;
+  border-bottom:1px solid #D7E1ED;
+  box-shadow:none;
+}
+.admin-section-nav-inner{
+  width:min(1400px,calc(100% - 56px));
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  overflow:visible;
+}
+.admin-section-nav-link{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  height:34px;
+  min-height:34px;
+  padding:0 13px;
+  border:1px solid transparent;
+  border-radius:7px;
+  color:#29415E;
+  font-size:11.5px;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+  background:transparent;
+}
+.admin-section-nav-link:hover{background:#FFFFFF;border-color:#D5E0EC;color:#173F78;}
+.admin-section-nav-link.active{background:#2878E8 !important;border-color:#2878E8 !important;color:#FFFFFF !important;box-shadow:0 2px 5px rgba(40,120,232,.18);}
+.admin-section-nav-dropdown{position:relative;height:34px;display:block;}
+.admin-section-nav-dropdown > summary{
+  list-style:none;
+  cursor:pointer;
+}
+.admin-section-nav-dropdown > summary::-webkit-details-marker{display:none;}
+.admin-section-nav-dropdown > summary:after{
+  content:"▼";
+  margin-left:7px;
+  font-size:8px;
+  opacity:.72;
+  transition:transform .18s ease;
+}
+.admin-section-nav-dropdown[open] > summary:after{transform:rotate(180deg);}
+.master-data-menu{
+  position:absolute;
+  top:calc(100% + 1px);
+  left:0;
+  z-index:1200;
+  min-width:220px;
+  padding:7px;
+  background:#FFFFFF;
+  border:1px solid #D5E0EC;
+  border-radius:0 0 9px 9px;
+  box-shadow:0 12px 28px rgba(16,24,40,.14);
+}
+.master-data-menu a{
+  display:block;
+  padding:9px 12px;
+  border-radius:7px;
+  color:#4A5D73;
+  font-size:11.5px;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+}
+.master-data-menu a:hover{background:#F1F6FC;color:#173F78;}
 
-<style id="requirements-final-v16-table-design">
-/* Finalized Action Items v16 table design — visual-only.
-   Existing requirement columns, widths, data and functionality remain unchanged. */
-.jobs-card {
-  border-left:6px solid #2878E8 !important;
+/* ---------- PAGE HEADING ---------- */
+.admin-main{padding:26px 0 40px;}
+.admin-main > .admin-container{max-width:1200px;width:calc(100% - 40px);}
+.jobs-heading{
+  display:flex !important;
+  align-items:baseline !important;
+  justify-content:space-between !important;
+  gap:20px !important;
+  margin:0 0 14px !important;
+}
+.jobs-heading-text{
+  display:flex !important;
+  align-items:baseline !important;
+  gap:12px !important;
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+.jobs-heading h1{
+  margin:0 !important;
+  color:#071B4D !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:26px !important;
+  line-height:1.15 !important;
+  font-weight:700 !important;
+  letter-spacing:-.2px !important;
+  white-space:nowrap !important;
+}
+.jobs-heading-subtitle{
+  margin:0 !important;
+  color:#556579 !important;
+  font-size:13px !important;
+  line-height:1.35 !important;
+  font-weight:400 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+.jobs-heading .add-job-button{
+  flex:0 0 auto;
+  height:36px !important;
+  min-height:36px !important;
+  min-width:100px;
+  padding:0 14px !important;
+  border-radius:6px !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap;
+}
+
+/* ---------- COMPACT FILTER + DASHBOARD FRAME ---------- */
+.list-controls-frame{
+  background:#F9FBFE;
+  border:1px solid #AEBFD2;
+  border-radius:12px;
+  padding:9px;
+  margin-bottom:12px;
+  box-shadow:0 1px 2px rgba(30,55,85,.04);
+}
+.jobs-toolbar{
+  display:grid !important;
+  grid-template-columns:minmax(280px,2fr) minmax(145px,1fr) auto !important;
+  gap:7px !important;
+  align-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:#FFFFFF !important;
+  border:0 !important;
+  border-radius:0 !important;
+}
+.toolbar-search{position:relative;}
+.toolbar-search i{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#718096;
+  font-size:13px;
+  pointer-events:none;
+}
+.jobs-toolbar select,
+.toolbar-search input{
+  width:100% !important;
+  height:32px !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:6px !important;
+  background:#FFFFFF !important;
+  color:#263F62 !important;
+  padding:0 11px !important;
+  font-family:inherit !important;
+  font-size:12px !important;
+  outline:none;
+}
+.toolbar-search input{padding-left:31px !important;}
+.toolbar-search input::placeholder{font-size:12px !important;color:#718096 !important;}
+.jobs-toolbar select:focus,.toolbar-search input:focus{
+  border-color:#2878E8 !important;
+  box-shadow:0 0 0 2px rgba(40,120,232,.10) !important;
+}
+.jobs-toolbar .btn{
+  height:32px !important;
+  min-height:32px !important;
+  min-width:92px !important;
+  padding:0 13px !important;
+  border-radius:6px !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap;
+}
+.jobs-summary{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:8px !important;
+  margin:7px 0 0 !important;
+}
+.jobs-summary .summary-card{
+  height:38px !important;
+  min-height:38px !important;
+  padding:5px 13px !important;
+  background:#FFFFFF !important;
+  border:1px solid #E2E8F0 !important;
+  border-radius:7px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+}
+.jobs-summary .summary-card span{
+  display:block !important;
+  margin:0 !important;
+  color:#556579 !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+}
+.jobs-summary .summary-card strong{
+  color:#071B4D !important;
+  font-size:13px !important;
+  line-height:1 !important;
+  font-weight:700 !important;
+}
+
+/* Empty message should not create unexplained whitespace. */
+#jobsMessage:empty{display:none !important;}
+#jobsMessage:not(:empty){
+  min-height:0 !important;
+  margin:0 0 8px !important;
+  font-size:12px !important;
+}
+
+/* ---------- LIST CARD / HEADING / TABLE ---------- */
+.jobs-card{
   position:relative !important;
+  background:#FFFFFF !important;
+  border:2px solid #AFC2D8 !important;
+  border-top:4px solid #2878E8 !important;
+  border-left:2px solid #AFC2D8 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
 }
-.jobs-table {
-  border-left:0 !important;
+.jobs-list-heading{
+  min-height:50px;
+  padding:7px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  border-bottom:1px solid #CBD8E8;
+  position:relative;
 }
-.jobs-table thead th {
-  height:50px !important;
+.jobs-list-heading-inline{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  min-width:0;
+  flex:1 1 auto;
+}
+.jobs-list-heading h2{
+  margin:0;
+  color:#0B2A5B;
+  font-size:16px;
+  line-height:1.2;
+  font-weight:700;
+  white-space:nowrap;
+}
+.jobs-list-heading p{
+  margin:0;
+  color:#65758A;
+  font-size:11.5px;
+  line-height:1.3;
+  font-weight:400;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.jobs-list-heading-actions{display:flex;gap:8px;align-items:center;flex:0 0 auto;}
+.jobs-list-heading-actions .btn{
+  height:36px !important;
+  min-height:36px !important;
+  min-width:100px !important;
+  padding:0 14px !important;
+  border-radius:6px !important;
+  font-size:12px !important;
+}
+.columns-popover{
+  position:absolute;
+  right:14px;
+  top:56px;
+  z-index:20;
+  width:210px;
+  background:#FFFFFF;
+  border:1px solid #AEBFD2;
+  border-radius:8px;
+  box-shadow:0 8px 22px rgba(30,55,85,.12);
+  padding:10px;
+}
+.columns-popover.hidden{display:none;}
+.columns-popover-title{font-size:11px;font-weight:700;color:#173F78;margin-bottom:7px;}
+.column-option{display:flex;align-items:center;gap:7px;padding:5px 2px;font-size:11px;color:#465A70;}
+.column-option input{accent-color:#2878E8;}
+
+.table-wrap{width:100%;overflow-x:auto;}
+.jobs-table{
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse !important;
+}
+.jobs-table thead th{
+  height:40px !important;
   background:#2878E8 !important;
   color:#FFFFFF !important;
-  font-family:'Calibri Light','Segoe UI Light','Segoe UI',sans-serif !important;
-  font-size:13px !important;
-  font-weight:400 !important;
-  letter-spacing:.1px !important;
+  text-align:left !important;
   padding:0 10px !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
   line-height:1.1 !important;
-  border-top:2px solid #B8C1CC !important;
-  border-bottom:2px solid #B8C1CC !important;
-  border-right:1px solid #B8C1CC !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  white-space:nowrap !important;
+  border-right:1px solid rgba(255,255,255,.35) !important;
+  border-bottom:0 !important;
 }
-.jobs-table thead th:first-child { border-left:0 !important; }
-.jobs-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
-.jobs-table tbody td {
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+.jobs-table thead th:last-child{border-right:0 !important;}
+.jobs-table thead th:nth-child(1){width:28% !important;}
+.jobs-table thead th:nth-child(2){width:14% !important;}
+.jobs-table thead th:nth-child(3){width:10% !important;}
+.jobs-table thead th:nth-child(4){width:13% !important;}
+.jobs-table thead th:nth-child(5){width:11% !important;}
+.jobs-table thead th:nth-child(6){width:12% !important;}
+.jobs-table thead th:nth-child(7){width:12% !important;}
+.jobs-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
+.jobs-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
+.jobs-table tbody tr:hover{background:#EAF3FF !important;}
+.jobs-table tbody td{
+  padding:7px 10px !important;
+  border-right:1px solid #CBD8E8 !important;
+  border-bottom:1px solid #CBD8E8 !important;
+  color:#1E293B !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  vertical-align:middle !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
 }
-.jobs-table tbody td:first-child { border-left:0 !important; }
-</style>
-
-<style id="standard-list-pagination">
-.standard-list-pagination {
-  margin:0 !important;
-  min-height:58px !important;
-  padding:0 12px !important;
-  display:grid !important;
-  grid-template-columns:1fr auto 1fr !important;
-  align-items:center !important;
-  gap:12px !important;
-  border-top:1px solid #B8C1CC !important;
-  border-left:0 !important;
-  border-right:1px solid #1F1F1F !important;
-  border-bottom:1px solid #1F1F1F !important;
-  box-sizing:border-box !important;
-  background:#FFFFFF !important;
+.jobs-table tbody td:last-child{border-right:0 !important;}
+.jobs-table tbody tr:last-child td{border-bottom:0 !important;}
+.job-title-cell strong{
+  display:block;
+  margin:0 0 3px;
+  color:#123B72 !important;
+  font-size:12px !important;
+  line-height:1.25 !important;
+  font-weight:600 !important;
 }
-.standard-list-pagination .pagination-left { grid-column:1; justify-self:start; display:flex; align-items:center; gap:12px; }
-.standard-list-pagination .pagination-center { grid-column:2; display:flex; align-items:center; justify-content:center; white-space:nowrap; }
-.standard-list-pagination .pagination-right { grid-column:3; justify-self:end; display:flex; align-items:center; gap:12px; }
-.standard-list-pagination .pagination-total { margin-left:4px; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:400 !important; color:#071B4D !important; white-space:nowrap; }
-.standard-list-pagination .pagination-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:400 !important; color:#071B4D !important; white-space:nowrap; }
-.standard-list-pagination .btn { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; padding:8px 13px !important; min-height:36px !important; }
-@media (max-width:760px) {
-  .standard-list-pagination { grid-template-columns:1fr !important; min-height:58px !important; padding:8px 12px !important; }
-  .standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right { grid-column:1 !important; justify-self:center !important; }
-  .standard-list-pagination .pagination-right { flex-wrap:wrap; justify-content:center; }
+.job-title-cell span{
+  display:block;
+  color:#6B7B8F !important;
+  font-size:10.5px !important;
+  line-height:1.2 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
 }
-</style>
-
-
-<style id="pagination-line-standard-v18">
-/* Standard pagination line weights: 1px below the last row, 2px at the bottom. */
-.standard-list-pagination {
-  border-bottom:2px solid #1F1F1F !important;
-}
-</style>
-
-<style id="last-row-line-standard-v18">
-.jobs-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
-</style>
-
-<style id="requirements-status-plain-v18">
-/* Manage Requirements list: status follows the normal row background; preserve status text colors. */
-.jobs-table .status-pill {
+.jobs-table .status-pill{
   background:transparent !important;
   border:0 !important;
   box-shadow:none !important;
   padding:0 !important;
   border-radius:0 !important;
+  font-size:11px !important;
+  font-weight:500 !important;
 }
-</style>
+.jobs-table .status-pill.status-published{color:#087A5A !important;}
+.jobs-table .status-pill.status-draft{color:#9A6500 !important;}
+.jobs-table .status-pill.status-paused{color:#1767C2 !important;}
+.jobs-table .status-pill.status-closed{color:#087A5A !important;}
+.jobs-table .status-pill.status-archived{color:#64748B !important;}
+.jobs-table .row-actions{display:flex !important;gap:5px !important;justify-content:flex-end !important;align-items:center !important;}
+.jobs-table .icon-button{
+  width:28px !important;
+  height:28px !important;
+  padding:0 !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:6px !important;
+  background:#FFFFFF !important;
+  color:#1767C2 !important;
+  font-size:12px !important;
+}
+.jobs-table .icon-button:hover{background:#F0F6FF !important;}
+.jobs-table .icon-button.danger-icon{color:#C62828 !important;}
 
-<style id="manage-requirements-list-standard-final">
-/* ============================================================
-   NAVODIX LIST STANDARD — MANAGE REQUIREMENTS
-   Page-scoped implementation of the approved prototype.
-   Business logic, IDs and existing JS hooks are preserved.
-   ============================================================ */
-body.recruitment-list-standard .admin-header{
-  min-height:72px !important;
-  border-bottom:1px solid #D7E1ED !important;
-  box-shadow:0 2px 10px rgba(25,55,90,.06) !important;
-  position:sticky !important;
-  top:0 !important;
-  z-index:1000 !important;
-}
-body.recruitment-list-standard .admin-nav{
-  min-height:72px !important;
-  gap:28px !important;
-}
-body.recruitment-list-standard .admin-brand{min-width:245px !important;}
-body.recruitment-list-standard .admin-brand img{max-height:64px !important;}
-body.recruitment-list-standard .admin-main-nav{display:flex !important;align-items:center !important;gap:5px !important;flex:1 !important;}
-body.recruitment-list-standard .admin-main-nav-link{
-  position:relative !important;display:flex !important;align-items:center !important;height:40px !important;
-  padding:0 15px !important;border-radius:8px !important;border:0 !important;
-  color:#4A5D73 !important;font-size:12px !important;font-weight:600 !important;text-decoration:none !important;
-  white-space:nowrap !important;
-}
-body.recruitment-list-standard .admin-main-nav-link:hover{background:#F1F6FC !important;color:#173F78 !important;}
-body.recruitment-list-standard .admin-main-nav-link.active{background:#EAF3FF !important;color:#0B55B5 !important;font-weight:700 !important;}
-body.recruitment-list-standard .admin-main-nav-link.active:after{content:"";position:absolute;left:15px;right:15px;bottom:-16px;height:3px;border-radius:3px 3px 0 0;background:#2878E8;}
-body.recruitment-list-standard .admin-nav-right{gap:10px !important;margin-left:auto !important;}
-body.recruitment-list-standard .admin-user{font-size:11px !important;color:#435A72 !important;font-weight:400 !important;white-space:nowrap !important;}
-body.recruitment-list-standard .admin-nav-right #logoutButton{
-  min-height:36px !important;height:36px !important;min-width:96px !important;padding:0 13px !important;
-  border:1px solid #B8CBE0 !important;border-radius:8px !important;background:#F7FAFE !important;
-  color:#173F78 !important;font-size:12px !important;font-weight:600 !important;box-shadow:none !important;
-}
-body.recruitment-list-standard .admin-nav-right #logoutButton:hover{background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
-
-/* Secondary navigation — same approved menu treatment. */
-body.recruitment-list-standard .admin-section-nav{
-  top:72px !important;background:#F7F9FC !important;border-top:1px solid #E5EBF2 !important;
-  border-bottom:1px solid #D7E1ED !important;box-shadow:none !important;z-index:990 !important;overflow:visible !important;
-}
-body.recruitment-list-standard .admin-section-nav-inner{
-  min-height:48px !important;gap:7px !important;overflow:visible !important;
-}
-body.recruitment-list-standard .admin-section-nav-link{
-  display:inline-flex !important;align-items:center !important;gap:7px !important;height:34px !important;min-height:34px !important;
-  padding:0 13px !important;border:1px solid transparent !important;border-radius:7px !important;
-  color:#29415E !important;font-size:11.5px !important;font-weight:600 !important;white-space:nowrap !important;
-}
-body.recruitment-list-standard .admin-section-nav-link:hover{background:#FFFFFF !important;border-color:#D5E0EC !important;color:#173F78 !important;}
-body.recruitment-list-standard .admin-section-nav-link.active{background:#2878E8 !important;border-color:#2878E8 !important;color:#FFFFFF !important;box-shadow:0 2px 5px rgba(40,120,232,.18) !important;}
-/* Master Data must open directly below the Master Data control itself. */
-body.recruitment-list-standard .admin-section-nav-dropdown{
-  position:relative !important;height:34px !important;overflow:visible !important;
-}
-body.recruitment-list-standard .admin-section-nav-dropdown > summary{height:34px !important;min-height:34px !important;}
-body.recruitment-list-standard .admin-section-nav-dropdown[open] > summary{background:#FFFFFF !important;border-color:#D5E0EC !important;color:#173F78 !important;}
-body.recruitment-list-standard .master-data-menu{
-  position:absolute !important;top:100% !important;left:0 !important;margin-top:4px !important;z-index:2000 !important;
-  min-width:220px !important;padding:7px !important;background:#FFFFFF !important;border:1px solid #AEBFD2 !important;
-  border-radius:8px !important;box-shadow:0 8px 22px rgba(30,55,85,.12) !important;
-}
-body.recruitment-list-standard .master-data-menu a{display:flex !important;align-items:center !important;gap:7px !important;padding:9px 11px !important;border-radius:7px !important;color:#29415E !important;font-size:11.5px !important;font-weight:600 !important;white-space:nowrap !important;text-decoration:none !important;}
-body.recruitment-list-standard .master-data-menu a:hover{color:#173F78 !important;background:#F1F6FC !important;}
-
-/* Page title — exact approved compact one-line treatment. */
-body.recruitment-list-standard .admin-main{padding:26px 0 40px !important;}
-body.recruitment-list-standard .admin-page-heading.jobs-heading{
-  margin:0 0 16px !important;display:flex !important;justify-content:space-between !important;align-items:center !important;gap:18px !important;
-}
-body.recruitment-list-standard .jobs-heading-text{
-  display:flex !important;align-items:baseline !important;gap:12px !important;min-width:0 !important;flex:1 1 auto !important;
-}
-body.recruitment-list-standard .jobs-heading-text h1{
-  margin:0 !important;color:#071B4D !important;font-size:26px !important;line-height:1.15 !important;font-weight:700 !important;letter-spacing:-.2px !important;white-space:nowrap !important;
-}
-body.recruitment-list-standard .jobs-heading-subtitle{
-  margin:0 !important;color:#556579 !important;font-size:13px !important;line-height:1.35 !important;font-weight:400 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;
-}
-body.recruitment-list-standard .list-standard-header-actions{display:flex !important;gap:8px !important;align-items:center !important;flex-wrap:wrap !important;}
-body.recruitment-list-standard .list-standard-header-actions .btn{height:36px !important;min-width:100px !important;border-radius:6px !important;padding:0 14px !important;font-size:12px !important;font-weight:600 !important;box-shadow:none !important;}
-body.recruitment-list-standard .list-standard-header-actions .btn-outline{background:#EEF5FC !important;border-color:#B8CBE0 !important;color:#173F78 !important;}
-body.recruitment-list-standard .list-standard-header-actions .btn-primary{background:#2878E8 !important;border-color:#2878E8 !important;color:#FFFFFF !important;}
-
-/* Common controls frame. */
-body.recruitment-list-standard .list-controls-frame{
-  background:#F9FBFE !important;border:1px solid #AEBFD2 !important;border-radius:12px !important;padding:9px !important;
-  margin-bottom:16px !important;box-shadow:0 1px 2px rgba(30,55,85,.04) !important;
-}
-body.recruitment-list-standard .jobs-toolbar{
-  display:grid !important;grid-template-columns:minmax(260px,1fr) 190px auto !important;gap:7px !important;padding:8px !important;
-  margin:0 !important;background:#FFFFFF !important;border:1px solid #E2E8F0 !important;border-radius:10px !important;
+/* ---------- FINAL PAGINATION ---------- */
+.standard-list-pagination{
+  height:54px !important;
+  min-height:54px !important;
+  margin:0 !important;
+  padding:8px 12px !important;
+  display:grid !important;
+  grid-template-columns:1fr auto 1fr !important;
   align-items:center !important;
+  gap:12px !important;
+  border-top:1px solid #CBD8E8 !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  box-sizing:border-box !important;
+  background:#F7F1E8 !important;
+  font-size:11px !important;
+  color:#5D6D80 !important;
 }
-body.recruitment-list-standard .toolbar-search input,
-body.recruitment-list-standard .jobs-toolbar select{height:32px !important;border:1px solid #CBD8E8 !important;border-radius:6px !important;font-size:12px !important;padding:0 11px !important;}
-body.recruitment-list-standard .toolbar-search input{padding-left:31px !important;}
-body.recruitment-list-standard .toolbar-search i{left:10px !important;color:#718096 !important;}
-body.recruitment-list-standard .jobs-toolbar .btn{height:32px !important;min-width:92px !important;border-radius:6px !important;padding:0 14px !important;font-size:12px !important;}
-body.recruitment-list-standard .jobs-toolbar .btn-outline{background:#EEF5FC !important;border-color:#B8CBE0 !important;color:#173F78 !important;}
-body.recruitment-list-standard #jobsMessage{min-height:0 !important;margin:0 !important;font-size:12px !important;}
-body.recruitment-list-standard .jobs-summary{grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:8px !important;margin:7px 0 0 !important;padding:0 !important;}
-body.recruitment-list-standard .jobs-summary .summary-card{height:38px !important;min-height:38px !important;padding:5px 13px !important;border:1px solid #E2E8F0 !important;border-radius:7px !important;background:#FFFFFF !important;display:flex !important;align-items:center !important;justify-content:space-between !important;box-sizing:border-box !important;}
-body.recruitment-list-standard .jobs-summary .summary-card span{font-size:11px !important;font-weight:600 !important;color:#556579 !important;margin:0 !important;}
-body.recruitment-list-standard .jobs-summary .summary-card strong{font-size:13px !important;font-weight:700 !important;color:#071B4D !important;line-height:1 !important;}
+.standard-list-pagination .pagination-left{grid-column:1;justify-self:start;display:flex;align-items:center;gap:7px;}
+.standard-list-pagination .pagination-center{grid-column:2;display:flex;align-items:center;justify-content:center;white-space:nowrap;}
+.standard-list-pagination .pagination-right{grid-column:3;justify-self:end;display:flex;align-items:center;gap:7px;}
+.standard-list-pagination .pagination-page{color:#173F78 !important;font-weight:600 !important;font-size:11px !important;white-space:nowrap;}
+.standard-list-pagination .pagination-total{margin-left:4px;color:#5D6D80 !important;font-weight:400 !important;font-size:11px !important;white-space:nowrap;}
+.standard-list-pagination .btn{
+  height:34px !important;
+  min-height:34px !important;
+  min-width:82px !important;
+  padding:0 12px !important;
+  border-radius:6px !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+}
 
-/* List card. */
-body.recruitment-list-standard .jobs-card{
-  position:relative !important;background:#FFFFFF !important;border:2px solid #AFC2D8 !important;border-top:4px solid #2878E8 !important;
-  border-radius:10px !important;overflow:hidden !important;box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
-}
-body.recruitment-list-standard .list-heading{
-  min-height:50px !important;padding:7px 14px !important;display:flex !important;justify-content:space-between !important;align-items:center !important;gap:14px !important;border-bottom:1px solid #CBD8E8 !important;position:relative !important;
-}
-body.recruitment-list-standard .list-heading-inline{display:flex !important;align-items:baseline !important;gap:10px !important;min-width:0 !important;flex:1 1 auto !important;}
-body.recruitment-list-standard .list-heading-inline h2{margin:0 !important;color:#0B2A5B !important;font-size:16px !important;line-height:1.2 !important;font-weight:700 !important;white-space:nowrap !important;}
-body.recruitment-list-standard .list-heading-inline p{margin:0 !important;color:#65758A !important;font-size:11.5px !important;line-height:1.3 !important;font-weight:400 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;}
-body.recruitment-list-standard .list-heading-actions{display:flex !important;gap:8px !important;align-items:center !important;flex:0 0 auto !important;}
-body.recruitment-list-standard .list-heading-actions .btn{height:36px !important;min-width:100px !important;border-radius:6px !important;padding:0 14px !important;font-size:12px !important;font-weight:600 !important;background:#EEF5FC !important;border:1px solid #B8CBE0 !important;color:#173F78 !important;}
-body.recruitment-list-standard .columns-popover{position:absolute !important;right:14px !important;top:56px !important;z-index:20 !important;width:210px !important;background:#FFFFFF !important;border:1px solid #AEBFD2 !important;border-radius:8px !important;box-shadow:0 8px 22px rgba(30,55,85,.12) !important;padding:10px !important;}
-body.recruitment-list-standard .columns-popover.hidden{display:none !important;}
-body.recruitment-list-standard .columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
-body.recruitment-list-standard .column-option{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;}
-body.recruitment-list-standard .column-option input{accent-color:#2878E8 !important;}
-
-/* Table — approved compact density and blue header. */
-body.recruitment-list-standard .table-wrap{width:100% !important;overflow-x:auto !important;}
-body.recruitment-list-standard .jobs-table{width:100% !important;min-width:0 !important;table-layout:fixed !important;border-collapse:collapse !important;border:0 !important;}
-body.recruitment-list-standard .jobs-table th{
-  background:#2878E8 !important;color:#FFFFFF !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;letter-spacing:0 !important;text-transform:none !important;text-align:left !important;padding:9px 10px !important;line-height:1.2 !important;white-space:nowrap !important;border-right:1px solid rgba(255,255,255,.35) !important;border-bottom:0 !important;border-top:0 !important;
-}
-body.recruitment-list-standard .jobs-table th:last-child{border-right:0 !important;}
-body.recruitment-list-standard .jobs-table td{padding:7px 10px !important;border-right:1px solid #CBD8E8 !important;border-bottom:1px solid #CBD8E8 !important;color:#071B4D !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:400 !important;vertical-align:middle !important;white-space:normal !important;overflow-wrap:anywhere !important;}
-body.recruitment-list-standard .jobs-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
-body.recruitment-list-standard .jobs-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
-body.recruitment-list-standard .jobs-table tbody tr:hover{background:#EAF3FF !important;}
-body.recruitment-list-standard .jobs-table td:last-child{border-right:0 !important;}
-body.recruitment-list-standard .job-title-cell strong{display:block !important;color:#123B72 !important;font-size:12px !important;font-weight:600 !important;margin:0 !important;line-height:1.25 !important;}
-body.recruitment-list-standard .job-title-cell span{display:block !important;margin-top:3px !important;color:#6B7B8F !important;font-size:10.5px !important;font-weight:400 !important;letter-spacing:0 !important;line-height:1.2 !important;}
-body.recruitment-list-standard .status-pill{display:inline !important;min-height:0 !important;padding:0 !important;border-radius:0 !important;background:transparent !important;font-size:11px !important;font-weight:500 !important;white-space:nowrap !important;}
-body.recruitment-list-standard .status-published{color:#087A5A !important;}
-body.recruitment-list-standard .status-draft{color:#475467 !important;}
-body.recruitment-list-standard .status-paused{color:#9A6500 !important;}
-body.recruitment-list-standard .status-closed{color:#C62828 !important;}
-body.recruitment-list-standard .status-archived{color:#6941C6 !important;}
-body.recruitment-list-standard .row-actions{display:flex !important;gap:5px !important;justify-content:flex-end !important;}
-body.recruitment-list-standard .icon-button{width:28px !important;height:28px !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;border:1px solid #CBD8E8 !important;border-radius:6px !important;background:#FFFFFF !important;color:#1767C2 !important;font-size:13px !important;padding:0 !important;}
-body.recruitment-list-standard .icon-button:hover{background:#F0F6FF !important;border-color:#9FB6D1 !important;}
-body.recruitment-list-standard .danger-icon{color:#C62828 !important;}
-body.recruitment-list-standard .danger-icon:hover{border-color:#F1A7A2 !important;background:#FFF5F4 !important;}
-
-/* Pagination/footer — approved warm neutral treatment. */
-body.recruitment-list-standard .standard-list-pagination{
-  margin:0 !important;min-height:54px !important;height:54px !important;padding:8px 12px !important;display:grid !important;grid-template-columns:1fr auto 1fr !important;align-items:center !important;gap:12px !important;border-top:1px solid #CBD8E8 !important;border-left:0 !important;border-right:0 !important;border-bottom:0 !important;box-sizing:border-box !important;background:#F7F1E8 !important;
-}
-body.recruitment-list-standard .standard-list-pagination .pagination-left{grid-column:1 !important;justify-self:start !important;display:flex !important;align-items:center !important;gap:7px !important;}
-body.recruitment-list-standard .standard-list-pagination .pagination-center{grid-column:2 !important;display:flex !important;align-items:center !important;justify-content:center !important;white-space:nowrap !important;}
-body.recruitment-list-standard .standard-list-pagination .pagination-right{grid-column:3 !important;justify-self:end !important;display:flex !important;align-items:center !important;gap:7px !important;}
-body.recruitment-list-standard .standard-list-pagination .pagination-total,
-body.recruitment-list-standard .standard-list-pagination .pagination-page{font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:11px !important;font-weight:400 !important;color:#5D6D80 !important;white-space:nowrap !important;}
-body.recruitment-list-standard .standard-list-pagination .btn{height:34px !important;min-width:82px !important;padding:0 12px !important;border-radius:6px !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;background:#EEF5FC !important;border:1px solid #B8CBE0 !important;color:#173F78 !important;}
-
-@media(max-width:900px){
-  body.recruitment-list-standard .jobs-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-  body.recruitment-list-standard .jobs-toolbar{grid-template-columns:1fr 1fr !important;}
-  body.recruitment-list-standard .toolbar-search{grid-column:1 / -1 !important;}
+@media(max-width:1050px){
+  .admin-header .admin-container,.admin-section-nav-inner{width:calc(100% - 32px);}
+  .admin-nav{gap:12px;}
+  .admin-brand{min-width:auto;}
+  .admin-brand img{height:42px;max-height:42px;max-width:190px;}
+  .admin-main-nav-link{padding:0 10px;}
 }
 @media(max-width:760px){
-  body.recruitment-list-standard .admin-main{padding:18px 0 30px !important;}
-  body.recruitment-list-standard .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
-  body.recruitment-list-standard .jobs-heading-text{display:block !important;}
-  body.recruitment-list-standard .jobs-heading-text h1,
-  body.recruitment-list-standard .jobs-heading-subtitle{white-space:normal !important;}
-  body.recruitment-list-standard .list-standard-header-actions{width:100% !important;}
-  body.recruitment-list-standard .jobs-toolbar{grid-template-columns:1fr !important;}
-  body.recruitment-list-standard .toolbar-search{grid-column:auto !important;}
-  body.recruitment-list-standard .jobs-summary{grid-template-columns:1fr !important;}
-  body.recruitment-list-standard .list-heading-inline{display:block !important;}
-  body.recruitment-list-standard .list-heading-inline h2,
-  body.recruitment-list-standard .list-heading-inline p{white-space:normal !important;}
-  body.recruitment-list-standard .standard-list-pagination{grid-template-columns:1fr !important;height:auto !important;min-height:58px !important;}
-  body.recruitment-list-standard .standard-list-pagination .pagination-left,
-  body.recruitment-list-standard .standard-list-pagination .pagination-center,
-  body.recruitment-list-standard .standard-list-pagination .pagination-right{grid-column:1 !important;justify-self:center !important;}
+  .admin-nav{min-height:62px;}
+  .admin-section-nav{top:62px;overflow:visible;}
+  .admin-section-nav-inner{width:max-content;min-width:100%;overflow:visible;}
+  .admin-brand img{height:38px;max-height:38px;max-width:170px;}
+  .admin-user{display:none;}
+  .admin-main-nav{overflow-x:auto;}
+  .admin-main-nav-link{font-size:11px;padding:0 9px;}
+  .admin-main-nav-link.active:after{left:9px;right:9px;bottom:-12px;}
+  .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
+  .jobs-heading-text{display:block !important;width:100%;}
+  .jobs-heading h1,.jobs-heading-subtitle{white-space:normal !important;}
+  .jobs-heading .add-job-button{width:auto;}
+  .jobs-toolbar{grid-template-columns:1fr !important;}
+  .jobs-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .jobs-list-heading{align-items:flex-start;}
+  .jobs-list-heading-inline{display:block;}
+  .jobs-list-heading h2,.jobs-list-heading p{white-space:normal;}
+  .jobs-list-heading-actions{width:100%;justify-content:flex-end;}
+  .standard-list-pagination{grid-template-columns:1fr !important;height:auto !important;min-height:54px !important;}
+  .standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right{grid-column:1 !important;justify-self:center !important;}
+  .standard-list-pagination .pagination-right{flex-wrap:wrap;justify-content:center;}
+}
+@media(max-width:560px){
+  .jobs-summary{grid-template-columns:1fr 1fr !important;}
+  .jobs-table{min-width:760px !important;}
 }
 </style>
-
 </head>
-<body class="admin-app-page recruitment-list-standard">
+<body class="admin-app-page">
   <header class="admin-header">
     <div class="admin-container admin-nav">
       <a class="admin-brand" href="../index.html" aria-label="Back to Navodix website">
-        <img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions">
+        <img src="../assets/images/logo.png?v=19" alt="Navodix IT Solutions">
       </a>
       <nav class="admin-main-nav" aria-label="Admin main menu">
-        <a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a>
+        <a class="admin-main-nav-link active" href="recruitment.html?v=19">Recruitment</a>
         <span class="admin-main-nav-link disabled">Employee Management</span>
       </nav>
       <div class="admin-nav-right">
@@ -660,18 +904,21 @@ body.recruitment-list-standard .standard-list-pagination .btn{height:34px !impor
     </div>
   </header>
 
-  <nav class="admin-section-nav" aria-label="Manage Requirements sections">
-    <div class="admin-container admin-section-nav-inner">
-      <a class="admin-section-nav-link active" href="recruitment.html?v=16">Manage Requirements</a>
+  <nav class="admin-section-nav" aria-label="Recruitment navigation">
+    <div class="admin-section-nav-inner">
+      <a class="admin-section-nav-link active" href="recruitment.html?v=19">Manage Requirements</a>
       <a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
       <a class="admin-section-nav-link" href="applications.html?v=17">Applications</a>
       <details class="admin-section-nav-dropdown">
-        <summary class="admin-section-nav-link">Master Data <i class="fa-solid fa-chevron-down master-data-chevron" aria-hidden="true"></i></summary>
+        <summary class="admin-section-nav-link">Master Data</summary>
         <div class="master-data-menu" role="menu">
           <a href="clients.html?v=16" role="menuitem">Clients</a>
           <a href="job-categories.html?v=16" role="menuitem">Job Categories</a>
-          <a href="locations.html?v=16" role="menuitem">Locations</a><a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a><a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
-        <a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a></div>
+          <a href="locations.html?v=16" role="menuitem">Locations</a>
+          <a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a>
+          <a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
+          <a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a>
+        </div>
       </details>
       <a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
       <a class="admin-section-nav-link" href="action-items.html">Action Items</a>
@@ -680,70 +927,66 @@ body.recruitment-list-standard .standard-list-pagination .btn{height:34px !impor
 
   <main class="admin-main">
     <div class="admin-container">
-      <div class="admin-page-heading jobs-heading">
+      <div class="jobs-heading">
         <div class="jobs-heading-text">
           <h1>Manage Requirements</h1>
           <span class="jobs-heading-subtitle">Create, edit and manage recruitment requirements</span>
         </div>
-        <div class="list-standard-header-actions">
-          <button class="btn btn-outline list-standard-export-button" id="jobsExportButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Export</button>
-          <button class="btn btn-primary add-job-button" id="addJobButton" type="button">
+        <button class="btn btn-primary add-job-button" id="addJobButton" type="button">
           <i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement
-          </button>
-        </div>
+        </button>
       </div>
 
-
       <section class="list-controls-frame" aria-label="Requirement filters and dashboard">
-      <section class="jobs-toolbar" aria-label="Requirement filters">
-        <div class="toolbar-search">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="jobSearch" type="search" placeholder="Search by requirement code, title or location">
-        </div>
-        <select id="statusFilter" aria-label="Filter by status">
-          <option value="">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-          <option value="paused">Paused</option>
-          <option value="closed">Closed</option>
-          <option value="archived">Archived</option>
-        </select>
-        <button class="btn btn-outline" id="refreshJobsButton" type="button">
-          <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
-        </button>
+        <section class="jobs-toolbar" aria-label="Requirement filters">
+          <div class="toolbar-search">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input id="jobSearch" type="search" placeholder="Search by requirement code, title or location">
+          </div>
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="">All Statuses</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="paused">Paused</option>
+            <option value="closed">Closed</option>
+            <option value="archived">Archived</option>
+          </select>
+          <button class="btn btn-outline" id="refreshJobsButton" type="button">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
+          </button>
+        </section>
+
+        <section class="jobs-summary" aria-label="Requirement summary">
+          <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
+          <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
+          <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
+          <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
+        </section>
       </section>
 
       <div id="jobsMessage" class="admin-message" role="status" aria-live="polite"></div>
 
-      <section class="jobs-summary" aria-label="Requirement summary">
-        <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
-        <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
-        <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
-        <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
-      </section>
-
-      </section>
-
       <section class="jobs-card">
-        <div class="list-heading">
-          <div class="list-heading-inline">
+        <div class="jobs-list-heading">
+          <div class="jobs-list-heading-inline">
             <h2>Recruitment Requirements</h2>
             <p>Active and recently managed requirements available to Admin and HR.</p>
           </div>
-          <div class="list-heading-actions">
-            <button class="btn btn-outline" id="jobsColumnsButton" type="button" aria-expanded="false" aria-controls="jobsColumnsPopover"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
+          <div class="jobs-list-heading-actions">
+            <button class="btn btn-outline" id="columnsButton" type="button">☷ Columns</button>
           </div>
-          <div class="columns-popover hidden" id="jobsColumnsPopover" role="dialog" aria-label="Choose columns">
+          <div class="columns-popover hidden" id="columnsPopover">
             <div class="columns-popover-title">Show / Hide Columns</div>
-            <label class="column-option"><input type="checkbox" data-column="1" checked> Job</label>
-            <label class="column-option"><input type="checkbox" data-column="2" checked> Location</label>
-            <label class="column-option"><input type="checkbox" data-column="3" checked> Type</label>
-            <label class="column-option"><input type="checkbox" data-column="4" checked> Experience</label>
-            <label class="column-option"><input type="checkbox" data-column="5" checked> Status</label>
-            <label class="column-option"><input type="checkbox" data-column="6" checked> Open Date</label>
-            <label class="column-option"><input type="checkbox" data-column="7" checked> Actions</label>
+            <label class="column-option"><input type="checkbox" checked data-col="0"> Job</label>
+            <label class="column-option"><input type="checkbox" checked data-col="1"> Location</label>
+            <label class="column-option"><input type="checkbox" checked data-col="2"> Type</label>
+            <label class="column-option"><input type="checkbox" checked data-col="3"> Experience</label>
+            <label class="column-option"><input type="checkbox" checked data-col="4"> Status</label>
+            <label class="column-option"><input type="checkbox" checked data-col="5"> Open Date</label>
+            <label class="column-option"><input type="checkbox" checked data-col="6"> Actions</label>
           </div>
         </div>
+
         <div class="table-wrap">
           <table class="jobs-table">
             <thead>
@@ -766,20 +1009,19 @@ body.recruitment-list-standard .standard-list-pagination .btn{height:34px !impor
           <p>Use “Add New Requirement” to create the first career opportunity.</p>
         </div>
 
-<div id="jobsPagination" class="standard-list-pagination hidden" aria-label="jobs pagination">
-  <div class="pagination-left">
-    <button class="btn btn-outline btn-small" id="jobsFirst" type="button">First</button>
-    <button class="btn btn-outline btn-small" id="jobsPrev" type="button">Previous</button>
-  </div>
-  <div class="pagination-center"><span class="pagination-page" id="jobsPageNumber">Page 1 of 1</span></div>
-  <div class="pagination-right">
-    <button class="btn btn-outline btn-small" id="jobsNext" type="button">Next</button>
-    <button class="btn btn-outline btn-small" id="jobsLast" type="button">Last</button>
-    <span class="pagination-total" id="jobsPageInfo">Showing 0-0 of 0</span>
-  </div>
-</div>
+        <div id="jobsPagination" class="standard-list-pagination hidden" aria-label="jobs pagination">
+          <div class="pagination-left">
+            <button class="btn btn-outline btn-small" id="jobsFirst" type="button">First</button>
+            <button class="btn btn-outline btn-small" id="jobsPrev" type="button">Previous</button>
+          </div>
+          <div class="pagination-center"><span class="pagination-page" id="jobsPageNumber">Page 1 of 1</span></div>
+          <div class="pagination-right">
+            <button class="btn btn-outline btn-small" id="jobsNext" type="button">Next</button>
+            <button class="btn btn-outline btn-small" id="jobsLast" type="button">Last</button>
+            <span class="pagination-total" id="jobsPageInfo">Showing 0-0 of 0</span>
+          </div>
+        </div>
       </section>
-
     </div>
   </main>
 
@@ -1036,33 +1278,28 @@ body.recruitment-list-standard .standard-list-pagination .btn{height:34px !impor
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
   <script src="js/jobs.js?v=17"></script>
+  <script>
+    (function(){
+      const button=document.getElementById('columnsButton');
+      const popover=document.getElementById('columnsPopover');
+      const table=document.querySelector('.jobs-table');
+      if(!button || !popover || !table) return;
+      button.addEventListener('click',function(event){
+        event.stopPropagation();
+        popover.classList.toggle('hidden');
+      });
+      popover.addEventListener('click',function(event){event.stopPropagation();});
+      document.addEventListener('click',function(){popover.classList.add('hidden');});
+      popover.querySelectorAll('input[data-col]').forEach(function(box){
+        box.addEventListener('change',function(){
+          const col=Number(this.dataset.col);
+          table.querySelectorAll('tr').forEach(function(row){
+            if(row.children[col]) row.children[col].style.display=this.checked?'':'none';
+          },this);
+        });
+      });
+    })();
+  </script>
 <script src="js/navigation.js?v=33"></script>
-
-<script id="manage-requirements-list-standard-tools">
-(function(){
-  const exportButton=document.getElementById('jobsExportButton');
-  const columnsButton=document.getElementById('jobsColumnsButton');
-  const popover=document.getElementById('jobsColumnsPopover');
-  const table=document.querySelector('.jobs-table');
-  if(exportButton && table){
-    exportButton.addEventListener('click',function(){
-      const rows=Array.from(table.querySelectorAll('tr')).map(tr=>Array.from(tr.children).filter(cell=>cell.style.display!=='none').map(cell=>{const text=cell.innerText.replace(/\s+/g,' ').trim();return '"'+text.replace(/"/g,'""')+'"';}).join(','));
-      const blob=new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8;'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');a.href=url;a.download='navodix-requirements.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-    });
-  }
-  function setColumn(index,visible){
-    if(!table)return;
-    table.querySelectorAll('tr').forEach(row=>{const cell=row.children[index-1];if(cell)cell.style.display=visible?'':'none';});
-  }
-  if(columnsButton && popover){
-    columnsButton.addEventListener('click',function(e){e.stopPropagation();const open=!popover.classList.contains('hidden');popover.classList.toggle('hidden',open);columnsButton.setAttribute('aria-expanded',String(!open));});
-    popover.querySelectorAll('input[data-column]').forEach(input=>input.addEventListener('change',function(){setColumn(Number(this.dataset.column),this.checked);}));
-    document.addEventListener('click',function(e){if(!popover.contains(e.target)&&e.target!==columnsButton){popover.classList.add('hidden');columnsButton.setAttribute('aria-expanded','false');}});
-  }
-})();
-</script>
-
 </body>
 </html>
