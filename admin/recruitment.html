@@ -449,6 +449,129 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-radius:0 !important;
 }
 </style>
+
+<style id="navodix-menu-standard-recruitment-vfinal">
+/* Finalized Admin Menu Standard — scoped to this page only. Existing IDs/links/JS are preserved. */
+.admin-header{background:#fff !important;border-bottom:1px solid #D7E1ED !important;box-shadow:0 2px 10px rgba(25,55,90,.06) !important;position:sticky !important;top:0 !important;z-index:1000 !important;}
+.admin-nav{min-height:72px !important;display:grid !important;grid-template-columns:auto minmax(0,1fr) auto !important;align-items:center !important;gap:28px !important;}
+.admin-brand{display:flex !important;align-items:center !important;min-width:245px !important;text-decoration:none !important;}
+.admin-brand img{width:auto !important;max-height:58px !important;max-width:270px !important;display:block !important;}
+.admin-main-nav{display:flex !important;align-items:center !important;justify-content:flex-start !important;gap:5px !important;align-self:stretch !important;margin:0 !important;}
+.admin-main-nav-link{position:relative !important;display:flex !important;align-items:center !important;height:40px !important;min-height:40px !important;margin-top:16px !important;padding:0 15px !important;border-radius:8px !important;text-decoration:none !important;color:#4A5D73 !important;font-size:12px !important;font-weight:600 !important;white-space:nowrap !important;}
+.admin-main-nav-link:hover{background:#F1F6FC !important;color:#173F78 !important;}
+.admin-main-nav-link::after{content:none !important;}
+.admin-main-nav-link.active{background:#EAF3FF !important;color:#0B55B5 !important;font-weight:700 !important;}
+.admin-main-nav-link.active::before{content:"" !important;position:absolute !important;left:15px !important;right:15px !important;bottom:-16px !important;height:3px !important;border-radius:3px 3px 0 0 !important;background:#2878E8 !important;}
+.admin-main-nav-link.disabled{color:#8B9AAF !important;background:transparent !important;cursor:default !important;}
+.admin-nav-right{display:flex !important;align-items:center !important;gap:10px !important;margin-left:auto !important;}
+.admin-user{font-size:11px !important;color:#435A72 !important;font-weight:500 !important;white-space:nowrap !important;}
+.admin-nav-right #logoutButton{height:36px !important;min-height:36px !important;min-width:96px !important;padding:0 13px !important;border:1px solid #B8CBE0 !important;border-radius:8px !important;background:#F7FAFE !important;color:#173F78 !important;font-size:12px !important;font-weight:600 !important;box-shadow:none !important;}
+.admin-nav-right #logoutButton:hover{background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;box-shadow:none !important;}
+.admin-nav-right #logoutButton i{margin-right:7px !important;font-size:12px !important;}
+.admin-section-nav{background:#F7F9FC !important;border-top:1px solid #E5EBF2 !important;border-bottom:1px solid #D7E1ED !important;position:sticky !important;top:72px !important;z-index:990 !important;}
+.admin-section-nav-inner{min-height:48px !important;display:flex !important;align-items:center !important;gap:7px !important;overflow-x:auto !important;}
+.admin-section-nav-link{display:inline-flex !important;align-items:center !important;gap:7px !important;height:34px !important;min-height:34px !important;padding:0 13px !important;border:1px solid transparent !important;border-bottom:0 !important;border-radius:7px !important;text-decoration:none !important;color:#29415E !important;font-size:11.5px !important;font-weight:600 !important;white-space:nowrap !important;}
+.admin-section-nav-link:hover{background:#fff !important;border-color:#D5E0EC !important;color:#173F78 !important;}
+.admin-section-nav-link.active{background:#2878E8 !important;border-color:#2878E8 !important;color:#fff !important;box-shadow:0 2px 5px rgba(40,120,232,.18) !important;}
+.admin-section-nav-dropdown{position:relative !important;height:34px !important;}
+.admin-section-nav-dropdown > summary{height:34px !important;min-height:34px !important;list-style:none !important;cursor:pointer !important;}
+.admin-section-nav-dropdown > summary::-webkit-details-marker{display:none !important;}
+.master-data-menu{top:39px !important;left:0 !important;min-width:220px !important;padding:7px !important;background:#fff !important;border:1px solid #D5E0EC !important;border-radius:8px !important;box-shadow:0 12px 28px rgba(16,24,40,.14) !important;}
+.master-data-menu a{display:flex !important;align-items:center !important;gap:10px !important;padding:9px 12px !important;border-radius:7px !important;color:#52637A !important;font-size:11.5px !important;font-weight:600 !important;white-space:nowrap !important;text-decoration:none !important;}
+.master-data-menu a:hover{color:#173F78 !important;background:#F3F7FB !important;}
+.admin-main{padding:28px 0 50px !important;}
+@media(max-width:1050px){
+  .admin-nav{grid-template-columns:auto minmax(0,1fr) auto !important;min-height:72px !important;padding:0 !important;}
+  .admin-main-nav{grid-column:auto !important;width:auto !important;min-height:72px !important;border-top:0 !important;overflow-x:auto !important;justify-content:flex-start !important;}
+  .admin-main-nav-link{margin-top:16px !important;}
+  .admin-section-nav{top:72px !important;}
+}
+@media(max-width:700px){
+  .admin-nav{grid-template-columns:auto 1fr !important;gap:12px !important;min-height:62px !important;}
+  .admin-brand{min-width:auto !important;}
+  .admin-brand img{max-height:48px !important;max-width:205px !important;}
+  .admin-main-nav{grid-column:1/-1 !important;grid-row:2 !important;min-height:42px !important;height:42px !important;overflow-x:auto !important;border-top:1px solid #E5EBF2 !important;}
+  .admin-main-nav-link{margin-top:0 !important;height:40px !important;min-height:40px !important;padding:0 10px !important;font-size:11px !important;}
+  .admin-main-nav-link.active::before{left:10px !important;right:10px !important;bottom:-1px !important;}
+  .admin-nav-right{position:absolute !important;right:10px !important;top:13px !important;}
+  .admin-user{display:none !important;}
+  .admin-nav-right #logoutButton{min-width:88px !important;height:34px !important;}
+  .admin-section-nav{top:104px !important;}
+  .admin-section-nav-inner{padding:7px 0 !important;min-height:48px !important;}
+}
+</style>
+
+<style id="navodix-list-standard-requirements-vfinal">
+/* Finalized List Standard — scoped to Manage Requirements only. Existing IDs and jobs.js hooks are preserved. */
+.admin-page-heading{padding:0 0 16px !important;margin:0 !important;display:flex !important;justify-content:space-between !important;gap:20px !important;align-items:flex-start !important;}
+.admin-page-heading h1{font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:30px !important;line-height:1.15 !important;color:#071B4D !important;font-weight:700 !important;letter-spacing:-.2px !important;margin:0 !important;}
+.jobs-heading-subtitle{display:block !important;margin-top:6px !important;color:#556579 !important;font-size:13px !important;line-height:1.35 !important;}
+.admin-page-heading .btn{height:36px !important;min-width:100px !important;font-size:12px !important;border-radius:6px !important;}
+.jobs-heading-text{min-width:0 !important;}
+.jobs-heading .header-actions{display:flex !important;gap:8px !important;align-items:center !important;flex-wrap:wrap !important;}
+.jobs-toolbar{background:#fff !important;border:1px solid #E2E8F0 !important;border-radius:10px !important;padding:12px !important;display:grid !important;grid-template-columns:minmax(280px,2fr) minmax(145px,1fr) auto !important;gap:8px !important;align-items:center !important;margin:0 !important;}
+.jobs-toolbar select,.jobs-toolbar .toolbar-search input{height:38px !important;font-size:12px !important;}
+.jobs-toolbar .btn{height:36px !important;min-width:100px !important;font-size:12px !important;}
+.jobs-toolbar .toolbar-search input::placeholder{font-size:12px !important;color:#8A97A8 !important;}
+.requirements-controls-frame{background:#F9FBFE !important;border:1px solid #AEBFD2 !important;border-radius:12px !important;padding:13px !important;margin-bottom:18px !important;box-shadow:0 1px 2px rgba(30,55,85,.04) !important;}
+.requirements-controls-label{color:#173F78 !important;font-size:11px !important;font-weight:700 !important;letter-spacing:.35px !important;text-transform:uppercase !important;margin:0 0 7px 2px !important;}
+.requirements-dashboard-label{margin-top:13px !important;}
+.jobs-summary{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:12px !important;margin:0 !important;}
+.jobs-summary .summary-card{height:48px !important;min-height:48px !important;background:#fff !important;border:1px solid #E2E8F0 !important;border-radius:8px !important;padding:7px 16px !important;display:flex !important;align-items:center !important;justify-content:space-between !important;box-sizing:border-box !important;}
+.jobs-summary .summary-card span{font-size:12px !important;font-weight:600 !important;color:#556579 !important;}
+.jobs-summary .summary-card strong{font-size:15px !important;font-weight:700 !important;color:#071B4D !important;}
+.jobs-card{background:#fff !important;border:2px solid #AFC2D8 !important;border-top:4px solid #2878E8 !important;border-radius:10px !important;overflow:visible !important;box-shadow:0 2px 5px rgba(30,55,85,.05) !important;position:relative !important;}
+.jobs-list-heading{min-height:69px !important;padding:12px 14px !important;display:flex !important;justify-content:space-between !important;align-items:center !important;gap:14px !important;border-bottom:1px solid #CBD8E8 !important;position:relative !important;}
+.jobs-list-heading h2{margin:0 !important;color:#0B2A5B !important;font-size:16px !important;line-height:1.2 !important;font-weight:700 !important;}
+.jobs-list-heading p{margin:5px 0 0 !important;color:#65758A !important;font-size:11.5px !important;line-height:1.3 !important;}
+.jobs-list-heading-actions{display:flex !important;gap:8px !important;align-items:center !important;}
+.jobs-list-heading-actions .btn{height:36px !important;min-width:100px !important;}
+.jobs-table{width:100% !important;min-width:0 !important;table-layout:fixed !important;border-collapse:collapse !important;border:0 !important;}
+.jobs-table thead th{height:44px !important;background:#2878E8 !important;color:#fff !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;text-align:left !important;padding:0 10px !important;line-height:1.1 !important;white-space:nowrap !important;border-top:0 !important;border-bottom:1px solid #1D63C7 !important;border-right:1px solid rgba(255,255,255,.35) !important;}
+.jobs-table thead th:first-child{border-left:0 !important;}
+.jobs-table thead th:last-child{border-right:0 !important;}
+.jobs-table tbody tr:nth-child(odd){background:#fff !important;}
+.jobs-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
+.jobs-table tbody tr:hover{background:#EAF3FF !important;}
+.jobs-table tbody td{font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;color:#071B4D !important;padding:7px 10px !important;border-right:1px solid #CBD8E8 !important;border-bottom:1px solid #CBD8E8 !important;vertical-align:middle !important;white-space:normal !important;overflow-wrap:anywhere !important;line-height:1.25 !important;}
+.jobs-table tbody td:first-child{border-left:0 !important;}
+.jobs-table tbody td:last-child{border-right:0 !important;}
+.jobs-table tbody tr:last-child td{border-bottom:1px solid #1F1F1F !important;}
+.jobs-table .row-actions{display:flex !important;gap:5px !important;justify-content:flex-end !important;align-items:center !important;}
+.jobs-table .icon-button{width:28px !important;height:28px !important;min-width:28px !important;padding:0 !important;border-radius:6px !important;}
+.jobs-table .job-title-cell strong{font-size:12px !important;font-weight:700 !important;color:#071B4D !important;line-height:1.25 !important;}
+.jobs-table .job-client-name{display:block !important;margin-top:2px !important;font-size:10.5px !important;color:#6B7B8F !important;line-height:1.2 !important;}
+.jobs-table .status-pill{background:transparent !important;border:0 !important;box-shadow:none !important;padding:0 !important;border-radius:0 !important;font-size:11px !important;font-weight:500 !important;}
+.standard-list-pagination{margin:0 !important;min-height:54px !important;padding:8px 12px !important;display:grid !important;grid-template-columns:1fr auto 1fr !important;align-items:center !important;gap:12px !important;border-top:1px solid #CBD8E8 !important;border-left:0 !important;border-right:0 !important;border-bottom:2px solid #1F1F1F !important;box-sizing:border-box !important;background:#E3EAF3 !important;font-size:11px !important;color:#5D6D80 !important;}
+.standard-list-pagination .pagination-left{grid-column:1 !important;justify-self:start !important;display:flex !important;align-items:center !important;gap:7px !important;}
+.standard-list-pagination .pagination-center{grid-column:2 !important;display:flex !important;align-items:center !important;justify-content:center !important;white-space:nowrap !important;}
+.standard-list-pagination .pagination-right{grid-column:3 !important;justify-self:end !important;display:flex !important;align-items:center !important;gap:7px !important;}
+.standard-list-pagination .pagination-total,.standard-list-pagination .pagination-page{font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:11px !important;font-weight:600 !important;color:#173F78 !important;white-space:nowrap !important;}
+.standard-list-pagination .btn{height:34px !important;min-width:82px !important;padding:0 12px !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:11px !important;}
+.columns-popover{position:absolute !important;right:14px !important;top:56px !important;z-index:20 !important;width:210px !important;background:#fff !important;border:1px solid #AEBFD2 !important;border-radius:8px !important;box-shadow:0 8px 22px rgba(30,55,85,.12) !important;padding:10px !important;}
+.columns-popover.hidden{display:none !important;}
+.columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
+.column-option{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;}
+.column-option input{accent-color:#2878E8 !important;}
+.jobs-message-standard{margin:8px 0 !important;}
+@media(max-width:900px){
+  .jobs-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .jobs-toolbar{grid-template-columns:minmax(0,1fr) minmax(145px,1fr) !important;}
+  .jobs-toolbar .btn{grid-column:1/-1 !important;justify-self:end !important;}
+}
+@media(max-width:760px){
+  .admin-page-heading{flex-direction:column !important;}
+  .admin-page-heading .header-actions{width:100% !important;justify-content:flex-end !important;}
+  .jobs-toolbar{grid-template-columns:1fr !important;}
+  .jobs-toolbar .btn{grid-column:auto !important;justify-self:stretch !important;}
+  .jobs-summary{grid-template-columns:1fr 1fr !important;}
+  .jobs-table thead th,.jobs-table tbody td{padding-left:7px !important;padding-right:7px !important;}
+  .standard-list-pagination{grid-template-columns:1fr !important;min-height:58px !important;padding:8px 12px !important;}
+  .standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right{grid-column:1 !important;justify-self:center !important;}
+  .standard-list-pagination .pagination-right{flex-wrap:wrap !important;justify-content:center !important;}
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -494,40 +617,61 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           <h1>Manage Requirements</h1>
           <span class="jobs-heading-subtitle">Create, edit and manage recruitment requirements</span>
         </div>
-        <button class="btn btn-primary add-job-button" id="addJobButton" type="button">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement
-        </button>
+        <div class="header-actions">
+          <button class="btn btn-outline" id="exportJobsButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Export</button>
+          <button class="btn btn-primary add-job-button" id="addJobButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement</button>
+        </div>
       </div>
 
+      <section class="requirements-controls-frame" aria-label="Requirement filters and dashboard">
+        <div class="requirements-controls-label">Filters</div>
+        <section class="jobs-toolbar" aria-label="Requirement filters">
+          <div class="toolbar-search">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input id="jobSearch" type="search" placeholder="Search by requirement code, title or location">
+          </div>
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="">All Statuses</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="paused">Paused</option>
+            <option value="closed">Closed</option>
+            <option value="archived">Archived</option>
+          </select>
+          <button class="btn btn-outline" id="refreshJobsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+        </section>
 
-      <section class="jobs-toolbar" aria-label="Requirement filters">
-        <div class="toolbar-search">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="jobSearch" type="search" placeholder="Search by requirement code, title or location">
-        </div>
-        <select id="statusFilter" aria-label="Filter by status">
-          <option value="">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-          <option value="paused">Paused</option>
-          <option value="closed">Closed</option>
-          <option value="archived">Archived</option>
-        </select>
-        <button class="btn btn-outline" id="refreshJobsButton" type="button">
-          <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
-        </button>
+        <div class="requirements-controls-label requirements-dashboard-label">Dashboard</div>
+        <section class="jobs-summary" aria-label="Requirement summary">
+          <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
+          <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
+          <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
+          <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
+        </section>
       </section>
 
-      <div id="jobsMessage" class="admin-message" role="status" aria-live="polite"></div>
-
-      <section class="jobs-summary" aria-label="Requirement summary">
-        <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
-        <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
-        <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
-        <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
-      </section>
+      <div id="jobsMessage" class="admin-message jobs-message-standard" role="status" aria-live="polite"></div>
 
       <section class="jobs-card">
+        <div class="jobs-list-heading">
+          <div>
+            <h2>Recruitment Requirements</h2>
+            <p>Active and recently managed requirements available to Admin and HR.</p>
+          </div>
+          <div class="jobs-list-heading-actions">
+            <button class="btn btn-outline" id="columnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
+          </div>
+          <div class="columns-popover hidden" id="columnsPopover" aria-label="Show or hide columns">
+            <div class="columns-popover-title">Show / Hide Columns</div>
+            <label class="column-option"><input type="checkbox" checked data-col="0"> Job</label>
+            <label class="column-option"><input type="checkbox" checked data-col="1"> Location</label>
+            <label class="column-option"><input type="checkbox" checked data-col="2"> Type</label>
+            <label class="column-option"><input type="checkbox" checked data-col="3"> Experience</label>
+            <label class="column-option"><input type="checkbox" checked data-col="4"> Status</label>
+            <label class="column-option"><input type="checkbox" checked data-col="5"> Open Date</label>
+            <label class="column-option"><input type="checkbox" checked data-col="6"> Actions</label>
+          </div>
+        </div>
         <div class="table-wrap">
           <table class="jobs-table">
             <thead>
@@ -549,19 +693,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           <h3>No requirements found</h3>
           <p>Use “Add New Requirement” to create the first career opportunity.</p>
         </div>
-
-<div id="jobsPagination" class="standard-list-pagination hidden" aria-label="jobs pagination">
-  <div class="pagination-left">
-    <button class="btn btn-outline btn-small" id="jobsFirst" type="button">First</button>
-    <button class="btn btn-outline btn-small" id="jobsPrev" type="button">Previous</button>
-  </div>
-  <div class="pagination-center"><span class="pagination-page" id="jobsPageNumber">Page 1 of 1</span></div>
-  <div class="pagination-right">
-    <button class="btn btn-outline btn-small" id="jobsNext" type="button">Next</button>
-    <button class="btn btn-outline btn-small" id="jobsLast" type="button">Last</button>
-    <span class="pagination-total" id="jobsPageInfo">Showing 0-0 of 0</span>
-  </div>
-</div>
+        <div id="jobsPagination" class="standard-list-pagination hidden" aria-label="jobs pagination">
+          <div class="pagination-left">
+            <button class="btn btn-outline btn-small" id="jobsFirst" type="button">First</button>
+            <button class="btn btn-outline btn-small" id="jobsPrev" type="button">Previous</button>
+          </div>
+          <div class="pagination-center"><span class="pagination-page" id="jobsPageNumber">Page 1 of 1</span></div>
+          <div class="pagination-right">
+            <button class="btn btn-outline btn-small" id="jobsNext" type="button">Next</button>
+            <button class="btn btn-outline btn-small" id="jobsLast" type="button">Last</button>
+            <span class="pagination-total" id="jobsPageInfo">Showing 0-0 of 0</span>
+          </div>
+        </div>
       </section>
 
     </div>
@@ -820,6 +963,59 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
   <script src="js/jobs.js?v=17"></script>
+
+<script id="requirements-list-standard-utilities">
+(function(){
+  'use strict';
+  function csvCell(value){
+    var text=String(value==null?'':value).replace(/\s+/g,' ').trim();
+    return '"'+text.replace(/"/g,'""')+'"';
+  }
+  function exportJobs(){
+    var table=document.querySelector('.jobs-table');
+    if(!table)return;
+    var headers=[].slice.call(table.querySelectorAll('thead th')).map(function(th){return th.innerText.trim();});
+    var rows=[].slice.call(table.querySelectorAll('tbody tr')).map(function(tr){
+      return [].slice.call(tr.children).map(function(td){return td.innerText.trim();});
+    });
+    if(!rows.length)return;
+    var csv=[headers.map(csvCell).join(',')].concat(rows.map(function(row){return row.map(csvCell).join(',');})).join('\r\n');
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;
+    a.download='navodix-requirements-page.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+  function setColumnVisible(index,visible){
+    document.querySelectorAll('.jobs-table tr').forEach(function(row){
+      var cell=row.children[index];
+      if(cell)cell.style.display=visible?'':'none';
+    });
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var exportButton=document.getElementById('exportJobsButton');
+    var columnsButton=document.getElementById('columnsButton');
+    var popover=document.getElementById('columnsPopover');
+    if(exportButton)exportButton.addEventListener('click',exportJobs);
+    if(columnsButton&&popover)columnsButton.addEventListener('click',function(event){
+      event.stopPropagation();
+      popover.classList.toggle('hidden');
+    });
+    if(popover){
+      popover.addEventListener('click',function(event){event.stopPropagation();});
+      popover.querySelectorAll('input[data-col]').forEach(function(input){
+        input.addEventListener('change',function(){setColumnVisible(Number(input.dataset.col),input.checked);});
+      });
+    }
+    document.addEventListener('click',function(){if(popover)popover.classList.add('hidden');});
+  });
+})();
+</script>
+
 <script src="js/navigation.js?v=33"></script>
 </body>
 </html>
