@@ -990,9 +990,10 @@ body.admin-app-page{
           <h1>Manage Requirements</h1>
           <span class="jobs-heading-subtitle">Create, edit and manage recruitment requirements</span>
         </div>
-        <button class="btn btn-primary add-job-button" id="addJobButton" type="button">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement
-        </button>
+        <div class="jobs-heading-actions">
+          <button class="btn btn-outline export-job-button" id="exportJobsButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Export</button>
+          <button class="btn btn-primary add-job-button" id="addJobButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add New Requirement</button>
+        </div>
       </div>
 
       <section class="list-controls-frame" aria-label="Requirement filters and dashboard">
@@ -1015,9 +1016,8 @@ body.admin-app-page{
           <select id="clientFilter" aria-label="Filter by client">
             <option value="">All Clients</option>
           </select>
-          <button class="btn btn-outline" id="refreshJobsButton" type="button">
-            <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
-          </button>
+          <button class="btn btn-outline toolbar-action-button" id="clearFiltersButton" type="button">Clear Filters</button>
+          <button class="btn btn-outline toolbar-action-button" id="refreshJobsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
         </section>
 
         <section class="jobs-summary" aria-label="Requirement summary">
@@ -1336,11 +1336,11 @@ body.admin-app-page{
   border-color:#A91F1F !important;
 }
 /* ---------- FINAL REQUESTED MANAGE REQUIREMENTS REFINEMENTS ---------- */
-.jobs-toolbar{
-  grid-template-columns:minmax(320px,2fr) minmax(145px,1fr) minmax(145px,1fr) minmax(160px,1fr) auto !important;
-  gap:7px !important;
-}
-.jobs-toolbar .btn{justify-self:end;}
+.jobs-heading-actions{display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:8px !important;}
+.jobs-heading-actions .btn{height:36px !important;min-height:36px !important;min-width:100px !important;padding:0 14px !important;border-radius:6px !important;font-size:12px !important;font-weight:600 !important;}
+.jobs-toolbar{grid-template-columns:minmax(250px,2fr) minmax(115px,1fr) minmax(115px,1fr) minmax(125px,1fr) minmax(100px,auto) minmax(100px,auto) !important;gap:7px !important;}
+.jobs-toolbar .toolbar-action-button{min-width:100px !important;background:#EEF5FC !important;border-color:#B8CBE0 !important;color:#173F78 !important;}
+.jobs-toolbar .toolbar-action-button:hover{background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
 .jobs-table thead th:nth-child(1){width:23% !important;}
 .jobs-table thead th:nth-child(2){width:12% !important;}
 .jobs-table thead th:nth-child(3){width:10% !important;}
@@ -1350,17 +1350,15 @@ body.admin-app-page{
 .jobs-table thead th:nth-child(7){width:8% !important;}
 .jobs-table thead th:nth-child(8){width:7% !important;}
 .jobs-table thead th:nth-child(9){width:12% !important;}
-/* Keep the table header visible when the filtered result set is empty. */
 .table-wrap.hidden{display:block !important;}
+.jobs-table .empty-row td{padding:18px 10px !important;text-align:center !important;color:#556579 !important;font-size:12px !important;background:#FFFFFF !important;border-right:0 !important;}
+.jobs-table .empty-row .empty-row-title{display:block;color:#071B4D;font-size:13px;font-weight:700;margin-bottom:3px;}
+.jobs-table .empty-row .empty-row-text{display:block;color:#65758A;font-size:11px;font-weight:400;}
 @media(max-width:900px){
   .jobs-toolbar{grid-template-columns:1fr 1fr !important;}
   .jobs-toolbar .toolbar-search{grid-column:1 / -1;}
   .jobs-toolbar .btn{justify-self:stretch;}
-}
-
-@media(max-width:560px){
-  #discardChangesModal .discard-changes-modal{padding:24px 20px !important;}
-  #discardChangesModal .modal-actions{flex-wrap:wrap !important;}
+  .jobs-heading-actions{width:100%;justify-content:flex-end !important;}
 }
 </style>
 
