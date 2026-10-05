@@ -89,7 +89,7 @@
     const start = (currentPage - 1) * PAGE_SIZE;
     const pageRows = rows.slice(start, start + PAGE_SIZE);
 
-    body.innerHTML = pageRows.map(job => `
+    body.innerHTML = pageRows.length ? pageRows.map(job => `
       <tr>
         <td>
           <div class="job-title-cell">
@@ -120,11 +120,17 @@
           </div>
         </td>
       </tr>
-    `).join('');
+    `).join('') : `
+      <tr class="empty-row">
+        <td colspan="9">
+          <span class="empty-row-title">No requirements found</span>
+          <span class="empty-row-text">Use “Add New Requirement” to create the first career opportunity.</span>
+        </td>
+      </tr>`;
 
     const hasRows = pageRows.length > 0;
-    empty.classList.toggle('hidden', hasRows);
-    body.parentElement.classList.toggle('hidden', !hasRows);
+    empty.classList.add('hidden');
+    body.parentElement.classList.remove('hidden');
     updateJobsPagination(rows.length, totalPages, start, pageRows.length);
     updateSummary();
   }
@@ -132,9 +138,8 @@
   function updateJobsPagination(total, totalPages, start, count) {
     const wrap = $('jobsPagination');
     if (!wrap) return;
-    wrap.classList.toggle('hidden', total === 0);
-    if (!total) return;
-    $('jobsPageInfo').textContent = `Showing ${start + 1}-${start + count} of ${total}`;
+    wrap.classList.remove('hidden');
+    $('jobsPageInfo').textContent = total ? `Showing ${start + 1}-${start + count} of ${total}` : 'Showing 0 of 0';
     $('jobsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
     $('jobsFirst').disabled = currentPage <= 1;
     $('jobsPrev').disabled = currentPage <= 1;
@@ -641,6 +646,40 @@
     $('clientName').addEventListener('change', updateJobCodePreview);
     $('jobCategory').addEventListener('change', updateJobCodePreview);
     $('jobOpenDate').addEventListener('change', updateJobCodePreview);
+
+    const clearFiltersButton = $('clearFiltersButton');
+    if (clearFiltersButton) {
+      clearFiltersButton.addEventListener('click', () => {
+        $('jobSearch').value = '';
+        $('statusFilter').value = '';
+        if ($('locationFilter')) $('locationFilter').value = '';
+        if ($('clientFilter')) $('clientFilter').value = '';
+        currentPage = 1;
+        renderJobs();
+      });
+    }
+
+    const exportJobsButton = $('exportJobsButton');
+    if (exportJobsButton) {
+      exportJobsButton.addEventListener('click', () => {
+        const rows = filteredJobs();
+        const headers = ['Requirements','Client','Location','Skill Level','Salary Range','Experience','Status','Open Date'];
+        const csvRows = [headers, ...rows.map(job => [
+          job.title || '', job.client_name || '', job.location || '', job.skill_level || '',
+          job.salary_budget || '', job.experience || '', statusLabel(job.status), formatDate(job.job_open_date)
+        ])];
+        const csv = csvRows.map(row => row.map(value => `"${String(value ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+        const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'navodix-resource-requirements.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      });
+    }
 
     $('jobSearch').addEventListener('input', () => { currentPage = 1; renderJobs(); });
     $('statusFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
