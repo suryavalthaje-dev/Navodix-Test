@@ -1042,13 +1042,14 @@ body.admin-app-page{
           <div class="columns-popover hidden" id="columnsPopover">
             <div class="columns-popover-title">Show / Hide Columns</div>
             <label class="column-option"><input type="checkbox" checked data-col="0"> Requirements</label>
-            <label class="column-option"><input type="checkbox" checked data-col="1"> Location</label>
-            <label class="column-option"><input type="checkbox" checked data-col="2"> Skill Level</label>
-            <label class="column-option"><input type="checkbox" checked data-col="3"> Salary Range</label>
-            <label class="column-option"><input type="checkbox" checked data-col="4"> Experience</label>
-            <label class="column-option"><input type="checkbox" checked data-col="5"> Status</label>
-            <label class="column-option"><input type="checkbox" checked data-col="6"> Open Date</label>
-            <label class="column-option"><input type="checkbox" checked data-col="7"> Actions</label>
+            <label class="column-option"><input type="checkbox" checked data-col="1"> Client</label>
+            <label class="column-option"><input type="checkbox" checked data-col="2"> Location</label>
+            <label class="column-option"><input type="checkbox" checked data-col="3"> Skill Level</label>
+            <label class="column-option"><input type="checkbox" checked data-col="4"> Salary Range</label>
+            <label class="column-option"><input type="checkbox" checked data-col="5"> Experience</label>
+            <label class="column-option"><input type="checkbox" checked data-col="6"> Status</label>
+            <label class="column-option"><input type="checkbox" checked data-col="7"> Open Date</label>
+            <label class="column-option"><input type="checkbox" checked data-col="8"> Actions</label>
           </div>
         </div>
 
@@ -1057,6 +1058,7 @@ body.admin-app-page{
             <thead>
               <tr>
                 <th>Requirements</th>
+                <th>Client</th>
                 <th>Location</th>
                 <th>Skill Level</th>
                 <th>Salary Range</th>
@@ -1339,14 +1341,17 @@ body.admin-app-page{
   gap:7px !important;
 }
 .jobs-toolbar .btn{justify-self:end;}
-.jobs-table thead th:nth-child(1){width:24% !important;}
-.jobs-table thead th:nth-child(2){width:13% !important;}
-.jobs-table thead th:nth-child(3){width:12% !important;}
-.jobs-table thead th:nth-child(4){width:14% !important;}
+.jobs-table thead th:nth-child(1){width:23% !important;}
+.jobs-table thead th:nth-child(2){width:12% !important;}
+.jobs-table thead th:nth-child(3){width:10% !important;}
+.jobs-table thead th:nth-child(4){width:8% !important;}
 .jobs-table thead th:nth-child(5){width:11% !important;}
-.jobs-table thead th:nth-child(6){width:10% !important;}
-.jobs-table thead th:nth-child(7){width:9% !important;}
+.jobs-table thead th:nth-child(6){width:9% !important;}
+.jobs-table thead th:nth-child(7){width:8% !important;}
 .jobs-table thead th:nth-child(8){width:7% !important;}
+.jobs-table thead th:nth-child(9){width:12% !important;}
+/* Keep the table header visible when the filtered result set is empty. */
+.table-wrap.hidden{display:block !important;}
 @media(max-width:900px){
   .jobs-toolbar{grid-template-columns:1fr 1fr !important;}
   .jobs-toolbar .toolbar-search{grid-column:1 / -1;}
