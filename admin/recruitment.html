@@ -393,7 +393,7 @@ body.admin-app-page{
   position:absolute;
   left:15px;
   right:15px;
-  bottom:-16px;
+  bottom:-1px;
   height:3px;
   border-radius:3px 3px 0 0;
   background:#2878E8;
@@ -864,7 +864,7 @@ body.admin-app-page{
   .admin-user{display:none;}
   .admin-main-nav{overflow-x:auto;}
   .admin-main-nav-link{font-size:11px;padding:0 9px;}
-  .admin-main-nav-link.active:after{left:9px;right:9px;bottom:-12px;}
+  .admin-main-nav-link.active:after{left:9px;right:9px;bottom:-1px;}
   .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
   .jobs-heading-text{display:block !important;width:100%;}
   .jobs-heading h1,.jobs-heading-subtitle{white-space:normal !important;}
@@ -951,6 +951,12 @@ body.admin-app-page{
             <option value="closed">Closed</option>
             <option value="archived">Archived</option>
           </select>
+          <select id="locationFilter" aria-label="Filter by location">
+            <option value="">All Locations</option>
+          </select>
+          <select id="clientFilter" aria-label="Filter by client">
+            <option value="">All Clients</option>
+          </select>
           <button class="btn btn-outline" id="refreshJobsButton" type="button">
             <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
           </button>
@@ -969,21 +975,22 @@ body.admin-app-page{
       <section class="jobs-card">
         <div class="jobs-list-heading">
           <div class="jobs-list-heading-inline">
-            <h2>Recruitment Requirements</h2>
-            <p>Active and recently managed requirements available to Admin and HR.</p>
+            <h2>Resource Requirements</h2>
+            <p>Active and recently managed requirements List</p>
           </div>
           <div class="jobs-list-heading-actions">
             <button class="btn btn-outline" id="columnsButton" type="button">☷ Columns</button>
           </div>
           <div class="columns-popover hidden" id="columnsPopover">
             <div class="columns-popover-title">Show / Hide Columns</div>
-            <label class="column-option"><input type="checkbox" checked data-col="0"> Job</label>
+            <label class="column-option"><input type="checkbox" checked data-col="0"> Requirements</label>
             <label class="column-option"><input type="checkbox" checked data-col="1"> Location</label>
-            <label class="column-option"><input type="checkbox" checked data-col="2"> Type</label>
-            <label class="column-option"><input type="checkbox" checked data-col="3"> Experience</label>
-            <label class="column-option"><input type="checkbox" checked data-col="4"> Status</label>
-            <label class="column-option"><input type="checkbox" checked data-col="5"> Open Date</label>
-            <label class="column-option"><input type="checkbox" checked data-col="6"> Actions</label>
+            <label class="column-option"><input type="checkbox" checked data-col="2"> Skill Level</label>
+            <label class="column-option"><input type="checkbox" checked data-col="3"> Salary Range</label>
+            <label class="column-option"><input type="checkbox" checked data-col="4"> Experience</label>
+            <label class="column-option"><input type="checkbox" checked data-col="5"> Status</label>
+            <label class="column-option"><input type="checkbox" checked data-col="6"> Open Date</label>
+            <label class="column-option"><input type="checkbox" checked data-col="7"> Actions</label>
           </div>
         </div>
 
@@ -991,9 +998,10 @@ body.admin-app-page{
           <table class="jobs-table">
             <thead>
               <tr>
-                <th>Job</th>
+                <th>Requirements</th>
                 <th>Location</th>
-                <th>Type</th>
+                <th>Skill Level</th>
+                <th>Salary Range</th>
                 <th>Experience</th>
                 <th>Status</th>
                 <th>Open Date</th>
@@ -1267,6 +1275,26 @@ body.admin-app-page{
   background:#A91F1F !important;
   border-color:#A91F1F !important;
 }
+/* ---------- FINAL REQUESTED MANAGE REQUIREMENTS REFINEMENTS ---------- */
+.jobs-toolbar{
+  grid-template-columns:minmax(320px,2fr) minmax(145px,1fr) minmax(145px,1fr) minmax(160px,1fr) auto !important;
+  gap:7px !important;
+}
+.jobs-toolbar .btn{justify-self:end;}
+.jobs-table thead th:nth-child(1){width:24% !important;}
+.jobs-table thead th:nth-child(2){width:13% !important;}
+.jobs-table thead th:nth-child(3){width:12% !important;}
+.jobs-table thead th:nth-child(4){width:14% !important;}
+.jobs-table thead th:nth-child(5){width:11% !important;}
+.jobs-table thead th:nth-child(6){width:10% !important;}
+.jobs-table thead th:nth-child(7){width:9% !important;}
+.jobs-table thead th:nth-child(8){width:7% !important;}
+@media(max-width:900px){
+  .jobs-toolbar{grid-template-columns:1fr 1fr !important;}
+  .jobs-toolbar .toolbar-search{grid-column:1 / -1;}
+  .jobs-toolbar .btn{justify-self:stretch;}
+}
+
 @media(max-width:560px){
   #discardChangesModal .discard-changes-modal{padding:24px 20px !important;}
   #discardChangesModal .modal-actions{flex-wrap:wrap !important;}
