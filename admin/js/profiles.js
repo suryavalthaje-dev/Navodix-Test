@@ -278,6 +278,53 @@
   let profileNotesRequirementId = '';
   let profileNotesEditingId = '';
 
+  let pendingProfileNoteDeleteId='';
+  let pendingProfileNoteDeleteScope='';
+
+  function openProfileNoteDeleteModal(noteId,scope='requirement-specific'){
+    if(!noteId)return;
+    pendingProfileNoteDeleteId=noteId;
+    pendingProfileNoteDeleteScope=scope;
+    const text=$('profileNoteDeleteText');
+    if(text) text.textContent=scope==='requirement-specific'
+      ? 'This requirement-specific note will be permanently removed.'
+      : 'This profile-level note will be permanently removed.';
+    $('profileNoteDeleteModal').classList.remove('hidden');
+    $('profileNoteDeleteModal').setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+  }
+  function closeProfileNoteDeleteModal(){
+    pendingProfileNoteDeleteId='';
+    pendingProfileNoteDeleteScope='';
+    $('profileNoteDeleteModal').classList.add('hidden');
+    $('profileNoteDeleteModal').setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+  }
+  async function deleteProfileNote(){
+    if(!pendingProfileNoteDeleteId)return;
+    const noteId=pendingProfileNoteDeleteId;
+    const scope=pendingProfileNoteDeleteScope;
+    const button=$('confirmProfileNoteDeleteButton');
+    if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';}
+    try{
+      let q=supabase.from('profile_notes').delete().eq('id',noteId).eq('profile_id',profileNotesProfileId);
+      q=profileNotesRequirementId?q.eq('requirement_id',profileNotesRequirementId):q.is('requirement_id',null);
+      const {error}=await q;
+      if(error)throw error;
+      closeProfileNoteDeleteModal();
+      message(scope==='requirement-specific'?'Requirement-specific note deleted successfully.':'Profile-level note deleted successfully.','success');
+      resetProfileNoteForm();
+      if(profileNotesRequirementId)await loadRequirementNotes();else await loadProfileLevelNotes();
+      await openProfileDetails(profileNotesProfileId);
+    }catch(err){
+      closeProfileNoteDeleteModal();
+      $('profileNotesMessage').textContent=err.message||String(err);
+      $('profileNotesMessage').className='admin-message error';
+    }finally{
+      if(button){button.disabled=false;button.innerHTML='<i class="fa-solid fa-trash"></i> Delete Note';}
+    }
+  }
+
   function closeProfileNotesModal(){ $('profileNotesModal').classList.add('hidden'); $('profileNotesModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); profileNotesProfileId=''; profileNotesRequirementId=''; profileNotesEditingId=''; resetProfileNoteForm(); }
   function profileNoteFormMessage(text='',type=''){ const el=$('profileNoteFormMessage'); if(!el)return; el.textContent=text; el.className=`admin-message${type?' '+type:''}`; }
   function setProfileNoteTypeOptions(isProfileLevel){
@@ -425,7 +472,7 @@
       .filter(r=>!associationId || String(r.id)===String(assoc?.requirement_id) || !associatedIds.has(String(r.id)))
       .map(r=>`<option value="${esc(r.id)}">${esc(r.job_code||'')} — ${esc(r.title||'')}${r.status?` (${esc(r.status)})`:''}</option>`).join('');
     reqSelect.value=assoc?.requirement_id||'';
-    reqSelect.disabled=Boolean(associationId);
+    reqSelect.disabled=false;
     $('profileAssociationStatus').innerHTML=requirementStatuses.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
     $('profileAssociationStatus').value=assoc?.status||'New';
     $('profileAssociationNotes').value=assoc?.notes||'';
@@ -452,7 +499,7 @@
           .select('id,status').eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId).single();
         if(currentError)throw currentError;
         const {error}=await supabase.from('profile_requirement_associations')
-          .update({status,notes:notes||null}).eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId);
+          .update({requirement_id:reqId,status,notes:notes||null}).eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId);
         if(error)throw error;
         await recordAssociationStatusHistory(profileAssociationEditId,current.status,status,notes);
         message('Requirement association updated successfully.','success');
@@ -605,7 +652,7 @@
   $('removeProfileAssociationModal').addEventListener('click',function(e){ if(e.target===this)closeRemoveProfileAssociationModal(); });
   $('cancelProfileAssociationButton').addEventListener('click',closeProfileAssociationModal);
   $('saveProfileAssociationButton').addEventListener('click',saveProfileAssociation);
-  $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal);
+  $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal); $('cancelProfileNoteDeleteButton').addEventListener('click',closeProfileNoteDeleteModal); $('confirmProfileNoteDeleteButton').addEventListener('click',deleteProfileNote);
   $('cancelProfileNoteButton').addEventListener('click',closeProfileNotesModal);
   $('profileNoteForm').addEventListener('submit',saveProfileRequirementNote);
   $('profileNotesTableBody').addEventListener('click',async e=>{
@@ -620,9 +667,7 @@
     }
     const del=e.target.closest('[data-profile-note-delete]');
     if(del){
-      if(!confirm(profileNotesRequirementId?'Delete this requirement-specific note?':'Delete this profile-level note?'))return;
-      del.disabled=true;
-      try{let q=supabase.from('profile_notes').delete().eq('id',del.dataset.profileNoteDelete).eq('profile_id',profileNotesProfileId);q=profileNotesRequirementId?q.eq('requirement_id',profileNotesRequirementId):q.is('requirement_id',null);const {error}=await q;if(error)throw error;message(profileNotesRequirementId?'Requirement-specific note deleted successfully.':'Profile-level note deleted successfully.','success');resetProfileNoteForm();if(profileNotesRequirementId)await loadRequirementNotes();else await loadProfileLevelNotes();await openProfileDetails(profileNotesProfileId);}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}finally{del.disabled=false;}}
+      openProfileNoteDeleteModal(del.dataset.profileNoteDelete,profileNotesRequirementId?'requirement-specific':'profile-level'); return;}
   });
   $('closeInterviewModal').addEventListener('click',closeInterviewModal); $('cancelInterviewModalButton').addEventListener('click',closeInterviewModal); $('addInterviewButton').addEventListener('click',()=>openInterviewForm()); $('closeInterviewFormModal').addEventListener('click',closeInterviewFormModal); $('cancelInterviewButton').addEventListener('click',closeInterviewFormModal); $('interviewForm').addEventListener('submit',saveInterview); $('interviewTableBody').addEventListener('click',async e=>{const edit=e.target.closest('[data-interview-edit]'); if(edit){const {data,error}=await supabase.from('profile_requirement_interviews').select('*').eq('id',edit.dataset.interviewEdit).single(); if(error){interviewMessage(error.message,'error');return;} openInterviewForm(data); return;} const del=e.target.closest('[data-interview-delete]'); if(del){if(!confirm('Delete this interview round?'))return; del.disabled=true; try{const {error}=await supabase.from('profile_requirement_interviews').delete().eq('id',del.dataset.interviewDelete); if(error)throw error; await loadInterviews();}catch(err){interviewMessage(err.message||String(err),'error');}finally{del.disabled=false;}}}); $('profileModal').addEventListener('click',e=>{if(e.target===$('profileModal'))return;});
   document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;try{await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
