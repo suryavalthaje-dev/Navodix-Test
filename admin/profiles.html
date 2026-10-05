@@ -2138,6 +2138,12 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 
 /* Interview content only — the modal architecture itself is shared. */
+#interviewModal .profile-notes-new-modal{
+  width:min(760px, calc(100vw - 32px)) !important;
+  max-width:760px !important;
+  height:min(620px, calc(100dvh - 32px)) !important;
+  max-height:calc(100dvh - 32px) !important;
+}
 #interviewModal .profile-notes-new-body{
   padding:18px 24px 16px !important;
 }
@@ -2709,6 +2715,13 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #removeProfileAssociationModal .profile-delete-confirm-modal{
   width:440px !important;
   max-width:calc(100vw - 8px) !important;
+  box-sizing:border-box !important;
+  padding:30px 30px 26px !important;
+  background:#FFFFFF !important;
+  border-radius:16px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  text-align:center !important;
+  opacity:1 !important;
 }
 #removeProfileAssociationModal .profile-delete-confirm-actions #confirmRemoveProfileAssociationButton{
   min-width:190px !important;
@@ -2943,7 +2956,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </footer>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=17"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=18"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
