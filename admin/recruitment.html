@@ -883,8 +883,16 @@ body.admin-app-page{
   .jobs-summary{grid-template-columns:1fr 1fr !important;}
   .jobs-table{min-width:760px !important;}
 }
-<style id="menu-height-alignment-fix">
 /* Final main-menu alignment: compact header, logo-height scale, aligned to the page content area. */
+/* All top navigation and page content share exactly the same horizontal content area. */
+.admin-header .admin-container,
+.admin-section-nav-inner,
+.admin-main > .admin-container{
+  width:min(1200px,calc(100% - 40px)) !important;
+  max-width:1200px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
 .admin-header .admin-container,
 .admin-section-nav-inner{
   width:min(1200px,calc(100% - 40px)) !important;
@@ -918,7 +926,6 @@ body.admin-app-page{
   .admin-section-nav{top:52px !important;}
   .admin-nav-right{height:52px !important;}
 }
-</style>
 </style>
 </head>
 <body class="admin-app-page">
