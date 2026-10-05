@@ -96,6 +96,7 @@
             <strong>${escapeHtml(job.title)}</strong>
           </div>
         </td>
+        <td>${escapeHtml(job.client_name || '—')}</td>
         <td>${escapeHtml(job.location || '—')}</td>
         <td>${escapeHtml(job.skill_level || '—')}</td>
         <td>${escapeHtml(job.salary_budget || '—')}</td>
