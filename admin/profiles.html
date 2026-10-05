@@ -2646,14 +2646,139 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </footer>
   </div>
 </div>
+<style id="profile-status-history-standard-modal">
+/* Status History modal — match the finalized Navodix Header / Scrollable Body / Fixed Footer standard. */
+#associationHistoryModal .profile-status-history-modal{
+  width:900px !important;
+  max-width:calc(100vw - 40px) !important;
+  height:auto !important;
+  max-height:calc(100vh - 24px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  background:#FFFFFF !important;
+  border-radius:10px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  box-sizing:border-box !important;
+}
+#associationHistoryModal .profile-status-history-modal .modal-header{
+  flex:0 0 56px !important;
+  min-height:56px !important;
+  height:56px !important;
+  display:flex !important;
+  align-items:center !important;
+  box-sizing:border-box !important;
+  padding:10px 18px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  border:0 !important;
+  position:static !important;
+}
+#associationHistoryModal .profile-status-history-modal .modal-header h2{
+  margin:0 !important;
+  color:#FFFFFF !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:20px !important;
+  line-height:1.2 !important;
+  font-weight:600 !important;
+}
+#associationHistoryModal .profile-status-history-modal .modal-close{
+  width:32px !important;
+  height:32px !important;
+  min-width:32px !important;
+  margin-left:auto !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#FFFFFF !important;
+  font-size:21px !important;
+  line-height:1 !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:18px 24px 16px !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions{
+  flex:0 0 58px !important;
+  min-height:58px !important;
+  height:58px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin:0 !important;
+  padding:8px 16px !important;
+  background:#C9D9EC !important;
+  border-top:1px solid #AFC1D5 !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions .btn{
+  min-width:110px !important;
+  width:110px !important;
+  min-height:36px !important;
+  height:36px !important;
+  padding:6px 10px !important;
+  border-radius:5px !important;
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+}
+#associationHistoryModal .profile-status-history-heading{
+  margin:0 0 10px !important;
+  color:#173F78 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.3 !important;
+  font-weight:700 !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table-wrap{
+  width:100% !important;
+  overflow-x:auto !important;
+  margin:0 !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table{
+  width:100% !important;
+  table-layout:fixed !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(1),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(1){width:12% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(2),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(2){width:15% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(3),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(3){width:15% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(4),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(4){width:38% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(5),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(5){width:20% !important;}
+@media (max-width:760px){
+  #associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}
+  #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px 12px !important;}
+}
+</style>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
-  <div class="profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle" style="width:900px !important; max-width:calc(100vw - 40px) !important; box-sizing:border-box;">
+  <div class="profile-interview-modal-shell profile-status-history-modal" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle">
     <div class="modal-header">
       <div><span class="section-badge">JOB ASSOCIATION</span><h2 id="associationHistoryTitle">Status History</h2></div>
       <button class="modal-close" id="closeAssociationHistoryModal" type="button" aria-label="Close Status History"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="profile-interview-modal-body">
       <div id="associationHistoryMessage" class="admin-message" role="alert"></div>
+      <div class="profile-status-history-heading">Requirement Status History</div>
       <div class="profile-interview-table-wrap"><table class="profile-interview-table"><thead><tr><th>Date &amp; Time</th><th>Previous Status</th><th>New Status</th><th>Notes</th><th>Changed By</th></tr></thead><tbody id="associationHistoryTableBody"></tbody></table></div>
     </div>
     <footer class="profile-interview-modal-actions">
