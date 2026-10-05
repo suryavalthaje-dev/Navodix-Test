@@ -883,6 +883,36 @@ body.admin-app-page{
   .jobs-summary{grid-template-columns:1fr 1fr !important;}
   .jobs-table{min-width:760px !important;}
 }
+<style id="menu-height-alignment-fix">
+/* Final main-menu alignment: compact header, logo-height scale. */
+.admin-header{height:56px !important;min-height:56px !important;}
+.admin-header .admin-container{height:56px !important;}
+.admin-nav{height:56px !important;min-height:56px !important;gap:20px !important;align-items:center !important;}
+.admin-brand{height:56px !important;min-height:56px !important;align-items:center !important;}
+.admin-brand img{height:48px !important;max-height:48px !important;width:auto !important;max-width:215px !important;}
+.admin-main-nav{height:56px !important;align-items:stretch !important;gap:5px !important;}
+.admin-main-nav-link{height:56px !important;min-height:56px !important;padding:0 15px !important;align-items:center !important;border-radius:0 0 8px 8px !important;}
+.admin-main-nav-link.active{background:#EAF3FF !important;}
+.admin-main-nav-link.active:after{left:15px !important;right:15px !important;bottom:0 !important;height:3px !important;}
+.admin-nav-right{height:56px !important;align-items:center !important;}
+.admin-section-nav{top:56px !important;}
+
+@media(max-width:1050px){
+  .admin-nav{gap:12px !important;}
+  .admin-brand img{height:46px !important;max-height:46px !important;max-width:190px !important;}
+  .admin-main-nav-link{padding:0 10px !important;}
+  .admin-main-nav-link.active:after{left:10px !important;right:10px !important;}
+}
+@media(max-width:760px){
+  .admin-header,.admin-header .admin-container,.admin-nav{height:52px !important;min-height:52px !important;}
+  .admin-brand{height:52px !important;min-height:52px !important;}
+  .admin-brand img{height:38px !important;max-height:38px !important;max-width:170px !important;}
+  .admin-main-nav{height:52px !important;}
+  .admin-main-nav-link{height:52px !important;min-height:52px !important;}
+  .admin-section-nav{top:52px !important;}
+  .admin-nav-right{height:52px !important;}
+}
+</style>
 </style>
 </head>
 <body class="admin-app-page">
