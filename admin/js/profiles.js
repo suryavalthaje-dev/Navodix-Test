@@ -179,19 +179,57 @@
       link.remove();
     }catch(err){ profileDetailsMessage(`Could not download the resume: ${err.message||String(err)}`,'error'); }
   }
-  async function removeProfileAssociation(profileId, associationId, requirementLabel){
+  let pendingRemoveAssociationProfileId='';
+  let pendingRemoveAssociationId='';
+  let pendingRemoveAssociationLabel='';
+
+  function openRemoveProfileAssociationModal(profileId, associationId, requirementLabel){
     if(!profileId || !associationId)return;
-    const confirmed=window.confirm(`Remove the job association${requirementLabel?` for ${requirementLabel}`:''}?\n\nThe association, its job-specific notes and interview records will be removed. The profile itself will not be deleted.`);
-    if(!confirmed)return;
-    try{
-      profileDetailsMessage('Removing job association…');
-      const fd=new FormData(); fd.append('action','remove-association'); fd.append('profile_id',profileId); fd.append('association_id',associationId);
-      await callProfileFunction(fd);
-      await openProfileDetails(profileId);
-    }catch(err){ profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error'); }
+    pendingRemoveAssociationProfileId=profileId;
+    pendingRemoveAssociationId=associationId;
+    pendingRemoveAssociationLabel=requirementLabel||'this requirement';
+    const text=$('removeProfileAssociationText');
+    if(text){
+      text.textContent=`The association for “${pendingRemoveAssociationLabel}”, its job-specific notes and interview records will be permanently removed. The profile itself will not be deleted.`;
+    }
+    $('removeProfileAssociationModal').classList.remove('hidden');
+    $('removeProfileAssociationModal').setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
   }
 
-  let pendingDeleteProfileId='';
+  function closeRemoveProfileAssociationModal(){
+    pendingRemoveAssociationProfileId='';
+    pendingRemoveAssociationId='';
+    pendingRemoveAssociationLabel='';
+    $('removeProfileAssociationModal').classList.add('hidden');
+    $('removeProfileAssociationModal').setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+  }
+
+  async function confirmRemoveProfileAssociation(){
+    if(!pendingRemoveAssociationProfileId || !pendingRemoveAssociationId)return;
+    const profileId=pendingRemoveAssociationProfileId;
+    const associationId=pendingRemoveAssociationId;
+    const button=$('confirmRemoveProfileAssociationButton');
+    if(button)button.disabled=true;
+    try{
+      profileDetailsMessage('Removing job association…');
+      const fd=new FormData();
+      fd.append('action','remove-association');
+      fd.append('profile_id',profileId);
+      fd.append('association_id',associationId);
+      await callProfileFunction(fd);
+      closeRemoveProfileAssociationModal();
+      await openProfileDetails(profileId);
+    }catch(err){
+      closeRemoveProfileAssociationModal();
+      profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error');
+    }finally{
+      if(button)button.disabled=false;
+    }
+  }
+
+  let pendingDeleteProfileId='' '';
   let pendingDeleteProfileName='';
 
   function openDeleteProfileModal(profileId, profileName){
@@ -547,7 +585,7 @@
     const hist=e.target.closest('[data-profile-association-history]');
     if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement',hist.dataset.profileAssociationProfile||'Profile'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
     const del=e.target.closest('[data-profile-association-delete]');
-    if(del){ try{ await removeProfileAssociation(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
+    if(del){ openRemoveProfileAssociationModal(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); return; }
     const edit=e.target.closest('[data-profile-association-edit]');
     if(edit){
       e.preventDefault();
@@ -560,7 +598,11 @@
       try{ await openProfileAssociationModal(profileAssociationCurrentProfileId); }
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
     }
-  }); $('closeProfileAssociationModal').addEventListener('click',closeProfileAssociationModal);
+  });
+  $('closeProfileAssociationModal').addEventListener('click',closeProfileAssociationModal);
+  $('cancelRemoveProfileAssociationButton').addEventListener('click',closeRemoveProfileAssociationModal);
+  $('confirmRemoveProfileAssociationButton').addEventListener('click',confirmRemoveProfileAssociation);
+  $('removeProfileAssociationModal').addEventListener('click',function(e){ if(e.target===this)closeRemoveProfileAssociationModal(); });
   $('cancelProfileAssociationButton').addEventListener('click',closeProfileAssociationModal);
   $('saveProfileAssociationButton').addEventListener('click',saveProfileAssociation);
   $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal);
