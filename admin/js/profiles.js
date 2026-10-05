@@ -77,33 +77,6 @@
     if(!url) throw new Error('The Profile Management service did not return a secure resume URL.');
     return url;
   }
-  async function openProfileResumeInNewTab(profile){
-    const popup=window.open('about:blank','_blank');
-    if(!popup){ profileDetailsMessage('Please allow pop-ups to open the resume in a new tab.','error'); return; }
-    try{
-      const url=await getProfileResumeUrl(profile);
-      popup.location.href=url;
-    }catch(err){
-      try{ popup.close(); }catch(_){}
-      profileDetailsMessage(`Could not open the resume: ${err.message||String(err)}`,'error');
-    }
-  }
-
-  function closeProfileInlineResume(){
-    const viewer=$('profileResumeViewer');
-    const frame=$('profileResumeFrame');
-    const docxViewer=$('profileResumeDocxViewer');
-    const loading=$('profileResumeLoading');
-    if(frame)frame.src='';
-    if(docxViewer)docxViewer.innerHTML='';
-    if(frame)frame.classList.add('hidden');
-    if(docxViewer)docxViewer.classList.add('hidden');
-    if(loading){loading.classList.remove('hidden');loading.textContent='Loading resume…';}
-    if(viewer)viewer.classList.add('hidden');
-    const closeBtn=$('closeProfileResumeButton');
-    if(closeBtn)closeBtn.classList.add('hidden');
-  }
-
   async function viewProfileResume(profile){
     const viewer=$('profileResumeViewer');
     const frame=$('profileResumeFrame');
@@ -111,7 +84,6 @@
     const loading=$('profileResumeLoading');
     const openBtn=$('openProfileResumeNewTabButton');
     const closeBtn=$('closeProfileResumeButton');
-    const bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
     if(!viewer||!frame||!docxViewer){ profileDetailsMessage('Resume viewer is not available.','error'); return; }
     try{
       profileDetailsMessage('');
@@ -145,11 +117,10 @@
       }
 
       if(openBtn){
-        openBtn.onclick=()=>openProfileResumeInNewTab(profile);
+        openBtn.onclick=()=>window.open(url,'_blank','noopener,noreferrer');
         openBtn.classList.remove('hidden');
       }
       if(closeBtn) closeBtn.classList.remove('hidden');
-      if(bottomCloseBtn) bottomCloseBtn.classList.remove('hidden');
     }catch(err){
       viewer.classList.add('hidden');
       if(frame)frame.src='';
@@ -191,49 +162,18 @@
     }catch(err){ profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error'); }
   }
 
-  let pendingDeleteProfileId='';
-  let pendingDeleteProfileName='';
-
-  function openDeleteProfileModal(profileId, profileName){
+  async function deleteProfile(profileId, profileName){
     if(!profileId)return;
-    pendingDeleteProfileId=profileId;
-    pendingDeleteProfileName=profileName||'this profile';
-    const text=$('deleteProfileText');
-    if(text){
-      text.textContent=`“${pendingDeleteProfileName}” and its profile information, resume, job associations, notes, interviews, source history and status history will be permanently removed.`;
-    }
-    $('deleteProfileModal').classList.remove('hidden');
-    $('deleteProfileModal').setAttribute('aria-hidden','false');
-    document.body.classList.add('modal-open');
-  }
-
-  function closeDeleteProfileModal(){
-    pendingDeleteProfileId='';
-    pendingDeleteProfileName='';
-    $('deleteProfileModal').classList.add('hidden');
-    $('deleteProfileModal').setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
-  }
-
-  async function deleteProfile(){
-    if(!pendingDeleteProfileId)return;
-    const profileId=pendingDeleteProfileId;
-    const button=$('confirmDeleteProfileButton');
-    if(button){ button.disabled=true; button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…'; }
+    const confirmed=window.confirm(`Delete profile ${profileName||''}?\n\nThis will permanently delete the profile, its resume stored in R2, job associations, notes, interviews, source history and status history.\n\nThis action cannot be undone.`);
+    if(!confirmed)return;
     try{
       profileDetailsMessage('Deleting profile…');
       const fd=new FormData(); fd.append('action','delete-profile'); fd.append('profile_id',profileId);
       await callProfileFunction(fd);
-      closeDeleteProfileModal();
       closeProfileDetails();
       message('Profile deleted successfully.','success');
       await loadProfiles();
-    }catch(err){
-      closeDeleteProfileModal();
-      profileDetailsMessage(`Could not delete the profile: ${err.message||String(err)}`,'error');
-    }finally{
-      if(button){ button.disabled=false; button.innerHTML='<i class="fa-solid fa-trash"></i> Delete Profile'; }
-    }
+    }catch(err){ profileDetailsMessage(`Could not delete the profile: ${err.message||String(err)}`,'error'); }
   }
   let profileAssociationCurrentProfileId = '';
   let profileNotesProfileId = '';
@@ -314,15 +254,15 @@
     const sourceRows=uniqueSourceRows(srcRes.data||[]);
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
-    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="application-inline-resume-bottom-actions"><button class="btn btn-primary btn-small hidden" id="profileInlineBottomCloseResumeButton" type="button">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
     body.innerHTML=`
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid profile-source-detail-grid">
-        ${detailItem('Profile Number',p.profile_number)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Profile Status',p.status)}${detailItem('Availability',p.availability)}
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid">
+        ${detailItem('Profile Number',p.profile_number)}${detailItem('Profile Status',p.status)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Availability',p.availability)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}
         ${primary?.referrer_name?detailItem('Referrer Name',primary.referrer_name):''}${primary?.referrer_mobile?detailItem('Referrer Mobile',primary.referrer_mobile):''}${primary?.referrer_email?detailItem('Referrer Email',primary.referrer_email):''}
       </div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Personal Information</div><div class="profile-personal-detail-grid"><div class="profile-personal-row profile-personal-row-3">${detailItem('Full Name',p.full_name)}${detailItem('Mobile',p.phone)}${detailItem('Alternate Phone',p.alternate_phone)}</div><div class="profile-personal-row profile-personal-row-2">${detailItem('Current Location',p.current_location)}${detailItem('Email',p.email)}</div></div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Professional Information</div><div class="profile-detail-grid profile-professional-detail-grid">${detailItem('Current Company',p.current_company)}${detailItem('Current Job Title',p.current_job_title)}${detailItem('Total Experience',p.total_experience)}${detailItem('Notice Period',p.notice_period)}${detailItem('Current CTC',p.current_ctc)}${detailItem('Expected CTC',p.expected_ctc)}</div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Education & Skills</div><div class="profile-education-detail-grid"><div class="profile-education-row profile-education-row-3">${detailItem('Highest Qualification',p.highest_qualification)}${detailItem('Specialization',p.specialization)}${detailItem('Graduation Year',p.graduation_year)}</div><div class="profile-education-row profile-education-row-2">${detailItem('Job Categories',categories.join(', '))}${detailLink('LinkedIn',p.linkedin_url)}</div><div class="profile-education-row profile-education-row-1">${detailItem('Skills',p.skills)}</div><div class="profile-education-row profile-education-row-1">${detailItem('Additional Information',p.additional_information)}</div></div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Personal Information</div><div class="profile-detail-grid">${detailItem('Full Name',p.full_name)}${detailItem('Email',p.email)}${detailItem('Mobile',p.phone)}${detailItem('Alternate Phone',p.alternate_phone)}${detailItem('Current Location',p.current_location)}</div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Professional Information</div><div class="profile-detail-grid">${detailItem('Current Job Title',p.current_job_title)}${detailItem('Current Company',p.current_company)}${detailItem('Total Experience',p.total_experience)}${detailItem('Notice Period',p.notice_period)}${detailItem('Current CTC',p.current_ctc)}${detailItem('Expected CTC',p.expected_ctc)}</div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Education & Skills</div><div class="profile-detail-grid">${detailItem('Highest Qualification',p.highest_qualification)}${detailItem('Specialization',p.specialization)}${detailItem('Graduation Year',p.graduation_year)}${detailItem('Job Categories',categories.join(', '))}${detailLink('LinkedIn',p.linkedin_url)}${detailItem('Skills',p.skills,true)}${detailItem('Additional Information',p.additional_information,true)}</div></div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Resume</div><div class="profile-detail-grid"><div class="profile-detail-item profile-detail-wide"><span class="profile-detail-label">Current Resume</span><div class="profile-detail-value">${esc(p.resume_file_name||'—')} ${resumeButtons}</div></div>${detailItem('Last Updated',p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</div></div>
       <div class="profile-detail-section">
         <div class="profile-detail-section-title profile-detail-section-title-row"><span>Job Associations</span><button type="button" class="btn btn-primary btn-small" id="addProfileAssociationButton"><i class="fa-solid fa-plus"></i> Add Requirement</button></div>
@@ -343,12 +283,10 @@
       <div class="profile-detail-section"><div class="profile-detail-section-title profile-detail-section-title-row"><span>Updates / Notes</span><button type="button" class="btn btn-primary btn-small" id="addProfileNoteButton"><i class="fa-solid fa-plus"></i> Add Note</button></div>${renderDetailTable(['Date & Time','Type','Requirement','Update / Note'],notes.map(n=>[esc(formatDateTime(n.created_at)),esc(n.note_type||'General'),esc((reqMap[n.requirement_id]?.job_code||reqMap[n.requirement_id]?.title||'Profile Level')),esc(n.note||'')]),'No profile notes found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile Status History</div>${renderDetailTable(['Date & Time','Status','Notes'],histories.map(h=>[esc(formatDateTime(h.changed_at)),`<span class="status-pill ${statusClass(h.status)}">${esc(h.status||'—')}</span>`,esc(h.notes||'—')]),'No status history found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Interview Rounds</div>${renderDetailTable(['Round','Requirement','Result','Date','Time','Mode','Interviewer','Feedback'],interviews.map(i=>{const r=reqMap[i.requirement_id]||{};return [esc(i.round_name||('Round '+i.round_number)),esc(r.job_code||r.title||'Requirement'),esc(i.result||'Pending'),esc(i.scheduled_date||'—'),esc(formatInterviewTime(i.scheduled_time)),esc(i.mode||'—'),esc(i.interviewer||'—'),esc(i.feedback||'—')]}),'No profile requirement interviews found.')}</div>`;
-    profileDetailsMessage(''); $('profileDetailsTitle').textContent=`Profile : ${p.full_name||'Profile'}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
-    const viewBtn=$('viewProfileResumeButton'), openBtn=$('openProfileResumeNewTabButton'), downloadBtn=$('downloadProfileResumeButton'), bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
+    profileDetailsMessage(''); $('profileDetailsTitle').textContent=`${p.full_name||'Profile'} — ${p.profile_number||''}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
+    const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton');
     if(viewBtn)viewBtn.onclick=()=>viewProfileResume(p);
-    if(openBtn)openBtn.onclick=()=>openProfileResumeInNewTab(p);
     if(downloadBtn)downloadBtn.onclick=()=>downloadProfileResume(p);
-    if(bottomCloseBtn)bottomCloseBtn.onclick=(event)=>{ event.preventDefault(); closeProfileInlineResume(); };
     const addProfileNoteButton=$('addProfileNoteButton');
     if(addProfileNoteButton)addProfileNoteButton.onclick=()=>openProfileLevelNotes(profileAssociationCurrentProfileId);
     document.querySelectorAll('[data-profile-association-edit]').forEach(btn=>{
@@ -359,7 +297,7 @@
         catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       });
     });
-    const deleteBtn=$('deleteProfileButton'); if(deleteBtn)deleteBtn.onclick=()=>openDeleteProfileModal(p.id,p.full_name||p.profile_number||'this profile');
+    const deleteBtn=$('deleteProfileButton'); if(deleteBtn)deleteBtn.onclick=()=>deleteProfile(p.id,p.full_name||p.profile_number||'this profile');
   }
   function associationMessage(text,type=''){
     const el=$('profileAssociationMessage'); if(!el)return;
@@ -381,7 +319,7 @@
     if(aError)throw aError;
     const associatedIds=new Set((assocRows||[]).map(x=>String(x.requirement_id)));
     const assoc=associationId ? (assocRows||[]).find(x=>String(x.id)===String(associationId)) : null;
-    const profileAssociationName=p.full_name||''; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
+    const profileAssociationName=`${p.full_name||''} (${p.profile_number||''})`; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
     const reqSelect=$('profileAssociationRequirement');
     reqSelect.innerHTML='<option value="">Select Requirement</option>'+requirements
       .filter(r=>!associationId || String(r.id)===String(assoc?.requirement_id) || !associatedIds.has(String(r.id)))
@@ -467,18 +405,33 @@
     if(!associationId) return;
     $('associationHistoryTitle').textContent=`Status History — ${requirementLabel}`;
     $('associationHistoryMessage').textContent='Loading…';
+    $('associationHistoryMessage').className='admin-message';
     $('associationHistoryTableBody').innerHTML='';
     $('associationHistoryModal').classList.remove('hidden');
     $('associationHistoryModal').setAttribute('aria-hidden','false');
     document.body.classList.add('modal-open');
     try {
-      const {data,error}=await supabase.from('profile_requirement_status_history')
-        .select('previous_status,new_status,notes,changed_at,changed_by')
-        .eq('association_id',associationId)
-        .order('changed_at',{ascending:false});
+      const [{data,error},{data:authData}]=await Promise.all([
+        supabase.from('profile_requirement_status_history')
+          .select('previous_status,new_status,notes,changed_at,changed_by')
+          .eq('association_id',associationId)
+          .order('changed_at',{ascending:false}),
+        supabase.auth.getUser()
+      ]);
       if(error) throw error;
+      const currentUser=authData?.user||null;
+      const currentUserId=currentUser?.id||'';
+      const currentUserLabel=currentUserId && currentUser
+        ? (currentUser.user_metadata?.display_name || currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email || 'Current Admin / HR User')
+        : 'Admin / HR User';
       const rows=data||[];
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class=\"status-pill ${statusClass(x.new_status)}\">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('');
+      const changedByLabel=(value)=>{
+        if(!value) return '—';
+        if(String(value)===String(currentUserId)) return currentUserLabel;
+        // changed_by stores the authenticated user's UUID. Do not expose the UUID as the visible value.
+        return 'Admin / HR User';
+      };
+      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class="status-pill ${statusClass(x.new_status)}">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(changedByLabel(x.changed_by))}</td></tr>`).join('');
       $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
     } catch(err) {
       $('associationHistoryMessage').textContent=err.message||String(err);
@@ -516,16 +469,19 @@
   async function saveAssociateRequirement(){ if(!profileToAssociate)return; const reqId=$('associateRequirementSelect').value; if(!reqId){ $('associateRequirementMessage').textContent='Please select a requirement.'; $('associateRequirementMessage').className='admin-message error'; return; } const btn=$('saveAssociateRequirementButton'); btn.disabled=true; $('associateRequirementMessage').textContent='Associating profile…'; $('associateRequirementMessage').className='admin-message'; try{ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:profileToAssociate.id,requirement_id:reqId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); $('associateRequirementMessage').textContent='Profile associated successfully with the requirement.'; $('associateRequirementMessage').className='admin-message success'; message('Profile associated successfully with the requirement.','success'); await loadProfiles(); setTimeout(closeAssociateRequirementModal,500); }catch(err){ $('associateRequirementMessage').textContent=err.message||String(err); $('associateRequirementMessage').className='admin-message error'; } finally { btn.disabled=false; } }
   async function associateProfile(id){ if(requirementId){ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:id,requirement_id:requirementId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); message('Profile associated successfully with the requirement.','success'); await loadProfiles(); return; } openAssociateRequirementModal(id); }
 
-  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('profileForm').addEventListener('submit',saveProfile); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();}); $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('profilesFirst').addEventListener('click',()=>goToProfilesPage(1)); $('profilesPrev').addEventListener('click',()=>goToProfilesPage(currentPage-1)); $('profilesNext').addEventListener('click',()=>goToProfilesPage(currentPage+1)); $('profilesLast').addEventListener('click',()=>goToProfilesPage(Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)))); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-action]');if(!b)return;try{if(b.dataset.action==='view')await openProfileDetails(b.dataset.id);else if(b.dataset.action==='edit')await editProfile(b.dataset.id);else if(b.dataset.action==='associate')await associateProfile(b.dataset.id);else if(b.dataset.action==='interviews')await openInterviews(b.dataset.id);}catch(err){message(err.message||String(err),'error');}}); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',deleteProfile); $('deleteProfileModal').addEventListener('click',e=>{if(e.target===$('deleteProfileModal'))closeDeleteProfileModal();}); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
+  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('profileForm').addEventListener('submit',saveProfile); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();}); $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('profilesFirst').addEventListener('click',()=>goToProfilesPage(1)); $('profilesPrev').addEventListener('click',()=>goToProfilesPage(currentPage-1)); $('profilesNext').addEventListener('click',()=>goToProfilesPage(currentPage+1)); $('profilesLast').addEventListener('click',()=>goToProfilesPage(Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)))); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-action]');if(!b)return;try{if(b.dataset.action==='view')await openProfileDetails(b.dataset.id);else if(b.dataset.action==='edit')await editProfile(b.dataset.id);else if(b.dataset.action==='associate')await associateProfile(b.dataset.id);else if(b.dataset.action==='interviews')await openInterviews(b.dataset.id);}catch(err){message(err.message||String(err),'error');}}); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
     const interview=e.target.closest('[data-profile-association-interviews]');
     if(interview){
       try{ await openInterviewsForAssociation(profileAssociationCurrentProfileId, interview.dataset.profileAssociationInterviews, interview.dataset.profileAssociationRequirement, interview.dataset.profileAssociationLabel); }
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       return;
     }
-    if(e.target.closest('#closeProfileResumeButton') || e.target.closest('#profileInlineBottomCloseResumeButton')){
-      e.preventDefault();
-      closeProfileInlineResume();
+    if(e.target.closest('#closeProfileResumeButton')){
+      const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
+      if(frame)frame.src=''; if(docxViewer)docxViewer.innerHTML=''; if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
+      if(viewer)viewer.classList.add('hidden');
+      const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
+      const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
       return;
     }
     const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
