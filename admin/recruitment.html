@@ -310,6 +310,52 @@
 }
 #jobModal .modal-actions #saveJobButton { order:2; }
 #jobModal .modal-actions #cancelJobButton { order:1; }
+#jobModal .jd-upload-box {
+  border:1px solid #D8E0EA;
+  border-radius:7px;
+  padding:10px 12px;
+  background:#F8FAFC;
+}
+#jobModal .jd-upload-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+#jobModal .jd-upload-row input[type=file] {
+  flex:1 1 280px;
+  min-width:0;
+}
+#jobModal .jd-existing-name {
+  color:#164B96;
+  font-size:12px;
+  font-weight:600;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+#jobModal .jd-upload-help {
+  display:block;
+  margin-top:6px;
+  color:var(--text-muted);
+  font-size:11px;
+}
+#jobModal .jd-remove-button {
+  height:30px;
+  padding:5px 10px;
+  border:1px solid #D8B4B4;
+  border-radius:5px;
+  background:#FFF7F7;
+  color:#B42318;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+}
+#jobModal .jd-remove-button:hover:not(:disabled) {
+  background:#FDECEC;
+}
+#jobModal .jd-remove-button:disabled { opacity:.55; cursor:not-allowed; }
 @media(max-width:700px){
   #jobModal .requirement-form-grid { grid-template-columns:1fr; }
   #jobModal .requirement-form-grid .field-span-2,
@@ -1160,6 +1206,11 @@ body.admin-app-page{
             <input id="skillLevel" maxlength="80" placeholder="e.g. Junior, Mid, Senior">
           </div>
           <div class="field-group">
+            <label for="numberOfPositions">Number of Positions</label>
+            <input id="numberOfPositions" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 3">
+            <small class="field-help">Information only; not used for vacancy calculations.</small>
+          </div>
+          <div class="field-group">
             <label for="jobStatus">Status <span>*</span></label>
             <select id="jobStatus" required>
               <option value="draft">Draft</option>
@@ -1176,6 +1227,19 @@ body.admin-app-page{
           <div class="field-group">
             <label for="closingDate">Closing Date</label>
             <input id="closingDate" type="date">
+          </div>
+          <div class="requirement-form-section-title">Job Description Document</div>
+          <div class="field-group field-span-2">
+            <div class="jd-upload-box">
+              <div class="jd-upload-row">
+                <input id="jdFile" type="file" accept=".pdf,.doc,.docx">
+                <span id="existingJDFileName" class="jd-existing-name hidden" title=""></span>
+                <button id="removeJDButton" class="jd-remove-button hidden" type="button">
+                  <i class="fa-solid fa-trash-can" aria-hidden="true"></i> Remove JD
+                </button>
+              </div>
+              <small id="jdFileHelp" class="jd-upload-help">Optional. Maximum 5 MB. PDF, DOC or DOCX.</small>
+            </div>
           </div>
           <div class="requirement-form-section-title">Description</div>
           <div class="field-group field-span-2">
