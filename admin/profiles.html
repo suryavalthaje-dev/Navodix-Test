@@ -2446,6 +2446,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   #deleteProfileModal .profile-delete-confirm-actions .btn,#deleteProfileModal .profile-delete-confirm-actions #confirmDeleteProfileButton{width:100% !important;min-width:0 !important;}
 }
 </style>
+
+<style id="profile-interview-rounds-compact-final">
+/* Interview Rounds: compact size requested by user. */
+#interviewModal .profile-interview-rounds-compact{
+  width:760px !important;
+  max-width:calc(100vw - 32px) !important;
+  height:620px !important;
+  max-height:calc(100dvh - 32px) !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
@@ -2891,7 +2903,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 
 <div class="modal-backdrop hidden" id="interviewModal" aria-hidden="true">
-  <div class="profile-notes-new-modal modal-medium" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
+  <div class="profile-notes-new-modal modal-medium profile-interview-rounds-compact" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
     <div class="modal-header profile-notes-new-header">
       <div><span class="section-badge">INTERVIEW TRACKING</span><h2 id="interviewModalTitle">Interview Rounds</h2></div>
       <button class="modal-close" id="closeInterviewModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -2956,7 +2968,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </footer>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=18"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=19"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
