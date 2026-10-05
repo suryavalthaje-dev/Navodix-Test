@@ -765,7 +765,6 @@
 }
 .profile-education-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
 .profile-education-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-.profile-education-row-1{grid-template-columns:1fr !important;}
 .profile-education-row + .profile-education-row{
   border-top:1px solid #D8E0EA !important;
 }
@@ -803,7 +802,6 @@
 @media (max-width:900px){
   .profile-education-row-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
   .profile-education-row-2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
-  .profile-education-row-1{grid-template-columns:1fr !important;}
   .profile-education-row .profile-detail-item{grid-template-columns:105px minmax(0,1fr) !important;}
 }
 @media (max-width:700px){
@@ -1470,17 +1468,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-color:#1F67D1 !important;
 }
 </style>
-</style>
-<style id="profile-association-form-standard-alignment">
-.profile-association-new-body .profile-association-context-row{display:flex!important;align-items:center!important;gap:8px!important;min-height:34px!important;margin:0 0 14px!important;box-sizing:border-box!important;font-family:Segoe UI,system-ui,-apple-system,sans-serif!important;font-size:13px!important;line-height:1.2!important;}
-.profile-association-new-body .profile-association-context-label{flex:0 0 auto!important;color:#263F62!important;font-size:11px!important;font-weight:700!important;line-height:1.2!important;}
-.profile-association-new-body .profile-association-context-value{flex:0 1 auto!important;color:#1E293B!important;font-size:13px!important;font-weight:400!important;line-height:1.2!important;}
-.profile-association-new-body .field-group{margin-bottom:14px!important;}
-.profile-association-new-body .field-group label{display:block!important;margin:0 0 5px!important;color:#263F62!important;font-family:Segoe UI,system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.2!important;}
-.profile-association-new-body select,.profile-association-new-body textarea{width:100%!important;box-sizing:border-box!important;font-family:Segoe UI,system-ui,-apple-system,sans-serif!important;color:#1E293B!important;font-size:13px!important;font-weight:400!important;border:1px solid #CBD8E8!important;border-radius:5px!important;background:#FFFFFF!important;}
-.profile-association-new-body select{height:34px!important;min-height:34px!important;padding:0 9px!important;line-height:1.2!important;}
-.profile-association-new-body textarea{min-height:96px!important;padding:8px 9px!important;line-height:1.35!important;resize:vertical!important;}
-.profile-association-new-body .profile-form-help{display:block!important;margin-top:6px!important;color:#66758A!important;font-family:Segoe UI,system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:400!important;line-height:1.35!important;}
 </style>
 <style id="profile-notes-alignment-v11">
 /* Profile Notes table/context alignment — requested visual correction only. */
@@ -2648,7 +2635,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       <button class="modal-close" id="closeProfileAssociationModal" type="button"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="profile-association-new-body">
-      <div class="profile-association-context-row" aria-label="Profile"><span class="profile-association-context-label">Profile :</span><span id="profileAssociationProfileName" class="profile-association-context-value" aria-live="polite"></span></div>
+      <div class="field-group"><label for="profileAssociationProfileName">Profile</label><span id="profileAssociationProfileName" class="profile-association-profile-value" aria-live="polite"></span></div>
       <div class="field-group"><label for="profileAssociationRequirement">Requirement <span>*</span></label><select id="profileAssociationRequirement"><option value="">Select Requirement</option></select><small class="profile-form-help">A profile can be associated with multiple requirements. Each association has its own status and notes.</small></div>
       <div class="field-group"><label for="profileAssociationStatus">Association Status <span>*</span></label><select id="profileAssociationStatus"></select></div>
       <div class="field-group"><label for="profileAssociationNotes">Notes</label><textarea id="profileAssociationNotes" rows="4" maxlength="5000" placeholder="Enter notes specific to this requirement association"></textarea></div>
@@ -2661,12 +2648,17 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
   <div class="profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle" style="width:900px !important; max-width:calc(100vw - 40px) !important; box-sizing:border-box;">
-    <div class="modal-header"><div><span class="section-badge">JOB ASSOCIATION</span><h2 id="associationHistoryTitle">Status History</h2></div><button class="modal-close" id="closeAssociationHistoryModal" type="button"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-header">
+      <div><span class="section-badge">JOB ASSOCIATION</span><h2 id="associationHistoryTitle">Status History</h2></div>
+      <button class="modal-close" id="closeAssociationHistoryModal" type="button" aria-label="Close Status History"><i class="fa-solid fa-xmark"></i></button>
+    </div>
     <div class="profile-interview-modal-body">
       <div id="associationHistoryMessage" class="admin-message" role="alert"></div>
       <div class="profile-interview-table-wrap"><table class="profile-interview-table"><thead><tr><th>Date &amp; Time</th><th>Previous Status</th><th>New Status</th><th>Notes</th><th>Changed By</th></tr></thead><tbody id="associationHistoryTableBody"></tbody></table></div>
-      <div class="profile-interview-modal-actions"><button class="btn btn-outline btn-small" id="closeAssociationHistoryButton" type="button">Close</button></div>
     </div>
+    <footer class="profile-interview-modal-actions">
+      <button class="btn btn-primary btn-small" id="closeAssociationHistoryButton" type="button">Close</button>
+    </footer>
   </div>
 </div>
 
