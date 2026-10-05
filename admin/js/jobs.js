@@ -358,12 +358,32 @@
     }
   }
 
+  let pendingCloseAfterDiscard = false;
+
+  function showDiscardChangesModal() {
+    const modal = $('discardChangesModal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function hideDiscardChangesModal() {
+    const modal = $('discardChangesModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
   function closeModal(force = false) {
     if (!force && jobFormDirty) {
-      const discard = window.confirm('You have entered information for this requirement. Are you sure you want to close without saving?');
-      if (!discard) return false;
+      pendingCloseAfterDiscard = true;
+      showDiscardChangesModal();
+      return false;
     }
 
+    pendingCloseAfterDiscard = false;
+    hideDiscardChangesModal();
     jobFormDirty = false;
     setViewMode(false);
     $('jobModal').classList.add('hidden');
@@ -575,6 +595,23 @@
     $('addJobButton').addEventListener('click', () => openModal());
     $('closeJobModal').addEventListener('click', () => closeModal());
     $('cancelJobButton').addEventListener('click', () => closeModal());
+    $('cancelDiscardChangesButton').addEventListener('click', () => {
+      pendingCloseAfterDiscard = false;
+      hideDiscardChangesModal();
+      document.body.classList.add('modal-open');
+    });
+    $('confirmDiscardChangesButton').addEventListener('click', () => {
+      hideDiscardChangesModal();
+      if (pendingCloseAfterDiscard) closeModal(true);
+      else document.body.classList.add('modal-open');
+    });
+    $('discardChangesModal').addEventListener('click', (event) => {
+      if (event.target === $('discardChangesModal')) {
+        pendingCloseAfterDiscard = false;
+        hideDiscardChangesModal();
+        document.body.classList.add('modal-open');
+      }
+    });
     $('jobForm').addEventListener('submit', saveJob);
     $('jobForm').addEventListener('input', markJobFormDirty);
     $('jobForm').addEventListener('change', markJobFormDirty);
