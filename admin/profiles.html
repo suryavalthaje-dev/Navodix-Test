@@ -2641,6 +2641,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   </div>
 </div>
 
+
+<div class="modal-backdrop hidden" id="removeProfileAssociationModal" aria-hidden="true">
+  <div class="profile-delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="removeProfileAssociationTitle">
+    <div class="profile-delete-confirm-icon"><i class="fa-solid fa-link-slash" aria-hidden="true"></i></div>
+    <h2 id="removeProfileAssociationTitle">Remove this association?</h2>
+    <p id="removeProfileAssociationText">This job association, its job-specific notes and interview records will be permanently removed. The profile itself will not be deleted.</p>
+    <div class="profile-delete-confirm-actions">
+      <button class="btn btn-outline" id="cancelRemoveProfileAssociationButton" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirmRemoveProfileAssociationButton" type="button"><i class="fa-solid fa-link-slash" aria-hidden="true"></i> Remove Association</button>
+    </div>
+  </div>
+</div>
 <div class="modal-backdrop hidden" id="profileAssociationModal" aria-hidden="true">
   <div class="profile-association-new-modal" role="dialog" aria-modal="true" aria-labelledby="profileAssociationModalTitle">
     <div class="modal-header profile-association-new-header">
@@ -2659,6 +2671,49 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </footer>
   </div>
 </div>
+
+<style id="profile-education-single-pair-full-width">
+#profileDetailsModal .profile-education-row-1{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+#profileDetailsModal .profile-education-row-1 .profile-detail-item{
+  grid-column:1 / -1 !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+#profileDetailsModal .profile-education-row-1 .profile-detail-value{
+  min-width:0 !important;
+  width:auto !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+  white-space:pre-wrap !important;
+  overflow-wrap:anywhere !important;
+}
+</style>
+
+<style id="profile-remove-association-confirm-standard">
+#removeProfileAssociationModal{
+  z-index:11050 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:4px !important;
+  box-sizing:border-box !important;
+  background:rgba(7,29,73,.35) !important;
+}
+#removeProfileAssociationModal:not(.hidden){display:flex !important;}
+#removeProfileAssociationModal .profile-delete-confirm-modal{
+  width:440px !important;
+  max-width:calc(100vw - 8px) !important;
+}
+#removeProfileAssociationModal .profile-delete-confirm-actions #confirmRemoveProfileAssociationButton{
+  min-width:190px !important;
+}
+</style>
 <style id="profile-status-history-standard-modal">
 /* Status History modal — match the finalized Navodix Header / Scrollable Body / Fixed Footer standard. */
 #associationHistoryModal .profile-status-history-modal{
