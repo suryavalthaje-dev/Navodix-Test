@@ -884,7 +884,13 @@ body.admin-app-page{
   .jobs-table{min-width:760px !important;}
 }
 <style id="menu-height-alignment-fix">
-/* Final main-menu alignment: compact header, logo-height scale. */
+/* Final main-menu alignment: compact header, logo-height scale, aligned to the page content area. */
+.admin-header .admin-container,
+.admin-section-nav-inner{
+  width:min(1200px,calc(100% - 40px)) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
 .admin-header{height:56px !important;min-height:56px !important;}
 .admin-header .admin-container{height:56px !important;}
 .admin-nav{height:56px !important;min-height:56px !important;gap:20px !important;align-items:center !important;}
