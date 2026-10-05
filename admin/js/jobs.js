@@ -68,11 +68,15 @@
   function filteredJobs() {
     const search = $('jobSearch').value.trim().toLowerCase();
     const status = $('statusFilter').value;
+    const location = $('locationFilter')?.value || '';
+    const client = $('clientFilter')?.value || '';
     return jobs.filter(job => {
       const matchesSearch = !search || [
         job.job_code, job.title, job.location, job.experience, job.client_name
       ].some(v => String(v || '').toLowerCase().includes(search));
-      return matchesSearch && (!status || job.status === status);
+      const matchesLocation = !location || job.location_id === location;
+      const matchesClient = !client || job.client_id === client;
+      return matchesSearch && (!status || job.status === status) && matchesLocation && matchesClient;
     });
   }
 
@@ -90,12 +94,12 @@
         <td>
           <div class="job-title-cell">
             <strong>${escapeHtml(job.title)}</strong>
-            <span class="job-client-name">${escapeHtml(job.client_name || '—')}</span>
           </div>
         </td>
-        <td>${escapeHtml(job.location)}</td>
-        <td>${escapeHtml(formatType(job.employment_type))}</td>
-        <td>${escapeHtml(job.experience)}</td>
+        <td>${escapeHtml(job.location || '—')}</td>
+        <td>${escapeHtml(job.skill_level || '—')}</td>
+        <td>${escapeHtml(job.salary_budget || '—')}</td>
+        <td>${escapeHtml(job.experience || '—')}</td>
         <td><span class="status-pill ${statusClass(job.status)}">${escapeHtml(statusLabel(job.status))}</span></td>
         <td>${escapeHtml(formatDate(job.job_open_date))}</td>
         <td>
@@ -168,6 +172,13 @@
       `<option value="${escapeHtml(client.id)}">${escapeHtml(client.client_name)} (${escapeHtml(client.client_code)})</option>`
     ).join('');
 
+    const listClientFilter = $('clientFilter');
+    if (listClientFilter) {
+      listClientFilter.innerHTML = '<option value="">All Clients</option>' + clients.map(client =>
+        `<option value="${escapeHtml(client.id)}">${escapeHtml(client.client_name)}</option>`
+      ).join('');
+    }
+
     categorySelect.innerHTML = '<option value="">Select Category</option>' + jobCategories.map(category =>
       `<option value="${escapeHtml(category.id)}">${escapeHtml(category.category_name)} (${escapeHtml(category.category_code)})</option>`
     ).join('');
@@ -175,6 +186,13 @@
     locationSelect.innerHTML = '<option value="">Select Location</option>' + locations.map(location =>
       `<option value="${escapeHtml(location.id)}" ${location.is_active ? '' : 'disabled'}>${escapeHtml(location.location_name)}${location.is_active ? '' : ' (Inactive)'}</option>`
     ).join('');
+
+    const listLocationFilter = $('locationFilter');
+    if (listLocationFilter) {
+      listLocationFilter.innerHTML = '<option value="">All Locations</option>' + locations.filter(location => location.is_active).map(location =>
+        `<option value="${escapeHtml(location.id)}">${escapeHtml(location.location_name)}</option>`
+      ).join('');
+    }
   }
 
   function updateJobCodePreview() {
@@ -625,6 +643,8 @@
 
     $('jobSearch').addEventListener('input', () => { currentPage = 1; renderJobs(); });
     $('statusFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
+    $('locationFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
+    $('clientFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
     $('refreshJobsButton').addEventListener('click', () => { currentPage = 1; loadJobs(); });
     $('jobsFirst').addEventListener('click', () => goToJobsPage(1));
     $('jobsPrev').addEventListener('click', () => goToJobsPage(currentPage - 1));
