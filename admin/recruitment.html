@@ -714,6 +714,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </div>
   </div>
 
+  <div class="modal-backdrop hidden" id="discardChangesModal" aria-hidden="true">
+    <div class="confirm-modal discard-changes-modal" role="dialog" aria-modal="true" aria-labelledby="discardChangesTitle">
+      <div class="confirm-icon discard-confirm-icon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></div>
+      <h2 id="discardChangesTitle">Discard changes?</h2>
+      <p id="discardChangesText">You have entered information for this requirement. Are you sure you want to close without saving?</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="cancelDiscardChangesButton" type="button">Cancel</button>
+        <button class="btn btn-danger" id="confirmDiscardChangesButton" type="button">Discard Changes</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-backdrop hidden" id="deleteModal" aria-hidden="true">
     <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
       <div class="confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
@@ -727,6 +739,81 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       </div>
     </div>
   </div>
+
+
+<style id="discard-changes-modal-standard">
+#discardChangesModal .discard-changes-modal{
+  width:440px !important;
+  max-width:calc(100vw - 32px) !important;
+  padding:30px 28px 28px !important;
+  border-radius:16px !important;
+  background:#FFFFFF !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  box-sizing:border-box !important;
+  text-align:center !important;
+}
+#discardChangesModal .discard-confirm-icon{
+  width:56px !important;
+  height:56px !important;
+  margin:0 auto 16px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#FFF4E5 !important;
+  color:#C76B00 !important;
+  font-size:24px !important;
+}
+#discardChangesModal .discard-changes-modal h2{
+  margin:0 0 10px !important;
+  color:#071B4D !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:22px !important;
+  line-height:1.25 !important;
+  font-weight:700 !important;
+}
+#discardChangesModal .discard-changes-modal p{
+  margin:0 auto 24px !important;
+  max-width:360px !important;
+  color:#556579 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.55 !important;
+}
+#discardChangesModal .modal-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  min-height:0 !important;
+}
+#discardChangesModal .modal-actions .btn{
+  min-width:92px !important;
+  height:42px !important;
+  padding:9px 16px !important;
+  border-radius:5px !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+}
+#discardChangesModal #confirmDiscardChangesButton{
+  min-width:150px !important;
+  background:#C62828 !important;
+  border-color:#C62828 !important;
+  color:#FFFFFF !important;
+}
+#discardChangesModal #confirmDiscardChangesButton:hover:not(:disabled){
+  background:#A91F1F !important;
+  border-color:#A91F1F !important;
+}
+@media(max-width:560px){
+  #discardChangesModal .discard-changes-modal{padding:24px 20px !important;}
+  #discardChangesModal .modal-actions{flex-wrap:wrap !important;}
+}
+</style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js?v=17"></script>
