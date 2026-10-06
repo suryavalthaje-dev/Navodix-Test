@@ -7,7 +7,7 @@
   let currentPage = 1;
   const PAGE_SIZE = 20;
   let profiles = [], requirement = null, requirements = [], jobCategories = [], locationMaster = [], locationsLoaded = false, saving = false, keepExistingResume = true, selectedExistingResume = false, allExistingProfiles = [], profileToAssociate = null, interviewProfile = null, interviewRequirementId = '', interviewAssociationId = '', interviewRequirementLabel = '', interviewSaving = false, profileAssociationProfileId = '', profileAssociationEditId = '', editingOriginalStatus = '', pendingDeleteProfileId = '', pendingDeleteProfileName = '';
-  const requirementStatuses = ['New','Under Review','Shortlisted','Submitted to Client','Interviewing','Selected','Offer Sent','Joined','On Hold','Future Consideration','Rejected','Withdrawn'];
+  const requirementStatuses = ['New','Under Review','Shortlisted','Submitted to Client','Interviewing','Selected','Offer Sent','Joined','Rejected','Withdrawn'];
   const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   function message(text,type=''){ $('profilesMessage').textContent=text||''; $('profilesMessage').className='admin-message'+(type?' '+type:''); }
   function profileDetailsMessage(text,type=''){ const el=$('profileDetailsMessage'); if(!el)return; el.textContent=text||''; el.className='admin-message'+(type?' '+type:''); el.classList.toggle('hidden',!text); }

@@ -82,7 +82,6 @@
     const dateTo = $('applicationDateTo').value;
     const interviewResult = $('applicationInterviewResultFilter').value;
     const submittedClient = $('applicationSubmittedClientFilter').value;
-    const futureConsideration = $('applicationFutureConsiderationFilter').value;
 
     return applications.filter(application => {
       const applicant = application.applicants || {};
@@ -109,11 +108,10 @@
       const roundResults = interviewResultsByApplication.get(String(application.id)) || [];
       const matchesInterviewResult = !interviewResult || roundResults.includes(interviewResult);
       const matchesSubmittedClient = !submittedClient || (submittedClient === 'yes' ? application.status === 'submitted_to_client' : application.status !== 'submitted_to_client');
-      const matchesFutureConsideration = !futureConsideration || (futureConsideration === 'yes' ? application.status === 'future_consideration' : application.status !== 'future_consideration');
 
       return matchesSearch && matchesStatus && matchesClient && matchesJob &&
         matchesCategory && matchesLocation && matchesDateFrom && matchesDateTo &&
-        matchesInterviewResult && matchesSubmittedClient && matchesFutureConsideration;
+        matchesInterviewResult && matchesSubmittedClient;
     });
   }
 
@@ -158,8 +156,7 @@
       'applicationDateFrom',
       'applicationDateTo',
       'applicationInterviewResultFilter',
-      'applicationSubmittedClientFilter',
-      'applicationFutureConsiderationFilter'
+      'applicationSubmittedClientFilter'
     ];
 
     filterIds.forEach(id => {
@@ -180,7 +177,6 @@
     $('applicationDateTo').value = '';
     $('applicationInterviewResultFilter').value = '';
     $('applicationSubmittedClientFilter').value = '';
-    $('applicationFutureConsiderationFilter').value = '';
     currentPage = 1;
     updateApplicationFilterHighlights();
     renderApplications();
@@ -1347,8 +1343,7 @@
       'applicationDateFrom',
       'applicationDateTo',
       'applicationInterviewResultFilter',
-      'applicationSubmittedClientFilter',
-      'applicationFutureConsiderationFilter'
+      'applicationSubmittedClientFilter'
     ].forEach(id => {
       $(id).addEventListener('change', function () {
         currentPage = 1;
