@@ -204,6 +204,10 @@
     .profile-details-modal { width:min(920px,100%); max-height:calc(100vh - 32px); overflow-y:auto; background:#FFFFFF; border-radius:16px; box-shadow:0 24px 70px rgba(7,29,73,.25); }
     .profile-details-modal .modal-header { background:#2878E8; border-bottom:0; padding:16px 26px 14px; color:#FFFFFF; position:sticky; top:0; z-index:20; }
     .profile-details-modal .modal-header h2 { color:#FFFFFF; font-size:23px; margin:0; }
+    .profile-header-name { font-size:18px; font-weight:600; }
+    .profile-header-code { font-size:16px; font-weight:500; }
+    #profileModalTitle .profile-header-name { font-size:14px; font-weight:600; }
+    #profileModalTitle .profile-header-code { font-size:14px; font-weight:500; }
     .profile-details-body { padding:18px 26px 24px; }
     .profile-detail-section { margin-bottom:16px; border:1px solid #D8E0EA; border-radius:8px; overflow:hidden; }
     .profile-detail-section-title { padding:8px 12px; background:#F4F7FA; border-bottom:1px solid #D8E0EA; color:#263F62; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.35px; }
@@ -588,20 +592,20 @@
       table-layout:fixed !important;
     }
     .profile-job-associations-section .profile-detail-table th:nth-child(1),
-    .profile-job-associations-section .profile-detail-table td:nth-child(1){width:25% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(1){width:21% !important;}
     .profile-job-associations-section .profile-detail-table th:nth-child(2),
-    .profile-job-associations-section .profile-detail-table td:nth-child(2){width:14% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(2){width:11% !important;}
     .profile-job-associations-section .profile-detail-table th:nth-child(3),
-    .profile-job-associations-section .profile-detail-table td:nth-child(3){width:16% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(3){width:15% !important;}
     .profile-job-associations-section .profile-detail-table th:nth-child(4),
-    .profile-job-associations-section .profile-detail-table td:nth-child(4){width:12% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(4){width:11% !important;}
     .profile-job-associations-section .profile-detail-table th:nth-child(5),
-    .profile-job-associations-section .profile-detail-table td:nth-child(5){width:23% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(5){width:29% !important;}
     .profile-job-associations-section .profile-detail-table th:nth-child(6),
-    .profile-job-associations-section .profile-detail-table td:nth-child(6){width:10% !important;}
+    .profile-job-associations-section .profile-detail-table td:nth-child(6){width:13% !important;}
     .profile-job-association-actions{
       display:grid !important;
-      grid-template-columns:repeat(2,28px) !important;
+      grid-template-columns:repeat(3,28px) !important;
       gap:4px !important;
       width:max-content !important;
       max-width:100% !important;
@@ -3217,7 +3221,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
     </footer>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=25"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=32"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
