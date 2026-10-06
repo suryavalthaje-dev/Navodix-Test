@@ -459,11 +459,15 @@
       if(result.resume_existing&&!result.resume_replaced){$('resumeReplaceNotice').classList.remove('hidden');formMessage('An existing resume is already stored. Choose Keep Existing Resume or Replace with New Resume.','');return;}
       const savedProfileId=result.profile_id||editingProfileId; if(savedProfileId)await saveProfileCategories(savedProfileId);
       if(statusChanged&&savedProfileId){
-        try{
-          const {data:latestHistory,error:historyReadError}=await supabase.from('profile_status_history').select('status,changed_at').eq('profile_id',savedProfileId).order('changed_at',{ascending:false}).limit(1).maybeSingle(); if(historyReadError)throw historyReadError;
-          const latestTime=latestHistory?.changed_at?new Date(latestHistory.changed_at).getTime():0, saveTime=new Date(saveStartedAt).getTime();
-          if(!latestHistory||latestTime<=saveTime||String(latestHistory.status||'')!==String(newStatus)){const userId=(await supabase.auth.getUser()).data.user?.id||null;const {error}=await supabase.from('profile_status_history').insert({profile_id:savedProfileId,status:newStatus,notes:'Profile status updated',changed_at:new Date().toISOString(),changed_by:userId});if(error)console.warn('Could not record profile status history:',error);}
-        }catch(err){console.warn('Could not verify/record profile status history:',err);}
+        const userId=(await supabase.auth.getUser()).data.user?.id||null;
+        const {error:historyError}=await supabase.from('profile_status_history').insert({
+          profile_id:savedProfileId,
+          status:newStatus,
+          notes:'Profile status updated',
+          changed_at:new Date().toISOString(),
+          changed_by:userId
+        });
+        if(historyError)throw new Error(`Profile was saved, but the status history could not be recorded: ${historyError.message||String(historyError)}`);
       }
       formMessage(result.associated?'Successfully saved and automatically associated with the requirement.':'Successfully saved.','success'); message(result.associated?'Profile saved and automatically associated with the requirement.':'Profile saved successfully.','success'); editingOriginalStatus=newStatus; await loadProfiles();
     }catch(err){console.error(err);formMessage(err.message||String(err),'error');}
