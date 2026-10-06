@@ -582,6 +582,39 @@
     .profile-detail-table tbody tr:last-child td { border-bottom:0; }
     .profile-detail-table-empty { padding:12px; color:#8A97A8; font-size:12px; }
     .profile-detail-table td:last-child { min-width:120px; }
+    .profile-job-associations-section .profile-detail-table{
+      min-width:0 !important;
+      width:100% !important;
+      table-layout:fixed !important;
+    }
+    .profile-job-associations-section .profile-detail-table th:nth-child(1),
+    .profile-job-associations-section .profile-detail-table td:nth-child(1){width:25% !important;}
+    .profile-job-associations-section .profile-detail-table th:nth-child(2),
+    .profile-job-associations-section .profile-detail-table td:nth-child(2){width:14% !important;}
+    .profile-job-associations-section .profile-detail-table th:nth-child(3),
+    .profile-job-associations-section .profile-detail-table td:nth-child(3){width:16% !important;}
+    .profile-job-associations-section .profile-detail-table th:nth-child(4),
+    .profile-job-associations-section .profile-detail-table td:nth-child(4){width:12% !important;}
+    .profile-job-associations-section .profile-detail-table th:nth-child(5),
+    .profile-job-associations-section .profile-detail-table td:nth-child(5){width:23% !important;}
+    .profile-job-associations-section .profile-detail-table th:nth-child(6),
+    .profile-job-associations-section .profile-detail-table td:nth-child(6){width:10% !important;}
+    .profile-job-association-actions{
+      display:grid !important;
+      grid-template-columns:repeat(2,28px) !important;
+      gap:4px !important;
+      width:max-content !important;
+      max-width:100% !important;
+      align-items:center !important;
+    }
+    .profile-job-association-actions .icon-button{
+      width:28px !important;
+      height:28px !important;
+      min-width:28px !important;
+      padding:0 !important;
+      margin:0 !important;
+      box-sizing:border-box !important;
+    }
     @media (max-width:700px){ .profile-resume-actions{display:flex;margin:10px 0 0;} .profile-resume-actions .btn{width:auto;} }
 </style>
 <style id="profile-personal-professional-three-column-layout">
