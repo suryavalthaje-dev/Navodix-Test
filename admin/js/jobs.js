@@ -158,14 +158,79 @@
       showFormMessage('No JD document is stored for this requirement.', 'error');
       return;
     }
+
     const popup = window.open('about:blank', '_blank');
     if (!popup) {
       showFormMessage('Please allow pop-ups to open the JD in a new tab.', 'error');
       return;
     }
+
     try {
       const payload = await getRequirementJDSignedUrl($('jobId').value, 'view-url');
-      popup.location.href = payload.signed_url;
+      const url = payload.signed_url;
+      const fileName = String(existingJDFile.name || payload.file_name || "");
+      const isDocx = /\.docx$/i.test(fileName);
+
+      // PDF can be rendered natively by the browser. DOCX needs the same
+      // client-side renderer used by the inline viewer.
+      if (!isDocx) {
+        popup.location.href = url;
+        return;
+      }
+
+      const safeTitle = escapeHtml(fileName || 'Job Description');
+      popup.document.open();
+      popup.document.write(`<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>${safeTitle}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{margin:0;padding:0;background:#EEF2F7;color:#263B5A;font-family:Arial,sans-serif;}
+    .bar{position:sticky;top:0;z-index:2;padding:12px 16px;background:#173F78;color:#fff;font-size:14px;font-weight:600;}
+    .status{padding:14px 16px;text-align:center;color:#52647D;font-size:13px;}
+    #docx{max-width:100%;min-height:calc(100vh - 46px);padding:24px;box-sizing:border-box;overflow:auto;}
+    #docx .docx-wrapper{background:transparent!important;padding:0!important;}
+    #docx .docx{margin:0 auto 18px!important;background:#fff!important;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+    #docx img{max-width:100%;}
+    .error{color:#B42318;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
+</head>
+<body>
+  <div class="bar">${safeTitle}</div>
+  <div id="status" class="status">Loading Job Description…</div>
+  <div id="docx"></div>
+  <script>
+    (async function(){
+      try {
+        const response = await fetch(${JSON.stringify(url)}, { credentials: 'omit' });
+        if (!response.ok) throw new Error('Unable to retrieve the document (HTTP ' + response.status + ').');
+        const blob = await response.blob();
+        if (!window.docx || typeof window.docx.renderAsync !== 'function') {
+          throw new Error('DOCX preview library could not be loaded.');
+        }
+        await window.docx.renderAsync(blob, document.getElementById('docx'), null, {
+          breakPages: true,
+          ignoreLastRenderedPageBreak: false,
+          renderHeaders: true,
+          renderFooters: true,
+          renderFootnotes: true,
+          renderEndnotes: true
+        });
+        document.getElementById('status').remove();
+      } catch (error) {
+        const status = document.getElementById('status');
+        status.textContent = 'Could not preview the DOCX: ' + (error.message || error);
+        status.classList.add('error');
+      }
+    })();
+  <\/script>
+</body>
+</html>`);
+      popup.document.close();
     } catch (error) {
       try { popup.close(); } catch (_) {}
       showFormMessage(`Could not open the JD: ${error.message || error}`, 'error');
