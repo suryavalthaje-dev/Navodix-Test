@@ -2522,6 +2522,118 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 @media(max-width:900px){.jobs-heading{align-items:flex-start!important;flex-direction:column!important}.jobs-heading-text{display:block!important;width:100%}.jobs-heading h1,.jobs-heading-subtitle{white-space:normal!important}.jobs-heading-actions{width:100%;justify-content:flex-end!important}.profile-toolbar-standard{grid-template-columns:1fr 1fr!important}.profile-toolbar-standard .toolbar-search{grid-column:1/-1}.profile-summary{grid-template-columns:1fr 1fr!important}.admin-section-nav{overflow-x:auto}.admin-section-nav-inner{width:max-content;min-width:100%}}
 @media(max-width:760px){.profile-toolbar-standard{grid-template-columns:1fr!important}.profile-toolbar-standard .toolbar-search{grid-column:auto}.standard-list-pagination{grid-template-columns:1fr!important;height:auto!important;min-height:58px!important}.standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right{grid-column:1!important;justify-self:center!important}.standard-list-pagination .pagination-right{flex-wrap:wrap;justify-content:center}.profiles-table{min-width:760px!important}}
 </style>
+
+<style id="profiles-list-standard-final-fix">
+/* Final Profiles list alignment with the approved Manage Requirements List Standard. */
+.profiles-list-card{
+  position:relative !important;
+  background:#FFFFFF !important;
+  border:2px solid #AFC2D8 !important;
+  border-top:4px solid #2878E8 !important;
+  border-left:2px solid #AFC2D8 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
+}
+.profiles-table{
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse !important;
+  border:0 !important;
+}
+.profiles-table thead th{
+  height:40px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  text-align:left !important;
+  padding:0 10px !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:1.1 !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  white-space:nowrap !important;
+  border:0 !important;
+  border-right:1px solid rgba(255,255,255,.35) !important;
+}
+.profiles-table thead th:last-child{border-right:0 !important;}
+.profiles-table thead th:nth-child(1){width:28% !important;}
+.profiles-table thead th:nth-child(2){width:13% !important;}
+.profiles-table thead th:nth-child(3){width:11% !important;}
+.profiles-table thead th:nth-child(4){width:14% !important;}
+.profiles-table thead th:nth-child(5){width:11% !important;}
+.profiles-table thead th:nth-child(6){width:13% !important;}
+.profiles-table thead th:nth-child(7){width:10% !important;}
+.profiles-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
+.profiles-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
+.profiles-table tbody tr:hover{background:#EAF3FF !important;}
+.profiles-table tbody td{
+  padding:7px 10px !important;
+  border:0 !important;
+  border-right:1px solid #CBD8E8 !important;
+  border-bottom:1px solid #CBD8E8 !important;
+  color:#1E293B !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  vertical-align:middle !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+.profiles-table tbody td:last-child{border-right:0 !important;}
+.profiles-table tbody tr:last-child td{border-bottom:0 !important;}
+.profile-name-cell strong{display:block !important;margin:0 0 3px !important;color:#123B72 !important;font-size:12px !important;line-height:1.25 !important;font-weight:600 !important;}
+.profile-name-cell span{display:block !important;color:#6B7B8F !important;font-size:10.5px !important;line-height:1.2 !important;font-weight:400 !important;}
+/* All profile column values are plain text; only status may retain semantic text color. */
+.profiles-table .source-chip,
+.profiles-table .association-badge{
+  display:inline !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#1E293B !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+}
+.profiles-table .source-chip i,
+.profiles-table .association-badge i{display:none !important;}
+.profiles-table .status-pill{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+}
+.profiles-table .row-actions{display:flex !important;gap:4px !important;justify-content:flex-end !important;align-items:center !important;}
+.profiles-table .icon-button{
+  width:27px !important;height:27px !important;padding:0 !important;
+  border:1px solid #CBD8E8 !important;border-radius:6px !important;
+  background:#FFFFFF !important;color:#1767C2 !important;font-size:12px !important;
+}
+.profiles-table .icon-button:hover{background:#F0F6FF !important;}
+.profiles-table .icon-button.danger-icon{color:#C62828 !important;}
+.standard-list-pagination{
+  height:54px !important;min-height:54px !important;margin:0 !important;padding:0 12px !important;
+  display:grid !important;grid-template-columns:1fr auto 1fr !important;align-items:center !important;gap:12px !important;
+  border-top:1px solid #CBD8E8 !important;border-left:0 !important;border-right:0 !important;border-bottom:0 !important;
+  box-sizing:border-box !important;background:#F7F1E8 !important;font-size:11px !important;color:#5D6D80 !important;
+}
+.standard-list-pagination .pagination-left{grid-column:1;justify-self:start;display:flex;align-items:center;gap:7px;}
+.standard-list-pagination .pagination-center{grid-column:2;display:flex;align-items:center;justify-content:center;white-space:nowrap;}
+.standard-list-pagination .pagination-right{grid-column:3;justify-self:end;display:flex;align-items:center;gap:7px;}
+.standard-list-pagination .pagination-page{color:#173F78 !important;font-weight:600 !important;font-size:11px !important;white-space:nowrap;}
+.standard-list-pagination .pagination-total{margin-left:4px;color:#5D6D80 !important;font-weight:400 !important;font-size:11px !important;white-space:nowrap;}
+.standard-list-pagination .btn{height:34px !important;min-height:34px !important;min-width:82px !important;padding:0 12px !important;border-radius:6px !important;font-size:11px !important;font-weight:600 !important;border:1px solid #B8CBE0 !important;background:#EEF5FC !important;color:#173F78 !important;box-shadow:none !important;}
+.standard-list-pagination .btn:hover:not(:disabled){background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
+.standard-list-pagination .btn:disabled{opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
