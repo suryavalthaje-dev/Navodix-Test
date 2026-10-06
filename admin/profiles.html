@@ -2634,6 +2634,44 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 .standard-list-pagination .btn:hover:not(:disabled){background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
 .standard-list-pagination .btn:disabled{opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;}
 </style>
+<style id="profiles-menu-final-alignment-fix">
+/* Match the approved Manage Requirements secondary menu exactly. */
+.admin-section-nav{height:53px !important;min-height:53px !important;box-sizing:border-box !important;}
+.admin-section-nav-inner{height:52px !important;min-height:52px !important;box-sizing:border-box !important;align-items:center !important;gap:6px !important;}
+.admin-section-nav-link,
+.admin-section-nav-dropdown,
+.admin-section-nav-dropdown > summary{
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
+  box-sizing:border-box !important;
+  align-self:center !important;
+}
+.admin-section-nav-link{
+  display:flex !important;
+  align-items:center !important;
+  padding:0 12px !important;
+  margin:0 !important;
+  line-height:1 !important;
+}
+.admin-section-nav-link.active{
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
+  padding:0 12px !important;
+  margin:0 !important;
+  align-self:center !important;
+  border-radius:7px !important;
+}
+.admin-section-nav-dropdown > summary{
+  display:flex !important;
+  align-items:center !important;
+  padding:0 12px !important;
+  margin:0 !important;
+  line-height:1 !important;
+}
+.admin-section-nav-dropdown{display:block !important;}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
