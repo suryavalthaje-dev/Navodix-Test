@@ -429,6 +429,7 @@
             <strong>${escapeHtml(job.title)}</strong>
           </div>
         </td>
+        <td>${escapeHtml(job.number_of_positions ?? '—')}</td>
         <td>${escapeHtml(job.client_name || '—')}</td>
         <td>${escapeHtml(job.location || '—')}</td>
         <td>${escapeHtml(job.skill_level || '—')}</td>
@@ -455,7 +456,7 @@
       </tr>
     `).join('') : `
       <tr class="empty-row">
-        <td colspan="9">
+        <td colspan="10">
           <span class="empty-row-title">No requirements found</span>
           <span class="empty-row-text">Use “Add New Requirement” to create the first career opportunity.</span>
         </td>
