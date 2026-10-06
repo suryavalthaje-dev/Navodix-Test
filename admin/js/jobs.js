@@ -73,6 +73,7 @@
     const docxViewer = $('jdInlineDocxViewer');
     const loading = $('jdInlineLoading');
     const title = $('jdInlineViewerTitle');
+    const closeTop = $('jdInlineCloseTopButton');
     if (frame) frame.src = '';
     if (docxViewer) docxViewer.innerHTML = '';
     if (frame) frame.classList.add('hidden');
@@ -82,6 +83,7 @@
       loading.textContent = 'Loading job description…';
     }
     if (title) title.textContent = 'Job Description';
+    if (closeTop) closeTop.classList.add('hidden');
     if (viewer) viewer.classList.add('hidden');
   }
 
@@ -254,6 +256,42 @@
     } catch (error) {
       showFormMessage(`Could not download the JD: ${error.message || error}`, 'error');
     }
+  }
+
+  function openRemoveJDConfirmation() {
+    if (!existingJDFile && !selectedJDFile) return;
+    const modal = $('removeJDModal');
+    if (!modal) return;
+    const fileName = existingJDFile?.name || selectedJDFile?.name || 'the selected Job Description';
+    const text = $('removeJDText');
+    if (text) {
+      text.textContent = existingJDFile
+        ? `“${fileName}” will be removed from this requirement. The change will take effect when you save the requirement.`
+        : `The selected Job Description “${fileName}” will be cleared. No document will be uploaded when you save the requirement.`;
+    }
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeRemoveJDConfirmation() {
+    const modal = $('removeJDModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    const otherOpen = document.querySelector('.modal-backdrop:not(.hidden)');
+    if (!otherOpen) document.body.classList.remove('modal-open');
+  }
+
+  function confirmRemoveJD() {
+    const jdFileInput = $('jdFile');
+    selectedJDFile = null;
+    if (jdFileInput) jdFileInput.value = '';
+    if (existingJDFile) jdRemoveRequested = true;
+    closeRequirementJDViewer();
+    closeRemoveJDConfirmation();
+    markJobFormDirty();
+    renderJDState();
   }
 
   function resetJDState() {
@@ -990,16 +1028,12 @@
 
     const removeJDButton = $('removeJDButton');
     if (removeJDButton) {
-      removeJDButton.addEventListener('click', () => {
-        if (!existingJDFile && !selectedJDFile) return;
-        selectedJDFile = null;
-        if (jdFileInput) jdFileInput.value = '';
-        if (existingJDFile) jdRemoveRequested = true;
-        closeRequirementJDViewer();
-        markJobFormDirty();
-        renderJDState();
-      });
+      removeJDButton.addEventListener('click', openRemoveJDConfirmation);
     }
+    const cancelRemoveJDButton = $('cancelRemoveJDButton');
+    if (cancelRemoveJDButton) cancelRemoveJDButton.addEventListener('click', closeRemoveJDConfirmation);
+    const confirmRemoveJDButton = $('confirmRemoveJDButton');
+    if (confirmRemoveJDButton) confirmRemoveJDButton.addEventListener('click', confirmRemoveJD);
 
     const viewJDButton = $('viewJDButton');
     if (viewJDButton) viewJDButton.addEventListener('click', viewRequirementJD);
