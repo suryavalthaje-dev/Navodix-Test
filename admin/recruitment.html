@@ -1358,11 +1358,13 @@ body.admin-app-page{
                 <button id="downloadJDButton" class="btn btn-outline btn-small jd-download-button hidden" type="button">
                   <i class="fa-solid fa-download" aria-hidden="true"></i> Download JD
                 </button>
+                <button id="jdInlineCloseTopButton" class="btn btn-outline btn-small jd-close-button hidden" type="button">
+                  <i class="fa-solid fa-xmark" aria-hidden="true"></i> Close JD
+                </button>
               </div>
               <div id="jdInlineViewer" class="jd-inline-viewer hidden" aria-label="Job Description Viewer">
                 <div class="jd-inline-viewer-header">
                   <span id="jdInlineViewerTitle">Job Description</span>
-                  <button id="jdInlineCloseTopButton" class="btn btn-outline btn-small jd-close-button hidden" type="button">Close</button>
                 </div>
                 <div id="jdInlineLoading" class="jd-inline-loading">Loading job description…</div>
                 <iframe id="jdInlineFrame" class="jd-inline-frame hidden" title="Job Description"></iframe>
@@ -1444,6 +1446,20 @@ body.admin-app-page{
       <div class="modal-actions">
         <button class="btn btn-outline" id="cancelDiscardChangesButton" type="button">Cancel</button>
         <button class="btn btn-danger" id="confirmDiscardChangesButton" type="button">Discard Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="removeJDModal" aria-hidden="true">
+    <div class="confirm-modal remove-jd-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="removeJDTitle">
+      <div class="confirm-icon remove-jd-confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
+      <h2 id="removeJDTitle">Remove this Job Description?</h2>
+      <p id="removeJDText">The attached Job Description will be removed from this requirement. The change will take effect when you save the requirement.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="cancelRemoveJDButton" type="button">Cancel</button>
+        <button class="btn btn-danger" id="confirmRemoveJDButton" type="button">
+          <i class="fa-solid fa-trash" aria-hidden="true"></i> Remove JD
+        </button>
       </div>
     </div>
   </div>
@@ -1531,6 +1547,75 @@ body.admin-app-page{
   background:#A91F1F !important;
   border-color:#A91F1F !important;
 }
+/* ---------- JD REMOVE CONFIRMATION ---------- */
+#removeJDModal .remove-jd-confirm-modal{
+  width:440px !important;
+  max-width:calc(100vw - 32px) !important;
+  padding:30px 28px 28px !important;
+  border-radius:16px !important;
+  background:#FFFFFF !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  box-sizing:border-box !important;
+  text-align:center !important;
+}
+#removeJDModal .remove-jd-confirm-icon{
+  width:56px !important;
+  height:56px !important;
+  margin:0 auto 16px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#FFF1F0 !important;
+  color:#C62828 !important;
+  font-size:24px !important;
+}
+#removeJDModal .remove-jd-confirm-modal h2{
+  margin:0 0 10px !important;
+  color:#071B4D !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:22px !important;
+  line-height:1.25 !important;
+  font-weight:700 !important;
+}
+#removeJDModal .remove-jd-confirm-modal p{
+  margin:0 auto 24px !important;
+  max-width:360px !important;
+  color:#556579 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.55 !important;
+}
+#removeJDModal .modal-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  min-height:0 !important;
+}
+#removeJDModal .modal-actions .btn{
+  min-width:92px !important;
+  height:42px !important;
+  padding:9px 16px !important;
+  border-radius:5px !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+}
+#removeJDModal #confirmRemoveJDButton{
+  min-width:120px !important;
+  background:#C62828 !important;
+  border-color:#C62828 !important;
+  color:#FFFFFF !important;
+}
+#removeJDModal #confirmRemoveJDButton:hover:not(:disabled){
+  background:#A91F1F !important;
+  border-color:#A91F1F !important;
+}
+
 /* ---------- FINAL REQUESTED MANAGE REQUIREMENTS REFINEMENTS ---------- */
 .jobs-heading-actions{display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:8px !important;}
 .jobs-heading-actions .btn{height:36px !important;min-height:36px !important;min-width:100px !important;padding:0 14px !important;border-radius:6px !important;font-size:12px !important;font-weight:600 !important;}
