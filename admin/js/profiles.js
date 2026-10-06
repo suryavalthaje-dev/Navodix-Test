@@ -40,11 +40,11 @@
     const {data,error}=await supabase.from('profile_categories').select('category_id').eq('profile_id',profileId); if(error)throw error; return (data||[]).map(x=>x.category_id);
   }
 
-  async function loadRequirement(){ if(!requirementId)return; const {data,error}=await supabase.from('jobs').select('id,job_code,title,status').eq('id',requirementId).maybeSingle(); if(error)throw error; requirement=data; if(data){ $('associateExistingButton').classList.remove('hidden'); $('backToRequirementsButton').classList.remove('hidden'); $('profileRequirementContext').textContent=(data.job_code||'')+' — '+(data.title||'Requirement'); $('profileRequirementContext').classList.remove('hidden'); $('profilesPageSubtitle').classList.add('hidden'); $('profilesListTitle').textContent='Candidates Profiles'; $('profilesListDescription').textContent='List of Candidates associated with requirement "'+(data.title||'Requirement')+'"'; } }
+  async function loadRequirement(){ if(!requirementId)return; const {data,error}=await supabase.from('jobs').select('id,job_code,title,status').eq('id',requirementId).maybeSingle(); if(error)throw error; requirement=data; if(data){ $('associateExistingButton').classList.remove('hidden'); $('requirementContext').innerHTML='<span class="context-chip"><i class="fa-solid fa-briefcase"></i> '+esc(data.job_code)+' — '+esc(data.title)+'</span><a class="btn btn-outline btn-small" href="recruitment.html">Back to Requirements</a>'; $('requirementContext').classList.remove('hidden'); } }
   async function loadRequirements(){ const {data,error}=await supabase.from('jobs').select('id,job_code,title,status').order('title',{ascending:true}); if(error)throw error; requirements=data||[]; populateRequirementOptions(requirementId||''); }
-  async function loadProfiles(){ message('Loading profiles…'); let q=supabase.from('profiles').select('id,profile_number,full_name,email,phone,current_location,total_experience,current_job_title,current_company,availability,status,created_at').order('created_at',{ascending:false}); if(requirementId) q=q.in('id', (await getRequirementProfileIds())); const {data,error}=await q; if(error)throw error; profiles=data||[]; await attachSourcesAndAssociations(); render(); message(''); }
+  async function loadProfiles(){ message('Loading profiles…'); let q=supabase.from('profiles').select('id,profile_number,full_name,email,phone,current_location,total_experience,current_job_title,current_company,notice_period,current_ctc,expected_ctc,availability,status,created_at').order('created_at',{ascending:false}); if(requirementId) q=q.in('id', (await getRequirementProfileIds())); const {data,error}=await q; if(error)throw error; profiles=data||[]; await attachSourcesAndAssociations(); render(); message(''); }
   async function getRequirementProfileIds(){ const {data,error}=await supabase.from('profile_requirement_associations').select('profile_id').eq('requirement_id',requirementId); if(error)throw error; return (data||[]).map(x=>x.profile_id).length?(data||[]).map(x=>x.profile_id):['00000000-0000-0000-0000-000000000000']; }
-  async function attachSourcesAndAssociations(){ const ids=profiles.map(p=>p.id); if(!ids.length)return; const [s,a,c]=await Promise.all([supabase.from('profile_sources').select('profile_id,source').in('profile_id',ids).eq('is_primary',true),supabase.from('profile_requirement_associations').select('id,profile_id,requirement_id,status').in('profile_id',ids),supabase.from('profile_categories').select('profile_id,category_id').in('profile_id',ids)]); if(s.error)throw s.error;if(a.error)throw a.error;if(c.error)throw c.error; const sourceMap=Object.fromEntries((s.data||[]).map(x=>[x.profile_id,x.source])); const assocMap={}; (a.data||[]).forEach(x=>{(assocMap[x.profile_id]??=[]).push(x)}); const categoryMap={}; (c.data||[]).forEach(x=>{(categoryMap[x.profile_id]??=[]).push(x.category_id)}); profiles.forEach(p=>{p.source=sourceMap[p.id]||'—';p.associations=assocMap[p.id]||[];p.categoryIds=categoryMap[p.id]||[]}); }
+  async function attachSourcesAndAssociations(){ const ids=profiles.map(p=>p.id); if(!ids.length)return; const [s,a,c]=await Promise.all([supabase.from('profile_sources').select('profile_id,source').in('profile_id',ids).eq('is_primary',true),supabase.from('profile_requirement_associations').select('id,profile_id,requirement_id,status,associated_at').in('profile_id',ids).order('associated_at',{ascending:false}),supabase.from('profile_categories').select('profile_id,category_id').in('profile_id',ids)]); if(s.error)throw s.error;if(a.error)throw a.error;if(c.error)throw c.error; const sourceMap=Object.fromEntries((s.data||[]).map(x=>[x.profile_id,x.source])); const assocMap={}; (a.data||[]).forEach(x=>{(assocMap[x.profile_id]??=[]).push(x)}); const categoryMap={}; (c.data||[]).forEach(x=>{(categoryMap[x.profile_id]??=[]).push(x.category_id)}); profiles.forEach(p=>{p.source=sourceMap[p.id]||'—';p.associations=assocMap[p.id]||[];const latestAssoc=p.associations[0];const latestReq=latestAssoc?requirements.find(r=>String(r.id)===String(latestAssoc.requirement_id)):null;p.latestRequirementName=latestReq?.title||'—';p.latestRequirementId=latestAssoc?.requirement_id||'';p.categoryIds=categoryMap[p.id]||[]}); }
   function filtered(){ const term=$('profileSearch').value.trim().toLowerCase(), status=$('profileStatusFilter').value, source=$('profileSourceFilter').value; return profiles.filter(p=>(!term||[p.profile_number,p.full_name,p.email,p.phone,p.current_location,p.current_job_title].some(v=>String(v||'').toLowerCase().includes(term)))&&(!status||p.status===status)&&(!source||p.source===source)); }
   function detailItem(label,value,wide=false){ return `<div class="profile-detail-item${wide?' profile-detail-wide':''}"><span class="profile-detail-label">${esc(label)}</span><div class="profile-detail-value">${esc(value||'—')}</div></div>`; }
   function detailLink(label,value){ const v=String(value||'').trim(); return `<div class="profile-detail-item"><span class="profile-detail-label">${esc(label)}</span><div class="profile-detail-value">${v?`<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${esc(v)}</a>`:'—'}</div></div>`; }
@@ -77,33 +77,6 @@
     if(!url) throw new Error('The Profile Management service did not return a secure resume URL.');
     return url;
   }
-  async function openProfileResumeInNewTab(profile){
-    const popup=window.open('about:blank','_blank');
-    if(!popup){ profileDetailsMessage('Please allow pop-ups to open the resume in a new tab.','error'); return; }
-    try{
-      const url=await getProfileResumeUrl(profile);
-      popup.location.href=url;
-    }catch(err){
-      try{ popup.close(); }catch(_){}
-      profileDetailsMessage(`Could not open the resume: ${err.message||String(err)}`,'error');
-    }
-  }
-
-  function closeProfileInlineResume(){
-    const viewer=$('profileResumeViewer');
-    const frame=$('profileResumeFrame');
-    const docxViewer=$('profileResumeDocxViewer');
-    const loading=$('profileResumeLoading');
-    if(frame)frame.src='';
-    if(docxViewer)docxViewer.innerHTML='';
-    if(frame)frame.classList.add('hidden');
-    if(docxViewer)docxViewer.classList.add('hidden');
-    if(loading){loading.classList.remove('hidden');loading.textContent='Loading resume…';}
-    if(viewer)viewer.classList.add('hidden');
-    const closeBtn=$('closeProfileResumeButton');
-    if(closeBtn)closeBtn.classList.add('hidden');
-  }
-
   async function viewProfileResume(profile){
     const viewer=$('profileResumeViewer');
     const frame=$('profileResumeFrame');
@@ -111,7 +84,6 @@
     const loading=$('profileResumeLoading');
     const openBtn=$('openProfileResumeNewTabButton');
     const closeBtn=$('closeProfileResumeButton');
-    const bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
     if(!viewer||!frame||!docxViewer){ profileDetailsMessage('Resume viewer is not available.','error'); return; }
     try{
       profileDetailsMessage('');
@@ -145,11 +117,10 @@
       }
 
       if(openBtn){
-        openBtn.onclick=()=>openProfileResumeInNewTab(profile);
+        openBtn.onclick=()=>window.open(url,'_blank','noopener,noreferrer');
         openBtn.classList.remove('hidden');
       }
       if(closeBtn) closeBtn.classList.remove('hidden');
-      if(bottomCloseBtn) bottomCloseBtn.classList.remove('hidden');
     }catch(err){
       viewer.classList.add('hidden');
       if(frame)frame.src='';
@@ -179,151 +150,35 @@
       link.remove();
     }catch(err){ profileDetailsMessage(`Could not download the resume: ${err.message||String(err)}`,'error'); }
   }
-  let pendingRemoveAssociationProfileId='';
-  let pendingRemoveAssociationId='';
-  let pendingRemoveAssociationLabel='';
-
-  function openRemoveProfileAssociationModal(profileId, associationId, requirementLabel){
+  async function removeProfileAssociation(profileId, associationId, requirementLabel){
     if(!profileId || !associationId)return;
-    pendingRemoveAssociationProfileId=profileId;
-    pendingRemoveAssociationId=associationId;
-    pendingRemoveAssociationLabel=requirementLabel||'this requirement';
-    const text=$('removeProfileAssociationText');
-    if(text){
-      text.textContent=`The association for “${pendingRemoveAssociationLabel}”, its job-specific notes and interview records will be permanently removed. The profile itself will not be deleted.`;
-    }
-    $('removeProfileAssociationModal').classList.remove('hidden');
-    $('removeProfileAssociationModal').setAttribute('aria-hidden','false');
-    document.body.classList.add('modal-open');
-  }
-
-  function closeRemoveProfileAssociationModal(){
-    pendingRemoveAssociationProfileId='';
-    pendingRemoveAssociationId='';
-    pendingRemoveAssociationLabel='';
-    $('removeProfileAssociationModal').classList.add('hidden');
-    $('removeProfileAssociationModal').setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
-  }
-
-  async function confirmRemoveProfileAssociation(){
-    if(!pendingRemoveAssociationProfileId || !pendingRemoveAssociationId)return;
-    const profileId=pendingRemoveAssociationProfileId;
-    const associationId=pendingRemoveAssociationId;
-    const button=$('confirmRemoveProfileAssociationButton');
-    if(button)button.disabled=true;
+    const confirmed=window.confirm(`Remove the job association${requirementLabel?` for ${requirementLabel}`:''}?\n\nThe association, its job-specific notes and interview records will be removed. The profile itself will not be deleted.`);
+    if(!confirmed)return;
     try{
       profileDetailsMessage('Removing job association…');
-      const fd=new FormData();
-      fd.append('action','remove-association');
-      fd.append('profile_id',profileId);
-      fd.append('association_id',associationId);
+      const fd=new FormData(); fd.append('action','remove-association'); fd.append('profile_id',profileId); fd.append('association_id',associationId);
       await callProfileFunction(fd);
-      closeRemoveProfileAssociationModal();
       await openProfileDetails(profileId);
-    }catch(err){
-      closeRemoveProfileAssociationModal();
-      profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error');
-    }finally{
-      if(button)button.disabled=false;
-    }
+    }catch(err){ profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error'); }
   }
 
-  let pendingDeleteProfileId='';
-  let pendingDeleteProfileName='';
-
-  function openDeleteProfileModal(profileId, profileName){
+  async function deleteProfile(profileId, profileName){
     if(!profileId)return;
-    pendingDeleteProfileId=profileId;
-    pendingDeleteProfileName=profileName||'this profile';
-    const text=$('deleteProfileText');
-    if(text){
-      text.textContent=`“${pendingDeleteProfileName}” and its profile information, resume, job associations, notes, interviews, source history and status history will be permanently removed.`;
-    }
-    $('deleteProfileModal').classList.remove('hidden');
-    $('deleteProfileModal').setAttribute('aria-hidden','false');
-    document.body.classList.add('modal-open');
-  }
-
-  function closeDeleteProfileModal(){
-    pendingDeleteProfileId='';
-    pendingDeleteProfileName='';
-    $('deleteProfileModal').classList.add('hidden');
-    $('deleteProfileModal').setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
-  }
-
-  async function deleteProfile(){
-    if(!pendingDeleteProfileId)return;
-    const profileId=pendingDeleteProfileId;
-    const button=$('confirmDeleteProfileButton');
-    if(button){ button.disabled=true; button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…'; }
+    const confirmed=window.confirm(`Delete profile ${profileName||''}?\n\nThis will permanently delete the profile, its resume stored in R2, job associations, notes, interviews, source history and status history.\n\nThis action cannot be undone.`);
+    if(!confirmed)return;
     try{
       profileDetailsMessage('Deleting profile…');
       const fd=new FormData(); fd.append('action','delete-profile'); fd.append('profile_id',profileId);
       await callProfileFunction(fd);
-      closeDeleteProfileModal();
       closeProfileDetails();
       message('Profile deleted successfully.','success');
       await loadProfiles();
-    }catch(err){
-      closeDeleteProfileModal();
-      profileDetailsMessage(`Could not delete the profile: ${err.message||String(err)}`,'error');
-    }finally{
-      if(button){ button.disabled=false; button.innerHTML='<i class="fa-solid fa-trash"></i> Delete Profile'; }
-    }
+    }catch(err){ profileDetailsMessage(`Could not delete the profile: ${err.message||String(err)}`,'error'); }
   }
   let profileAssociationCurrentProfileId = '';
   let profileNotesProfileId = '';
   let profileNotesRequirementId = '';
   let profileNotesEditingId = '';
-
-  let pendingProfileNoteDeleteId='';
-  let pendingProfileNoteDeleteScope='';
-
-  function openProfileNoteDeleteModal(noteId,scope='requirement-specific'){
-    if(!noteId)return;
-    pendingProfileNoteDeleteId=noteId;
-    pendingProfileNoteDeleteScope=scope;
-    const text=$('profileNoteDeleteText');
-    if(text) text.textContent=scope==='requirement-specific'
-      ? 'This requirement-specific note will be permanently removed.'
-      : 'This profile-level note will be permanently removed.';
-    $('profileNoteDeleteModal').classList.remove('hidden');
-    $('profileNoteDeleteModal').setAttribute('aria-hidden','false');
-    document.body.classList.add('modal-open');
-  }
-  function closeProfileNoteDeleteModal(){
-    pendingProfileNoteDeleteId='';
-    pendingProfileNoteDeleteScope='';
-    $('profileNoteDeleteModal').classList.add('hidden');
-    $('profileNoteDeleteModal').setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
-  }
-  async function deleteProfileNote(){
-    if(!pendingProfileNoteDeleteId)return;
-    const noteId=pendingProfileNoteDeleteId;
-    const scope=pendingProfileNoteDeleteScope;
-    const button=$('confirmProfileNoteDeleteButton');
-    if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';}
-    try{
-      let q=supabase.from('profile_notes').delete().eq('id',noteId).eq('profile_id',profileNotesProfileId);
-      q=profileNotesRequirementId?q.eq('requirement_id',profileNotesRequirementId):q.is('requirement_id',null);
-      const {error}=await q;
-      if(error)throw error;
-      closeProfileNoteDeleteModal();
-      message(scope==='requirement-specific'?'Requirement-specific note deleted successfully.':'Profile-level note deleted successfully.','success');
-      resetProfileNoteForm();
-      if(profileNotesRequirementId)await loadRequirementNotes();else await loadProfileLevelNotes();
-      await openProfileDetails(profileNotesProfileId);
-    }catch(err){
-      closeProfileNoteDeleteModal();
-      $('profileNotesMessage').textContent=err.message||String(err);
-      $('profileNotesMessage').className='admin-message error';
-    }finally{
-      if(button){button.disabled=false;button.innerHTML='<i class="fa-solid fa-trash"></i> Delete Note';}
-    }
-  }
 
   function closeProfileNotesModal(){ $('profileNotesModal').classList.add('hidden'); $('profileNotesModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); profileNotesProfileId=''; profileNotesRequirementId=''; profileNotesEditingId=''; resetProfileNoteForm(); }
   function profileNoteFormMessage(text='',type=''){ const el=$('profileNoteFormMessage'); if(!el)return; el.textContent=text; el.className=`admin-message${type?' '+type:''}`; }
@@ -357,9 +212,9 @@
     else $('profileNotesTableBody').innerHTML=rows.map(n=>`<tr><td>${esc(formatDateTime(n.created_at))}</td><td>${esc(n.note_type||'Update')}</td><td class="profile-note-text">${esc(n.note||'')}</td><td class="profile-notes-actions"><button type="button" class="icon-button" data-profile-note-edit="${esc(n.id)}" title="Edit note"><i class="fa-solid fa-pen-to-square"></i></button> <button type="button" class="icon-button association-delete-button" data-profile-note-delete="${esc(n.id)}" title="Delete note"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
     $('profileNotesMessage').textContent='';
   }
-  async function openProfileRequirementNotes(profileId,requirementId,requirementLabel='Requirement',profileName='Profile'){
+  async function openProfileRequirementNotes(profileId,requirementId,requirementLabel='Requirement'){
     profileNotesProfileId=profileId||''; profileNotesRequirementId=requirementId||''; profileNotesEditingId=''; if(!profileNotesProfileId||!profileNotesRequirementId)return;
-    $('profileNotesTitle').textContent=`Notes : ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT NOTES'; $('profileNotesContext').innerHTML=`<strong>Requirement:</strong> ${esc(requirementLabel)}<br><strong>Profile :</strong> ${esc(profileName||'Profile')}<br><span class="profile-detail-muted">These notes are specific to this profile and requirement association.</span>`; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
+    $('profileNotesTitle').textContent=`Notes — ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT NOTES'; $('profileNotesContext').innerHTML=`<strong>Requirement:</strong> ${esc(requirementLabel)}<br><span class="profile-detail-muted">These notes are specific to this profile and requirement association.</span>`; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadRequirementNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
   async function saveProfileRequirementNote(e){
@@ -399,15 +254,15 @@
     const sourceRows=uniqueSourceRows(srcRes.data||[]);
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
-    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div><div class="application-inline-resume-bottom-actions"><button class="btn btn-primary btn-small hidden" id="profileInlineBottomCloseResumeButton" type="button">Close Resume</button></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
     body.innerHTML=`
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid profile-source-detail-grid">
-        ${detailItem('Profile Number',p.profile_number)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Profile Status',p.status)}${detailItem('Availability',p.availability)}
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid">
+        ${detailItem('Profile Number',p.profile_number)}${detailItem('Profile Status',p.status)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Availability',p.availability)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}
         ${primary?.referrer_name?detailItem('Referrer Name',primary.referrer_name):''}${primary?.referrer_mobile?detailItem('Referrer Mobile',primary.referrer_mobile):''}${primary?.referrer_email?detailItem('Referrer Email',primary.referrer_email):''}
       </div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Personal Information</div><div class="profile-personal-detail-grid"><div class="profile-personal-row profile-personal-row-3">${detailItem('Full Name',p.full_name)}${detailItem('Mobile',p.phone)}${detailItem('Alternate Phone',p.alternate_phone)}</div><div class="profile-personal-row profile-personal-row-2">${detailItem('Current Location',p.current_location)}${detailItem('Email',p.email)}</div></div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Professional Information</div><div class="profile-detail-grid profile-professional-detail-grid">${detailItem('Current Company',p.current_company)}${detailItem('Current Job Title',p.current_job_title)}${detailItem('Total Experience',p.total_experience)}${detailItem('Notice Period',p.notice_period)}${detailItem('Current CTC',p.current_ctc)}${detailItem('Expected CTC',p.expected_ctc)}</div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Education & Skills</div><div class="profile-education-detail-grid"><div class="profile-education-row profile-education-row-3">${detailItem('Highest Qualification',p.highest_qualification)}${detailItem('Specialization',p.specialization)}${detailItem('Graduation Year',p.graduation_year)}</div><div class="profile-education-row profile-education-row-2">${detailItem('Job Categories',categories.join(', '))}${detailLink('LinkedIn',p.linkedin_url)}</div><div class="profile-education-row profile-education-row-1">${detailItem('Skills',p.skills)}</div><div class="profile-education-row profile-education-row-1">${detailItem('Additional Information',p.additional_information)}</div></div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Personal Information</div><div class="profile-detail-grid">${detailItem('Full Name',p.full_name)}${detailItem('Email',p.email)}${detailItem('Mobile',p.phone)}${detailItem('Alternate Phone',p.alternate_phone)}${detailItem('Current Location',p.current_location)}</div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Professional Information</div><div class="profile-detail-grid">${detailItem('Current Job Title',p.current_job_title)}${detailItem('Current Company',p.current_company)}${detailItem('Total Experience',p.total_experience)}${detailItem('Notice Period',p.notice_period)}${detailItem('Current CTC',p.current_ctc)}${detailItem('Expected CTC',p.expected_ctc)}</div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Education & Skills</div><div class="profile-detail-grid">${detailItem('Highest Qualification',p.highest_qualification)}${detailItem('Specialization',p.specialization)}${detailItem('Graduation Year',p.graduation_year)}${detailItem('Job Categories',categories.join(', '))}${detailLink('LinkedIn',p.linkedin_url)}${detailItem('Skills',p.skills,true)}${detailItem('Additional Information',p.additional_information,true)}</div></div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Resume</div><div class="profile-detail-grid"><div class="profile-detail-item profile-detail-wide"><span class="profile-detail-label">Current Resume</span><div class="profile-detail-value">${esc(p.resume_file_name||'—')} ${resumeButtons}</div></div>${detailItem('Last Updated',p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</div></div>
       <div class="profile-detail-section">
         <div class="profile-detail-section-title profile-detail-section-title-row"><span>Job Associations</span><button type="button" class="btn btn-primary btn-small" id="addProfileAssociationButton"><i class="fa-solid fa-plus"></i> Add Requirement</button></div>
@@ -420,7 +275,7 @@
             esc(a.association_type||'manual'),
             esc(formatDateTime(a.associated_at)),
             esc(a.notes||'—'),
-            `<button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.title||'Requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button> <button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.title||'Requirement'))}" data-profile-association-profile="${esc(p.full_name||'Profile')}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button> <button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.title||'Requirement'))}" data-profile-association-profile="${esc(p.full_name||'Profile')}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button> <button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button> <button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button>`
+            `<button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button> <button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button> <button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button> <button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button> <button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button>`
           ];
         }),'No job associations.')}
       </div>
@@ -428,12 +283,10 @@
       <div class="profile-detail-section"><div class="profile-detail-section-title profile-detail-section-title-row"><span>Updates / Notes</span><button type="button" class="btn btn-primary btn-small" id="addProfileNoteButton"><i class="fa-solid fa-plus"></i> Add Note</button></div>${renderDetailTable(['Date & Time','Type','Requirement','Update / Note'],notes.map(n=>[esc(formatDateTime(n.created_at)),esc(n.note_type||'General'),esc((reqMap[n.requirement_id]?.job_code||reqMap[n.requirement_id]?.title||'Profile Level')),esc(n.note||'')]),'No profile notes found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile Status History</div>${renderDetailTable(['Date & Time','Status','Notes'],histories.map(h=>[esc(formatDateTime(h.changed_at)),`<span class="status-pill ${statusClass(h.status)}">${esc(h.status||'—')}</span>`,esc(h.notes||'—')]),'No status history found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title">Interview Rounds</div>${renderDetailTable(['Round','Requirement','Result','Date','Time','Mode','Interviewer','Feedback'],interviews.map(i=>{const r=reqMap[i.requirement_id]||{};return [esc(i.round_name||('Round '+i.round_number)),esc(r.job_code||r.title||'Requirement'),esc(i.result||'Pending'),esc(i.scheduled_date||'—'),esc(formatInterviewTime(i.scheduled_time)),esc(i.mode||'—'),esc(i.interviewer||'—'),esc(i.feedback||'—')]}),'No profile requirement interviews found.')}</div>`;
-    profileDetailsMessage(''); $('profileDetailsTitle').textContent=`Profile : ${p.full_name||'Profile'}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
-    const viewBtn=$('viewProfileResumeButton'), openBtn=$('openProfileResumeNewTabButton'), downloadBtn=$('downloadProfileResumeButton'), bottomCloseBtn=$('profileInlineBottomCloseResumeButton');
+    profileDetailsMessage(''); $('profileDetailsTitle').textContent=`${p.full_name||'Profile'} — ${p.profile_number||''}`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
+    const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton');
     if(viewBtn)viewBtn.onclick=()=>viewProfileResume(p);
-    if(openBtn)openBtn.onclick=()=>openProfileResumeInNewTab(p);
     if(downloadBtn)downloadBtn.onclick=()=>downloadProfileResume(p);
-    if(bottomCloseBtn)bottomCloseBtn.onclick=(event)=>{ event.preventDefault(); closeProfileInlineResume(); };
     const addProfileNoteButton=$('addProfileNoteButton');
     if(addProfileNoteButton)addProfileNoteButton.onclick=()=>openProfileLevelNotes(profileAssociationCurrentProfileId);
     document.querySelectorAll('[data-profile-association-edit]').forEach(btn=>{
@@ -444,7 +297,7 @@
         catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       });
     });
-    const deleteBtn=$('deleteProfileButton'); if(deleteBtn)deleteBtn.onclick=()=>openDeleteProfileModal(p.id,p.full_name||p.profile_number||'this profile');
+    const deleteBtn=$('deleteProfileButton'); if(deleteBtn)deleteBtn.onclick=()=>deleteProfile(p.id,p.full_name||p.profile_number||'this profile');
   }
   function associationMessage(text,type=''){
     const el=$('profileAssociationMessage'); if(!el)return;
@@ -466,13 +319,13 @@
     if(aError)throw aError;
     const associatedIds=new Set((assocRows||[]).map(x=>String(x.requirement_id)));
     const assoc=associationId ? (assocRows||[]).find(x=>String(x.id)===String(associationId)) : null;
-    const profileAssociationName=p.full_name||''; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
+    const profileAssociationName=`${p.full_name||''} (${p.profile_number||''})`; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
     const reqSelect=$('profileAssociationRequirement');
     reqSelect.innerHTML='<option value="">Select Requirement</option>'+requirements
       .filter(r=>!associationId || String(r.id)===String(assoc?.requirement_id) || !associatedIds.has(String(r.id)))
       .map(r=>`<option value="${esc(r.id)}">${esc(r.job_code||'')} — ${esc(r.title||'')}${r.status?` (${esc(r.status)})`:''}</option>`).join('');
     reqSelect.value=assoc?.requirement_id||'';
-    reqSelect.disabled=false;
+    reqSelect.disabled=Boolean(associationId);
     $('profileAssociationStatus').innerHTML=requirementStatuses.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
     $('profileAssociationStatus').value=assoc?.status||'New';
     $('profileAssociationNotes').value=assoc?.notes||'';
@@ -499,7 +352,7 @@
           .select('id,status').eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId).single();
         if(currentError)throw currentError;
         const {error}=await supabase.from('profile_requirement_associations')
-          .update({requirement_id:reqId,status,notes:notes||null}).eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId);
+          .update({status,notes:notes||null}).eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId);
         if(error)throw error;
         await recordAssociationStatusHistory(profileAssociationEditId,current.status,status,notes);
         message('Requirement association updated successfully.','success');
@@ -548,37 +401,22 @@
     if(error) throw error;
   }
 
-  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement', profileName='Profile') {
+  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement') {
     if(!associationId) return;
-    $('associationHistoryTitle').textContent=`Status History : ${requirementLabel} — ${profileName}`;
+    $('associationHistoryTitle').textContent=`Status History — ${requirementLabel}`;
     $('associationHistoryMessage').textContent='Loading…';
-    $('associationHistoryMessage').className='admin-message';
     $('associationHistoryTableBody').innerHTML='';
     $('associationHistoryModal').classList.remove('hidden');
     $('associationHistoryModal').setAttribute('aria-hidden','false');
     document.body.classList.add('modal-open');
     try {
-      const [{data,error},{data:authData}]=await Promise.all([
-        supabase.from('profile_requirement_status_history')
-          .select('previous_status,new_status,notes,changed_at,changed_by')
-          .eq('association_id',associationId)
-          .order('changed_at',{ascending:false}),
-        supabase.auth.getUser()
-      ]);
+      const {data,error}=await supabase.from('profile_requirement_status_history')
+        .select('previous_status,new_status,notes,changed_at,changed_by')
+        .eq('association_id',associationId)
+        .order('changed_at',{ascending:false});
       if(error) throw error;
-      const currentUser=authData?.user||null;
-      const currentUserId=currentUser?.id||'';
-      const currentUserLabel=currentUserId && currentUser
-        ? (currentUser.user_metadata?.display_name || currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email || 'Current Admin / HR User')
-        : 'Admin / HR User';
       const rows=data||[];
-      const changedByLabel=(value)=>{
-        if(!value) return '—';
-        if(String(value)===String(currentUserId)) return currentUserLabel;
-        // changed_by stores the authenticated user's UUID. Do not expose the UUID as the visible value.
-        return 'Admin / HR User';
-      };
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>{ const d=x.changed_at?new Date(x.changed_at).toLocaleDateString('en-GB'):'—'; return `<tr><td>${esc(d)}</td><td>${esc(x.previous_status||'—')}</td><td><span class="status-pill ${statusClass(x.new_status)}">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(changedByLabel(x.changed_by))}</td></tr>`; }).join('');
+      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class=\"status-pill ${statusClass(x.new_status)}\">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('');
       $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
     } catch(err) {
       $('associationHistoryMessage').textContent=err.message||String(err);
@@ -588,12 +426,9 @@
   function closeAssociationStatusHistory(){ $('associationHistoryModal').classList.add('hidden'); $('associationHistoryModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
 
 
-  function updateProfileSummary(){ const rows=filtered(); const set=(id,val)=>{const el=$(id);if(el)el.textContent=String(val);}; set('totalProfilesSummary',rows.length); set('newProfilesSummary',rows.filter(p=>String(p.status||'').toLowerCase()==='new').length); set('availableProfilesSummary',rows.filter(p=>String(p.status||'').toLowerCase()==='available').length); set('associatedProfilesSummary',rows.filter(p=>Array.isArray(p.associations)&&p.associations.length>0).length); }
-  function setProfileColumnVisibility(col,visible){ document.querySelectorAll('.profiles-table tr').forEach(row=>{const cell=row.children[col];if(cell)cell.style.display=visible?'':'none';}); }
-  function renderProfileColumnsState(){ document.querySelectorAll('#profilesColumnsPopover input[data-profile-col]').forEach(cb=>setProfileColumnVisibility(Number(cb.dataset.profileCol),cb.checked)); }
-  function render(){ updateProfileSummary(); const body=$('profilesTableBody'), rows=filtered(); const totalPages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE)); if(currentPage>totalPages)currentPage=totalPages; const start=(currentPage-1)*PAGE_SIZE; const pageRows=rows.slice(start,start+PAGE_SIZE); body.innerHTML=pageRows.map(p=>{const assoc=requirementId? p.associations?.find(a=>a.requirement_id===requirementId):p.associations?.[0];return `<tr><td><div class="profile-name-cell"><strong>${esc(p.full_name)}</strong><span>${esc(p.profile_number)} · ${esc(p.current_job_title||'')}</span></div></td><td>${esc(p.current_location||'—')}</td><td>${esc(p.total_experience||'—')}</td><td>${esc(p.source||'—')}</td><td><span class="status-pill ${statusClass(p.status)}">${esc(p.status)}</span></td><td>${assoc?esc(assoc.status||'Associated'):'—'}</td><td><div class="row-actions"><button class="icon-button" data-action="view" data-id="${p.id}" title="View profile details"><i class="fa-solid fa-eye"></i></button><button class="icon-button" data-action="edit" data-id="${p.id}" title="Edit profile"><i class="fa-solid fa-pen-to-square"></i></button>${requirementId?`<button class="icon-button" data-action="interviews" data-id="${p.id}" title="Interviews"><i class="fa-solid fa-calendar-check"></i></button>`:''}${!requirementId?`<button class="icon-button" data-action="associate" data-id="${p.id}" title="Associate with requirement"><i class="fa-solid fa-link"></i></button>`:''}</div></td></tr>`}).join(''); if(!pageRows.length){ body.innerHTML='<tr class="profiles-empty-row"><td colspan="7"><div class="profiles-empty-cell"><i class="fa-solid fa-users"></i><span>No profiles found</span><small>Add a profile or associate an existing profile with a requirement.</small></div></td></tr>'; } body.parentElement.classList.remove('hidden'); updateProfilesPagination(rows.length,totalPages,start,pageRows.length); renderProfileColumnsState(); }
+  function render(){ const body=$('profilesTableBody'), rows=filtered(); const totalPages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE)); if(currentPage>totalPages)currentPage=totalPages; const start=(currentPage-1)*PAGE_SIZE; const pageRows=rows.slice(start,start+PAGE_SIZE); body.innerHTML=pageRows.map(p=>{const assoc=requirementId? p.associations?.find(a=>String(a.requirement_id)===String(requirementId)):p.associations?.[0];const requirementName=requirementId?(requirement?.title||'—'):(p.latestRequirementName||'—');return `<tr><td><div class="profile-name-cell"><strong>${esc(p.full_name)}</strong></div></td><td>${esc(p.current_location||'—')}</td><td>${esc(p.total_experience||'—')}</td><td>${esc(p.current_company||'—')}</td><td>${esc(p.notice_period||'—')}</td><td>${esc(p.current_ctc||'—')}</td><td>${esc(p.expected_ctc||'—')}</td><td><span class="status-pill ${statusClass(p.status)}">${esc(p.status)}</span></td><td>${esc(requirementName)}</td><td><div class="row-actions"><button class="icon-button" data-action="view" data-id="${p.id}" title="View profile details"><i class="fa-solid fa-eye"></i></button><button class="icon-button" data-action="edit" data-id="${p.id}" title="Edit profile"><i class="fa-solid fa-pen-to-square"></i></button>${requirementId?`<button class="icon-button" data-action="interviews" data-id="${p.id}" title="Interviews"><i class="fa-solid fa-calendar-check"></i></button>`:''}${!requirementId?`<button class="icon-button" data-action="associate" data-id="${p.id}" title="Associate with requirement"><i class="fa-solid fa-link"></i></button>`:''}</div></td></tr>`}).join(''); if(!pageRows.length){ body.innerHTML='<tr class="profiles-empty-row"><td colspan="10"><div class="profiles-empty-cell"><i class="fa-solid fa-users"></i><span>No profiles found</span><small>Add a profile or associate an existing profile with a requirement.</small></div></td></tr>'; } body.parentElement.classList.remove('hidden'); updateProfilesPagination(rows.length,totalPages,start,pageRows.length); }
 
-  function updateProfilesPagination(total,totalPages,start,count){ const wrap=$('profilesPagination'); if(!wrap)return; wrap.classList.remove('hidden'); $('profilesPageInfo').textContent=total?`Showing ${start+1}-${start+count} of ${total}`:'Showing 0 of 0'; $('profilesPageNumber').textContent=`Page ${currentPage} of ${totalPages}`; $('profilesFirst').disabled=total===0||currentPage<=1; $('profilesPrev').disabled=total===0||currentPage<=1; $('profilesNext').disabled=total===0||currentPage>=totalPages; $('profilesLast').disabled=total===0||currentPage>=totalPages; }
+  function updateProfilesPagination(total,totalPages,start,count){ const wrap=$('profilesPagination'); if(!wrap)return; wrap.classList.toggle('hidden',total===0); if(!total)return; $('profilesPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`; $('profilesPageNumber').textContent=`Page ${currentPage} of ${totalPages}`; $('profilesFirst').disabled=currentPage<=1; $('profilesPrev').disabled=currentPage<=1; $('profilesNext').disabled=currentPage>=totalPages; $('profilesLast').disabled=currentPage>=totalPages; }
   function goToProfilesPage(page){ const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)); currentPage=Math.min(Math.max(1,page),totalPages); render(); }
   async function callProfileFunction(formData){ const {data:{session}}=await supabase.auth.getSession(); if(!session)throw new Error('Your session has expired. Please sign in again.'); const response=await fetch(window.NAVODIX_SUPABASE_URL+'/functions/v1/profile-management',{method:'POST',headers:{Authorization:'Bearer '+session.access_token},body:formData}); const payload=await response.json().catch(()=>({})); if(!response.ok){ const raw=payload.error??payload.message; let detail='Profile operation failed.'; if(typeof raw==='string'&&raw.trim()) detail=raw; else if(raw&&typeof raw==='object') detail=raw.message||raw.details||raw.hint||raw.code||JSON.stringify(raw); throw new Error(detail); } return payload; }
   function formDataFromForm(){ const fd=new FormData(); $('profileAssociationRequirementId').value=$('profileRequirement').value||''; const fields={profile_id:$('profileId').value,requirement_id:$('profileAssociationRequirementId').value,full_name:$('fullName').value.trim(),email:$('email').value.trim(),phone:$('phone').value.trim(),alternate_phone:$('alternatePhone').value.trim(),current_location:$('currentLocation').value.trim(),availability:$('availability').value.trim(),current_job_title:$('currentJobTitle').value.trim(),current_company:$('currentCompany').value.trim(),total_experience:$('totalExperience').value.trim(),notice_period:$('noticePeriod').value.trim(),current_ctc:$('currentCtc').value.trim(),expected_ctc:$('expectedCtc').value.trim(),highest_qualification:$('highestQualification').value.trim(),specialization:$('specialization').value.trim(),graduation_year:$('graduationYear').value||'',linkedin_url:$('linkedinUrl').value.trim(),status:$('profileStatus').value,source:$('profileSource').value,source_details:$('sourceDetails').value.trim(),referrer_name:$('referrerName').value.trim(),referrer_mobile:$('referrerMobile').value.trim(),referrer_email:$('referrerEmail').value.trim(),skills:$('skills').value.trim(),additional_information:$('additionalInformation').value.trim(),replace_resume:String(!keepExistingResume)}; Object.entries(fields).forEach(([k,v])=>fd.append(k,v)); const file=$('resumeFile').files[0]; if(file)fd.append('resume',file,file.name); return fd; }
@@ -606,11 +441,11 @@
   function interviewResultClass(result){ const v=String(result||'').toLowerCase().replace(/\s+/g,'_'); return v==='passed'?'passed':v==='failed'?'failed':v==='pending'?'pending':v==='cancelled'?'cancelled':v==='rescheduled'?'rescheduled':v==='no_show'?'no-show':''; }
   function formatInterviewTime(value){ if(!value)return '—'; const raw=String(value).slice(0,5); const parts=raw.split(':'); if(parts.length<2)return raw; const h=Number(parts[0]), m=parts[1]; if(Number.isNaN(h))return raw; const suffix=h>=12?'PM':'AM'; const hour12=(h%12)||12; return `${hour12}:${m} ${suffix}`; }
   async function loadInterviews(){ if(!interviewProfile||!interviewRequirementId)return; interviewMessage('Loading interviews…'); const {data,error}=await supabase.from('profile_requirement_interviews').select('id,profile_id,requirement_id,association_id,round_number,round_name,scheduled_date,scheduled_time,mode,interviewer,result,feedback,created_at,updated_at').eq('profile_id',interviewProfile.id).eq('requirement_id',interviewRequirementId).order('round_number',{ascending:true}).order('scheduled_date',{ascending:true}); if(error){interviewMessage(error.message,'error');return;} const rows=data||[]; const body=$('interviewTableBody'); body.innerHTML=rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.round_name||('Round '+x.round_number))}</td><td><span class="profile-interview-result ${interviewResultClass(x.result)}">${esc(x.result||'—')}</span></td><td>${esc(x.scheduled_date||'—')}</td><td>${esc(formatInterviewTime(x.scheduled_time))}</td><td>${esc(x.mode||'—')}</td><td>${esc(x.interviewer||'—')}</td><td class="profile-interview-feedback-cell">${esc(x.feedback||'—')}</td><td class="profile-interview-actions"><button class="btn btn-outline btn-small" data-interview-edit="${x.id}" title="Edit interview">Edit</button><button class="btn btn-outline btn-small profile-interview-delete" data-interview-delete="${x.id}" title="Delete interview">Delete</button></td></tr>`).join(''); $('noInterviews').classList.toggle('hidden',rows.length!==0); $('interviewTableWrap')?.classList.toggle('hidden',rows.length===0); interviewMessage(''); }
-  async function openInterviewsForAssociation(profileId, associationId, reqId, label='Requirement'){ const p=profiles.find(x=>String(x.id)===String(profileId)); if(!p||!reqId)return; interviewProfile=p; interviewRequirementId=reqId; interviewAssociationId=associationId||''; interviewRequirementLabel=label||'Requirement'; $('interviewContext').innerHTML='<strong>Profile:</strong> '+esc(p.full_name)+' ('+esc(p.profile_number)+')<br><strong>Requirement:</strong> '+esc(interviewRequirementLabel); $('interviewModalTitle').textContent='Interview Rounds : '+interviewRequirementLabel; $('interviewModal').classList.remove('hidden'); $('interviewModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); await loadInterviews(); }
-  async function openInterviews(id){ const p=profiles.find(x=>x.id===id); if(!p||!requirementId)return; const assoc=p.associations?.find(a=>String(a.requirement_id)===String(requirementId)); await openInterviewsForAssociation(id,assoc?.id||'',requirementId,requirement?.title||'Requirement'); }
+  async function openInterviewsForAssociation(profileId, associationId, reqId, label='Requirement'){ const p=profiles.find(x=>String(x.id)===String(profileId)); if(!p||!reqId)return; interviewProfile=p; interviewRequirementId=reqId; interviewAssociationId=associationId||''; interviewRequirementLabel=label||'Requirement'; $('interviewContext').innerHTML='<strong>Profile:</strong> '+esc(p.full_name)+' ('+esc(p.profile_number)+')<br><strong>Requirement:</strong> '+esc(interviewRequirementLabel); $('interviewModalTitle').textContent='Interview Rounds — '+interviewRequirementLabel; $('interviewModal').classList.remove('hidden'); $('interviewModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); await loadInterviews(); }
+  async function openInterviews(id){ const p=profiles.find(x=>x.id===id); if(!p||!requirementId)return; const assoc=p.associations?.find(a=>String(a.requirement_id)===String(requirementId)); await openInterviewsForAssociation(id,assoc?.id||'',requirementId,`${requirement?.job_code||''} — ${requirement?.title||'Requirement'}`); }
   async function saveInterview(e){ e.preventDefault(); if(interviewSaving||!interviewProfile||!interviewRequirementId)return; const round=$('interviewRound').value.trim(); if(!round||!$('interviewDate').value||!$('interviewInterviewer').value.trim()||!$('interviewMode').value){interviewFormMessage('Please complete all required interview fields.','error');return;} interviewSaving=true; const btn=$('saveInterviewButton'); btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…'; interviewFormMessage('Saving interview…'); try{ const id=$('interviewId').value; const payload={profile_id:interviewProfile.id,requirement_id:interviewRequirementId,association_id:interviewAssociationId||null,round_name:round,round_number:parseInt((id?$('interviewRound').dataset.roundNumber:'')||'0',10)||1,scheduled_date:$('interviewDate').value||null,scheduled_time:$('interviewTime').value||null,mode:$('interviewMode').value||null,interviewer:$('interviewInterviewer').value.trim()||null,result:$('interviewResult').value||null,feedback:$('interviewFeedback').value.trim()||null,updated_by:(await supabase.auth.getUser()).data.user?.id||null}; let result; if(id){ result=await supabase.from('profile_requirement_interviews').update(payload).eq('id',id); } else { const {data:existing,error:exErr}=await supabase.from('profile_requirement_interviews').select('round_number').eq('profile_id',interviewProfile.id).eq('requirement_id',interviewRequirementId).order('round_number',{ascending:false}).limit(1); if(exErr)throw exErr; payload.round_number=(existing?.[0]?.round_number||0)+1; payload.created_by=payload.updated_by; result=await supabase.from('profile_requirement_interviews').insert(payload); } if(result.error)throw result.error; interviewFormMessage('Interview saved successfully.','success'); await loadInterviews(); setTimeout(closeInterviewFormModal,500); }catch(err){console.error(err);interviewFormMessage(err.message||String(err),'error');}finally{interviewSaving=false;btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Interview Round';} }
 
-  async function editProfile(id){ const {data,error}=await supabase.from('profiles').select('*').eq('id',id).single(); if(error)throw error; resetForm(); renderJobCategories([]); const categoryIds=await getProfileCategories(id); renderJobCategories(categoryIds); $('profileId').value=data.id;$('fullName').value=data.full_name||'';$('email').value=data.email||'';$('phone').value=data.phone||'';$('alternatePhone').value=data.alternate_phone||'';$('currentLocation').value=data.current_location||'';$('availability').value=data.availability||'';$('currentJobTitle').value=data.current_job_title||'';$('currentCompany').value=data.current_company||'';$('totalExperience').value=data.total_experience||'';$('noticePeriod').value=data.notice_period||'';$('currentCtc').value=data.current_ctc||'';$('expectedCtc').value=data.expected_ctc||'';$('highestQualification').value=data.highest_qualification||'';$('specialization').value=data.specialization||'';$('graduationYear').value=data.graduation_year||'';$('linkedinUrl').value=data.linkedin_url||'';$('skills').value=data.skills||''; if(data.resume_file_name){$('existingResumeFilename').textContent=data.resume_file_name;$('existingResumeFilename').title=data.resume_file_name;$('existingResumeFilename').classList.remove('hidden');}$('additionalInformation').value=data.additional_information||'';$('profileStatus').value=data.status||'New'; populateRequirementOptions(requirementId||''); $('profileRequirement').value=requirementId||''; $('profileAssociationRequirementId').value=requirementId||''; const {data:src}=await supabase.from('profile_sources').select('source,source_details,referrer_name,referrer_mobile,referrer_email').eq('profile_id',id).eq('is_primary',true).maybeSingle(); if(src){$('profileSource').value=src.source||'';$('sourceDetails').value=src.source_details||'';$('referrerName').value=src.referrer_name||'';$('referrerMobile').value=src.referrer_mobile||'';$('referrerEmail').value=src.referrer_email||'';toggleReferrerFields();} $('profileModalTitle').textContent='Edit Profile - '+(data.full_name||''); if(requirement){$('existingProfileNotice').innerHTML='<strong>Requirement:</strong> '+esc(requirement.job_code)+' — '+esc(requirement.title)+'<br><small>Saving will keep this profile associated with the requirement.</small>';$('existingProfileNotice').classList.remove('hidden');} showModal(); }
+  async function editProfile(id){ const {data,error}=await supabase.from('profiles').select('*').eq('id',id).single(); if(error)throw error; resetForm(); renderJobCategories([]); const categoryIds=await getProfileCategories(id); renderJobCategories(categoryIds); $('profileId').value=data.id;$('fullName').value=data.full_name||'';$('email').value=data.email||'';$('phone').value=data.phone||'';$('alternatePhone').value=data.alternate_phone||'';$('currentLocation').value=data.current_location||'';$('availability').value=data.availability||'';$('currentJobTitle').value=data.current_job_title||'';$('currentCompany').value=data.current_company||'';$('totalExperience').value=data.total_experience||'';$('noticePeriod').value=data.notice_period||'';$('currentCtc').value=data.current_ctc||'';$('expectedCtc').value=data.expected_ctc||'';$('highestQualification').value=data.highest_qualification||'';$('specialization').value=data.specialization||'';$('graduationYear').value=data.graduation_year||'';$('linkedinUrl').value=data.linkedin_url||'';$('skills').value=data.skills||''; if(data.resume_file_name){$('existingResumeFilename').textContent=data.resume_file_name;$('existingResumeFilename').title=data.resume_file_name;$('existingResumeFilename').classList.remove('hidden');}$('additionalInformation').value=data.additional_information||'';$('profileStatus').value=data.status||'New'; populateRequirementOptions(requirementId||''); $('profileRequirement').value=requirementId||''; $('profileAssociationRequirementId').value=requirementId||''; const {data:src}=await supabase.from('profile_sources').select('source,source_details,referrer_name,referrer_mobile,referrer_email').eq('profile_id',id).eq('is_primary',true).maybeSingle(); if(src){$('profileSource').value=src.source||'';$('sourceDetails').value=src.source_details||'';$('referrerName').value=src.referrer_name||'';$('referrerMobile').value=src.referrer_mobile||'';$('referrerEmail').value=src.referrer_email||'';toggleReferrerFields();} $('profileModalTitle').textContent='Edit Profile'; if(requirement){$('existingProfileNotice').innerHTML='<strong>Requirement:</strong> '+esc(requirement.job_code)+' — '+esc(requirement.title)+'<br><small>Saving will keep this profile associated with the requirement.</small>';$('existingProfileNotice').classList.remove('hidden');} showModal(); }
   function renderExistingProfiles(){ const body=$('existingProfileTableBody'); const term=$('existingProfileSearch').value.trim().toLowerCase(); const rows=allExistingProfiles.filter(p=>!term||[p.profile_number,p.full_name,p.email,p.phone,p.current_location].some(v=>String(v||'').toLowerCase().includes(term))); body.innerHTML=rows.map(p=>`<tr><td><div class="profile-name-cell"><strong>${esc(p.full_name)}</strong><span>${esc(p.profile_number)} · ${esc(p.current_job_title||'')}</span></div></td><td>${esc(p.current_location||'—')}</td><td><span class="status-pill ${statusClass(p.status)}">${esc(p.status)}</span></td><td><button class="btn btn-primary btn-small" data-existing-associate="${p.id}"><i class="fa-solid fa-link"></i> Associate</button></td></tr>`).join(''); if(!rows.length) $('existingProfileMessage').textContent='No matching profiles found.'; else $('existingProfileMessage').textContent=''; }
   async function openExistingProfileModal(){ if(!requirementId||!requirement)return; $('existingProfileSearch').value=''; $('existingProfileMessage').textContent='Loading profiles…'; $('existingProfileModal').classList.remove('hidden'); $('existingProfileModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); const {data,error}=await supabase.from('profiles').select('id,profile_number,full_name,email,phone,current_location,current_job_title,status').order('full_name'); if(error){$('existingProfileMessage').textContent=error.message;return;} const {data:assoc,error:assocError}=await supabase.from('profile_requirement_associations').select('profile_id').eq('requirement_id',requirementId); if(assocError){$('existingProfileMessage').textContent=assocError.message;return;} const associatedIds=new Set((assoc||[]).map(x=>x.profile_id)); allExistingProfiles=(data||[]).filter(p=>!associatedIds.has(p.id)); renderExistingProfiles(); }
   function closeExistingProfileModal(){ $('existingProfileModal').classList.add('hidden'); $('existingProfileModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
@@ -619,23 +454,26 @@
   async function saveAssociateRequirement(){ if(!profileToAssociate)return; const reqId=$('associateRequirementSelect').value; if(!reqId){ $('associateRequirementMessage').textContent='Please select a requirement.'; $('associateRequirementMessage').className='admin-message error'; return; } const btn=$('saveAssociateRequirementButton'); btn.disabled=true; $('associateRequirementMessage').textContent='Associating profile…'; $('associateRequirementMessage').className='admin-message'; try{ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:profileToAssociate.id,requirement_id:reqId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); $('associateRequirementMessage').textContent='Profile associated successfully with the requirement.'; $('associateRequirementMessage').className='admin-message success'; message('Profile associated successfully with the requirement.','success'); await loadProfiles(); setTimeout(closeAssociateRequirementModal,500); }catch(err){ $('associateRequirementMessage').textContent=err.message||String(err); $('associateRequirementMessage').className='admin-message error'; } finally { btn.disabled=false; } }
   async function associateProfile(id){ if(requirementId){ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:id,requirement_id:requirementId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); message('Profile associated successfully with the requirement.','success'); await loadProfiles(); return; } openAssociateRequirementModal(id); }
 
-  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('clearProfileFiltersButton').addEventListener('click',()=>{ $('profileSearch').value=''; $('profileStatusFilter').value=''; $('profileSourceFilter').value=''; currentPage=1; render(); }); $('profilesColumnsButton').addEventListener('click',e=>{e.stopPropagation();$('profilesColumnsPopover').classList.toggle('hidden');}); $('profilesColumnsPopover').addEventListener('click',e=>{e.stopPropagation();const cb=e.target.closest('input[data-profile-col]');if(cb)setProfileColumnVisibility(Number(cb.dataset.profileCol),cb.checked);}); document.addEventListener('click',e=>{const pop=$('profilesColumnsPopover'),btn=$('profilesColumnsButton');if(pop&&!pop.classList.contains('hidden')&&!pop.contains(e.target)&&btn&&!btn.contains(e.target))pop.classList.add('hidden');}); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('profileForm').addEventListener('submit',saveProfile); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();}); $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('profilesFirst').addEventListener('click',()=>goToProfilesPage(1)); $('profilesPrev').addEventListener('click',()=>goToProfilesPage(currentPage-1)); $('profilesNext').addEventListener('click',()=>goToProfilesPage(currentPage+1)); $('profilesLast').addEventListener('click',()=>goToProfilesPage(Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)))); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-action]');if(!b)return;try{if(b.dataset.action==='view')await openProfileDetails(b.dataset.id);else if(b.dataset.action==='edit')await editProfile(b.dataset.id);else if(b.dataset.action==='associate')await associateProfile(b.dataset.id);else if(b.dataset.action==='interviews')await openInterviews(b.dataset.id);}catch(err){message(err.message||String(err),'error');}}); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',deleteProfile); $('deleteProfileModal').addEventListener('click',e=>{if(e.target===$('deleteProfileModal'))closeDeleteProfileModal();}); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
+  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('profileForm').addEventListener('submit',saveProfile); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();}); $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('profilesFirst').addEventListener('click',()=>goToProfilesPage(1)); $('profilesPrev').addEventListener('click',()=>goToProfilesPage(currentPage-1)); $('profilesNext').addEventListener('click',()=>goToProfilesPage(currentPage+1)); $('profilesLast').addEventListener('click',()=>goToProfilesPage(Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)))); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-action]');if(!b)return;try{if(b.dataset.action==='view')await openProfileDetails(b.dataset.id);else if(b.dataset.action==='edit')await editProfile(b.dataset.id);else if(b.dataset.action==='associate')await associateProfile(b.dataset.id);else if(b.dataset.action==='interviews')await openInterviews(b.dataset.id);}catch(err){message(err.message||String(err),'error');}}); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
     const interview=e.target.closest('[data-profile-association-interviews]');
     if(interview){
       try{ await openInterviewsForAssociation(profileAssociationCurrentProfileId, interview.dataset.profileAssociationInterviews, interview.dataset.profileAssociationRequirement, interview.dataset.profileAssociationLabel); }
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
       return;
     }
-    if(e.target.closest('#closeProfileResumeButton') || e.target.closest('#profileInlineBottomCloseResumeButton')){
-      e.preventDefault();
-      closeProfileInlineResume();
+    if(e.target.closest('#closeProfileResumeButton')){
+      const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
+      if(frame)frame.src=''; if(docxViewer)docxViewer.innerHTML=''; if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
+      if(viewer)viewer.classList.add('hidden');
+      const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
+      const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
       return;
     }
-    const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement',notes.dataset.profileAssociationProfile||'Profile');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
+    const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
     const hist=e.target.closest('[data-profile-association-history]');
-    if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement',hist.dataset.profileAssociationProfile||'Profile'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
+    if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
     const del=e.target.closest('[data-profile-association-delete]');
-    if(del){ openRemoveProfileAssociationModal(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); return; }
+    if(del){ try{ await removeProfileAssociation(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
     const edit=e.target.closest('[data-profile-association-edit]');
     if(edit){
       e.preventDefault();
@@ -648,14 +486,10 @@
       try{ await openProfileAssociationModal(profileAssociationCurrentProfileId); }
       catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
     }
-  });
-  $('closeProfileAssociationModal').addEventListener('click',closeProfileAssociationModal);
-  $('cancelRemoveProfileAssociationButton').addEventListener('click',closeRemoveProfileAssociationModal);
-  $('confirmRemoveProfileAssociationButton').addEventListener('click',confirmRemoveProfileAssociation);
-  $('removeProfileAssociationModal').addEventListener('click',function(e){ if(e.target===this)closeRemoveProfileAssociationModal(); });
+  }); $('closeProfileAssociationModal').addEventListener('click',closeProfileAssociationModal);
   $('cancelProfileAssociationButton').addEventListener('click',closeProfileAssociationModal);
   $('saveProfileAssociationButton').addEventListener('click',saveProfileAssociation);
-  $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal); $('cancelProfileNoteDeleteButton').addEventListener('click',closeProfileNoteDeleteModal); $('confirmProfileNoteDeleteButton').addEventListener('click',deleteProfileNote);
+  $('closeProfileNotesModal').addEventListener('click',closeProfileNotesModal);
   $('cancelProfileNoteButton').addEventListener('click',closeProfileNotesModal);
   $('profileNoteForm').addEventListener('submit',saveProfileRequirementNote);
   $('profileNotesTableBody').addEventListener('click',async e=>{
@@ -670,7 +504,9 @@
     }
     const del=e.target.closest('[data-profile-note-delete]');
     if(del){
-      openProfileNoteDeleteModal(del.dataset.profileNoteDelete,profileNotesRequirementId?'requirement-specific':'profile-level'); return;}
+      if(!confirm(profileNotesRequirementId?'Delete this requirement-specific note?':'Delete this profile-level note?'))return;
+      del.disabled=true;
+      try{let q=supabase.from('profile_notes').delete().eq('id',del.dataset.profileNoteDelete).eq('profile_id',profileNotesProfileId);q=profileNotesRequirementId?q.eq('requirement_id',profileNotesRequirementId):q.is('requirement_id',null);const {error}=await q;if(error)throw error;message(profileNotesRequirementId?'Requirement-specific note deleted successfully.':'Profile-level note deleted successfully.','success');resetProfileNoteForm();if(profileNotesRequirementId)await loadRequirementNotes();else await loadProfileLevelNotes();await openProfileDetails(profileNotesProfileId);}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}finally{del.disabled=false;}}
   });
   $('closeInterviewModal').addEventListener('click',closeInterviewModal); $('cancelInterviewModalButton').addEventListener('click',closeInterviewModal); $('addInterviewButton').addEventListener('click',()=>openInterviewForm()); $('closeInterviewFormModal').addEventListener('click',closeInterviewFormModal); $('cancelInterviewButton').addEventListener('click',closeInterviewFormModal); $('interviewForm').addEventListener('submit',saveInterview); $('interviewTableBody').addEventListener('click',async e=>{const edit=e.target.closest('[data-interview-edit]'); if(edit){const {data,error}=await supabase.from('profile_requirement_interviews').select('*').eq('id',edit.dataset.interviewEdit).single(); if(error){interviewMessage(error.message,'error');return;} openInterviewForm(data); return;} const del=e.target.closest('[data-interview-delete]'); if(del){if(!confirm('Delete this interview round?'))return; del.disabled=true; try{const {error}=await supabase.from('profile_requirement_interviews').delete().eq('id',del.dataset.interviewDelete); if(error)throw error; await loadInterviews();}catch(err){interviewMessage(err.message||String(err),'error');}finally{del.disabled=false;}}}); $('profileModal').addEventListener('click',e=>{if(e.target===$('profileModal'))return;});
   document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;try{await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
