@@ -2789,7 +2789,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div id="existingProfileNotice" class="profile-association-panel hidden"></div>
 <div class="profile-form-grid">
 <div class="profile-form-section-title">Personal Information</div>
-<div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><input id="currentLocation"></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div>
+<div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><select id="currentLocation"><option value="">Select Current Location</option></select></div><div class="field-group"><label>Preferred Location</label><select id="preferredLocation"><option value="">Select Preferred Location</option></select></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div>
 <div class="profile-form-section-title">Requirement Association</div>
 <div class="field-group field-span-2"><label for="profileRequirement">Requirement</label><select id="profileRequirement"><option value="">Select Requirement</option></select><small id="profileRequirementHelp" class="profile-form-help">Optional. If this profile is being considered for a specific requirement, select it here. You can associate the profile now instead of doing it later.</small></div>
 <div class="profile-form-section-title">Professional Information</div>
@@ -3238,7 +3238,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
     </footer>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=35"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=36"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
