@@ -2634,6 +2634,52 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 .standard-list-pagination .btn:hover:not(:disabled){background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
 .standard-list-pagination .btn:disabled{opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;}
 </style>
+
+<style id="main-menu-same-as-submenu-logo-height">
+/* Main menu: same compact button treatment as the secondary menu, with button height matching the 48px logo. */
+.admin-main-nav{
+  display:flex !important;
+  align-items:center !important;
+  height:56px !important;
+  min-height:56px !important;
+  gap:6px !important;
+}
+.admin-main-nav-link{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  align-self:center !important;
+  height:48px !important;
+  min-height:48px !important;
+  max-height:48px !important;
+  box-sizing:border-box !important;
+  padding:0 15px !important;
+  border:1px solid transparent !important;
+  border-radius:7px !important;
+  background:transparent !important;
+  color:#4A5D73 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:48px !important;
+  white-space:nowrap !important;
+  text-decoration:none !important;
+}
+.admin-main-nav-link:hover{
+  background:#FFF !important;
+  border-color:#D5E0EC !important;
+  color:#173F78 !important;
+}
+.admin-main-nav-link.active{
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFF !important;
+  font-weight:700 !important;
+  box-shadow:0 2px 5px rgba(40,120,232,.18) !important;
+}
+.admin-main-nav-link.active:after{
+  display:none !important;
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
