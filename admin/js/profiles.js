@@ -121,8 +121,7 @@
         openBtn.classList.remove('hidden');
       }
       if(closeBtn) closeBtn.classList.remove('hidden');
-       const bottomCloseBtn=$('closeProfileResumeBottomButton');
-       if(bottomCloseBtn) bottomCloseBtn.classList.remove('hidden');
+      const closeBottomBtn=$('closeProfileResumeBottomButton'); if(closeBottomBtn) closeBottomBtn.classList.remove('hidden');
     }catch(err){
       viewer.classList.add('hidden');
       if(frame)frame.src='';
@@ -257,6 +256,7 @@
     const primary=(srcRes.data||[]).find(x=>x.is_primary) || sourceRows[0];
     const notes=notesRes.error?[]:(notesRes.data||[]); const histories=statusRes.error?[]:(statusRes.data||[]); const interviews=intRes.error?[]:(intRes.data||[]);
     const resumeButtons=p.resume_object_path ? `<div class="profile-resume-actions"><button type="button" class="btn btn-primary btn-small" id="viewProfileResumeButton"><i class="fa-solid fa-eye"></i> View Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="openProfileResumeNewTabButton"><i class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button><button type="button" class="btn btn-outline btn-small" id="downloadProfileResumeButton"><i class="fa-solid fa-download"></i> Download Resume</button><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div><div id="profileResumeViewer" class="profile-resume-viewer hidden"><div id="profileResumeLoading" class="profile-resume-loading">Loading resume…</div><iframe id="profileResumeFrame" class="profile-resume-frame hidden" title="Profile Resume"></iframe><div id="profileResumeDocxViewer" class="profile-resume-docx hidden" aria-label="Profile Resume"></div></div>` : '<div class="profile-detail-muted">No resume available.</div>';
+    const resumeLastUpdatedButton=p.resume_object_path ? `<button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeBottomButton"><i class="fa-solid fa-xmark"></i> Close Resume</button>` : '';
     body.innerHTML=`
       <div class="profile-detail-section"><div class="profile-detail-section-title">Profile & Source</div><div class="profile-detail-grid profile-source-detail-grid">
         ${detailItem('Profile Number',p.profile_number)}${detailItem('Profile Status',p.status)}${detailItem('Date Added',formatDateTime(p.created_at))}${detailItem('Availability',p.availability)}${detailItem('Source',primary?.source)}${detailItem('Source Details',primary?.source_details)}
@@ -272,7 +272,7 @@
         <div class="profile-education-row profile-education-row-2">${detailItem('Job Categories',categories.join(', '))}${detailLink('LinkedIn',p.linkedin_url)}</div>
         <div class="profile-education-row profile-education-row-2">${detailItem('Skills',p.skills,true)}${detailItem('Additional Information',p.additional_information,true)}</div>
       </div></div>
-      <div class="profile-detail-section"><div class="profile-detail-section-title">Resume</div><div class="profile-detail-grid"><div class="profile-detail-item profile-detail-wide"><span class="profile-detail-label">Current Resume</span><div class="profile-detail-value">${esc(p.resume_file_name||'—')} ${resumeButtons}</div></div><div class="profile-detail-item profile-resume-last-updated"><span class="profile-detail-label">Last Updated</span><div class="profile-detail-value profile-resume-last-updated-value"><span>${esc(p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</span><button type="button" class="btn btn-outline btn-small hidden" id="closeProfileResumeBottomButton"><i class="fa-solid fa-xmark"></i> Close Resume</button></div></div></div></div>
+      <div class="profile-detail-section"><div class="profile-detail-section-title">Resume</div><div class="profile-detail-grid"><div class="profile-detail-item profile-detail-wide"><span class="profile-detail-label">Current Resume</span><div class="profile-detail-value">${esc(p.resume_file_name||'—')} ${resumeButtons}</div></div><div class="profile-detail-item profile-detail-wide profile-resume-last-updated"><div class="profile-resume-last-updated-content"><span class="profile-detail-label">LAST UPDATED</span><div class="profile-detail-value profile-resume-last-updated-value">${esc(p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</div></div>${resumeLastUpdatedButton}</div></div></div>
       <div class="profile-detail-section">
         <div class="profile-detail-section-title profile-detail-section-title-row"><span>Job Associations</span><button type="button" class="btn btn-primary btn-small" id="addProfileAssociationButton"><i class="fa-solid fa-plus"></i> Add Requirement</button></div>
         ${renderDetailTable(['Requirement','Requirement Status','Association Status','Type','Associated','Notes','Action'],(assocRes.data||[]).map(a=>{
@@ -505,7 +505,7 @@
       if(viewer)viewer.classList.add('hidden');
       const openBtn=$('openProfileResumeNewTabButton'); if(openBtn)openBtn.classList.add('hidden');
       const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
-      const bottomCloseBtn=$('closeProfileResumeBottomButton'); if(bottomCloseBtn)bottomCloseBtn.classList.add('hidden');
+      const closeBottomBtn=$('closeProfileResumeBottomButton'); if(closeBottomBtn)closeBottomBtn.classList.add('hidden');
       return;
     }
     const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
