@@ -437,6 +437,7 @@
         <td>${escapeHtml(job.experience || '—')}</td>
         <td><span class="status-pill ${statusClass(job.status)}">${escapeHtml(statusLabel(job.status))}</span></td>
         <td>${escapeHtml(formatDate(job.job_open_date))}</td>
+        <td>${escapeHtml(job.profile_count ?? 0)}</td>
         <td>
           <div class="row-actions">
             <button class="icon-button" type="button" data-action="candidates" data-id="${job.id}" title="Manage candidates for requirement" aria-label="Manage candidates for requirement">
@@ -456,7 +457,7 @@
       </tr>
     `).join('') : `
       <tr class="empty-row">
-        <td colspan="10">
+        <td colspan="11">
           <span class="empty-row-title">No requirements found</span>
           <span class="empty-row-text">Use “Add New Requirement” to create the first career opportunity.</span>
         </td>
@@ -554,28 +555,39 @@
   async function loadJobs() {
     showMessage('Loading jobs…', '');
     try {
-      const [jobResult, metadataResult] = await Promise.all([
+      const [jobResult, metadataResult, associationResult] = await Promise.all([
         supabase
           .from('jobs')
           .select('*, clients:client_id(client_name)')
           .order('created_at', { ascending: false }),
         supabase
           .from('job_admin_metadata')
-          .select('job_id, client_name')
+          .select('job_id, client_name'),
+        supabase
+          .from('profile_requirement_associations')
+          .select('requirement_id')
       ]);
       if (jobResult.error) throw jobResult.error;
       if (metadataResult.error) throw metadataResult.error;
+      if (associationResult.error) throw associationResult.error;
 
       const metadataByJob = Object.fromEntries(
         (metadataResult.data || []).map(item => [item.job_id, item])
       );
+      const profileCountsByRequirement = {};
+      (associationResult.data || []).forEach(item => {
+        if (!item.requirement_id) return;
+        profileCountsByRequirement[item.requirement_id] =
+          (profileCountsByRequirement[item.requirement_id] || 0) + 1;
+      });
 
       jobs = (jobResult.data || []).map(job => ({
         ...job,
         client_name:
           job.clients?.client_name ||
           metadataByJob[job.id]?.client_name ||
-          ''
+          '',
+        profile_count: profileCountsByRequirement[job.id] || 0
       }));
       renderJobs();
       showMessage(jobs.length ? '' : 'No requirements have been created yet.', '');
