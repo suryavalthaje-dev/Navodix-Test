@@ -2761,6 +2761,79 @@ loadOpenings();
   border-bottom:2px solid #E1E7EF !important;
 }
 </style>
+
+<style id="careers-cta-button-refresh">
+/* Careers CTA buttons — alternate corporate button treatment */
+.careers-cta-button{
+  position:relative;
+  z-index:1;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-width:190px;
+  padding:12px 18px 12px 20px;
+  border:1px solid #0B3B78;
+  border-radius:9px;
+  background:#0B3B78;
+  color:#fff;
+  text-decoration:none;
+  font-family:var(--font-main);
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  box-shadow:0 5px 14px rgba(7,29,73,.14);
+  transition:all .2s ease;
+}
+.careers-cta-button i{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:rgba(255,255,255,.14);
+  font-size:11px;
+  transition:transform .2s ease,background .2s ease;
+}
+.careers-cta-button:hover{
+  background:#0A3163;
+  border-color:#0A3163;
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(7,29,73,.18);
+}
+.careers-cta-button:hover i{
+  transform:translateX(2px);
+  background:rgba(255,255,255,.22);
+}
+/* Referral gets a lighter secondary treatment so the two actions are visually distinct. */
+#referCandidateBtn{
+  background:#fff;
+  color:#008F72;
+  border-color:#00A982;
+  box-shadow:0 5px 14px rgba(0,143,114,.10);
+}
+#referCandidateBtn i{
+  background:#E7F8F3;
+  color:#008F72;
+}
+#referCandidateBtn:hover{
+  background:#F3FCF9;
+  color:#00785F;
+  border-color:#008F72;
+  box-shadow:0 8px 18px rgba(0,143,114,.14);
+}
+#referCandidateBtn:hover i{
+  background:#D8F3EB;
+}
+@media(max-width:640px){
+  .careers-cta-button{
+    width:100%;
+    min-width:0;
+  }
+}
+</style>
 </body>
 </html>
 
