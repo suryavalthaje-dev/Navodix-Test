@@ -800,7 +800,7 @@
     /* View Details — TRUE isolated modal architecture matching Submit Your Profile */
     #detailsModal.nxv-modal{position:fixed !important;inset:0 !important;z-index:10000 !important;display:none !important;align-items:center !important;justify-content:center !important;padding:4px !important;box-sizing:border-box !important;margin:0 !important;background:rgba(7,29,73,.35) !important;}
     #detailsModal.nxv-modal.is-open{display:flex !important;}
-    #detailsModal .nxv-dialog{width:min(820px,100%) !important;height:auto !important;min-height:min(700px,calc(100dvh - 8px)) !important;max-height:min(860px,calc(100dvh - 8px)) !important;margin:0 !important;padding:0 !important;box-sizing:border-box !important;overflow:hidden !important;display:grid !important;grid-template-rows:auto minmax(0,1fr) 54px !important;background:#fff !important;border:0 !important;border-radius:16px !important;box-shadow:0 24px 70px rgba(7,29,73,.25) !important;}
+    #detailsModal .nxv-dialog{width:min(820px,100%) !important;height:min(860px,calc(100dvh - 8px)) !important;min-height:0 !important;max-height:min(860px,calc(100dvh - 8px)) !important;margin:0 !important;padding:0 !important;box-sizing:border-box !important;overflow:hidden !important;display:grid !important;grid-template-rows:auto minmax(0,1fr) 54px !important;background:#fff !important;border:0 !important;border-radius:16px !important;box-shadow:0 24px 70px rgba(7,29,73,.25) !important;}
     #detailsModal .nxv-header{min-height:0 !important;margin:0 !important;box-sizing:border-box !important;padding:10px 26px 12px !important;background:#2878E8 !important;border-radius:16px 16px 0 0 !important;position:relative !important;}
     #detailsModal .nxv-head h3{margin:0 !important;color:#fff !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:23px !important;line-height:1.2 !important;font-weight:700 !important;}
     #detailsModal .nxv-head p{margin:3px 0 0 !important;color:rgba(255,255,255,.88) !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:11px !important;line-height:1.4 !important;}
@@ -822,7 +822,7 @@
     #detailsModal .nxv-buttons{flex:0 0 auto !important;display:flex !important;align-items:center !important;gap:8px !important;margin:0 !important;padding:0 !important;}
     #detailsModal .nxv-buttons .nxv-apply,#detailsModal .nxv-buttons .nxv-close-btn{box-sizing:border-box !important;height:34px !important;min-height:34px !important;margin:0 !important;padding:6px 13px !important;border-radius:5px !important;border:1px solid #2878E8 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;line-height:20px !important;cursor:pointer !important;}
     #detailsModal .nxv-buttons .nxv-apply{background:#2878E8 !important;color:#fff !important;}
-    #detailsModal .nxv-buttons .nxv-close-btn{background:#fff !important;color:#2878E8 !important;}
+    #detailsModal .nxv-buttons .nxv-close-btn{background:#2878E8 !important;color:#fff !important;}
     #detailsModal .nxv-buttons .nxv-apply:hover{background:#1D63C7 !important;border-color:#1D63C7 !important;}
     #detailsModal .nxv-buttons .nxv-close-btn:hover{background:#F1F6FD !important;}
     @media(max-width:640px){#detailsModal.nxv-modal{padding:4px !important;}#detailsModal .nxv-dialog{width:100% !important;height:auto !important;max-height:calc(100dvh - 8px) !important;border-radius:14px !important;grid-template-rows:auto minmax(0,1fr) 54px !important;}#detailsModal .nxv-header{border-radius:14px 14px 0 0 !important;padding:8px 18px 10px !important;}#detailsModal .nxv-body{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-meta{grid-template-columns:100px minmax(0,1fr) !important;gap:0 !important;}#detailsModal .nxv-meta span{min-height:36px !important;}#detailsModal .nxv-meta span:nth-child(6n){border-right:1px solid #D8E0EA !important;}#detailsModal .nxv-meta span:nth-child(2n){border-right:0 !important;}#detailsModal .nxv-footer{padding-left:18px !important;padding-right:18px !important;}#detailsModal .nxv-buttons{width:auto !important;margin-left:auto !important;} }
@@ -1889,7 +1889,12 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
         <div class="nxv-meta" id="detailsModalMeta"></div>
 
         <section class="nxv-section">
-          <h4 class="nxv-section-title">About the Opportunity</h4>
+          <h4 class="nxv-section-title">SHORT DESCRIPTION</h4>
+          <p id="detailsModalShortDescription" class="nxv-text"></p>
+        </section>
+
+        <section class="nxv-section">
+          <h4 class="nxv-section-title">ABOUT THE OPPORTUNITY (Detailed Description)</h4>
           <p id="detailsModalDescription" class="nxv-text"></p>
         </section>
 
@@ -1904,7 +1909,7 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
         </section>
 
         <section class="nxv-section" id="detailsModalQualificationsSection">
-          <h4 class="nxv-section-title">Preferred Qualifications</h4>
+          <h4 class="nxv-section-title">PREFERRED QUALIFICATIONS</h4>
           <ul id="detailsModalQualifications" class="nxv-list"></ul>
         </section>
       </div>
@@ -2386,6 +2391,7 @@ function openDetailsModal(jobId){
   `;
 
   const details=job.details || {};
+  document.getElementById('detailsModalShortDescription').textContent=job.short_description || '';
   document.getElementById('detailsModalDescription').textContent=details.overview || job.description;
   document.getElementById('detailsModalRequirements').innerHTML=job.requirements.map(r=>`<li>${r}</li>`).join('');
 
