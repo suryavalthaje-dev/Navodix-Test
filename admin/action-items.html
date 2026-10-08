@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="noindex,nofollow,noarchive" name="robots"/>
-<title>Action Items | Navodix Careers Admin</title>
-<link href="../assets/images/favicon.png" rel="icon" type="image/png"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<link href="css/admin.css?v=31" rel="stylesheet"/>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Action Items | Navodix Careers Admin</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=74">
+  <link rel="stylesheet" href="css/navodix-ui-standard.css?v=19">
+
 <style>
 /* Action Items List Page — UI alignment with Navodix Action Items List Specification v1.0 */
 .action-items-page-ui-spec {
@@ -255,6 +256,7 @@
   .action-items-total { grid-column:1 !important; justify-self:center; text-align:center; }
 }
 </style>
+
 <style id="action-items-final-v16-design">
 /* Finalized Action Items table design — based on approved Design Preview v16.
    Visual-only overrides; existing functionality, columns and data are unchanged. */
@@ -333,6 +335,7 @@
   .action-items-pagination { min-height:58px !important; }
 }
 </style>
+
 <style id="standard-list-pagination">
 .standard-list-pagination { margin:0 !important; min-height:58px !important; padding:0 12px !important; display:grid !important; grid-template-columns:1fr auto 1fr !important; align-items:center !important; gap:12px !important; border-top:1px solid #B8C1CC !important; border-left:0 !important; border-right:1px solid #1F1F1F !important; border-bottom:1px solid #1F1F1F !important; box-sizing:border-box !important; background:#FFFFFF !important; }
 .standard-list-pagination .pagination-left { grid-column:1; justify-self:start; display:flex; align-items:center; gap:12px; }
@@ -343,15 +346,19 @@
 .standard-list-pagination .btn { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; padding:8px 13px !important; min-height:36px !important; }
 @media (max-width:760px) { .standard-list-pagination { grid-template-columns:1fr !important; min-height:58px !important; padding:8px 12px !important; } .standard-list-pagination .pagination-left,.standard-list-pagination .pagination-center,.standard-list-pagination .pagination-right { grid-column:1 !important; justify-self:center !important; } .standard-list-pagination .pagination-right { flex-wrap:wrap; justify-content:center; } }
 </style>
+
+
 <style id="pagination-line-standard-v18">
 /* Standard pagination line weights: 1px below the last row, 2px at the bottom. */
 .standard-list-pagination {
   border-bottom:2px solid #1F1F1F !important;
 }
 </style>
+
 <style id="last-row-line-standard-v18">
 .action-table tbody tr:last-child td { border-bottom:1px solid #1F1F1F !important; }
 </style>
+
 <style id="action-items-modal-standard-bridge">
 /* Action Items modal bridge to the frozen Navodix common UI standard.
    This page-only bridge does not modify navodix-ui-standard.css or any other page. */
@@ -500,6 +507,8 @@
   color:#fff !important;
 }
 </style>
+
+
 <style id="action-items-list-standard-v1">
 /* Action Items — approved Navodix List Standard. Page-local UI only. */
 .action-summary{
@@ -695,511 +704,257 @@
   .standard-list-pagination .pagination-right{flex-wrap:wrap !important;justify-content:center !important;}
 }
 </style>
-<style id="action-items-list-standard-v2">
-/* NAVODIX LIST STANDARD — ACTION ITEMS (page-local only) */
-body.action-items-list-standard .admin-main{padding:26px 0 40px !important;}
-body.action-items-list-standard .admin-page-heading.jobs-heading{
-  margin:0 0 16px !important;display:flex !important;justify-content:space-between !important;
-  align-items:center !important;gap:18px !important;
-}
-body.action-items-list-standard .jobs-heading-text{
-  display:flex !important;align-items:baseline !important;gap:12px !important;
-  min-width:0 !important;flex:1 1 auto !important;
-}
-body.action-items-list-standard .jobs-heading-text h1{
-  margin:0 !important;color:#071B4D !important;font-size:26px !important;
-  line-height:1.15 !important;font-weight:700 !important;letter-spacing:-.2px !important;
-  white-space:nowrap !important;
-}
-body.action-items-list-standard .jobs-heading-subtitle{
-  margin:0 !important;color:#556579 !important;font-size:13px !important;
-  line-height:1.35 !important;font-weight:400 !important;white-space:nowrap !important;
-  overflow:hidden !important;text-overflow:ellipsis !important;
-}
-body.action-items-list-standard .action-heading-buttons{
-  display:flex !important;gap:8px !important;align-items:center !important;flex-wrap:wrap !important;
-}
-body.action-items-list-standard .action-heading-buttons .btn{
-  height:36px !important;min-height:36px !important;min-width:100px !important;
-  border-radius:6px !important;padding:0 14px !important;font-size:12px !important;
-  font-weight:600 !important;box-shadow:none !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .action-heading-buttons .btn-outline{
-  background:#EEF5FC !important;border-color:#B8CBE0 !important;color:#173F78 !important;
-}
-body.action-items-list-standard .action-heading-buttons .btn-primary{
-  background:#2878E8 !important;border-color:#2878E8 !important;color:#FFFFFF !important;
-}
 
-/* ONE common Filters + Dashboard frame */
-body.action-items-list-standard .list-controls-frame{
-  background:#F9FBFE !important;border:1px solid #AEBFD2 !important;border-radius:12px !important;
-  padding:9px !important;margin-bottom:16px !important;box-shadow:0 1px 2px rgba(30,55,85,.04) !important;
-}
-body.action-items-list-standard .action-toolbar{
-  display:grid !important;
-  grid-template-columns:minmax(230px,1.5fr) repeat(4,minmax(115px,1fr)) minmax(130px,auto) auto auto !important;
-  gap:7px !important;align-items:center !important;padding:8px !important;margin:0 !important;
-  background:#FFFFFF !important;border:1px solid #E2E8F0 !important;border-radius:10px !important;
-}
-body.action-items-list-standard .action-toolbar .toolbar-search{min-width:0 !important;height:32px !important;}
-body.action-items-list-standard .action-toolbar .toolbar-search input,
-body.action-items-list-standard .action-toolbar select,
-body.action-items-list-standard .action-toolbar input[type="date"]{
-  height:32px !important;min-height:32px !important;border:1px solid #CBD8E8 !important;
-  border-radius:6px !important;font-size:12px !important;box-sizing:border-box !important;
-}
-body.action-items-list-standard .action-toolbar .toolbar-search input{padding-left:31px !important;}
-body.action-items-list-standard .action-toolbar .toolbar-search i{left:10px !important;color:#718096 !important;}
-body.action-items-list-standard .action-toolbar .toolbar-search input::placeholder{font-size:12px !important;color:#8A97A8 !important;}
-body.action-items-list-standard .action-toolbar .btn{
-  height:32px !important;min-height:32px !important;min-width:92px !important;
-  padding:0 13px !important;border-radius:6px !important;font-size:12px !important;
-  font-weight:600 !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .action-toolbar .btn-outline{
-  background:#EEF5FC !important;border-color:#B8CBE0 !important;color:#173F78 !important;
-}
-body.action-items-list-standard .action-summary{
-  display:grid !important;grid-template-columns:repeat(5,minmax(0,1fr)) !important;
-  gap:8px !important;margin:7px 0 0 !important;padding:0 !important;
-}
-body.action-items-list-standard .action-summary .summary-card{
-  height:38px !important;min-height:38px !important;padding:5px 13px !important;
-  border:1px solid #E2E8F0 !important;border-radius:7px !important;background:#FFFFFF !important;
-  display:flex !important;align-items:center !important;justify-content:space-between !important;
-  box-sizing:border-box !important;
-}
-body.action-items-list-standard .action-summary .summary-card span{
-  margin:0 !important;font-size:11px !important;font-weight:600 !important;color:#556579 !important;
-}
-body.action-items-list-standard .action-summary .summary-card strong{
-  font-size:13px !important;font-weight:700 !important;color:#071B4D !important;line-height:1 !important;
-}
-body.action-items-list-standard #actionItemsMessage:empty{display:none !important;}
-body.action-items-list-standard #actionItemsMessage:not(:empty){
-  min-height:0 !important;margin:6px 0 0 !important;font-size:12px !important;
-}
-
-/* List card + one-line list heading */
-body.action-items-list-standard .action-card{
-  position:relative !important;background:#FFFFFF !important;
-  border:2px solid #AFC2D8 !important;border-top:4px solid #2878E8 !important;
-  border-radius:10px !important;overflow:hidden !important;
-  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
-}
-body.action-items-list-standard .action-list-heading{
-  min-height:50px !important;padding:7px 14px !important;display:flex !important;
-  justify-content:space-between !important;align-items:center !important;gap:14px !important;
-  border-bottom:1px solid #CBD8E8 !important;position:relative !important;
-}
-body.action-items-list-standard .action-list-heading .list-heading-inline{
-  display:flex !important;align-items:baseline !important;gap:10px !important;
-  min-width:0 !important;flex:1 1 auto !important;
-}
-body.action-items-list-standard .action-list-heading h2{
-  margin:0 !important;color:#0B2A5B !important;font-size:16px !important;
-  line-height:1.2 !important;font-weight:700 !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .action-list-heading p{
-  margin:0 !important;color:#65758A !important;font-size:11.5px !important;
-  line-height:1.3 !important;font-weight:400 !important;white-space:nowrap !important;
-  overflow:hidden !important;text-overflow:ellipsis !important;
-}
-
-/* Table */
-body.action-items-list-standard .action-table{
-  width:100% !important;min-width:0 !important;table-layout:fixed !important;
-  border-collapse:collapse !important;border:0 !important;
-}
-body.action-items-list-standard .action-table thead th{
-  height:40px !important;background:#2878E8 !important;color:#FFFFFF !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;
-  font-weight:600 !important;letter-spacing:0 !important;text-transform:none !important;
-  text-align:left !important;padding:0 10px !important;line-height:1.1 !important;
-  white-space:nowrap !important;border:0 !important;border-right:1px solid rgba(255,255,255,.24) !important;
-}
-body.action-items-list-standard .action-table thead th:last-child{border-right:0 !important;}
-body.action-items-list-standard .action-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
-body.action-items-list-standard .action-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
-body.action-items-list-standard .action-table tbody tr:hover{background:#EAF3FF !important;}
-body.action-items-list-standard .action-table tbody td{
-  min-height:40px !important;padding:7px 10px !important;border-right:1px solid #CBD8E8 !important;
-  border-bottom:1px solid #CBD8E8 !important;color:#1E293B !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;
-  font-weight:400 !important;line-height:1.25 !important;vertical-align:middle !important;
-  white-space:normal !important;overflow-wrap:anywhere !important;
-}
-body.action-items-list-standard .action-table tbody td:first-child{border-left:0 !important;}
-body.action-items-list-standard .action-table tbody td:last-child{border-right:0 !important;}
-body.action-items-list-standard .action-table tbody tr:last-child td{border-bottom:0 !important;}
-body.action-items-list-standard .action-table td .action-title-text{
-  font-size:12px !important;font-weight:400 !important;color:#1E293B !important;line-height:1.25 !important;
-}
-body.action-items-list-standard .action-table td .action-priority-text,
-body.action-items-list-standard .action-table td .action-status-text{
-  font-size:12px !important;font-weight:400 !important;
-}
-
-/* Preserve Action Items semantic colors */
-body.action-items-list-standard .action-table td .action-priority-text.priority-high{color:#B42318 !important;}
-body.action-items-list-standard .action-table td .action-priority-text.priority-medium{color:#175CD3 !important;}
-body.action-items-list-standard .action-table td .action-priority-text.priority-low{color:inherit !important;}
-body.action-items-list-standard .action-table td .action-status-text.status-pending{color:#344054 !important;}
-body.action-items-list-standard .action-table td .action-status-text.status-in_progress{color:#175CD3 !important;}
-body.action-items-list-standard .action-table td .action-status-text.status-on_hold{color:#B54708 !important;}
-body.action-items-list-standard .action-table td .action-status-text.status-completed{color:#027A48 !important;}
-body.action-items-list-standard .action-table td .action-status-text.status-cancelled{color:#B42318 !important;}
-body.action-items-list-standard .action-table tbody tr.action-overdue td:nth-child(5){color:#B42318 !important;font-weight:400 !important;}
-body.action-items-list-standard .action-table tbody tr.action-due-today td:nth-child(5){color:#175CD3 !important;font-weight:400 !important;}
-body.action-items-list-standard .action-table tbody tr.action-due-completed td:nth-child(5),
-body.action-items-list-standard .action-table tbody td.action-due-completed-cell{color:#027A48 !important;font-weight:400 !important;}
-
-/* Action button */
-body.action-items-list-standard .action-table td.action-buttons-cell{
-  text-align:right !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .action-table td.action-buttons-cell .action-view-button{
-  height:30px !important;min-width:78px !important;padding:5px 9px !important;
-  border-radius:6px !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:11px !important;font-weight:600 !important;line-height:1.1 !important;
-  background:#F4F8FC !important;border:1px solid #C8D9EA !important;color:#174A7C !important;
-}
-
-/* Last Updated */
-body.action-items-list-standard .action-table td.action-updated-cell{
-  padding-top:7px !important;padding-bottom:7px !important;
-}
-body.action-items-list-standard .action-table .action-updated-time{
-  font-size:11px !important;line-height:1.05 !important;margin-top:2px !important;
-}
-
-/* Pagination */
-body.action-items-list-standard .standard-list-pagination{
-  display:grid !important;margin:0 !important;height:54px !important;min-height:54px !important;
-  padding:8px 12px !important;grid-template-columns:1fr auto 1fr !important;align-items:center !important;
-  gap:12px !important;border:0 !important;border-top:1px solid #CBD8E8 !important;
-  border-radius:0 !important;box-sizing:border-box !important;background:#F7F1E8 !important;
-}
-body.action-items-list-standard .standard-list-pagination .pagination-left{
-  grid-column:1 !important;justify-self:start !important;display:flex !important;align-items:center !important;gap:8px !important;
-}
-body.action-items-list-standard .standard-list-pagination .pagination-center{
-  grid-column:2 !important;display:flex !important;align-items:center !important;justify-content:center !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .standard-list-pagination .pagination-right{
-  grid-column:3 !important;justify-self:end !important;display:flex !important;align-items:center !important;gap:8px !important;
-}
-body.action-items-list-standard .standard-list-pagination .pagination-page,
-body.action-items-list-standard .standard-list-pagination .pagination-total{
-  font-size:11px !important;font-weight:400 !important;color:#5D6D80 !important;white-space:nowrap !important;
-}
-body.action-items-list-standard .standard-list-pagination .btn{
-  height:34px !important;min-height:34px !important;min-width:82px !important;padding:0 12px !important;
-  border-radius:6px !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:11px !important;font-weight:600 !important;border:1px solid #B8CBE0 !important;
-  background:#EEF5FC !important;color:#173F78 !important;box-shadow:none !important;
-}
-body.action-items-list-standard .standard-list-pagination .btn:hover:not(:disabled){
-  background:#EEF5FC !important;border-color:#9FB6D1 !important;
-}
-body.action-items-list-standard .standard-list-pagination .btn:disabled{
-  opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;
-}
-
-/* Empty-list rule */
-body.action-items-list-standard .standard-list-pagination.hidden{display:grid !important;}
-
-@media(max-width:1100px){
-  body.action-items-list-standard .action-toolbar{
-    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
-  }
-  body.action-items-list-standard .action-toolbar .toolbar-search{grid-column:span 2 !important;}
-}
-@media(max-width:760px){
-  body.action-items-list-standard .admin-main > .admin-container{width:calc(100% - 28px) !important;}
-  body.action-items-list-standard .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
-  body.action-items-list-standard .jobs-heading-text{display:block !important;width:100% !important;}
-  body.action-items-list-standard .jobs-heading-text h1,
-  body.action-items-list-standard .jobs-heading-subtitle{white-space:normal !important;}
-  body.action-items-list-standard .action-heading-buttons{width:100% !important;}
-  body.action-items-list-standard .action-heading-buttons .btn{min-width:0 !important;}
-  body.action-items-list-standard .action-toolbar{grid-template-columns:1fr !important;}
-  body.action-items-list-standard .action-toolbar .toolbar-search{grid-column:auto !important;}
-  body.action-items-list-standard .action-summary{grid-template-columns:1fr 1fr !important;}
-  body.action-items-list-standard .action-list-heading{align-items:flex-start !important;}
-  body.action-items-list-standard .action-list-heading .list-heading-inline{display:block !important;}
-  body.action-items-list-standard .action-list-heading h2,
-  body.action-items-list-standard .action-list-heading p{white-space:normal !important;}
-  body.action-items-list-standard .action-table{min-width:900px !important;}
-  body.action-items-list-standard .table-wrap{overflow-x:auto !important;}
-  body.action-items-list-standard .standard-list-pagination{
-    grid-template-columns:1fr !important;height:auto !important;min-height:58px !important;
-  }
-  body.action-items-list-standard .standard-list-pagination .pagination-left,
-  body.action-items-list-standard .standard-list-pagination .pagination-center,
-  body.action-items-list-standard .standard-list-pagination .pagination-right{
-    grid-column:1 !important;justify-self:center !important;
-  }
-  body.action-items-list-standard .standard-list-pagination .pagination-right{
-    flex-wrap:wrap !important;justify-content:center !important;
-  }
-}
-</style><style id="menu-standard-v28">
-/* Exact finalized Admin Menu Standard copied from approved Profiles page. */
-.admin-header{position:sticky;top:0;z-index:1000;background:#FFF;border-bottom:1px solid #D7E1ED;box-shadow:0 2px 10px rgba(25,55,90,.06);height:56px!important;min-height:56px!important}.admin-header .admin-container,.admin-section-nav-inner,.admin-main>.admin-container{width:min(1200px,calc(100% - 40px))!important;max-width:1200px!important;margin-left:auto!important;margin-right:auto!important}.admin-header .admin-container{height:56px!important}.admin-nav{height:56px!important;min-height:56px!important;display:flex;align-items:center;gap:20px!important}.admin-brand{display:flex;align-items:center;flex:0 0 auto;height:56px!important}.admin-brand img{display:block;width:auto!important;height:48px!important;max-width:215px;max-height:48px;object-fit:contain}.admin-main-nav{display:flex;align-items:stretch;height:56px!important;gap:5px;flex:1 1 auto;min-width:0}.admin-main-nav-link{position:relative;display:flex;align-items:center;height:56px!important;min-height:56px!important;padding:0 15px!important;border-radius:0 0 8px 8px!important;color:#4A5D73;font-size:12px;font-weight:600;white-space:nowrap;text-decoration:none}.admin-main-nav-link:hover{background:#F1F6FC;color:#173F78}.admin-main-nav-link.active{background:#EAF3FF;color:#0B55B5;font-weight:700}.admin-main-nav-link.disabled{cursor:default}.admin-main-nav-link.active:after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:#2878E8}.admin-nav-right{display:flex;align-items:center;gap:10px;margin-left:auto;height:56px!important}.admin-user{font-size:11px;color:#435A72;font-weight:400;white-space:nowrap}.admin-nav-right #logoutButton{height:36px!important;min-height:36px!important;min-width:96px;padding:0 13px!important;border:1px solid #B8CBE0!important;border-radius:8px!important;background:#F7FAFE!important;color:#173F78!important;font-size:12px!important;font-weight:600!important;box-shadow:none!important}.admin-nav-right #logoutButton:hover{background:#EEF5FC!important;border-color:#9FB6D1!important;color:#173F78!important}.admin-nav-right #logoutButton i{margin-right:7px;font-size:12px}.admin-section-nav{position:sticky;top:56px;z-index:900;background:#F7FAFE;border-bottom:1px solid #D7E1ED;box-shadow:0 1px 5px rgba(25,55,90,.04);overflow:visible;height:52px!important;min-height:52px!important;max-height:52px!important;box-sizing:border-box!important}.admin-section-nav-inner{height:52px!important;min-height:52px!important;max-height:52px!important;display:flex;align-items:center;gap:6px;overflow:visible;box-sizing:border-box!important}.admin-section-nav-link{display:flex!important;align-items:center!important;align-self:center!important;height:34px!important;min-height:34px!important;max-height:34px!important;line-height:34px!important;box-sizing:border-box!important;padding:0 12px!important;border:1px solid transparent;border-radius:7px;color:#4A5D73;font-size:11.5px;font-weight:600;white-space:nowrap;text-decoration:none}.admin-section-nav-link:hover{background:#FFF;border-color:#D5E0EC;color:#173F78}.admin-section-nav-link.active{background:#2878E8!important;border-color:#2878E8!important;color:#FFF!important;box-shadow:0 2px 5px rgba(40,120,232,.18)}.admin-section-nav-dropdown{position:relative;height:34px;display:block}.admin-section-nav-dropdown>summary{list-style:none;cursor:pointer}.admin-section-nav-dropdown>summary::-webkit-details-marker{display:none}.admin-section-nav-dropdown>summary:after{content:"▼";margin-left:7px;font-size:8px;opacity:.72;transition:transform .18s ease}.admin-section-nav-dropdown[open]>summary:after{transform:rotate(180deg)}.master-data-menu{position:absolute;top:calc(100% + 1px);left:0;z-index:1200;min-width:220px;padding:7px;background:#FFF;border:1px solid #D5E0EC;border-radius:0 0 9px 9px;box-shadow:0 12px 28px rgba(16,24,40,.14)}.master-data-menu a,.master-data-menu-action{display:block;width:100%;box-sizing:border-box;padding:9px 12px;border:0;border-radius:7px;background:transparent;color:#4A5D73;font-family:inherit;font-size:11.5px;font-weight:600;white-space:nowrap;text-decoration:none;text-align:left;cursor:pointer}.master-data-menu a:hover,.master-data-menu-action:hover{background:#F1F6FC;color:#173F78}
-</style><style id="action-items-modal-standard-final-v1">
-/* Final Navodix Modal Standard — Add / Edit Action Item. Page-local only. */
-#actionItemModal .action-item-modal.profile-interview-modal-shell{
-  width:min(720px,calc(100vw - 32px)) !important;
-  max-width:720px !important;
-  height:min(700px,calc(100dvh - 32px)) !important;
+<style id="action-detail-modal-standard-final-v1">
+/* Action Item View Details — modal standard. Data/body content is intentionally unchanged. */
+#actionDetailModal .action-detail-modal{
+  width:min(900px, calc(100vw - 32px)) !important;
+  max-width:900px !important;
+  height:min(760px, calc(100dvh - 32px)) !important;
   max-height:calc(100dvh - 32px) !important;
-  min-height:0 !important;
-  margin:0 !important;
-  padding:0 !important;
   display:flex !important;
   flex-direction:column !important;
   overflow:hidden !important;
-  box-sizing:border-box !important;
   background:#fff !important;
-  border:0 !important;
   border-radius:10px !important;
-  box-shadow:0 18px 45px rgba(7,27,77,.20) !important;
+  box-sizing:border-box !important;
 }
-#actionItemModal .action-item-modal > .modal-header{
-  flex:0 0 56px !important; height:56px !important; min-height:56px !important;
-  display:flex !important; align-items:center !important; justify-content:space-between !important;
-  gap:16px !important; padding:10px 18px !important; box-sizing:border-box !important;
-  background:#2878E8 !important; color:#fff !important; border:0 !important;
+
+#actionDetailModal .action-detail-modal > .application-child-modal-header{
+  flex:0 0 56px !important;
+  height:56px !important;
+  min-height:56px !important;
+  background:#2878E8 !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:10px 10px 0 0 !important;
+  box-sizing:border-box !important;
 }
-#actionItemModal .action-item-modal > .modal-header h2{
-  margin:0 !important; color:#fff !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:20px !important; line-height:1.2 !important; font-weight:600 !important;
+
+#actionDetailModal .application-child-modal-header h2,
+#actionDetailModal .application-child-modal-header p,
+#actionDetailModal .application-modal-header-status,
+#actionDetailModal .application-modal-header-status span{
+  color:#fff !important;
 }
-#actionItemModal .action-item-modal > .modal-header .section-badge{
-  color:#fff !important; opacity:.92 !important; font-size:10px !important; font-weight:700 !important;
-  letter-spacing:.04em !important;
+
+#actionDetailModal .application-child-modal-body{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
 }
-#actionItemModal #actionItemForm.action-item-standard-form{
-  display:flex !important; flex-direction:column !important; flex:1 1 auto !important;
-  min-height:0 !important; overflow:hidden !important; margin:0 !important;
-  border-left:5px solid #2878E8 !important; border-right:5px solid #2878E8 !important;
-  box-sizing:border-box !important; background:#fff !important;
+
+#actionDetailModal .application-child-modal-actions{
+  flex:0 0 54px !important;
+  height:54px !important;
+  min-height:54px !important;
+  max-height:54px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:10px !important;
+  padding:0 15px !important;
+  margin:0 !important;
+  background:#C9D9EC !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  border-radius:0 0 10px 10px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
 }
-#actionItemModal .action-item-modal-body.profile-interview-modal-body{
-  flex:1 1 auto !important; min-height:0 !important; overflow-y:auto !important; overflow-x:hidden !important;
-  box-sizing:border-box !important; background:#fff !important;
+
+#actionDetailModal .application-child-modal-actions .btn{
+  min-width:0 !important;
+  min-height:40px !important;
+  height:40px !important;
+  padding:0 16px !important;
+  margin:0 !important;
+  border-radius:6px !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+  box-sizing:border-box !important;
 }
-#actionItemModal .action-form-grid{
-  padding:20px 16px 4px !important; box-sizing:border-box !important;
+
+#actionDetailModal .action-detail-modal .modal-close{
+  width:32px !important;
+  height:32px !important;
+  min-width:32px !important;
+  min-height:32px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  color:#fff !important;
 }
-#actionItemModal .action-form-grid .field-group{margin:0 0 16px !important;}
-#actionItemModal .action-form-grid .field-group label{
-  display:block !important; margin:0 0 6px !important; color:#263F62 !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important;
-  line-height:1.25 !important; font-weight:700 !important;
-}
-#actionItemModal .action-form-grid .field-group input,
-#actionItemModal .action-form-grid .field-group select,
-#actionItemModal .action-form-grid .field-group textarea{
-  width:100% !important; box-sizing:border-box !important; padding:0 11px !important;
-  border:1px solid #CBD8E8 !important; border-radius:7px !important; background:#fff !important;
-  color:#1E293B !important; outline:none !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important; font-weight:400 !important;
-}
-#actionItemModal .action-form-grid .field-group input,
-#actionItemModal .action-form-grid .field-group select{height:40px !important; min-height:40px !important;}
-#actionItemModal .action-form-grid .field-group textarea{min-height:76px !important; padding:9px 11px !important; resize:vertical !important;}
-#actionItemModal .action-form-grid .field-group select[multiple]{height:auto !important; min-height:96px !important; padding:7px 8px !important;}
-#actionItemModal .action-form-grid .field-group input:focus,
-#actionItemModal .action-form-grid .field-group select:focus,
-#actionItemModal .action-form-grid .field-group textarea:focus{
-  border-color:#2878E8 !important; box-shadow:0 0 0 2px rgba(40,120,232,.14) !important;
-}
-#actionItemModal .action-form-grid .field-help-text{
-  display:block !important; margin-top:5px !important; color:#64748B !important; font-size:11px !important; line-height:14px !important;
-}
-#actionItemModal .action-item-modal-footer.profile-interview-modal-actions{
-  flex:0 0 54px !important; height:54px !important; min-height:54px !important; max-height:54px !important;
-  display:flex !important; align-items:center !important; justify-content:space-between !important; gap:12px !important;
-  padding:7px 13px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important;
-  background:#C9D9EC !important; border-left:0 !important; border-right:0 !important; border-bottom:5px solid #2878E8 !important;
-}
-#actionItemModal .action-item-modal-message{
-  flex:1 1 auto !important; min-width:0 !important; margin:0 !important; padding:0 !important;
-  border:0 !important; background:transparent !important; color:#B42318 !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; line-height:1.3 !important;
-  max-height:42px !important; overflow:auto !important;
-}
-#actionItemModal .action-item-modal-footer-buttons{
-  flex:0 0 auto !important; display:flex !important; align-items:center !important; justify-content:flex-end !important;
-  gap:10px !important; padding:0 !important; margin:0 !important;
-}
-#actionItemModal .action-item-modal-footer-buttons .btn{
-  height:40px !important; min-height:40px !important; padding:0 16px !important; margin:0 !important;
-  border-radius:7px !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:12px !important; font-weight:600 !important; background:#2878E8 !important;
-  border:1px solid #2878E8 !important; color:#fff !important;
-}
-#actionItemModal .action-item-modal-footer-buttons .btn:hover:not(:disabled){background:#1D63C7 !important; border-color:#1D63C7 !important;}
-#actionItemModal .modal-close{
-  width:32px !important; min-width:32px !important; height:32px !important; min-height:32px !important;
-  display:flex !important; align-items:center !important; justify-content:center !important; padding:0 !important; margin:0 !important;
-  background:transparent !important; border:0 !important; color:#fff !important;
-}
-@media(max-width:700px){
-  #actionItemModal .action-item-modal.profile-interview-modal-shell{width:min(720px,calc(100vw - 16px)) !important; height:calc(100dvh - 16px) !important; max-height:calc(100dvh - 16px) !important;}
-  #actionItemModal .action-form-grid{grid-template-columns:1fr !important; padding:18px 13px 4px !important;}
-  #actionItemModal .action-form-grid .field-span-2{grid-column:auto !important;}
-  #actionItemModal .action-item-modal-footer-buttons .btn{padding:0 12px !important;}
+
+@media (max-width:700px){
+  #actionDetailModal .action-detail-modal{
+    width:calc(100vw - 20px) !important;
+    max-width:calc(100vw - 20px) !important;
+    height:calc(100dvh - 20px) !important;
+    max-height:calc(100dvh - 20px) !important;
+  }
+  #actionDetailModal .application-child-modal-actions{
+    gap:6px !important;
+    padding:0 10px !important;
+  }
+  #actionDetailModal .application-child-modal-actions .btn{
+    padding:0 10px !important;
+  }
 }
 </style>
 </head>
-<body class="admin-app-page action-items-list-standard">
-<header class="admin-header">
-<div class="admin-container admin-nav">
-<a aria-label="Back to Navodix website" class="admin-brand" href="../index.html">
-<img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=17"/>
-</a>
-<nav aria-label="Admin main menu" class="admin-main-nav">
-<a class="admin-main-nav-link active" href="recruitment.html?v=17">Recruitment</a>
-<span class="admin-main-nav-link disabled">Employee Management</span>
-</nav>
-<div class="admin-nav-right">
-<span class="admin-user" id="adminUser"></span>
-<button class="btn btn-outline" id="logoutButton" type="button">
-<i aria-hidden="true" class="fa-solid fa-right-from-bracket"></i> Sign Out
-        </button>
-</div>
-</div>
-</header>
-<nav aria-label="Recruitment navigation" class="admin-section-nav">
-<div class="admin-container admin-section-nav-inner">
-<a class="admin-section-nav-link" href="recruitment.html?v=17">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
-<a class="admin-section-nav-link" href="applications.html?v=17">Applications</a>
-<details class="admin-section-nav-dropdown">
-<summary class="admin-section-nav-link">Master Data</summary>
-<div class="master-data-menu" role="menu">
-<a href="clients.html?v=17" role="menuitem">Clients</a>
-<a href="job-categories.html?v=17" role="menuitem">Job Categories</a>
-<a href="locations.html?v=17" role="menuitem">Locations</a><a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a><a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
-<a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a></div>
-</details>
-<a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
-<a class="admin-section-nav-link active" href="action-items.html?v=30">Action Items</a>
-</div>
-</nav>
+<body class="admin-app-page">
+<header class="admin-header"><div class="admin-container admin-nav">
+  <a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a>
+  <nav class="admin-main-nav" aria-label="Admin main menu">
+    <a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a>
+    <span class="admin-main-nav-link disabled">Employee Management</span>
+  </nav>
+  <div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div>
+</div></header>
+<nav class="admin-section-nav" aria-label="Recruitment sections"><div class="admin-container admin-section-nav-inner">
+  <a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
+  <a class="admin-section-nav-link" href="applications.html?v=17">Applications</a>
+  <details class="admin-section-nav-dropdown"><summary class="admin-section-nav-link">Master Data</summary><div class="master-data-menu" role="menu">
+    <a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a href="projects-areas.html?v=30">Projects / Areas</a><a href="action-item-assignees.html?v=30">Action Item Assignees</a>
+  <a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a></div></details>
+  <a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
+  <a class="admin-section-nav-link active" href="action-items.html?v=30">Action Items</a>
+</div></nav>
+
 <main class="admin-main"><div class="admin-container">
-<div class="admin-page-heading jobs-heading">
-<div class="jobs-heading-text"><h1>Action Items</h1><span class="jobs-heading-subtitle">Track follow-ups, responsibilities and operational activities</span></div>
-<div aria-label="Action item quick views" class="action-heading-buttons">
-<button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" style="height:36px;min-height:36px;" type="button">All Incomplete Items</button>
-<button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" style="height:36px;min-height:36px;" type="button">My Incomplete Items</button>
-<button class="btn btn-primary" id="addActionItemButton" style="height:36px;min-height:36px;" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
-</div>
-</div><section aria-label="Action item filters and dashboard" class="list-controls-frame action-list-controls-frame"><section aria-label="Action item filters" class="action-toolbar">
-<div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="actionSearch" placeholder="Search action item, project or assignee" type="search"/></div>
-<select id="actionStatusFilter"><option value="">All Statuses</option><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="on_hold">On Hold</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
-<select id="actionPriorityFilter"><option value="">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
-<select id="actionAssigneeFilter"><option value="">All Assignees</option></select>
-<select id="actionProjectFilter"><option value="">All Projects / Areas</option></select>
-<input aria-label="Due Date" id="actionDueDateFilter" type="date"/>
-<button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
-<button class="btn btn-outline" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
-</section><div aria-live="polite" class="admin-message" id="actionItemsMessage" role="status"></div><section aria-label="Action item summary" class="action-summary">
-<div class="summary-card"><span>Total</span><strong id="summaryTotal">0</strong></div>
-<div class="summary-card"><span>Open</span><strong id="summaryOpen">0</strong></div>
-<div class="summary-card"><span>Due Today</span><strong id="summaryToday">0</strong></div>
-<div class="summary-card"><span>Overdue</span><strong id="summaryOverdue">0</strong></div>
-<div class="summary-card"><span>Completed</span><strong id="summaryCompleted">0</strong></div>
-</section></section>
-<section class="jobs-card action-card"><div class="list-heading action-list-heading"><div class="list-heading-inline"><h2>Action Items</h2><p>Track and manage follow-ups, responsibilities and operational activities.</p></div></div><div class="table-wrap"><table class="action-table"><thead><tr>
-<th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th><th class="actions-column">Action</th>
-</tr></thead><tbody id="actionItemsTableBody"></tbody></table></div>
-<div class="empty-state hidden" id="emptyActionItems"><i class="fa-solid fa-list-check"></i><h3>No action items found</h3><p>Use “Add Action Item” to create the first action item.</p></div>
-<div aria-label="Action Items pagination" class="standard-list-pagination hidden" id="actionItemsPagination">
+  <div class="admin-page-heading jobs-heading">
+    <div class="jobs-heading-text"><h1>Action Items</h1><span class="jobs-heading-subtitle">Track follow-ups, responsibilities and operational activities</span></div>
+    <div class="action-heading-buttons" aria-label="Action item quick views">
+      <button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" type="button">All Incomplete Items</button>
+      <button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" type="button">My Incomplete Items</button>
+      <button class="btn btn-primary" id="addActionItemButton" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
+    </div>
+  </div>
+  <div id="actionItemsMessage" class="admin-message" role="status" aria-live="polite"></div>
+
+  <section class="action-summary" aria-label="Action item summary">
+    <div class="summary-card"><span>Total</span><strong id="summaryTotal">0</strong></div>
+    <div class="summary-card"><span>Open</span><strong id="summaryOpen">0</strong></div>
+    <div class="summary-card"><span>Due Today</span><strong id="summaryToday">0</strong></div>
+    <div class="summary-card"><span>Overdue</span><strong id="summaryOverdue">0</strong></div>
+    <div class="summary-card"><span>Completed</span><strong id="summaryCompleted">0</strong></div>
+  </section>
+
+  <section class="action-toolbar" aria-label="Action item filters">
+    <div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="actionSearch" type="search" placeholder="Search action item, project or assignee"></div>
+    <select id="actionStatusFilter"><option value="">All Statuses</option><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="on_hold">On Hold</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
+    <select id="actionPriorityFilter"><option value="">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+    <select id="actionAssigneeFilter"><option value="">All Assignees</option></select>
+    <select id="actionProjectFilter"><option value="">All Projects / Areas</option></select>
+    <input id="actionDueDateFilter" type="date" aria-label="Due Date">
+    <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
+    <button class="btn btn-outline" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+  </section>
+
+  <section class="jobs-card action-card"><div class="table-wrap"><table class="action-table"><thead><tr>
+    <th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th><th class="actions-column">Action</th>
+  </tr></thead><tbody id="actionItemsTableBody"></tbody></table></div>
+  <div id="emptyActionItems" class="empty-state hidden"><i class="fa-solid fa-list-check"></i><h3>No action items found</h3><p>Use “Add Action Item” to create the first action item.</p></div>
+  <div id="actionItemsPagination" class="standard-list-pagination hidden" aria-label="Action Items pagination">
 <div class="pagination-left"><button class="btn btn-outline btn-small" id="actionItemsFirst" type="button">First</button><button class="btn btn-outline btn-small" id="actionItemsPrev" type="button">Previous</button></div>
 <div class="pagination-center"><span class="pagination-page" id="actionItemsPageNumber">Page 1 of 1</span></div>
 <div class="pagination-right"><button class="btn btn-outline btn-small" id="actionItemsNext" type="button">Next</button><button class="btn btn-outline btn-small" id="actionItemsLast" type="button">Last</button><span class="pagination-total" id="actionItemsPageInfo">Showing 0-0 of 0</span></div>
 </div>
-</section>
+  </section>
 </div></main>
-<div aria-hidden="true" class="modal-backdrop hidden" id="actionItemModal">
-<div aria-labelledby="actionModalTitle" aria-modal="true" class="action-item-modal profile-interview-modal-shell" role="dialog">
-<div class="modal-header">
-<div><span class="section-badge">ACTION ITEM</span><h2 id="actionModalTitle">Add Action Item</h2></div>
-<button aria-label="Close" class="modal-close" id="closeActionModal" type="button"><i class="fa-solid fa-xmark"></i></button>
+
+<div class="modal-backdrop hidden" id="actionItemModal" aria-hidden="true">
+  <div class="action-item-modal profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="actionModalTitle">
+    <div class="modal-header">
+      <div><span class="section-badge">ACTION ITEM</span><h2 id="actionModalTitle">Add Action Item</h2></div>
+      <button class="modal-close" id="closeActionModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="actionItemForm" novalidate class="action-item-standard-form">
+      <input type="hidden" id="actionItemId">
+      <div class="profile-interview-modal-body action-item-modal-body">
+        <div class="action-form-grid">
+          <div class="field-group field-span-2"><label for="actionTitle">Action Item <span>*</span></label><input id="actionTitle" maxlength="200" required placeholder="e.g. Follow up with client on candidate feedback"></div>
+          <div class="field-group field-span-2"><label for="actionDescription">Description</label><textarea id="actionDescription" rows="3" placeholder="Add relevant details or instructions"></textarea></div>
+          <div class="field-group"><label for="actionProject">Project / Area</label><select id="actionProject"><option value="">Select Project / Area</option></select></div>
+          <div class="field-group"><label for="actionPrimaryAssignee">Primary Responsibility</label><select id="actionPrimaryAssignee" aria-describedby="actionPrimaryAssigneeHelp"><option value="">Select Primary Responsibility</option></select><small id="actionPrimaryAssigneeHelp" class="field-help-text">Select the user primarily responsible for this action item.</small></div>
+          <div class="field-group"><label for="actionSecondaryAssignee">Secondary Responsibility</label><select id="actionSecondaryAssignee" multiple size="4" aria-describedby="actionSecondaryAssigneeHelp"></select><small id="actionSecondaryAssigneeHelp" class="field-help-text">Optional. Select one or more secondary responsible users.</small></div>
+          <div class="field-group"><label for="actionPriority">Priority <span>*</span></label><select id="actionPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
+          <div class="field-group"><label for="actionDueDate">Due Date</label><input id="actionDueDate" type="date"></div>
+          <div class="field-group"><label for="actionStatus">Status <span>*</span></label><select id="actionStatus"><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="on_hold">On Hold</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+        </div>
+      </div>
+      <div class="profile-interview-modal-actions action-item-modal-footer">
+        <div id="actionFormMessage" class="admin-message action-item-modal-message"></div>
+        <div class="action-item-modal-footer-buttons">
+          <button class="btn btn-primary" id="cancelActionButton" type="button">Close</button>
+          <button class="btn btn-primary" type="submit" id="saveActionButton"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
-<form class="action-item-standard-form" id="actionItemForm" novalidate="">
-<input id="actionItemId" type="hidden"/>
-<div class="profile-interview-modal-body action-item-modal-body">
-<div class="action-form-grid">
-<div class="field-group field-span-2"><label for="actionTitle">Action Item <span>*</span></label><input id="actionTitle" maxlength="200" placeholder="e.g. Follow up with client on candidate feedback" required=""/></div>
-<div class="field-group field-span-2"><label for="actionDescription">Description</label><textarea id="actionDescription" placeholder="Add relevant details or instructions" rows="3"></textarea></div>
-<div class="field-group"><label for="actionProject">Project / Area</label><select id="actionProject"><option value="">Select Project / Area</option></select></div>
-<div class="field-group"><label for="actionPrimaryAssignee">Primary Responsibility</label><select aria-describedby="actionPrimaryAssigneeHelp" id="actionPrimaryAssignee"><option value="">Select Primary Responsibility</option></select><small class="field-help-text" id="actionPrimaryAssigneeHelp">Select the user primarily responsible for this action item.</small></div>
-<div class="field-group"><label for="actionSecondaryAssignee">Secondary Responsibility</label><select aria-describedby="actionSecondaryAssigneeHelp" id="actionSecondaryAssignee" multiple="" size="4"></select><small class="field-help-text" id="actionSecondaryAssigneeHelp">Optional. Select one or more secondary responsible users.</small></div>
-<div class="field-group"><label for="actionPriority">Priority <span>*</span></label><select id="actionPriority"><option value="high">High</option><option selected="" value="medium">Medium</option><option value="low">Low</option></select></div>
-<div class="field-group"><label for="actionDueDate">Due Date</label><input id="actionDueDate" type="date"/></div>
-<div class="field-group"><label for="actionStatus">Status <span>*</span></label><select id="actionStatus"><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="on_hold">On Hold</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+
+<div class="modal-backdrop hidden" id="actionDetailModal" aria-hidden="true">
+  <div aria-labelledby="actionDetailTitle" aria-modal="true" class="job-modal application-modal action-detail-modal" role="dialog">
+    <div class="modal-header application-child-modal-header">
+      <div class="application-modal-title-wrap">
+        <h2 id="actionDetailTitle">Action Item</h2>
+        <p class="application-modal-number" id="actionDetailMeta">View complete action item information</p>
+      </div>
+      <div aria-label="Action item status" class="application-modal-header-status"><span id="actionDetailStatus">Pending</span></div>
+      <button aria-label="Close" class="modal-close" id="closeActionDetail" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="application-modal-body application-child-modal-body">
+      <div aria-live="polite" class="admin-message" id="actionDetailMessage" role="status"></div>
+
+      <section class="application-detail-section">
+        <div class="application-detail-heading"><h3>Action Item Information</h3></div>
+        <div class="application-detail-grid" id="actionDetailInfo"></div>
+      </section>
+
+      <section class="application-detail-section">
+        <div class="application-detail-heading"><h3>Description</h3></div>
+        <div class="application-long-field action-description-field"><p id="actionDetailDescription">—</p></div>
+      </section>
+
+      <section class="application-detail-section application-activity-section application-updates-notes-section">
+        <div class="application-detail-heading application-activity-heading">
+          <div><h3>Updates / Notes History</h3></div>
+        </div>
+        <div class="application-activity-list" id="actionNotesList"></div>
+        <form id="actionNoteForm" class="action-note-form">
+          <textarea id="actionNoteText" rows="2" placeholder="Add an update or note without changing the status"></textarea>
+          <div class="application-interview-form-actions"><button class="btn btn-primary btn-small" type="submit" id="addActionNoteButton"><i class="fa-solid fa-plus"></i> Add Note</button></div>
+          <div id="actionNoteMessage" class="admin-message"></div>
+        </form>
+      </section>
+
+      <section class="application-detail-section application-activity-section application-status-history-section">
+        <div class="application-detail-heading application-activity-heading">
+          <div><h3>Action Item Status History</h3></div>
+        </div>
+        <div class="application-activity-list" id="actionHistoryList"></div>
+      </section>
+    </div>
+    <div class="application-modal-footer-actions application-child-modal-actions">
+      <button class="btn btn-danger action-delete-detail-button" id="actionDetailDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Delete Action Item</button>
+      <button class="btn btn-primary action-edit-detail-button" id="actionDetailEditBtn" type="button"><i class="fa-solid fa-pen-to-square"></i> Edit Action Item</button>
+      <button class="btn btn-outline" id="actionDetailCloseBtn" type="button">Close</button>
+    </div>
+  </div>
 </div>
-</div>
-<div class="profile-interview-modal-actions action-item-modal-footer">
-<div class="admin-message action-item-modal-message" id="actionFormMessage"></div>
-<div class="action-item-modal-footer-buttons">
-<button class="btn btn-primary" id="cancelActionButton" type="button">Close</button>
-<button class="btn btn-primary" id="saveActionButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-<div aria-hidden="true" class="modal-backdrop hidden" id="actionDetailModal">
-<div aria-labelledby="actionDetailTitle" aria-modal="true" class="job-modal application-modal action-detail-modal" role="dialog">
-<div class="modal-header application-child-modal-header">
-<div class="application-modal-title-wrap">
-<h2 id="actionDetailTitle">Action Item</h2>
-<p class="application-modal-number" id="actionDetailMeta">View complete action item information</p>
-</div>
-<div aria-label="Action item status" class="application-modal-header-status"><span id="actionDetailStatus">Pending</span></div>
-<button aria-label="Close" class="modal-close" id="closeActionDetail" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
-</div>
-<div class="application-modal-body application-child-modal-body">
-<div aria-live="polite" class="admin-message" id="actionDetailMessage" role="status"></div>
-<section class="application-detail-section">
-<div class="application-detail-heading"><h3>Action Item Information</h3></div>
-<div class="application-detail-grid" id="actionDetailInfo"></div>
-</section>
-<section class="application-detail-section">
-<div class="application-detail-heading"><h3>Description</h3></div>
-<div class="application-long-field action-description-field"><p id="actionDetailDescription">—</p></div>
-</section>
-<section class="application-detail-section application-activity-section application-updates-notes-section">
-<div class="application-detail-heading application-activity-heading">
-<div><h3>Updates / Notes History</h3></div>
-</div>
-<div class="application-activity-list" id="actionNotesList"></div>
-<form class="action-note-form" id="actionNoteForm">
-<textarea id="actionNoteText" placeholder="Add an update or note without changing the status" rows="2"></textarea>
-<div class="application-interview-form-actions"><button class="btn btn-primary btn-small" id="addActionNoteButton" type="submit"><i class="fa-solid fa-plus"></i> Add Note</button></div>
-<div class="admin-message" id="actionNoteMessage"></div>
-</form>
-</section>
-<section class="application-detail-section application-activity-section application-status-history-section">
-<div class="application-detail-heading application-activity-heading">
-<div><h3>Action Item Status History</h3></div>
-</div>
-<div class="application-activity-list" id="actionHistoryList"></div>
-</section>
-</div>
-<div class="application-modal-footer-actions application-child-modal-actions">
-<button class="btn btn-danger action-delete-detail-button" id="actionDetailDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Delete Action Item</button>
-<button class="btn btn-primary action-edit-detail-button" id="actionDetailEditBtn" type="button"><i class="fa-solid fa-pen-to-square"></i> Edit Action Item</button>
-<button class="btn btn-outline" id="actionDetailCloseBtn" type="button">Close</button>
-</div>
-</div>
-</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=73"></script>
 <script src="js/navigation.js?v=33"></script>
