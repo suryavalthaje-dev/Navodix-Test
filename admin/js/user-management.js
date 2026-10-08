@@ -26,6 +26,12 @@
     el.textContent = text || '';
   }
 
+  function showEditFormMessage(text = '') {
+    const el = $('editUserFormMessage');
+    if (!el) return;
+    el.textContent = text || '';
+  }
+
   function setBusy(button, busy, busyText) {
     if (!button) return;
     if (busy) {
@@ -258,6 +264,7 @@
     $('editDisplayName').value = user.display_name || '';
     $('editEmail').value = user.email || '';
     $('editRole').value = user.role || 'hr';
+    showEditFormMessage('');
     const roleAllowed = state.currentAdmin?.role === 'admin';
     $('editRole').disabled = !roleAllowed;
     $('editRoleHelp').textContent = roleAllowed ? 'Only Admin can change a user’s role.' : 'Only an Admin can change user roles.';
@@ -270,14 +277,15 @@
     const userId = $('editUserId').value;
     const displayName = $('editDisplayName').value.trim();
     const role = $('editRole').value;
-    if (!displayName) { showMessage('Display Name is required.', 'error'); return; }
+    if (!displayName) { showEditFormMessage('Display Name is required.'); $('editDisplayName')?.focus(); return; }
+    showEditFormMessage('');
     setBusy(button, true, 'Saving Changes');
     try {
       const result = await callFunction({ action: 'edit', user_id: userId, display_name: displayName, role });
       closeModal('editUserCard'); state.editingUser = null;
       showMessage(result.message || 'User details updated successfully.', 'success');
       await loadUsers();
-    } catch (error) { showMessage(error?.message || String(error), 'error'); }
+    } catch (error) { showEditFormMessage(error?.message || String(error)); }
     finally { setBusy(button, false); }
   }
 
