@@ -232,7 +232,7 @@
 
     const hasRows = pageRows.length > 0;
     empty.classList.toggle('hidden', hasRows);
-    body.parentElement.classList.toggle('hidden', !hasRows);
+    body.parentElement.classList.remove('hidden');
 
     const showingStart = rows.length ? start + 1 : 0;
     const showingEnd = rows.length ? start + pageRows.length : 0;
@@ -242,7 +242,7 @@
     $('applicationsPrev').disabled = currentPage <= 1;
     $('applicationsNext').disabled = currentPage >= totalPages;
     $('applicationsLast').disabled = currentPage >= totalPages;
-    $('applicationsPagination').classList.toggle('hidden', !rows.length);
+    $('applicationsPagination').classList.remove('hidden');
 
     updateSummary();
   }
@@ -326,7 +326,7 @@
       populateFilterOptions();
       currentPage = 1;
       renderApplications();
-      showMessage(applications.length ? '' : 'No applications have been submitted yet.', '');
+      showMessage('', '');
     } catch (error) {
       console.error('Navodix Applications load failed:', error);
       applications = [];
