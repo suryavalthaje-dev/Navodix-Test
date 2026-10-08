@@ -1434,6 +1434,35 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 .admin-app-page .applications-card .applications-table thead th{display:table-cell !important;visibility:visible !important;}
 .admin-app-page .applications-card .standard-list-pagination{display:grid !important;visibility:visible !important;}
 </style>
+<style id="applications-filter-command-order-v2">
+/* Applications filter toolbar — keep all filters in two desktop rows; commands at far right. */
+@media (min-width:1051px){
+  .admin-app-page .applications-list-controls-frame .applications-filter-toolbar{
+    grid-template-columns:minmax(240px,2fr) repeat(5,minmax(105px,1fr)) !important;
+    gap:7px !important;
+  }
+  .admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:1 / span 2 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationStatusFilter{grid-column:3 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationClientFilter{grid-column:4 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationJobFilter{grid-column:5 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationCategoryFilter{grid-column:6 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationLocationFilter{grid-column:7 !important;grid-row:1 !important;}
+  .admin-app-page .applications-filter-toolbar .applications-date-filter{grid-column:1 / span 2 !important;grid-row:2 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationInterviewResultFilter{grid-column:3 !important;grid-row:2 !important;}
+  .admin-app-page .applications-filter-toolbar #applicationSubmittedClientFilter{grid-column:4 !important;grid-row:2 !important;}
+  .admin-app-page .applications-filter-toolbar #clearApplicationFiltersButton{grid-column:6 !important;grid-row:2 !important;}
+  .admin-app-page .applications-filter-toolbar #refreshApplicationsButton{grid-column:7 !important;grid-row:2 !important;}
+}
+@media (min-width:901px) and (max-width:1050px){
+  .admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+  .admin-app-page .applications-filter-toolbar .toolbar-search,
+  .admin-app-page .applications-filter-toolbar .applications-date-filter,
+  .admin-app-page .applications-filter-toolbar select,
+  .admin-app-page .applications-filter-toolbar .btn{grid-column:auto !important;grid-row:auto !important;}
+  .admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:span 2 !important;}
+  .admin-app-page .applications-filter-toolbar .applications-date-filter{grid-column:span 2 !important;}
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
