@@ -81,21 +81,13 @@
     return `<span class="status-pill ${info.cls}"><i class="fa-solid ${info.icon}" aria-hidden="true"></i> ${info.label}</span>`;
   }
 
-  function formatDate(value) {
+  function formatDate(value, includeTime = false) {
     if (!value) return '—';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return '—';
-    return date.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' });
-  }
-
-  function formatDateTime(value) {
-    if (!value) return '—';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return '—';
-    return date.toLocaleString(undefined, {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    if (includeTime) { options.hour = '2-digit'; options.minute = '2-digit'; }
+    return includeTime ? date.toLocaleString(undefined, options) : date.toLocaleDateString(undefined, options);
   }
 
   function renderUsers() {
@@ -138,7 +130,7 @@
           <td><span class="role-pill role-${escapeHtml(user.role)}">${roleLabel(user.role)}</span></td>
           <td>${statusPill(user)}</td>
           <td><span class="user-date-main">${escapeHtml(formatDate(user.created_at))}</span></td>
-          <td><span class="user-last-login">${escapeHtml(formatDateTime(user.last_sign_in_at))}</span></td>
+          <td><span class="user-last-login">${escapeHtml(formatDate(user.last_sign_in_at, true))}</span></td>
           <td class="actions-column">
             <div class="user-actions">
               <button class="icon-button user-edit-button" type="button" data-user-id="${escapeHtml(user.user_id)}" title="Edit user" aria-label="Edit ${escapeHtml(user.display_name || user.email || 'user')}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
