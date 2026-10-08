@@ -451,6 +451,77 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="user-management-final-column-dashboard-fix">
+/* Final User Management list refinements requested by user. UI-only; no business logic changes. */
+.user-dashboard-frame {
+  margin:0 0 18px !important;
+  padding:8px !important;
+  background:#FFFFFF !important;
+  border:1px solid #AFC2D8 !important;
+  border-radius:10px !important;
+  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
+  box-sizing:border-box !important;
+}
+.user-dashboard-frame .user-summary-grid {
+  margin:0 !important;
+}
+.admin-app-page .users-list-card .users-table th:nth-child(1),
+.admin-app-page .users-list-card .users-table td:nth-child(1) { width:19% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(2),
+.admin-app-page .users-list-card .users-table td:nth-child(2) { width:24% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(3),
+.admin-app-page .users-list-card .users-table td:nth-child(3) { width:8% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(4),
+.admin-app-page .users-list-card .users-table td:nth-child(4) { width:18% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(5),
+.admin-app-page .users-list-card .users-table td:nth-child(5) { width:14% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(6),
+.admin-app-page .users-list-card .users-table td:nth-child(6) { width:17% !important; }
+.admin-app-page .users-list-card .users-table .user-name-cell {
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table .user-name-cell strong {
+  display:inline-block !important;
+  margin:0 7px 0 0 !important;
+  vertical-align:middle !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table .user-self-note {
+  display:inline-block !important;
+  margin:0 !important;
+  padding:1px 6px !important;
+  border-radius:10px !important;
+  background:#EAF2FA !important;
+  color:#1767C2 !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+  vertical-align:middle !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table .user-email-text,
+.admin-app-page .users-list-card .users-table .role-pill,
+.admin-app-page .users-list-card .users-table .user-date-main {
+  color:#1E293B !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.admin-app-page .users-list-card .users-table .role-pill {
+  display:inline !important;
+  min-height:0 !important;
+  padding:0 !important;
+  border-radius:0 !important;
+}
+.admin-app-page .users-list-card .users-table .user-date-main {
+  display:inline !important;
+}
+@media(max-width:760px){
+  .user-dashboard-frame { margin-bottom:14px !important; }
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -500,12 +571,14 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
       <div id="usersMessage" class="admin-message" role="status" aria-live="polite"></div>
 
-      <section class="user-summary-grid" aria-label="User summary">
-        <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div><div><span>Total Users</span><strong id="usersTotal">—</strong></div></div>
-        <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></div><div><span>Active Users</span><strong id="usersActive">—</strong></div></div>
-        <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div><div><span>Administrators</span><strong id="usersAdmins">—</strong></div></div>
-        <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-tie" aria-hidden="true"></i></div><div><span>HR Users</span><strong id="usersHr">—</strong></div></div>
-        <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i></div><div><span>Invitations Pending</span><strong id="usersPending">—</strong></div></div>
+      <section class="user-dashboard-frame" aria-label="User summary">
+        <div class="user-summary-grid">
+          <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div><div><span>Total Users</span><strong id="usersTotal">—</strong></div></div>
+          <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></div><div><span>Active Users</span><strong id="usersActive">—</strong></div></div>
+          <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div><div><span>Administrators</span><strong id="usersAdmins">—</strong></div></div>
+          <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-user-tie" aria-hidden="true"></i></div><div><span>HR Users</span><strong id="usersHr">—</strong></div></div>
+          <div class="user-summary-card"><div class="user-summary-icon"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i></div><div><span>Invitations Pending</span><strong id="usersPending">—</strong></div></div>
+        </div>
       </section>
 
       <div id="createUserRestriction" class="user-access-notice hidden">
