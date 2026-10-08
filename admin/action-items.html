@@ -946,6 +946,135 @@ body.action-items-list-standard .standard-list-pagination.hidden{display:grid !i
     flex-wrap:wrap !important;justify-content:center !important;
   }
 }
+</style><style id="action-items-menu-standard-v3">
+/* ============================================================
+   NAVODIX APPROVED MENU STANDARD
+   Applies ONLY to the secondary Recruitment navigation.
+   Restores the baselined compact pill menu used by the other
+   approved pages. No Action Items content/functionality changed.
+   ============================================================ */
+
+body.action-items-list-standard .admin-section-nav{
+  background:#F7F9FC !important;
+  border-top:1px solid #E5EBF2 !important;
+  border-bottom:1px solid #D7E1ED !important;
+  position:sticky !important;
+  top:72px !important;
+  z-index:990 !important;
+  overflow:visible !important;
+}
+
+body.action-items-list-standard .admin-section-nav-inner{
+  width:min(1400px,calc(100% - 56px)) !important;
+  min-height:48px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  overflow:visible !important;
+}
+
+body.action-items-list-standard .admin-section-nav-link{
+  position:relative !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  height:34px !important;
+  min-height:34px !important;
+  padding:0 13px !important;
+  border:1px solid transparent !important;
+  border-radius:7px !important;
+  color:#29415E !important;
+  font-size:11.5px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  text-decoration:none !important;
+  background:transparent !important;
+}
+
+body.action-items-list-standard .admin-section-nav-link:hover{
+  background:#FFFFFF !important;
+  border-color:#D5E0EC !important;
+  color:#173F78 !important;
+}
+
+body.action-items-list-standard .admin-section-nav-link.active{
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+  box-shadow:0 2px 5px rgba(40,120,232,.18) !important;
+}
+
+body.action-items-list-standard .admin-section-nav-dropdown{
+  position:relative !important;
+  height:34px !important;
+  display:block !important;
+}
+
+body.action-items-list-standard .admin-section-nav-dropdown > summary{
+  cursor:pointer !important;
+  list-style:none !important;
+}
+
+body.action-items-list-standard .admin-section-nav-dropdown > summary::-webkit-details-marker{
+  display:none !important;
+}
+
+body.action-items-list-standard .admin-section-nav-dropdown > summary .master-data-chevron{
+  margin-left:7px !important;
+  font-size:9px !important;
+  opacity:.7 !important;
+  transition:transform .18s ease !important;
+}
+
+body.action-items-list-standard .admin-section-nav-dropdown[open] > summary .master-data-chevron{
+  transform:rotate(180deg) !important;
+}
+
+body.action-items-list-standard .master-data-menu{
+  position:absolute !important;
+  top:calc(100% + 4px) !important;
+  left:0 !important;
+  min-width:220px !important;
+  padding:7px !important;
+  background:#FFFFFF !important;
+  border:1px solid #D5E0EC !important;
+  border-radius:8px !important;
+  box-shadow:0 8px 18px rgba(30,55,85,.12) !important;
+  z-index:1200 !important;
+}
+
+body.action-items-list-standard .master-data-menu a,
+body.action-items-list-standard .master-data-menu .master-data-menu-action{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:8px 12px !important;
+  border:0 !important;
+  border-radius:6px !important;
+  background:transparent !important;
+  color:#29415E !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  text-align:left !important;
+  text-decoration:none !important;
+  cursor:pointer !important;
+  white-space:nowrap !important;
+  box-sizing:border-box !important;
+}
+
+body.action-items-list-standard .master-data-menu a:hover,
+body.action-items-list-standard .master-data-menu .master-data-menu-action:hover{
+  background:#F1F5F9 !important;
+  color:#173F78 !important;
+}
+
+@media(max-width:760px){
+  body.action-items-list-standard .admin-section-nav-inner{
+    width:calc(100% - 28px) !important;
+    overflow-x:auto !important;
+    overflow-y:visible !important;
+  }
+}
 </style></head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -989,9 +1118,6 @@ body.action-items-list-standard .standard-list-pagination.hidden{display:grid !i
 <div class="summary-card"><span>Overdue</span><strong id="summaryOverdue">0</strong></div>
 <div class="summary-card"><span>Completed</span><strong id="summaryCompleted">0</strong></div>
 </section></section>
-
-
-
 <section class="jobs-card action-card"><div class="list-heading action-list-heading"><div class="list-heading-inline"><h2>Action Items</h2><p>Track and manage follow-ups, responsibilities and operational activities.</p></div></div><div class="table-wrap"><table class="action-table"><thead><tr>
 <th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th><th class="actions-column">Action</th>
 </tr></thead><tbody id="actionItemsTableBody"></tbody></table></div>
