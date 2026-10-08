@@ -810,7 +810,7 @@
     #detailsModal .nxv-meta span{display:flex !important;align-items:center !important;min-width:0 !important;min-height:38px !important;padding:7px 10px !important;border-right:1px solid #D8E0EA !important;border-bottom:1px solid #D8E0EA !important;box-sizing:border-box !important;}
     #detailsModal .nxv-meta span:nth-child(4n){border-right:0 !important;}
     #detailsModal .nxv-meta .nxv-meta-label{background:#F4F7FA !important;color:#263F62 !important;font-weight:700 !important;white-space:nowrap !important;}
-    #detailsModal .nxv-meta .nxv-meta-value{background:#fff !important;color:#1F2937 !important;}
+    #detailsModal .nxv-meta .nxv-meta-value{background:#fff !important;color:#000080 !important;}
     #detailsModal .nxv-meta strong{color:inherit !important;font-weight:700 !important;margin:0 !important;}
     #detailsModal .nxv-section{margin:18px 0 0 !important;padding:0 !important;}
     #detailsModal .nxv-section-title{margin:8px 0 6px !important;padding:8px 10px !important;background:#F4F7FA !important;border-left:3px solid #2878E8 !important;border-bottom:1px solid #D8E0EA !important;color:#263F62 !important;font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:700 !important;text-transform:uppercase !important;letter-spacing:.35px !important;line-height:1.2 !important;}
@@ -1309,7 +1309,7 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
   border:1px solid #D8E0EA !important;
   border-radius:7px !important;
   background:#F8FAFC !important;
-  color:#556579 !important;
+  color:#000080 !important;
   font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
   font-size:11px !important;
   line-height:1.5 !important;
@@ -1700,6 +1700,11 @@ body.nx-refer-candidate-open{overflow:hidden !important;}
       list-style:none !important;
     }
   </style>
+<style id="details-modal-all-section-data-dark-blue">
+#detailsModal .nxv-section > .nxv-text,
+#detailsModal .nxv-section > .nxv-list,
+#detailsModal .nxv-section > .nxv-list li{color:#000080 !important;}
+</style>
 </head>
 
 <body>
@@ -2394,17 +2399,17 @@ function openDetailsModal(jobId){
   document.getElementById('detailsModalTitle').textContent=job.title;
   document.getElementById('detailsModalMeta').innerHTML=`
     <span class="nxv-meta-label"><strong>Job</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(job.title || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(job.title || '')}</span>
     <span class="nxv-meta-label"><strong>Code</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(job.job_code || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(job.job_code || '')}</span>
     <span class="nxv-meta-label"><strong>Location</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(job.location || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(job.location || '')}</span>
     <span class="nxv-meta-label"><strong>Employment Type</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(formatEmploymentType(job.type) || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(formatEmploymentType(job.type) || '')}</span>
     <span class="nxv-meta-label"><strong>Experience</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(job.experience || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(job.experience || '')}</span>
     <span class="nxv-meta-label"><strong>Level</strong></span>
-    <span class="nxv-meta-value">${escapeHtml(job.skill_level || '')}</span>
+    <span class="nxv-meta-value" style="color:#000080 !important;">${escapeHtml(job.skill_level || '')}</span>
   `;
 
   const details=job.details || {};
