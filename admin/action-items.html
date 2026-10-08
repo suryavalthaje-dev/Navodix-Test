@@ -812,6 +812,32 @@
   }
 }
 </style>
+
+<style id="action-item-delete-confirm-standard">
+/* Action Item delete confirmation — established Navodix warning modal standard. */
+#actionItemDeleteConfirmModal .confirm-modal {
+  width:min(440px,calc(100vw - 32px));
+  box-sizing:border-box;
+  text-align:center;
+}
+#actionItemDeleteConfirmModal .confirm-modal .confirm-icon {
+  margin:0 auto 14px;
+}
+#actionItemDeleteConfirmModal .confirm-modal h2 {
+  margin:0 0 10px;
+}
+#actionItemDeleteConfirmModal .confirm-modal p {
+  margin:0 auto 20px;
+  max-width:380px;
+  line-height:1.5;
+}
+#actionItemDeleteConfirmModal .modal-actions {
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -955,6 +981,81 @@
   </div>
 </div>
 
+
+<div class="modal-backdrop hidden" id="actionItemDeleteConfirmModal" aria-hidden="true">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="actionItemDeleteConfirmTitle" aria-describedby="actionItemDeleteConfirmText">
+    <div class="confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
+    <h2 id="actionItemDeleteConfirmTitle">Delete this action item?</h2>
+    <p id="actionItemDeleteConfirmText">This action item and its associated updates, notes and history will be permanently removed.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="cancelActionItemDeleteConfirmButton" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirmActionItemDeleteButton" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Action Item</button>
+    </div>
+  </div>
+</div>
+
+<script id="action-item-delete-confirm-standard-js">
+(function(){
+  let pendingDeleteButton = null;
+  const modal = document.getElementById('actionItemDeleteConfirmModal');
+  const cancelButton = document.getElementById('cancelActionItemDeleteConfirmButton');
+  const confirmButton = document.getElementById('confirmActionItemDeleteButton');
+  const deleteButton = document.getElementById('actionDetailDeleteBtn');
+
+  function closeActionItemDeleteConfirm(){
+    if(!modal)return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    pendingDeleteButton=null;
+  }
+
+  function openActionItemDeleteConfirm(button){
+    if(!modal)return;
+    pendingDeleteButton=button;
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+  }
+
+  if(deleteButton && modal){
+    document.addEventListener('click',function(event){
+      const button=event.target.closest('#actionDetailDeleteBtn');
+      if(!button)return;
+      if(button.dataset.navodixDeleteConfirmBypass==='1'){
+        delete button.dataset.navodixDeleteConfirmBypass;
+        return;
+      }
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      openActionItemDeleteConfirm(button);
+    },true);
+  }
+
+  if(cancelButton)cancelButton.addEventListener('click',closeActionItemDeleteConfirm);
+  if(modal)modal.addEventListener('click',function(event){
+    if(event.target===modal)closeActionItemDeleteConfirm();
+  });
+
+  if(confirmButton)confirmButton.addEventListener('click',function(){
+    const button=pendingDeleteButton;
+    if(!button){closeActionItemDeleteConfirm();return;}
+    closeActionItemDeleteConfirm();
+    button.dataset.navodixDeleteConfirmBypass='1';
+    const nativeConfirm=window.confirm;
+    window.confirm=function(){return true;};
+    try{button.click();}
+    finally{window.confirm=nativeConfirm;}
+  });
+
+  document.addEventListener('keydown',function(event){
+    if(event.key==='Escape' && modal && !modal.classList.contains('hidden')){
+      event.preventDefault();
+      closeActionItemDeleteConfirm();
+    }
+  });
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=73"></script>
 <script src="js/navigation.js?v=33"></script>
