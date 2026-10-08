@@ -1011,6 +1011,375 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   transform:translateX(10px) !important;
 }
 </style>
+
+<style id="applications-list-standard-v24">
+/* ============================================================
+   APPLICATIONS — FINAL LIST + MENU STANDARD (V24 BASELINE)
+   UI-only. Existing application logic, IDs, data queries,
+   modals, filters and pagination behavior are preserved.
+   ============================================================ */
+body.admin-app-page{
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+
+/* PAGE TITLE — same compact List Standard used by Manage Requirements */
+.admin-app-page .admin-main{padding:26px 0 40px !important;}
+.admin-app-page .jobs-heading{
+  display:flex !important;
+  align-items:baseline !important;
+  justify-content:space-between !important;
+  gap:20px !important;
+  margin:0 0 14px !important;
+}
+.admin-app-page .jobs-heading-text{
+  display:flex !important;
+  align-items:baseline !important;
+  gap:12px !important;
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+.admin-app-page .jobs-heading h1{
+  margin:0 !important;
+  color:#071B4D !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:26px !important;
+  line-height:1.15 !important;
+  font-weight:700 !important;
+  letter-spacing:-.2px !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .jobs-heading-subtitle{
+  margin:0 !important;
+  color:#556579 !important;
+  font-size:13px !important;
+  line-height:1.35 !important;
+  font-weight:400 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* FILTER + DASHBOARD — one common compact standard frame */
+.admin-app-page .applications-list-controls-frame{
+  background:#F9FBFE !important;
+  border:1px solid #AEBFD2 !important;
+  border-radius:12px !important;
+  padding:9px !important;
+  margin-bottom:12px !important;
+  box-shadow:0 1px 2px rgba(30,55,85,.04) !important;
+}
+.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{
+  display:grid !important;
+  grid-template-columns:minmax(250px,2fr) repeat(5,minmax(120px,1fr)) !important;
+  gap:7px !important;
+  align-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:#FFFFFF !important;
+  border:0 !important;
+  border-radius:0 !important;
+}
+.admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:span 2 !important;}
+.admin-app-page .applications-filter-toolbar .applications-date-filter{grid-column:span 2 !important;}
+.admin-app-page .applications-filter-toolbar select,
+.admin-app-page .applications-filter-toolbar input[type="date"],
+.admin-app-page .applications-filter-toolbar .toolbar-search input{
+  width:100% !important;
+  height:32px !important;
+  min-height:32px !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:6px !important;
+  background:#FFFFFF !important;
+  color:#263F62 !important;
+  padding:0 11px !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  box-sizing:border-box !important;
+}
+.admin-app-page .applications-filter-toolbar .toolbar-search input{padding-left:31px !important;}
+.admin-app-page .applications-filter-toolbar .toolbar-search input::placeholder{font-size:12px !important;color:#718096 !important;}
+.admin-app-page .applications-filter-toolbar select:focus,
+.admin-app-page .applications-filter-toolbar input:focus{
+  border-color:#2878E8 !important;
+  box-shadow:0 0 0 2px rgba(40,120,232,.10) !important;
+  outline:none !important;
+}
+.admin-app-page .applications-filter-toolbar .btn{
+  height:32px !important;
+  min-height:32px !important;
+  min-width:92px !important;
+  padding:0 13px !important;
+  border-radius:6px !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .applications-filter-toolbar .applications-date-filter{
+  display:grid !important;
+  grid-template-columns:auto minmax(78px,1fr) auto minmax(78px,1fr) !important;
+  align-items:center !important;
+  gap:5px !important;
+  min-width:0 !important;
+}
+.admin-app-page .applications-filter-toolbar .applications-date-filter label{
+  color:#556579 !important;
+  font-size:10px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+
+/* Compact dashboard cards */
+.admin-app-page .applications-list-controls-frame .applications-summary{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:8px !important;
+  margin:7px 0 0 !important;
+}
+.admin-app-page .applications-summary .summary-card{
+  height:38px !important;
+  min-height:38px !important;
+  padding:5px 13px !important;
+  background:#FFFFFF !important;
+  border:1px solid #E2E8F0 !important;
+  border-radius:7px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+}
+.admin-app-page .applications-summary .summary-card span{
+  margin:0 !important;
+  color:#556579 !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+}
+.admin-app-page .applications-summary .summary-card strong{
+  color:#071B4D !important;
+  font-size:13px !important;
+  line-height:1 !important;
+  font-weight:700 !important;
+}
+.admin-app-page #applicationsMessage:empty{display:none !important;}
+.admin-app-page #applicationsMessage:not(:empty){min-height:0 !important;margin:0 0 8px !important;font-size:12px !important;}
+
+/* LIST CARD + ONE-LINE LIST HEADING */
+.admin-app-page .applications-card{
+  position:relative !important;
+  background:#FFFFFF !important;
+  border:2px solid #AFC2D8 !important;
+  border-top:4px solid #2878E8 !important;
+  border-left:2px solid #AFC2D8 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
+}
+.admin-app-page .applications-card .jobs-list-heading{
+  min-height:50px !important;
+  padding:7px 14px !important;
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  gap:14px !important;
+  border-bottom:1px solid #CBD8E8 !important;
+  position:relative !important;
+}
+.admin-app-page .applications-card .jobs-list-heading-inline{
+  display:flex !important;
+  align-items:baseline !important;
+  gap:10px !important;
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+.admin-app-page .applications-card .jobs-list-heading h2{
+  margin:0 !important;
+  color:#0B2A5B !important;
+  font-size:16px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .applications-card .jobs-list-heading p{
+  margin:0 !important;
+  color:#65758A !important;
+  font-size:11.5px !important;
+  line-height:1.3 !important;
+  font-weight:400 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* TABLE — compact List Standard */
+.admin-app-page .applications-table{
+  width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse !important;
+  border:0 !important;
+}
+.admin-app-page .applications-table thead th{
+  height:40px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  text-align:left !important;
+  padding:0 10px !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:1.1 !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  white-space:nowrap !important;
+  border-right:1px solid rgba(255,255,255,.35) !important;
+  border-bottom:0 !important;
+  border-top:0 !important;
+}
+.admin-app-page .applications-table thead th:first-child{border-left:0 !important;}
+.admin-app-page .applications-table thead th:last-child{border-right:0 !important;}
+.admin-app-page .applications-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
+.admin-app-page .applications-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
+.admin-app-page .applications-table tbody tr:hover{background:#EAF3FF !important;}
+.admin-app-page .applications-table tbody td{
+  padding:7px 10px !important;
+  border-right:1px solid #CBD8E8 !important;
+  border-bottom:1px solid #CBD8E8 !important;
+  color:#1E293B !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  vertical-align:middle !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+.admin-app-page .applications-table tbody td:first-child{border-left:0 !important;}
+.admin-app-page .applications-table tbody td:last-child{border-right:0 !important;text-align:right !important;white-space:nowrap !important;}
+.admin-app-page .applications-table tbody tr:last-child td{border-bottom:0 !important;}
+.admin-app-page .applications-table .application-number-cell,
+.admin-app-page .applications-table .job-title-cell,
+.admin-app-page .applications-table .application-contact-cell{line-height:1.25 !important;}
+.admin-app-page .applications-table .application-number-cell strong,
+.admin-app-page .applications-table .job-title-cell strong{
+  display:block !important;
+  margin:0 0 3px !important;
+  color:#123B72 !important;
+  font-size:12px !important;
+  line-height:1.25 !important;
+  font-weight:600 !important;
+}
+.admin-app-page .applications-table .application-number-cell span,
+.admin-app-page .applications-table .job-title-cell span,
+.admin-app-page .applications-table .application-contact-cell span{
+  display:block !important;
+  color:#6B7B8F !important;
+  font-size:10.5px !important;
+  line-height:1.2 !important;
+  font-weight:400 !important;
+}
+.admin-app-page .applications-table .status-pill{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+}
+.admin-app-page .applications-table .application-view-button{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:82px !important;
+  min-width:82px !important;
+  height:34px !important;
+  min-height:34px !important;
+  padding:0 12px !important;
+  box-sizing:border-box !important;
+  border:1px solid #B8CBE0 !important;
+  border-radius:6px !important;
+  background:#EEF5FC !important;
+  color:#173F78 !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .applications-table .application-view-button:hover{
+  background:#EEF5FC !important;
+  border-color:#9FB6D1 !important;
+  color:#173F78 !important;
+}
+
+/* PAGINATION — finalized warm-ivory standard */
+.admin-app-page .standard-list-pagination{
+  height:54px !important;
+  min-height:54px !important;
+  margin:0 !important;
+  padding:8px 12px !important;
+  display:grid !important;
+  grid-template-columns:1fr auto 1fr !important;
+  align-items:center !important;
+  gap:12px !important;
+  border-top:1px solid #CBD8E8 !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  box-sizing:border-box !important;
+  background:#F7F1E8 !important;
+  font-size:11px !important;
+  color:#5D6D80 !important;
+}
+.admin-app-page .standard-list-pagination .pagination-left{grid-column:1;justify-self:start;display:flex;align-items:center;gap:7px;}
+.admin-app-page .standard-list-pagination .pagination-center{grid-column:2;display:flex;align-items:center;justify-content:center;white-space:nowrap;}
+.admin-app-page .standard-list-pagination .pagination-right{grid-column:3;justify-self:end;display:flex;align-items:center;gap:7px;}
+.admin-app-page .standard-list-pagination .pagination-page{color:#173F78 !important;font-weight:600 !important;font-size:11px !important;white-space:nowrap;}
+.admin-app-page .standard-list-pagination .pagination-total{margin-left:4px;color:#5D6D80 !important;font-weight:400 !important;font-size:11px !important;white-space:nowrap;}
+.admin-app-page .standard-list-pagination .btn{
+  height:34px !important;
+  min-height:34px !important;
+  min-width:82px !important;
+  padding:0 12px !important;
+  border-radius:6px !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+  border:1px solid #B8CBE0 !important;
+  background:#EEF5FC !important;
+  color:#173F78 !important;
+  box-shadow:none !important;
+}
+.admin-app-page .standard-list-pagination .btn:hover:not(:disabled){background:#EEF5FC !important;border-color:#9FB6D1 !important;color:#173F78 !important;}
+.admin-app-page .standard-list-pagination .btn:disabled{opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;}
+
+/* Responsive standard behavior */
+@media(max-width:1050px){
+  .admin-app-page .applications-list-controls-frame .applications-filter-toolbar{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+  .admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:span 2 !important;}
+  .admin-app-page .applications-filter-toolbar .applications-date-filter{grid-column:span 2 !important;}
+}
+@media(max-width:760px){
+  .admin-app-page .admin-main > .admin-container{width:calc(100% - 28px) !important;}
+  .admin-app-page .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
+  .admin-app-page .jobs-heading-text{display:block !important;width:100% !important;}
+  .admin-app-page .jobs-heading h1,.admin-app-page .jobs-heading-subtitle{white-space:normal !important;}
+  .admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:1fr !important;}
+  .admin-app-page .applications-filter-toolbar .toolbar-search,
+  .admin-app-page .applications-filter-toolbar .applications-date-filter{grid-column:auto !important;}
+  .admin-app-page .applications-filter-toolbar .btn{justify-self:stretch !important;}
+  .admin-app-page .applications-summary{grid-template-columns:1fr 1fr !important;}
+  .admin-app-page .applications-card .jobs-list-heading{align-items:flex-start !important;}
+  .admin-app-page .applications-card .jobs-list-heading-inline{display:block !important;}
+  .admin-app-page .applications-card .jobs-list-heading h2,.admin-app-page .applications-card .jobs-list-heading p{white-space:normal !important;}
+  .admin-app-page .applications-table{min-width:760px !important;}
+  .admin-app-page .standard-list-pagination{grid-template-columns:1fr !important;height:auto !important;min-height:54px !important;}
+  .admin-app-page .standard-list-pagination .pagination-left,
+  .admin-app-page .standard-list-pagination .pagination-center,
+  .admin-app-page .standard-list-pagination .pagination-right{grid-column:1 !important;justify-self:center !important;}
+  .admin-app-page .standard-list-pagination .pagination-right{flex-wrap:wrap;justify-content:center;}
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -1030,7 +1399,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </div>
 </div>
 </header>
-<nav aria-label="Manage Requirements sections" class="admin-section-nav">
+<nav aria-label="Recruitment navigation" class="admin-section-nav">
 <div class="admin-container admin-section-nav-inner">
 <a class="admin-section-nav-link" href="recruitment.html?v=17">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
 <a class="admin-section-nav-link active" href="applications.html?v=17">Applications</a>
@@ -1054,6 +1423,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <span class="jobs-heading-subtitle">View and manage submitted career applications</span>
 </div>
 </div>
+<section class="list-controls-frame applications-list-controls-frame" aria-label="Application filters and dashboard">
 <section aria-label="Application filters" class="jobs-toolbar applications-toolbar applications-filter-toolbar">
 <div class="toolbar-search">
 <i aria-hidden="true" class="fa-solid fa-magnifying-glass"></i>
@@ -1104,19 +1474,26 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <option value="yes">Submitted to Client: Yes</option>
 <option value="no">Submitted to Client: No</option>
 </select>
-<button class="btn btn-outline" id="clearApplicationFiltersButton" type="button">Clear Filters</button>
-<button class="btn btn-outline" id="refreshApplicationsButton" type="button">
+<button class="btn btn-outline toolbar-action-button" id="clearApplicationFiltersButton" type="button">Clear Filters</button>
+<button class="btn btn-outline toolbar-action-button" id="refreshApplicationsButton" type="button">
 <i aria-hidden="true" class="fa-solid fa-rotate"></i> Refresh
         </button>
 </section>
-<div aria-live="polite" class="admin-message" id="applicationsMessage" role="status"></div>
 <section aria-label="Application summary" class="jobs-summary applications-summary">
 <div class="summary-card"><span>Total Applications</span><strong id="totalApplications">0</strong></div>
 <div class="summary-card"><span>New</span><strong id="newApplications">0</strong></div>
 <div class="summary-card"><span>Under Review</span><strong id="underReviewApplications">0</strong></div>
 <div class="summary-card"><span>Shortlisted</span><strong id="shortlistedApplications">0</strong></div>
 </section>
+</section>
+<div aria-live="polite" class="admin-message" id="applicationsMessage" role="status"></div>
 <section class="jobs-card applications-card">
+<div class="jobs-list-heading">
+<div class="jobs-list-heading-inline">
+<h2>Submitted Applications</h2>
+<p>Applications received through the Careers page</p>
+</div>
+</div>
 <div class="table-wrap">
 <table class="jobs-table applications-table">
 <thead>
