@@ -565,6 +565,108 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="user-management-modal-standard-v1">
+/* Navodix Common Modal Standard — Add Admin / HR User + Edit User only. */
+#addUserCard .navodix-standard-user-modal,
+#editUserCard .navodix-standard-user-modal{
+  width:min(560px,calc(100vw - 32px)) !important;
+  max-width:560px !important;
+  max-height:calc(100dvh - 32px) !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  background:#FFFFFF !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:10px !important;
+  box-shadow:0 18px 45px rgba(7,27,77,.20) !important;
+}
+#addUserCard .navodix-standard-user-modal > .user-modal-header,
+#editUserCard .navodix-standard-user-modal > .user-modal-header{
+  position:relative !important;
+  flex:0 0 56px !important;
+  min-height:56px !important;
+  max-height:56px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:16px !important;
+  padding:10px 18px !important;
+  box-sizing:border-box !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  border:0 !important;
+}
+#addUserCard .navodix-standard-user-modal .user-modal-title-wrap,
+#editUserCard .navodix-standard-user-modal .user-modal-title-wrap{min-width:0 !important;display:block !important;}
+#addUserCard .navodix-standard-user-modal .user-modal-header h2,
+#editUserCard .navodix-standard-user-modal .user-modal-header h2{
+  margin:0 !important;color:#FFFFFF !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:20px !important;line-height:1.2 !important;font-weight:600 !important;
+}
+#addUserCard .navodix-standard-user-modal .user-modal-header p,
+#editUserCard .navodix-standard-user-modal .user-modal-header p{margin:2px 0 0 !important;color:#FFFFFF !important;font-size:11px !important;line-height:1.25 !important;opacity:.95 !important;}
+#addUserCard .navodix-standard-user-modal .user-modal-close,
+#editUserCard .navodix-standard-user-modal .user-modal-close{width:32px !important;min-width:32px !important;height:32px !important;min-height:32px !important;margin:0 !important;padding:0 !important;border:0 !important;border-radius:0 !important;background:transparent !important;color:#FFFFFF !important;display:flex !important;align-items:center !important;justify-content:center !important;font-size:21px !important;line-height:1 !important;}
+#addUserCard .navodix-standard-user-modal .user-modal-close:hover,
+#editUserCard .navodix-standard-user-modal .user-modal-close:hover{border:0 !important;background:rgba(255,255,255,.10) !important;color:#FFFFFF !important;}
+#addUserCard .navodix-standard-user-modal .user-modal-body,
+#editUserCard .navodix-standard-user-modal .user-modal-body{
+  flex:1 1 auto !important;min-height:0 !important;overflow-y:auto !important;overflow-x:hidden !important;border-left:5px solid #2878E8 !important;border-right:5px solid #2878E8 !important;box-sizing:border-box !important;background:#FFFFFF !important;
+}
+#addUserCard .navodix-standard-user-modal .user-modal-note{margin:16px 16px 0 !important;padding:10px 11px !important;border-radius:7px !important;background:#F5F8FC !important;color:#52637A !important;font-size:12px !important;line-height:1.4 !important;}
+#addUserCard .navodix-standard-user-modal .user-form-grid,
+#editUserCard .navodix-standard-user-modal .user-form-grid{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;gap:0 18px !important;padding:20px 16px 4px !important;box-sizing:border-box !important;}
+#editUserCard .navodix-standard-user-modal .user-form-grid .user-form-full{grid-column:1 / -1 !important;}
+#addUserCard .navodix-standard-user-modal .field-group,
+#editUserCard .navodix-standard-user-modal .field-group{margin:0 0 16px !important;}
+#addUserCard .navodix-standard-user-modal .field-group label,
+#editUserCard .navodix-standard-user-modal .field-group label{display:block !important;margin:0 0 6px !important;color:#263F62 !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;line-height:1.25 !important;font-weight:700 !important;}
+#addUserCard .navodix-standard-user-modal .field-group input,
+#addUserCard .navodix-standard-user-modal .field-group select,
+#editUserCard .navodix-standard-user-modal .field-group input,
+#editUserCard .navodix-standard-user-modal .field-group select{width:100% !important;height:40px !important;min-height:40px !important;box-sizing:border-box !important;padding:0 11px !important;border:1px solid #CBD8E8 !important;border-radius:7px !important;background:#FFFFFF !important;color:#1E293B !important;outline:none !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:13px !important;font-weight:400 !important;}
+#addUserCard .navodix-standard-user-modal .field-group input:focus,
+#addUserCard .navodix-standard-user-modal .field-group select:focus,
+#editUserCard .navodix-standard-user-modal .field-group input:focus,
+#editUserCard .navodix-standard-user-modal .field-group select:focus{border-color:#2878E8 !important;box-shadow:0 0 0 2px rgba(40,120,232,.14) !important;}
+#addUserCard .navodix-standard-user-modal .field-group input[disabled],
+#editUserCard .navodix-standard-user-modal .field-group input[disabled]{background:#F8FAFC !important;color:#556579 !important;}
+#addUserCard .navodix-standard-user-modal .user-field-help,
+#editUserCard .navodix-standard-user-modal .user-field-help{display:block !important;margin-top:5px !important;color:#64748B !important;font-size:11px !important;line-height:14px !important;}
+#addUserCard .navodix-standard-user-modal .user-modal-footer,
+#editUserCard .navodix-standard-user-modal .user-modal-footer{flex:0 0 54px !important;min-height:54px !important;max-height:54px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:12px !important;padding:7px 13px !important;box-sizing:border-box !important;background:#C9D9EC !important;border-left:5px solid #2878E8 !important;border-right:5px solid #2878E8 !important;border-bottom:5px solid #2878E8 !important;}
+#addUserCard .navodix-standard-user-modal .user-form-message,
+#editUserCard .navodix-standard-user-modal .user-form-message{flex:1 1 auto !important;min-width:0 !important;margin:0 !important;padding:0 !important;border:0 !important;background:transparent !important;color:#B42318 !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;line-height:1.3 !important;}
+#addUserCard .navodix-standard-user-modal .user-form-message:empty,
+#editUserCard .navodix-standard-user-modal .user-form-message:empty{display:block !important;}
+#addUserCard .navodix-standard-user-modal .user-form-actions,
+#editUserCard .navodix-standard-user-modal .user-form-actions{flex:0 0 auto !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:10px !important;padding:0 !important;margin:0 !important;}
+#addUserCard .navodix-standard-user-modal .user-form-actions .btn,
+#editUserCard .navodix-standard-user-modal .user-form-actions .btn{height:40px !important;min-height:40px !important;min-width:0 !important;padding:0 16px !important;border-radius:7px !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:600 !important;}
+#addUserCard .navodix-standard-user-modal .user-form-actions .btn-primary,
+#addUserCard .navodix-standard-user-modal .user-form-actions .btn-outline,
+#editUserCard .navodix-standard-user-modal .user-form-actions .btn-primary,
+#editUserCard .navodix-standard-user-modal .user-form-actions .btn-outline{background:#2878E8 !important;border:1px solid #2878E8 !important;color:#FFFFFF !important;}
+#addUserCard .navodix-standard-user-modal .user-form-actions .btn-primary:hover:not(:disabled),
+#addUserCard .navodix-standard-user-modal .user-form-actions .btn-outline:hover:not(:disabled),
+#editUserCard .navodix-standard-user-modal .user-form-actions .btn-primary:hover:not(:disabled),
+#editUserCard .navodix-standard-user-modal .user-form-actions .btn-outline:hover:not(:disabled){background:#1D63C7 !important;border-color:#1D63C7 !important;color:#FFFFFF !important;}
+@media(max-width:700px){
+  #addUserCard .navodix-standard-user-modal,
+  #editUserCard .navodix-standard-user-modal{max-height:calc(100dvh - 16px) !important;width:min(560px,calc(100vw - 16px)) !important;}
+  #addUserCard .navodix-standard-user-modal .user-form-grid,
+  #editUserCard .navodix-standard-user-modal .user-form-grid{grid-template-columns:1fr !important;padding:18px 13px 4px !important;}
+  #editUserCard .navodix-standard-user-modal .user-form-grid .user-form-full{grid-column:auto !important;}
+  #addUserCard .navodix-standard-user-modal .user-form-actions,
+  #editUserCard .navodix-standard-user-modal .user-form-actions{gap:8px !important;}
+  #addUserCard .navodix-standard-user-modal .user-form-actions .btn,
+  #editUserCard .navodix-standard-user-modal .user-form-actions .btn{padding:0 12px !important;}
+}
+</style>
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -631,81 +733,88 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
       <div class="user-modal hidden" id="addUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog navodix-standard-user-modal" role="dialog" aria-modal="true" aria-labelledby="addUserTitle">
+          <header class="user-modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div>
               <div>
                 <h2 id="addUserTitle">Add Admin / HR User</h2>
                 <p>Create an account and send an invitation securely.</p>
               </div>
             </div>
             <button class="user-modal-close" id="cancelAddUserButton" type="button" data-close-user-modal aria-label="Close Add User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+          </header>
+          <div class="user-modal-body">
+            <div class="user-modal-note"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>An invitation will be sent to the user's email address. They will set their own password.</span></div>
+            <form id="addUserForm" class="user-form-grid" novalidate>
+              <div class="field-group">
+                <label for="userDisplayName">Display Name</label>
+                <input id="userDisplayName" name="display_name" type="text" maxlength="120" placeholder="Enter user's name" required>
+              </div>
+              <div class="field-group">
+                <label for="userEmail">Email Address</label>
+                <input id="userEmail" name="email" type="email" maxlength="320" placeholder="Enter user's email" required>
+              </div>
+              <div class="field-group">
+                <label for="userRole">Role</label>
+                <select id="userRole" name="role" required>
+                  <option value="hr" selected>HR</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </form>
           </div>
-          <div class="user-modal-note"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>An invitation will be sent to the user's email address. They will set their own password.</span></div>
-          <div id="addUserFormMessage" class="user-form-message" role="alert" aria-live="assertive"></div>
-          <form id="addUserForm" class="user-form-grid" novalidate>
-            <div class="field-group">
-              <label for="userDisplayName">Display Name</label>
-              <input id="userDisplayName" name="display_name" type="text" maxlength="120" placeholder="Enter user's name" required>
-            </div>
-            <div class="field-group">
-              <label for="userEmail">Email Address</label>
-              <input id="userEmail" name="email" type="email" maxlength="320" placeholder="Enter user's email" required>
-            </div>
-            <div class="field-group">
-              <label for="userRole">Role</label>
-              <select id="userRole" name="role" required>
-                <option value="hr" selected>HR</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
+          <footer class="user-modal-footer">
+            <div id="addUserFormMessage" class="user-form-message" role="alert" aria-live="assertive"></div>
             <div class="user-form-actions">
-              <button class="btn btn-primary" id="createUserSubmit" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
               <button class="btn btn-outline" id="cancelAddUserButtonBottom" type="button" data-close-user-modal>Cancel</button>
+              <button class="btn btn-primary" id="createUserSubmit" form="addUserForm" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
             </div>
-          </form>
+          </footer>
         </section>
       </div>
 
 
       <div class="user-modal hidden" id="editUserCard" aria-hidden="true">
         <div class="user-modal-backdrop" data-close-user-modal></div>
-        <section class="user-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
-          <div class="user-modal-header">
+        <section class="user-modal-dialog navodix-standard-user-modal" role="dialog" aria-modal="true" aria-labelledby="editUserTitle">
+          <header class="user-modal-header">
             <div class="user-modal-title-wrap">
-              <div class="user-modal-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></div>
               <div>
                 <h2 id="editUserTitle">Edit User</h2>
                 <p>Update the user's Careers Admin profile.</p>
               </div>
             </div>
             <button class="user-modal-close" type="button" data-close-user-modal aria-label="Close Edit User"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+          </header>
+          <div class="user-modal-body">
+            <form id="saveUserEditForm" class="user-form-grid" novalidate>
+              <input id="editUserId" type="hidden">
+              <div class="field-group user-form-full">
+                <label for="editDisplayName">Display Name</label>
+                <input id="editDisplayName" type="text" maxlength="120" required>
+              </div>
+              <div class="field-group user-form-full">
+                <label for="editEmail">Email Address</label>
+                <input id="editEmail" type="email" disabled>
+                <div class="user-field-help">Email is managed by Supabase Auth and cannot be edited here.</div>
+              </div>
+              <div class="field-group">
+                <label for="editRole">Role</label>
+                <select id="editRole">
+                  <option value="hr">HR</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <div class="user-field-help" id="editRoleHelp">Only Admin can change a user's role.</div>
+              </div>
+            </form>
           </div>
-          <form id="saveUserEditForm" class="user-form-grid" novalidate>
-            <input id="editUserId" type="hidden">
-            <div class="field-group user-form-full">
-              <label for="editDisplayName">Display Name</label>
-              <input id="editDisplayName" type="text" maxlength="120" required>
-            </div>
-            <div class="field-group user-form-full">
-              <label for="editEmail">Email Address</label>
-              <input id="editEmail" type="email" disabled>
-              <div class="user-field-help">Email is managed by Supabase Auth and cannot be edited here.</div>
-            </div>
-            <div class="field-group">
-              <label for="editRole">Role</label>
-              <select id="editRole">
-                <option value="hr">HR</option>
-                <option value="admin">Admin</option>
-              </select>
-              <div class="user-field-help" id="editRoleHelp">Only Admin can change a user's role.</div>
-            </div>
+          <footer class="user-modal-footer">
+            <div id="editUserFormMessage" class="user-form-message" role="alert" aria-live="assertive"></div>
             <div class="user-form-actions">
-              <button class="btn btn-primary" id="saveUserEditButton" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
               <button class="btn btn-outline" type="button" data-close-user-modal>Cancel</button>
+              <button class="btn btn-primary" id="saveUserEditButton" form="saveUserEditForm" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
             </div>
-          </form>
+          </footer>
         </section>
       </div>
 
