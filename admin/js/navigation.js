@@ -39,6 +39,10 @@ function addEmailNotificationModalStyles(){
 #emailNotificationSettingsModal .email-settings-switch>span:before{content:""!important;position:absolute!important;width:17px!important;height:17px!important;left:3px!important;top:3px!important;background:#fff!important;border-radius:50%!important;box-shadow:0 1px 3px rgba(0,0,0,.18)!important;transition:.18s ease!important}
 #emailNotificationSettingsModal .email-settings-switch input:checked+span{background:#2878E8!important}
 #emailNotificationSettingsModal .email-settings-switch input:checked+span:before{transform:translateX(19px)!important}
+
+.master-data-menu .master-data-menu-action{display:block!important;width:100%!important;margin:0!important;padding:8px 12px!important;border:0!important;background:transparent!important;color:inherit!important;font:inherit!important;font-size:13px!important;text-align:left!important;cursor:pointer!important;white-space:nowrap!important;box-sizing:border-box!important;}
+.master-data-menu .master-data-menu-action:hover{background:#F1F5F9!important;}
+.master-data-menu .master-data-menu-action i{width:16px!important;margin-right:6px!important;}
 @media(max-width:640px){#emailNotificationSettingsModal.nxr-modal{padding:4px!important}#emailNotificationSettingsModal .nxr-dialog{width:100%!important;height:calc(100dvh - 8px)!important;max-height:calc(100dvh - 8px)!important;border-radius:14px!important}#emailNotificationSettingsModal .nxr-header{border-radius:14px 14px 0 0!important;padding:8px 18px 10px!important}#emailNotificationSettingsModal .nxr-body{padding:14px 18px 10px!important}#emailNotificationSettingsModal .nxr-footer{padding:7px 18px!important}}
 `;
   document.head.appendChild(style);
