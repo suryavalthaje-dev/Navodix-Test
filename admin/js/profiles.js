@@ -61,6 +61,14 @@
   function detailItem(label,value,wide=false){ return `<div class="profile-detail-item${wide?' profile-detail-wide':''}"><span class="profile-detail-label">${esc(label)}</span><div class="profile-detail-value">${esc(value||'—')}</div></div>`; }
   function detailLink(label,value){ const v=String(value||'').trim(); return `<div class="profile-detail-item"><span class="profile-detail-label">${esc(label)}</span><div class="profile-detail-value">${v?`<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${esc(v)}</a>`:'—'}</div></div>`; }
   function formatDateTime(value){ return value ? new Date(value).toLocaleString() : '—'; }
+  function formatDateOnly(value){
+    if(!value) return '—';
+    const parts=String(value).split('-');
+    if(parts.length!==3) return esc(value);
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monthIndex=Number(parts[1])-1;
+    return `${esc(parts[2])}-${esc(months[monthIndex]||parts[1])}-${esc(parts[0])}`;
+  }
   function renderDetailTable(headers, rows, emptyText){
     if(!rows.length) return `<div class="profile-detail-table-empty">${esc(emptyText)}</div>`;
     return `<div class="profile-detail-table-wrap"><table class="profile-detail-table"><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(cell=>`<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -259,7 +267,7 @@
     const [srcRes,catRes,assocRes,notesRes,statusRes,intRes]=await Promise.all([
       supabase.from('profile_sources').select('source,source_details,referrer_name,referrer_mobile,referrer_email,is_primary,created_at').eq('profile_id',id).order('created_at',{ascending:false}),
       supabase.from('profile_categories').select('category_id').eq('profile_id',id),
-      supabase.from('profile_requirement_associations').select('id,requirement_id,association_type,status,associated_at,notes,updated_at').eq('profile_id',id).order('associated_at',{ascending:false}),
+      supabase.from('profile_requirement_associations').select('id,requirement_id,association_type,status,associated_at,submitted_to_client_date,notes,updated_at').eq('profile_id',id).order('associated_at',{ascending:false}),
       supabase.from('profile_notes').select('id,requirement_id,note_type,note,created_at,created_by').eq('profile_id',id).order('created_at',{ascending:false}),
       supabase.from('profile_status_history').select('status,notes,changed_at,changed_by').eq('profile_id',id).order('changed_at',{ascending:false}),
       supabase.from('profile_requirement_interviews').select('requirement_id,round_number,round_name,scheduled_date,scheduled_time,mode,interviewer,result,feedback').eq('profile_id',id).order('scheduled_date',{ascending:false})
@@ -292,13 +300,14 @@
       <div class="profile-detail-section"><div class="profile-detail-section-title">Resume</div><div class="profile-detail-grid"><div class="profile-detail-item profile-detail-wide"><span class="profile-detail-label">Current Resume</span><div class="profile-detail-value">${esc(p.resume_file_name||'—')} ${resumeButtons}</div></div><div class="profile-detail-item profile-detail-wide profile-resume-last-updated"><div class="profile-resume-last-updated-content"><span class="profile-detail-label">LAST UPDATED</span><div class="profile-detail-value profile-resume-last-updated-value">${esc(p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</div></div>${resumeLastUpdatedButton}</div></div></div>
       <div class="profile-detail-section profile-job-associations-section">
         <div class="profile-detail-section-title profile-detail-section-title-row"><span>Job Associations</span><button type="button" class="btn btn-primary btn-small" id="addProfileAssociationButton"><i class="fa-solid fa-plus"></i> Add Requirement</button></div>
-        ${renderDetailTable(['Requirement','Status','Association Status','Associated','Notes','Action'],(assocRes.data||[]).map(a=>{
+        ${renderDetailTable(['Requirement','Status','Association Status','Associated','Submitted to Client','Notes','Action'],(assocRes.data||[]).map(a=>{
           const r=reqMap[a.requirement_id]||{};
           return [
             `<strong>${esc(r.job_code||'—')}</strong><br><span class="profile-detail-muted">${esc(r.title||'Requirement')}</span>`,
             esc(r.status||'—'),
             `<span class="status-pill ${statusClass(a.status)}">${esc(a.status||'Associated')}</span>`,
             esc(formatDateTime(a.associated_at)),
+            esc(formatDateOnly(a.submitted_to_client_date)),
             esc(a.notes||'—'),
             `<div class="profile-job-association-actions"><button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button><button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button><button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button><button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button><button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button></div>`
           ];
