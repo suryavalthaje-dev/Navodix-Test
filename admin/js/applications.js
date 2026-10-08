@@ -233,6 +233,7 @@
     const hasRows = pageRows.length > 0;
     empty.classList.toggle('hidden', hasRows);
     body.parentElement.classList.remove('hidden');
+    body.parentElement.style.removeProperty('display');
 
     const showingStart = rows.length ? start + 1 : 0;
     const showingEnd = rows.length ? start + pageRows.length : 0;
