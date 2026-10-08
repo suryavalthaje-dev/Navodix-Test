@@ -98,9 +98,12 @@
 
     if (!state.users.length) {
       tbody.innerHTML = '';
-      tableWrap.classList.add('hidden');
+      tableWrap.classList.remove('hidden');
       empty.classList.remove('hidden');
-      $('usersPagination')?.classList.add('hidden');
+      $('usersPagination')?.classList.remove('hidden');
+      $('usersPageInfo').textContent = 'Showing 0-0 of 0';
+      $('usersPageNumber').textContent = 'Page 1 of 1';
+      ['usersFirst','usersPrev','usersNext','usersLast'].forEach(id => { const button = $(id); if (button) button.disabled = true; });
       return;
     }
 
