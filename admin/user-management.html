@@ -522,6 +522,49 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="user-management-last-login-column">
+/* Last Login column — same value typography as the Role/Admin value. */
+.admin-app-page .users-list-card .users-table .user-date-main,
+.admin-app-page .users-list-card .users-table .user-last-login {
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  font-style:normal !important;
+  color:#1E293B !important;
+  line-height:1.35 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table th:nth-child(1),
+.admin-app-page .users-list-card .users-table td:nth-child(1) { width:18% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(2),
+.admin-app-page .users-list-card .users-table td:nth-child(2) { width:19% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(3),
+.admin-app-page .users-list-card .users-table td:nth-child(3) { width:8% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(4),
+.admin-app-page .users-list-card .users-table td:nth-child(4) { width:14% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(5),
+.admin-app-page .users-list-card .users-table td:nth-child(5) { width:12% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(6),
+.admin-app-page .users-list-card .users-table td:nth-child(6) { width:12% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(7),
+.admin-app-page .users-list-card .users-table td:nth-child(7) { width:17% !important; }
+.admin-app-page .users-list-card .users-table tbody td:nth-child(5),
+.admin-app-page .users-list-card .users-table tbody td:nth-child(6) {
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  overflow-wrap:normal !important;
+}
+.admin-app-page .users-list-card .users-table tbody td:nth-child(7) {
+  white-space:nowrap !important;
+  overflow:visible !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -684,6 +727,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <th>Role</th>
                 <th>Status</th>
                 <th>Created</th>
+                <th>Last Login</th>
                 <th class="actions-column">Actions</th>
               </tr>
             </thead>
