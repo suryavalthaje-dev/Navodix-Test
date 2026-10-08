@@ -18,10 +18,23 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .admin-page-heading { margin-bottom:10px !important; }
 .admin-page-heading h1 { font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:32px !important; line-height:1.15 !important; color:#071B4D !important; font-weight:700 !important; }
 .jobs-heading-subtitle { font-size:14px !important; line-height:1.35 !important; color:#556579 !important; }
-.applications-filter-toolbar { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important; padding:14px !important; gap:8px !important; margin-bottom:16px !important; }
-.applications-filter-toolbar select,.applications-filter-toolbar input[type="date"],.applications-filter-toolbar .toolbar-search input { height:42px !important; font-size:12px !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; }
-.applications-filter-toolbar .toolbar-search input::placeholder { font-size:12px !important; }
-.applications-filter-toolbar .btn { height:42px !important; font-size:11px !important; }
+.applications-filter-toolbar { background:#FFFFFF !important; border:1px solid #E2E8F0 !important; border-radius:12px !important; padding:8px !important; gap:6px !important; margin-bottom:12px !important; grid-template-columns:minmax(250px,2fr) repeat(6,minmax(120px,1fr)) !important; align-items:center !important; }
+.applications-filter-toolbar .toolbar-search { grid-column:1 / span 2 !important; grid-row:1 !important; }
+.applications-filter-toolbar #applicationStatusFilter { grid-column:3 !important; grid-row:1 !important; }
+.applications-filter-toolbar #applicationClientFilter { grid-column:4 !important; grid-row:1 !important; }
+.applications-filter-toolbar #applicationJobFilter { grid-column:5 !important; grid-row:1 !important; }
+.applications-filter-toolbar #applicationCategoryFilter { grid-column:6 !important; grid-row:2 !important; }
+.applications-filter-toolbar #applicationLocationFilter { grid-column:7 !important; grid-row:2 !important; }
+.applications-filter-toolbar .applications-date-filter { grid-column:1 / span 2 !important; grid-row:2 !important; }
+.applications-filter-toolbar #applicationInterviewResultFilter { grid-column:3 !important; grid-row:2 !important; }
+.applications-filter-toolbar #applicationSubmittedClientFilter { grid-column:4 !important; grid-row:2 !important; }
+.applications-filter-toolbar #clearApplicationFiltersButton { grid-column:5 !important; grid-row:2 !important; }
+.applications-filter-toolbar #refreshApplicationsButton { grid-column:6 !important; grid-row:2 !important; }
+.applications-filter-toolbar select,.applications-filter-toolbar input[type="date"],.applications-filter-toolbar .toolbar-search input { height:32px !important; min-height:32px !important; font-size:11px !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; }
+.applications-filter-toolbar .toolbar-search input::placeholder { font-size:11px !important; }
+.applications-filter-toolbar .btn { height:32px !important; min-height:32px !important; min-width:0 !important; padding:0 10px !important; font-size:11px !important; }
+.applications-filter-toolbar .applications-date-filter { gap:4px !important; }
+.applications-filter-toolbar .applications-date-filter label { font-size:9px !important; }
 .applications-summary { grid-template-columns:repeat(4,minmax(0,1fr)) !important; gap:14px !important; margin-bottom:18px !important; }
 .applications-summary .summary-card { min-height:46px !important; height:46px !important; padding:12px 18px !important; box-sizing:border-box; border:1px solid #E2E8F0 !important; border-radius:12px !important; }
 .applications-summary .summary-card span { font-size:12px !important; font-weight:700 !important; color:#556579 !important; }
@@ -42,7 +55,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .applications-table .application-view-button{display:inline-flex !important;align-items:center !important;justify-content:center !important;min-height:32px !important;height:32px !important;min-width:0 !important;width:72px !important;box-sizing:border-box !important;padding:6px 6px !important;font-size:10px !important;border-radius:7px !important;white-space:nowrap !important}
 .applications-pagination { display:grid !important; grid-template-columns:1fr auto 1fr !important; align-items:center !important; gap:12px !important; margin:0 !important; padding:16px 12px 2px !important; border:0 !important; background:#FFFFFF !important; font-size:12px !important; }
 .applications-pagination button{height:32px !important;min-width:88px !important;padding:6px 10px !important;font-size:11px !important;border-radius:7px !important}.applications-pagination #applicationsPrev{justify-self:start}.applications-pagination #applicationsNext{justify-self:end}.applications-pagination #applicationsPageInfo{font-size:12px !important;font-weight:700 !important;color:#071B4D !important;white-space:nowrap !important}
-@media (max-width:899px){.applications-filter-toolbar{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.applications-filter-toolbar .toolbar-search{grid-column:1 / -1 !important}.applications-summary{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+@media (max-width:899px){.applications-filter-toolbar{grid-template-columns:repeat(4,minmax(0,1fr)) !important}.applications-filter-toolbar .toolbar-search{grid-column:1 / -1 !important;grid-row:auto !important}.applications-filter-toolbar select,.applications-filter-toolbar .applications-date-filter,.applications-filter-toolbar .btn{grid-column:auto !important;grid-row:auto !important}.applications-summary{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
 @media (max-width:760px){.admin-main > .admin-container{width:calc(100% - 28px)}.applications-filter-toolbar{grid-template-columns:1fr !important}.applications-filter-toolbar .toolbar-search{grid-column:auto !important}.applications-summary{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.applications-table thead th,.applications-table tbody td{padding-left:8px !important;padding-right:8px !important}.applications-pagination{grid-template-columns:1fr !important;justify-items:center !important;padding-top:12px !important}.applications-pagination #applicationsPrev,.applications-pagination #applicationsNext{justify-self:center !important}}
 </style>
 <style id="applications-action-items-v16-design">
