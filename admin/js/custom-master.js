@@ -17,48 +17,12 @@ $('customMasterBody').innerHTML=pageRows.map(x=>isProjects?`<tr><td><strong clas
 const hasRows=pageRows.length>0;$('customMasterEmpty').classList.toggle('hidden',!hasRows);$('customMasterEmpty').style.display=hasRows?'none':'';$('customMasterBody').closest('.table-wrap').classList.toggle('hidden',!hasRows);$('customMasterBody').closest('.table-wrap').style.display=hasRows?'':'none';updatePagination(rows.length,totalPages,start,pageRows.length);}
 function updatePagination(total,totalPages,start,count){const wrap=$('customMasterPagination');if(!wrap)return;wrap.classList.toggle('hidden',total===0);if(!total)return;$('customMasterPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`;$('customMasterPageNumber').textContent=`Page ${currentPage} of ${totalPages}`;$('customMasterFirst').disabled=currentPage<=1;$('customMasterPrev').disabled=currentPage<=1;$('customMasterNext').disabled=currentPage>=totalPages;$('customMasterLast').disabled=currentPage>=totalPages;}
 function goToPage(page){const q=$('customMasterSearch').value.trim().toLowerCase(),f=$('customMasterStatus').value;const total=records.filter(x=>{const hay=isProjects?`${x.name} ${x.description||''}`:`${x.name} ${x.email||''} ${x.mobile||''} ${x.notes||''}`;return (!q||hay.toLowerCase().includes(q))&&(!f||(f==='active'?x.is_active:!x.is_active));}).length;currentPage=Math.min(Math.max(1,page),Math.max(1,Math.ceil(total/PAGE_SIZE)));render();}
-function openForm(item=null){
-if(!$('deleteCustomMasterModal').classList.contains('hidden')) closeDelete(true);
-editingId=item?.id||null;dirty=false;$('customMasterForm').reset();$('customMasterId').value=editingId||'';$('customMasterTitle').textContent=editingId?(isProjects?'Edit Project / Area':'Edit Assignee'):(isProjects?'Add Project / Area':'Add Assignee');$('customMasterName').value=item?.name||'';$('customMasterActive').value=String(item?.is_active??true);if(isProjects){$('customMasterDescription').value=item?.description||'';}else{$('customMasterEmail').value=item?.email||'';$('customMasterMobile').value=item?.mobile||'';$('customMasterNotes').value=item?.notes||'';}fmsg('');$('customMasterModal').classList.remove('hidden');$('customMasterModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('customMasterName').focus();}
+function openForm(item=null){editingId=item?.id||null;dirty=false;$('customMasterForm').reset();$('customMasterId').value=editingId||'';$('customMasterTitle').textContent=editingId?(isProjects?'Edit Project / Area':'Edit Assignee'):(isProjects?'Add Project / Area':'Add Assignee');$('customMasterName').value=item?.name||'';$('customMasterActive').value=String(item?.is_active??true);if(isProjects){$('customMasterDescription').value=item?.description||'';}else{$('customMasterEmail').value=item?.email||'';$('customMasterMobile').value=item?.mobile||'';$('customMasterNotes').value=item?.notes||'';}fmsg('');$('customMasterModal').classList.remove('hidden');$('customMasterModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('customMasterName').focus();}
 function closeForm(force=false){if(!force&&dirty&&!confirm('You have entered information. Are you sure you want to close without saving?'))return;dirty=false;$('customMasterModal').classList.add('hidden');$('customMasterModal').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');}
-function openDelete(id){
-const item=records.find(x=>x.id===id);
-if(!item)return;
-if(!$('customMasterModal').classList.contains('hidden')) closeForm(true);
-deleteTarget=id;$('deleteCustomMasterText').textContent=`“${item.name}” will be permanently removed if it has not been used by an Action Item.`;
-$('deleteCustomMasterText').style.color='';$('deleteCustomMasterModal').classList.remove('hidden');$('deleteCustomMasterModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');}
-function closeDelete(keepBody=false){
-deleteTarget=null;
-$('deleteCustomMasterModal').classList.add('hidden');
-$('deleteCustomMasterModal').setAttribute('aria-hidden','true');
-if(!keepBody && $('customMasterModal').classList.contains('hidden')) document.body.classList.remove('modal-open');
-}
+function openDelete(id){const item=records.find(x=>x.id===id);if(!item)return;deleteTarget=id;$('deleteCustomMasterText').textContent=`“${item.name}” will be permanently removed if it has not been used by an Action Item.`;$('deleteCustomMasterModal').classList.remove('hidden');$('deleteCustomMasterModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');}
+function closeDelete(){deleteTarget=null;$('deleteCustomMasterModal').classList.add('hidden');$('deleteCustomMasterModal').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');}
 async function save(e){e.preventDefault();if(saving)return;const name=$('customMasterName').value.trim();if(!name){fmsg('Name is required.','error');return;}saving=true;const b=$('saveCustomMaster');b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…';try{let payload={name,is_active:$('customMasterActive').value==='true',updated_at:new Date().toISOString()};if(isProjects)payload.description=$('customMasterDescription').value.trim()||null;else{payload.email=$('customMasterEmail').value.trim()||null;payload.mobile=$('customMasterMobile').value.trim()||null;payload.notes=$('customMasterNotes').value.trim()||null;}const q=editingId?supabase.from(table).update(payload).eq('id',editingId):supabase.from(table).insert(payload);const {error}=await q;if(error)throw error;closeForm(true);msg(editingId?'Record updated successfully.':'Record added successfully.','success');await load();}catch(e){console.error(e);fmsg(`Could not save record: ${e.message||e}`,'error');}finally{saving=false;b.disabled=false;b.innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save';}}
-async function del(){
-if(!deleteTarget||deleting)return;
-deleting=true;
-const b=$('confirmCustomMasterDeleteButton');
-const text=$('deleteCustomMasterText');
-b.disabled=true;
-b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';
-try{
-  const targetId=deleteTarget;
-  const {data,error}=await supabase.from(table).delete().eq('id',targetId).select('id');
-  if(error)throw error;
-  if(!data||data.length===0) throw new Error('No record was deleted. The current database permissions may not allow DELETE for this table.');
-  closeDelete();
-  msg('Record deleted successfully.','success');
-  await load();
-}catch(e){
-  console.error(e);
-  text.textContent=`Could not delete this record. ${e.message||e} If the record is already used by an Action Item, make it Inactive instead.`;
-  text.style.color='#B42318';
-}finally{
-  deleting=false;
-  b.disabled=false;
-  b.innerHTML='<i class="fa-solid fa-trash"></i> Delete';
-}
-}
+async function del(){if(!deleteTarget||deleting)return;deleting=true;const b=$('confirmCustomMasterDeleteButton');b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';try{const {error}=await supabase.from(table).delete().eq('id',deleteTarget);if(error)throw error;closeDelete();msg('Record deleted successfully.','success');await load();}catch(e){console.error(e);closeDelete();msg(`Could not delete record. If it is already used by an Action Item, make it Inactive instead. ${e.message||e}`,'error');}finally{deleting=false;b.disabled=false;b.innerHTML='<i class="fa-solid fa-trash"></i> Delete';}}
 function bind(){$('addCustomMasterButton').addEventListener('click',()=>openForm());$('closeCustomMaster').addEventListener('click',()=>closeForm());$('cancelCustomMaster').addEventListener('click',()=>closeForm());$('customMasterForm').addEventListener('submit',save);$('customMasterForm').addEventListener('input',()=>dirty=true);$('customMasterForm').addEventListener('change',()=>dirty=true);$('customMasterSearch').addEventListener('input',()=>{currentPage=1;render();});$('customMasterStatus').addEventListener('change',()=>{currentPage=1;render();});$('refreshCustomMaster').addEventListener('click',()=>{currentPage=1;load();});$('customMasterFirst').addEventListener('click',()=>goToPage(1));$('customMasterPrev').addEventListener('click',()=>goToPage(currentPage-1));$('customMasterNext').addEventListener('click',()=>goToPage(currentPage+1));$('customMasterLast').addEventListener('click',()=>goToPage(999999));$('customMasterBody').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const item=records.find(x=>x.id===b.dataset.id);if(b.dataset.action==='edit')openForm(item);else if(b.dataset.action==='delete')openDelete(b.dataset.id);});$('cancelCustomMasterDeleteButton').addEventListener('click',closeDelete);$('confirmCustomMasterDeleteButton').addEventListener('click',del);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('deleteCustomMasterModal').classList.contains('hidden'))closeDelete();else if(!$('customMasterModal').classList.contains('hidden'))closeForm();});}
 document.addEventListener('DOMContentLoaded',async()=>{bind();const allowed=await window.navodixAdminReady;if(allowed!==false)await load();});
 })();
