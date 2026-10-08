@@ -766,7 +766,43 @@ body.admin-app-page .standard-list-pagination .btn:disabled{
   .modal-backdrop .master-modal-footer .modal-actions{gap:8px !important;}
   .modal-backdrop .master-modal-footer .modal-actions .btn{min-width:0 !important;}
 }
-</style></head>
+</style><style id="custom-master-actions-standard-v32">
+/* Custom Master list actions — keep Edit and Delete visible together. */
+body.admin-app-page .master-table .row-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:6px !important;
+  width:max-content !important;
+  margin-left:auto !important;
+  white-space:nowrap !important;
+}
+body.admin-app-page .master-table .row-actions .icon-button{
+  display:inline-flex !important;
+  flex:0 0 30px !important;
+  width:30px !important;
+  min-width:30px !important;
+  height:30px !important;
+  min-height:30px !important;
+  padding:0 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+body.admin-app-page .master-table .row-actions .danger-icon{
+  display:inline-flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  color:#B42318 !important;
+}
+body.admin-app-page .master-table .row-actions .danger-icon:hover{
+  border-color:#F1A7A2 !important;
+  background:#FFF5F4 !important;
+}
+</style>
+</head>
 <body class="admin-app-page" data-master-custom="projects">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=16"/></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
 <nav class="admin-section-nav"><div class="admin-container admin-section-nav-inner"><a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a><a class="admin-section-nav-link" href="applications.html?v=17">Applications</a><details class="admin-section-nav-dropdown"><summary class="admin-section-nav-link active">Master Data</summary><div class="master-data-menu"><a href="clients.html?v=16">Clients</a><a href="job-categories.html?v=16">Job Categories</a><a href="locations.html?v=16">Locations</a><a class="current" href="projects-areas.html?v=30">Projects / Areas</a><a href="action-item-assignees.html?v=30">Action Item Assignees</a><a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a></div></details><a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a><a class="admin-section-nav-link" href="action-items.html?v=30">Action Items</a></div></nav>
@@ -787,5 +823,5 @@ body.admin-app-page .standard-list-pagination .btn:disabled{
 </div>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/custom-master.js?v=31"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/custom-master.js?v=32"></script><script src="js/navigation.js?v=33"></script>
 </body></html>
