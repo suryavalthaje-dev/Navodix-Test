@@ -2950,6 +2950,11 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
       <div class="profile-association-context-row" aria-label="Profile"><span class="profile-association-context-label">Profile :</span><span id="profileAssociationProfileName" class="profile-association-context-value" aria-live="polite"></span></div>
       <div class="field-group"><label for="profileAssociationRequirement">Requirement <span>*</span></label><select id="profileAssociationRequirement"><option value="">Select Requirement</option></select><small class="profile-form-help">A profile can be associated with multiple requirements. Each association has its own status and notes.</small></div>
       <div class="field-group"><label for="profileAssociationStatus">Association Status <span>*</span></label><select id="profileAssociationStatus"></select></div>
+      <div class="field-group hidden" id="profileAssociationSubmissionDateGroup">
+        <label for="profileAssociationSubmissionDate">Submission Date <span>*</span></label>
+        <input id="profileAssociationSubmissionDate" type="date">
+        <small class="profile-form-help">Date on which the profile was submitted to the client.</small>
+      </div>
       <div class="field-group"><label for="profileAssociationNotes">Notes</label><textarea id="profileAssociationNotes" rows="4" maxlength="5000" placeholder="Enter notes specific to this requirement association"></textarea></div>
     </div>
     <footer class="profile-association-new-footer">
