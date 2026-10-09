@@ -7,6 +7,7 @@
   let currentPage = 1;
   const PAGE_SIZE = 20;
   let profiles = [], requirement = null, requirements = [], jobCategories = [], locationMaster = [], locationsLoaded = false, saving = false, keepExistingResume = true, selectedExistingResume = false, allExistingProfiles = [], profileToAssociate = null, interviewProfile = null, interviewRequirementId = '', interviewAssociationId = '', interviewRequirementLabel = '', interviewSaving = false, profileAssociationProfileId = '', profileAssociationEditId = '', editingOriginalStatus = '', pendingDeleteProfileId = '', pendingDeleteProfileName = '';
+  let selectedProfileRowId = '';
   const requirementStatuses = ['New','Under Review','Shortlisted','Submitted to Client','Interviewing','Selected','Offer Sent','Joined','Rejected','Withdrawn'];
   const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   function message(text,type=''){ $('profilesMessage').textContent=text||''; $('profilesMessage').className='admin-message'+(type?' '+type:''); }
@@ -474,7 +475,7 @@
 
   function updateProfileSummary(){ const rows=filtered(); const set=(id,val)=>{const el=$(id);if(el)el.textContent=String(val);}; set('totalProfilesSummary',rows.length); set('newProfilesSummary',rows.filter(p=>String(p.status||'').trim().toLowerCase()==='new').length); set('availableProfilesSummary',rows.filter(p=>String(p.status||'').trim().toLowerCase()==='available').length); set('associatedProfilesSummary',requirementId?rows.filter(p=>Array.isArray(p.associations)&&p.associations.some(a=>String(a.requirement_id)===String(requirementId))).length:rows.filter(p=>Array.isArray(p.associations)&&p.associations.length>0).length); }
 
-  function render(){ updateProfileSummary(); const body=$('profilesTableBody'), rows=filtered(); const totalPages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE)); if(currentPage>totalPages)currentPage=totalPages; const start=(currentPage-1)*PAGE_SIZE; const pageRows=rows.slice(start,start+PAGE_SIZE); body.innerHTML=pageRows.map(p=>{const assoc=requirementId? p.associations?.find(a=>String(a.requirement_id)===String(requirementId)):p.associations?.[0];const requirementName=requirementId?(requirement?.title||'—'):(p.latestRequirementName||'—');return `<tr><td><div class="profile-name-cell"><strong>${esc(p.full_name)}</strong></div></td><td>${esc(requirementName)}</td><td>${esc(p.current_company||'—')}</td><td>${esc(p.current_location||'—')}</td><td>${esc(p.total_experience||'—')}</td><td>${esc(p.current_ctc||'-')}</td><td>${esc(p.expected_ctc||'-')}</td><td>${esc(p.notice_period||'-')}</td><td><span class="status-pill ${statusClass(p.status)}">${esc(p.status)}</span></td><td><div class="row-actions"><button class="icon-button" data-action="view" data-id="${p.id}" title="View profile details"><i class="fa-solid fa-eye"></i></button><button class="icon-button" data-action="edit" data-id="${p.id}" title="Edit profile"><i class="fa-solid fa-pen-to-square"></i></button>${requirementId?`<button class="icon-button" data-action="interviews" data-id="${p.id}" title="Interviews"><i class="fa-solid fa-calendar-check"></i></button>`:''}${!requirementId?`<button class="icon-button" data-action="associate" data-id="${p.id}" title="Associate with requirement"><i class="fa-solid fa-link"></i></button>`:''}</div></td></tr>`}).join(''); if(!pageRows.length){ body.innerHTML='<tr class="profiles-empty-row"><td colspan="10"><div class="profiles-empty-cell"><i class="fa-solid fa-users"></i><span>No profiles found</span><small>Add a profile or associate an existing profile with a requirement.</small></div></td></tr>'; } body.parentElement.classList.remove('hidden'); updateProfilesPagination(rows.length,totalPages,start,pageRows.length); }
+  function render(){ updateProfileSummary(); const body=$('profilesTableBody'), rows=filtered(); const totalPages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE)); if(currentPage>totalPages)currentPage=totalPages; const start=(currentPage-1)*PAGE_SIZE; const pageRows=rows.slice(start,start+PAGE_SIZE); if(selectedProfileRowId&&!pageRows.some(p=>String(p.id)===String(selectedProfileRowId)))selectedProfileRowId=''; body.innerHTML=pageRows.map(p=>{const assoc=requirementId? p.associations?.find(a=>String(a.requirement_id)===String(requirementId)):p.associations?.[0];const requirementName=requirementId?(requirement?.title||'—'):(p.latestRequirementName||'—');const selected=String(selectedProfileRowId)===String(p.id)?' profile-row-selected':'';return `<tr class="${selected.trim()}" data-profile-row-id="${p.id}"><td><div class="profile-name-cell"><strong>${esc(p.full_name)}</strong></div></td><td>${esc(requirementName)}</td><td>${esc(p.current_company||'—')}</td><td>${esc(p.current_location||'—')}</td><td>${esc(p.total_experience||'—')}</td><td>${esc(p.current_ctc||'-')}</td><td>${esc(p.expected_ctc||'-')}</td><td>${esc(p.notice_period||'-')}</td><td><span class="status-pill ${statusClass(p.status)}">${esc(p.status)}</span></td><td><div class="row-actions"><button class="icon-button" data-action="view" data-id="${p.id}" title="View profile details"><i class="fa-solid fa-eye"></i></button><button class="icon-button" data-action="edit" data-id="${p.id}" title="Edit profile"><i class="fa-solid fa-pen-to-square"></i></button>${requirementId?`<button class="icon-button" data-action="interviews" data-id="${p.id}" title="Interviews"><i class="fa-solid fa-calendar-check"></i></button>`:''}${!requirementId?`<button class="icon-button" data-action="associate" data-id="${p.id}" title="Associate with requirement"><i class="fa-solid fa-link"></i></button>`:''}</div></td></tr>`}).join(''); if(!pageRows.length){ body.innerHTML='<tr class="profiles-empty-row"><td colspan="10"><div class="profiles-empty-cell"><i class="fa-solid fa-users"></i><span>No profiles found</span><small>Add a profile or associate an existing profile with a requirement.</small></div></td></tr>'; } body.parentElement.classList.remove('hidden'); updateProfilesPagination(rows.length,totalPages,start,pageRows.length); }
 
   function updateProfilesPagination(total,totalPages,start,count){ const wrap=$('profilesPagination'); if(!wrap)return; wrap.classList.toggle('hidden',total===0); if(!total)return; $('profilesPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`; $('profilesPageNumber').textContent=`Page ${currentPage} of ${totalPages}`; $('profilesFirst').disabled=currentPage<=1; $('profilesPrev').disabled=currentPage<=1; $('profilesNext').disabled=currentPage>=totalPages; $('profilesLast').disabled=currentPage>=totalPages; }
   function goToProfilesPage(page){ const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)); currentPage=Math.min(Math.max(1,page),totalPages); render(); }
@@ -569,6 +570,49 @@
     const button=$('profilesColumnsButton');
     if(popover&&!popover.classList.contains('hidden')&&!popover.contains(e.target)&&e.target!==button) popover.classList.add('hidden');
   });
+  function closeProfileRowContextMenu(){ const menu=$('profileRowContextMenu'); if(menu)menu.classList.add('hidden'); }
+  function selectProfileRow(profileId){ selectedProfileRowId=String(profileId||''); document.querySelectorAll('#profilesTableBody tr[data-profile-row-id]').forEach(row=>row.classList.toggle('profile-row-selected',String(row.dataset.profileRowId)===selectedProfileRowId)); }
+  function openProfileRowContextMenu(e, profileId){
+    const menu=$('profileRowContextMenu'); if(!menu)return;
+    const p=profiles.find(x=>String(x.id)===String(profileId)); if(!p)return;
+    selectProfileRow(profileId);
+    $('profileRowContextMenuTitle').textContent=(p.full_name||p.profile_number||'Profile')+' — Actions';
+    $('profileContextAssociateButton').classList.toggle('hidden',Boolean(requirementId));
+    $('profileContextInterviewsButton').classList.toggle('hidden',!Boolean(requirementId));
+    menu.classList.remove('hidden');
+    const rect=menu.getBoundingClientRect();
+    let left=e.clientX, top=e.clientY;
+    if(left+rect.width>window.innerWidth-8)left=window.innerWidth-rect.width-8;
+    if(top+rect.height>window.innerHeight-8)top=window.innerHeight-rect.height-8;
+    menu.style.left=Math.max(8,left)+'px'; menu.style.top=Math.max(8,top)+'px';
+  }
+  $('profilesTableBody').addEventListener('click',e=>{
+    const row=e.target.closest('tr[data-profile-row-id]'); if(!row)return;
+    selectProfileRow(row.dataset.profileRowId);
+    closeProfileRowContextMenu();
+  });
+  $('profilesTableBody').addEventListener('contextmenu',e=>{
+    const row=e.target.closest('tr[data-profile-row-id]'); if(!row)return;
+    e.preventDefault();
+    openProfileRowContextMenu(e,row.dataset.profileRowId);
+  });
+  $('profileRowContextMenu').addEventListener('click',async e=>{
+    const button=e.target.closest('[data-context-action]'); if(!button||!selectedProfileRowId)return;
+    const action=button.dataset.contextAction; const id=selectedProfileRowId; const p=profiles.find(x=>String(x.id)===String(id));
+    closeProfileRowContextMenu();
+    if(!p)return;
+    try{
+      if(action==='view')await openProfileDetails(id);
+      else if(action==='edit')await editProfile(id);
+      else if(action==='associate')await associateProfile(id);
+      else if(action==='interviews')await openInterviews(id);
+      else if(action==='delete')deleteProfile(id,p.full_name||p.profile_number||'this profile');
+    }catch(err){message(err.message||String(err),'error');}
+  });
+  document.addEventListener('click',e=>{ if(!e.target.closest('#profileRowContextMenu')&&!e.target.closest('#profilesTableBody'))closeProfileRowContextMenu(); });
+  document.addEventListener('scroll',closeProfileRowContextMenu,true);
+  window.addEventListener('resize',closeProfileRowContextMenu);
+
   $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('profilesFirst').addEventListener('click',()=>goToProfilesPage(1)); $('profilesPrev').addEventListener('click',()=>goToProfilesPage(currentPage-1)); $('profilesNext').addEventListener('click',()=>goToProfilesPage(currentPage+1)); $('profilesLast').addEventListener('click',()=>goToProfilesPage(Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)))); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-action]');if(!b)return;try{if(b.dataset.action==='view')await openProfileDetails(b.dataset.id);else if(b.dataset.action==='edit')await editProfile(b.dataset.id);else if(b.dataset.action==='associate')await associateProfile(b.dataset.id);else if(b.dataset.action==='interviews')await openInterviews(b.dataset.id);}catch(err){message(err.message||String(err),'error');}}); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',confirmDeleteProfile); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
     const interview=e.target.closest('[data-profile-association-interviews]');
     if(interview){
