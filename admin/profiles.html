@@ -2709,7 +2709,9 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 .profiles-table tbody td:last-child{border-right:0 !important;}
 .profiles-table tbody tr:last-child td{border-bottom:0 !important;}
-.profile-name-cell strong{display:block !important;margin:0 0 3px !important;color:#123B72 !important;font-size:12px !important;line-height:1.25 !important;font-weight:600 !important;}
+.profile-name-cell strong{display:flex !important;align-items:center !important;gap:7px !important;margin:0 0 3px !important;color:#123B72 !important;font-size:12px !important;line-height:1.25 !important;font-weight:600 !important;}
+.profile-name-cell strong::before{content:"\f007" !important;font-family:"Font Awesome 6 Free" !important;font-weight:900 !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;width:18px !important;min-width:18px !important;height:18px !important;border-radius:50% !important;background:#EEF5FC !important;color:#2878E8 !important;font-size:9px !important;line-height:1 !important;}
+.profiles-table tbody tr.profile-row-selected .profile-name-cell strong::before{background:rgba(255,255,255,.16) !important;color:#FFFFFF !important;}
 .profile-name-cell span{display:block !important;color:#6B7B8F !important;font-size:10.5px !important;line-height:1.2 !important;font-weight:400 !important;}
 /* All profile column values are plain text; only status may retain semantic text color. */
 .profiles-table .source-chip,
