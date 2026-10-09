@@ -2585,11 +2585,20 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <style id="profiles-row-context-menu-v1">
 /* Profiles list row selection + right-click context menu. Page-local only. */
 .profiles-table tbody tr.profile-row-selected{
-  background:#DCEEFF !important;
-  box-shadow:inset 3px 0 0 #2878E8 !important;
+  background:#D9EBFF !important;
+  box-shadow:inset 4px 0 0 #2878E8, inset 0 0 0 1px #A8C9EE !important;
 }
-.profiles-table tbody tr.profile-row-selected:hover{
-  background:#DCEEFF !important;
+.profiles-table tbody tr.profile-row-selected td{
+  background:#D9EBFF !important;
+  color:#173F78 !important;
+}
+.profiles-table tbody tr.profile-row-selected .profile-name-cell strong{
+  color:#0F4F9E !important;
+  font-weight:700 !important;
+}
+.profiles-table tbody tr.profile-row-selected:hover,
+.profiles-table tbody tr.profile-row-selected:hover td{
+  background:#D9EBFF !important;
 }
 .profile-row-context-menu{
   position:fixed;
