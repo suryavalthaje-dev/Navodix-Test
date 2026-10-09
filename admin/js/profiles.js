@@ -13,8 +13,7 @@
   function profileDetailsMessage(text,type=''){ const el=$('profileDetailsMessage'); if(!el)return; el.textContent=text||''; el.className='admin-message'+(type?' '+type:''); el.classList.toggle('hidden',!text); }
   function formMessage(text,type=''){ $('profileFormMessage').textContent=text||''; $('profileFormMessage').className='admin-message'+(type?' '+type:''); }
   function showModal(){ $('profileModal').classList.remove('hidden'); $('profileModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); }
-  function focusProfileFormStart(){ const body=document.querySelector('#profileModal .npp-body'); if(body)body.scrollTop=0; const field=$('fullName'); if(field){ requestAnimationFrame(()=>{ if(body)body.scrollTop=0; field.focus(); try{field.setSelectionRange(0,0);}catch(e){} }); } }
-  function prepareNextAddProfile(){ resetForm(); populateRequirementOptions(requirementId||''); if(requirement){ $('profileRequirement').value=requirement.id; $('profileAssociationRequirementId').value=requirement.id; $('existingProfileNotice').innerHTML='<strong>Requirement:</strong> '+esc(requirement.job_code)+' — '+esc(requirement.title)+'<br><small>This profile will be automatically associated with this requirement when saved.</small>'; $('existingProfileNotice').classList.remove('hidden'); } focusProfileFormStart(); }
+  function focusProfileFormStart(){ const body=$('profileModal')?.querySelector('.npp-body'); if(body)body.scrollTop=0; requestAnimationFrame(()=>{ const field=$('fullName'); if(field){ field.focus(); if(typeof field.setSelectionRange==='function'){ const end=field.value.length; field.setSelectionRange(end,end); } } }); }
   function closeModal(){ if(saving)return; $('profileModal').classList.add('hidden'); $('profileModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
   function statusClass(s){ return ({'Available':'status-active','Considering':'status-warning','On Hold':'status-warning','Not Available':'status-danger','Not Suitable':'status-danger','Do Not Contact':'status-danger','Archived':'status-muted'})[s]||'status-info'; }
   function getLocationMasterLabel(row){ const candidates=[row?.name,row?.location,row?.location_name,row?.city,row?.title,row?.label]; const value=candidates.find(v=>typeof v==='string'&&v.trim()); return value?value.trim():''; }
@@ -481,16 +480,15 @@
   async function callProfileFunction(formData){ const {data:{session}}=await supabase.auth.getSession(); if(!session)throw new Error('Your session has expired. Please sign in again.'); const response=await fetch(window.NAVODIX_SUPABASE_URL+'/functions/v1/profile-management',{method:'POST',headers:{Authorization:'Bearer '+session.access_token},body:formData}); const payload=await response.json().catch(()=>({})); if(!response.ok){ const raw=payload.error??payload.message; let detail='Profile operation failed.'; if(typeof raw==='string'&&raw.trim()) detail=raw; else if(raw&&typeof raw==='object') detail=raw.message||raw.details||raw.hint||raw.code||JSON.stringify(raw); throw new Error(detail); } return payload; }
   function formDataFromForm(){ const fd=new FormData(); $('profileAssociationRequirementId').value=$('profileRequirement').value||''; const fields={profile_id:$('profileId').value,requirement_id:$('profileAssociationRequirementId').value,full_name:$('fullName').value.trim(),email:$('email').value.trim(),phone:$('phone').value.trim(),alternate_phone:$('alternatePhone').value.trim(),current_location:$('currentLocation').value.trim(),preferred_location:$('preferredLocation').value.trim(),availability:$('availability').value.trim(),current_job_title:$('currentJobTitle').value.trim(),current_company:$('currentCompany').value.trim(),total_experience:$('totalExperience').value.trim(),notice_period:$('noticePeriod').value.trim(),current_ctc:$('currentCtc').value.trim(),expected_ctc:$('expectedCtc').value.trim(),highest_qualification:$('highestQualification').value.trim(),specialization:$('specialization').value.trim(),graduation_year:$('graduationYear').value||'',linkedin_url:$('linkedinUrl').value.trim(),status:$('profileStatus').value,source:$('profileSource').value,source_details:$('sourceDetails').value.trim(),referrer_name:$('referrerName').value.trim(),referrer_mobile:$('referrerMobile').value.trim(),referrer_email:$('referrerEmail').value.trim(),skills:$('skills').value.trim(),additional_information:$('additionalInformation').value.trim(),replace_resume:String(!keepExistingResume)}; Object.entries(fields).forEach(([k,v])=>fd.append(k,v)); const file=$('resumeFile').files[0]; if(file)fd.append('resume',file,file.name); return fd; }
   async function saveProfile(e, closeAfterSave=false){
-    if(e&&typeof e.preventDefault==='function')e.preventDefault(); if(saving)return false;
-    if(!$('fullName').value.trim()||!$('phone').value.trim()||!$('profileSource').value){formMessage('Full Name, Phone and Source are required.','error');return false;}
-    const file=$('resumeFile').files[0]; if(file){if(file.size>5*1024*1024){formMessage('Resume must be 5 MB or smaller.','error');return false;}if(!/\.(pdf|doc|docx)$/i.test(file.name)){formMessage('Resume must be PDF, DOC or DOCX.','error');return false;}}
-    const editingProfileId=$('profileId').value, newStatus=$('profileStatus').value, statusChanged=Boolean(editingProfileId&&editingOriginalStatus&&String(editingOriginalStatus)!==String(newStatus));
-    saving=true;$('saveProfileButton').disabled=true;$('saveAndCloseProfileButton').disabled=true;$('saveProfileButton').innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…';formMessage('Saving profile…');
-    let saveSucceeded=false;
+    if(e&&typeof e.preventDefault==='function')e.preventDefault(); if(saving)return;
+    if(!$('fullName').value.trim()||!$('phone').value.trim()||!$('profileSource').value){formMessage('Full Name, Phone and Source are required.','error');return;}
+    const file=$('resumeFile').files[0]; if(file){if(file.size>5*1024*1024){formMessage('Resume must be 5 MB or smaller.','error');return;}if(!/\.(pdf|doc|docx)$/i.test(file.name)){formMessage('Resume must be PDF, DOC or DOCX.','error');return;}}
+    const editingProfileId=$('profileId').value, newStatus=$('profileStatus').value, statusChanged=Boolean(editingProfileId&&editingOriginalStatus&&String(editingOriginalStatus)!==String(newStatus)), saveStartedAt=new Date().toISOString();
+    saving=true;$('saveProfileButton').disabled=true;$('saveProfileCloseButton').disabled=true;$('saveProfileButton').innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…';$('saveProfileCloseButton').innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…';formMessage('Saving profile…');
     try{
       const result=await callProfileFunction(formDataFromForm());
-      if(result.duplicate&&result.profile_id&&!editingProfileId){formMessage('An existing profile was found. Please use the existing profile instead of creating a duplicate.','error');return false;}
-      if(result.resume_existing&&!result.resume_replaced){$('resumeReplaceNotice').classList.remove('hidden');formMessage('An existing resume is already stored. Choose Keep Existing Resume or Replace with New Resume.','');return false;}
+      if(result.duplicate&&result.profile_id&&!editingProfileId){formMessage('An existing profile was found. Please use the existing profile instead of creating a duplicate.','error');return;}
+      if(result.resume_existing&&!result.resume_replaced){$('resumeReplaceNotice').classList.remove('hidden');formMessage('An existing resume is already stored. Choose Keep Existing Resume or Replace with New Resume.','');return;}
       const savedProfileId=result.profile_id||editingProfileId; if(savedProfileId)await saveProfileCategories(savedProfileId);
       if(statusChanged&&savedProfileId){
         const userId=(await supabase.auth.getUser()).data.user?.id||null;
@@ -503,23 +501,24 @@
         });
         if(historyError)throw new Error(`Profile was saved, but the status history could not be recorded: ${historyError.message||String(historyError)}`);
       }
-      saveSucceeded=true;
-      editingOriginalStatus=newStatus;
-      await loadProfiles();
+      formMessage(result.associated?'Successfully saved and automatically associated with the requirement.':'Successfully saved.','success'); message(result.associated?'Profile saved and automatically associated with the requirement.':'Profile saved successfully.','success'); editingOriginalStatus=newStatus; await loadProfiles();
       if(closeAfterSave){
-        resetForm();
         closeModal();
       }else if(!editingProfileId){
-        prepareNextAddProfile();
-        formMessage(result.associated?'Profile saved and automatically associated with the requirement. Ready for another profile.':'Profile saved successfully. Ready for another profile.','success');
-      }else{
-        formMessage(result.associated?'Successfully saved and automatically associated with the requirement.':'Successfully saved.','success');
+        resetForm();
+        populateRequirementOptions(requirementId||'');
+        if(requirement){
+          $('profileRequirement').value=requirement.id;
+          $('profileAssociationRequirementId').value=requirement.id;
+          $('existingProfileNotice').innerHTML='<strong>Requirement:</strong> '+esc(requirement.job_code)+' — '+esc(requirement.title)+'<br><small>This profile will be automatically associated with this requirement when saved.</small>';
+          $('existingProfileNotice').classList.remove('hidden');
+        }
+        showModal();
+        focusProfileFormStart();
       }
-      return true;
-    }catch(err){console.error(err);formMessage(err.message||String(err),'error');return false;}
-    finally{saving=false;$('saveProfileButton').disabled=false;$('saveAndCloseProfileButton').disabled=false;$('saveProfileButton').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Profile';}
+    }catch(err){console.error(err);formMessage(err.message||String(err),'error');}
+    finally{saving=false;$('saveProfileButton').disabled=false;$('saveProfileButton').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Profile';$('saveProfileCloseButton').disabled=false;$('saveProfileCloseButton').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save & Close';}
   }
-
 
   function interviewMessage(text,type=''){ $('interviewMessage').textContent=text||''; $('interviewMessage').className='admin-message'+(type?' '+type:''); }
   function interviewFormMessage(text,type=''){ $('interviewFormMessage').textContent=text||''; $('interviewFormMessage').className='admin-message'+(type?' '+type:''); }
@@ -542,7 +541,7 @@
   async function saveAssociateRequirement(){ if(!profileToAssociate)return; const reqId=$('associateRequirementSelect').value; if(!reqId){ $('associateRequirementMessage').textContent='Please select a requirement.'; $('associateRequirementMessage').className='admin-message error'; return; } const btn=$('saveAssociateRequirementButton'); btn.disabled=true; $('associateRequirementMessage').textContent='Associating profile…'; $('associateRequirementMessage').className='admin-message'; try{ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:profileToAssociate.id,requirement_id:reqId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); $('associateRequirementMessage').textContent='Profile associated successfully with the requirement.'; $('associateRequirementMessage').className='admin-message success'; message('Profile associated successfully with the requirement.','success'); await loadProfiles(); setTimeout(closeAssociateRequirementModal,500); }catch(err){ $('associateRequirementMessage').textContent=err.message||String(err); $('associateRequirementMessage').className='admin-message error'; } finally { btn.disabled=false; } }
   async function associateProfile(id){ if(requirementId){ const {data:created,error}=await supabase.from('profile_requirement_associations').upsert({profile_id:id,requirement_id:requirementId,status:'New',association_type:'manual'},{onConflict:'profile_id,requirement_id'}).select('id,status').single(); if(error)throw error; await recordInitialAssociationStatus(created.id,'New',''); message('Profile associated successfully with the requirement.','success'); await loadProfiles(); return; } openAssociateRequirementModal(id); }
 
-  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('profileForm').addEventListener('submit',e=>saveProfile(e,false)); $('saveAndCloseProfileButton').addEventListener('click',()=>saveProfile(null,true)); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();});
+  $('profileRequirement').addEventListener('change',()=>{ $('profileAssociationRequirementId').value=$('profileRequirement').value||''; }); $('profileSource').addEventListener('change',toggleReferrerFields); $('resumeFile').addEventListener('change',()=>{selectedExistingResume=Boolean($('profileId').value); if(selectedExistingResume&&$('resumeFile').files[0])$('resumeReplaceNotice').classList.remove('hidden');}); $('keepResumeButton').addEventListener('click',()=>{keepExistingResume=true;$('resumeFile').value='';$('resumeReplaceNotice').classList.add('hidden');formMessage('Existing resume will be kept.','');}); $('replaceResumeButton').addEventListener('click',()=>{keepExistingResume=false;$('resumeReplaceNotice').classList.add('hidden');formMessage('New resume will replace the existing resume when saved.','');}); $('addProfileButton').addEventListener('click',openAdd); $('closeProfileModal').addEventListener('click',closeModal); $('cancelProfileButton').addEventListener('click',closeModal); $('saveProfileCloseButton').addEventListener('click',()=>{ saveProfile(null,true); }); $('profileForm').addEventListener('submit',saveProfile); $('profileSearch').addEventListener('input',()=>{currentPage=1;render();}); $('profileStatusFilter').addEventListener('change',()=>{currentPage=1;render();}); $('profileSourceFilter').addEventListener('change',()=>{currentPage=1;render();});
   $('clearProfileFiltersButton').addEventListener('click',()=>{
     $('profileSearch').value='';
     $('profileStatusFilter').value='';
