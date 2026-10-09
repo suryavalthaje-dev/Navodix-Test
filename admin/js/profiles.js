@@ -14,7 +14,8 @@
   function formMessage(text,type=''){ $('profileFormMessage').textContent=text||''; $('profileFormMessage').className='admin-message'+(type?' '+type:''); }
   function showModal(){ $('profileModal').classList.remove('hidden'); $('profileModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); }
   function focusProfileFormStart(){ const body=$('profileModal')?.querySelector('.npp-body'); if(body)body.scrollTop=0; requestAnimationFrame(()=>{ const field=$('fullName'); if(field){ field.focus(); if(typeof field.setSelectionRange==='function'){ const end=field.value.length; field.setSelectionRange(end,end); } } }); }
-  function closeModal(){ if(saving)return; $('profileModal').classList.add('hidden'); $('profileModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
+  function closeModal(){ if(saving)return; hideProfileModal(); }
+  function hideProfileModal(){ $('profileModal').classList.add('hidden'); $('profileModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
   function statusClass(s){ return ({'Available':'status-active','Considering':'status-warning','On Hold':'status-warning','Not Available':'status-danger','Not Suitable':'status-danger','Do Not Contact':'status-danger','Archived':'status-muted'})[s]||'status-info'; }
   function getLocationMasterLabel(row){ const candidates=[row?.name,row?.location,row?.location_name,row?.city,row?.title,row?.label]; const value=candidates.find(v=>typeof v==='string'&&v.trim()); return value?value.trim():''; }
   async function loadLocationMaster(){
@@ -503,7 +504,7 @@
       }
       formMessage(result.associated?'Successfully saved and automatically associated with the requirement.':'Successfully saved.','success'); message(result.associated?'Profile saved and automatically associated with the requirement.':'Profile saved successfully.','success'); editingOriginalStatus=newStatus; await loadProfiles();
       if(closeAfterSave){
-        closeModal();
+        hideProfileModal();
       }else if(!editingProfileId){
         resetForm();
         populateRequirementOptions(requirementId||'');
