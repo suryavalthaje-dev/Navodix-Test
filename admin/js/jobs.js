@@ -6,14 +6,10 @@
   let deleteJobId = null;
   let saving = false;
   let viewMode = false;
-  let selectedJDFile = null;
-  let existingJDFile = null;
-  let jdRemoveRequested = false;
   let clients = [];
   let jobCategories = [];
   let locations = [];
-  let currentPage = 1;
-  const PAGE_SIZE = 20;
+  let selectedRequirementId = '';
 
   const $ = (id) => document.getElementById(id);
 
@@ -35,336 +31,6 @@
     if (!el) return;
     el.textContent = text || '';
     el.className = 'admin-message' + (type ? ' ' + type : '');
-  }
-
-  async function callRequirementDocumentFunction(formData) {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) throw new Error('Your session has expired. Please sign in again.');
-
-    const response = await fetch(
-      window.NAVODIX_SUPABASE_URL + '/functions/v1/requirement-documents',
-      {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + session.access_token },
-        body: formData
-      }
-    );
-
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || payload.success === false) {
-      throw new Error(payload.error || payload.message || 'Requirement document operation failed.');
-    }
-    return payload;
-  }
-
-  async function getRequirementJDSignedUrl(jobId, action = 'view-url') {
-    const fd = new FormData();
-    fd.append('action', action);
-    fd.append('job_id', jobId);
-    const payload = await callRequirementDocumentFunction(fd);
-    const url = payload.signed_url || payload.signedUrl;
-    if (!url) throw new Error('The Requirement Documents service did not return a secure JD URL.');
-    return payload;
-  }
-
-  function closeRequirementJDViewer() {
-    const viewer = $('jdInlineViewer');
-    const frame = $('jdInlineFrame');
-    const docxViewer = $('jdInlineDocxViewer');
-    const loading = $('jdInlineLoading');
-    const title = $('jdInlineViewerTitle');
-    const closeTop = $('jdInlineCloseTopButton');
-    if (frame) frame.src = '';
-    if (docxViewer) docxViewer.innerHTML = '';
-    if (frame) frame.classList.add('hidden');
-    if (docxViewer) docxViewer.classList.add('hidden');
-    if (loading) {
-      loading.classList.remove('hidden');
-      loading.textContent = 'Loading job description…';
-    }
-    if (title) title.textContent = 'Job Description';
-    if (closeTop) closeTop.classList.add('hidden');
-    if (viewer) viewer.classList.add('hidden');
-  }
-
-  async function viewRequirementJD() {
-    const viewer = $('jdInlineViewer');
-    const frame = $('jdInlineFrame');
-    const docxViewer = $('jdInlineDocxViewer');
-    const loading = $('jdInlineLoading');
-    const closeTop = $('jdInlineCloseTopButton');
-    if (!viewer || !frame || !docxViewer || !loading) {
-      showFormMessage('JD viewer is not available.', 'error');
-      return;
-    }
-    if (!existingJDFile || !existingJDFile.objectPath || !$('jobId').value) {
-      showFormMessage('No JD document is stored for this requirement.', 'error');
-      return;
-    }
-
-    try {
-      showFormMessage('');
-      viewer.classList.remove('hidden');
-      frame.classList.add('hidden');
-      docxViewer.classList.add('hidden');
-      docxViewer.innerHTML = '';
-      loading.classList.remove('hidden');
-      loading.textContent = 'Loading job description…';
-      if (closeTop) closeTop.classList.remove('hidden');
-
-      const payload = await getRequirementJDSignedUrl($('jobId').value, 'view-url');
-      const url = payload.signed_url;
-      const fileName = String(existingJDFile.name || payload.file_name || '').toLowerCase();
-      const isPdf = /\.pdf$/i.test(fileName);
-      const isDocx = /\.docx$/i.test(fileName);
-
-      if (isPdf) {
-        frame.onload = () => {
-          loading.classList.add('hidden');
-          frame.classList.remove('hidden');
-        };
-        frame.src = url + '#toolbar=1&navpanes=0&view=FitH';
-      } else if (isDocx) {
-        if (typeof window.docx === 'undefined' || typeof window.docx.renderAsync !== 'function') {
-          throw new Error('DOCX preview support is not available. Please refresh the page and try again.');
-        }
-        const response = await fetch(url, { credentials: 'omit' });
-        if (!response.ok) throw new Error(`JD request failed (HTTP ${response.status})`);
-        const blob = await response.blob();
-        await window.docx.renderAsync(blob, docxViewer, null, {
-          breakPages: true,
-          ignoreLastRenderedPageBreak: false,
-          renderHeaders: true,
-          renderFooters: true,
-          renderFootnotes: true,
-          renderEndnotes: true
-        });
-        docxViewer.classList.remove('hidden');
-        loading.classList.add('hidden');
-      } else {
-        frame.onload = () => {
-          loading.classList.add('hidden');
-          frame.classList.remove('hidden');
-        };
-        loading.textContent = 'Preparing job description… If your browser cannot display this DOC file inline, use Download JD.';
-        frame.src = url;
-      }
-    } catch (error) {
-      closeRequirementJDViewer();
-      showFormMessage(`Could not open the JD: ${error.message || error}`, 'error');
-    }
-  }
-
-  async function openRequirementJDInNewTab() {
-    if (!existingJDFile || !existingJDFile.objectPath || !$('jobId').value) {
-      showFormMessage('No JD document is stored for this requirement.', 'error');
-      return;
-    }
-
-    const popup = window.open('about:blank', '_blank');
-    if (!popup) {
-      showFormMessage('Please allow pop-ups to open the JD in a new tab.', 'error');
-      return;
-    }
-
-    try {
-      const payload = await getRequirementJDSignedUrl($('jobId').value, 'view-url');
-      const url = payload.signed_url;
-      const fileName = String(existingJDFile.name || payload.file_name || "");
-      const isDocx = /\.docx$/i.test(fileName);
-
-      // PDF can be rendered natively by the browser. DOCX needs the same
-      // client-side renderer used by the inline viewer.
-      if (!isDocx) {
-        popup.location.href = url;
-        return;
-      }
-
-      const safeTitle = escapeHtml(fileName || 'Job Description');
-      popup.document.open();
-      popup.document.write(`<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>${safeTitle}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html,body{margin:0;padding:0;background:#EEF2F7;color:#263B5A;font-family:Arial,sans-serif;}
-    .bar{position:sticky;top:0;z-index:2;padding:12px 16px;background:#173F78;color:#fff;font-size:14px;font-weight:600;}
-    .status{padding:14px 16px;text-align:center;color:#52647D;font-size:13px;}
-    #docx{max-width:100%;min-height:calc(100vh - 46px);padding:24px;box-sizing:border-box;overflow:auto;}
-    #docx .docx-wrapper{background:transparent!important;padding:0!important;}
-    #docx .docx{margin:0 auto 18px!important;background:#fff!important;box-shadow:0 2px 10px rgba(0,0,0,.12);}
-    #docx img{max-width:100%;}
-    .error{color:#B42318;}
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
-</head>
-<body>
-  <div class="bar">${safeTitle}</div>
-  <div id="status" class="status">Loading Job Description…</div>
-  <div id="docx"></div>
-  <script>
-    (async function(){
-      try {
-        const response = await fetch(${JSON.stringify(url)}, { credentials: 'omit' });
-        if (!response.ok) throw new Error('Unable to retrieve the document (HTTP ' + response.status + ').');
-        const blob = await response.blob();
-        if (!window.docx || typeof window.docx.renderAsync !== 'function') {
-          throw new Error('DOCX preview library could not be loaded.');
-        }
-        await window.docx.renderAsync(blob, document.getElementById('docx'), null, {
-          breakPages: true,
-          ignoreLastRenderedPageBreak: false,
-          renderHeaders: true,
-          renderFooters: true,
-          renderFootnotes: true,
-          renderEndnotes: true
-        });
-        document.getElementById('status').remove();
-      } catch (error) {
-        const status = document.getElementById('status');
-        status.textContent = 'Could not preview the DOCX: ' + (error.message || error);
-        status.classList.add('error');
-      }
-    })();
-  <\/script>
-</body>
-</html>`);
-      popup.document.close();
-    } catch (error) {
-      try { popup.close(); } catch (_) {}
-      showFormMessage(`Could not open the JD: ${error.message || error}`, 'error');
-    }
-  }
-
-  async function downloadRequirementJD() {
-    if (!existingJDFile || !existingJDFile.objectPath || !$('jobId').value) {
-      showFormMessage('No JD document is stored for this requirement.', 'error');
-      return;
-    }
-    try {
-      const payload = await getRequirementJDSignedUrl($('jobId').value, 'download-url');
-      const link = document.createElement('a');
-      link.href = payload.signed_url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      showFormMessage(`Could not download the JD: ${error.message || error}`, 'error');
-    }
-  }
-
-  function openRemoveJDConfirmation() {
-    if (!existingJDFile && !selectedJDFile) return;
-    const modal = $('removeJDModal');
-    if (!modal) return;
-    const fileName = existingJDFile?.name || selectedJDFile?.name || 'the selected Job Description';
-    const text = $('removeJDText');
-    if (text) {
-      text.textContent = existingJDFile
-        ? `“${fileName}” will be removed from this requirement. The change will take effect when you save the requirement.`
-        : `The selected Job Description “${fileName}” will be cleared. No document will be uploaded when you save the requirement.`;
-    }
-    modal.classList.remove('hidden');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
-  }
-
-  function closeRemoveJDConfirmation() {
-    const modal = $('removeJDModal');
-    if (!modal) return;
-    modal.classList.add('hidden');
-    modal.setAttribute('aria-hidden', 'true');
-    const otherOpen = document.querySelector('.modal-backdrop:not(.hidden)');
-    if (!otherOpen) document.body.classList.remove('modal-open');
-  }
-
-  function confirmRemoveJD() {
-    const jdFileInput = $('jdFile');
-    selectedJDFile = null;
-    if (jdFileInput) jdFileInput.value = '';
-    if (existingJDFile) jdRemoveRequested = true;
-    closeRequirementJDViewer();
-    closeRemoveJDConfirmation();
-    markJobFormDirty();
-    renderJDState();
-  }
-
-  function resetJDState() {
-    selectedJDFile = null;
-    existingJDFile = null;
-    jdRemoveRequested = false;
-    const file = $('jdFile');
-    const name = $('existingJDFileName');
-    const remove = $('removeJDButton');
-    const help = $('jdFileHelp');
-    if (file) file.value = '';
-    if (name) {
-      name.textContent = '';
-      name.title = '';
-      name.classList.add('hidden');
-    }
-    if (remove) remove.classList.add('hidden');
-    if ($('viewJDButton')) $('viewJDButton').classList.add('hidden');
-    if ($('openJDNewTabButton')) $('openJDNewTabButton').classList.add('hidden');
-    if ($('downloadJDButton')) $('downloadJDButton').classList.add('hidden');
-    if ($('jdInlineCloseTopButton')) $('jdInlineCloseTopButton').classList.add('hidden');
-    closeRequirementJDViewer();
-    if (help) help.textContent = 'Optional. Maximum 5 MB. PDF, DOC or DOCX.';
-  }
-
-  function renderJDState() {
-    const file = $('jdFile');
-    const name = $('existingJDFileName');
-    const remove = $('removeJDButton');
-    const help = $('jdFileHelp');
-    const view = $('viewJDButton');
-    const open = $('openJDNewTabButton');
-    const download = $('downloadJDButton');
-    if (!file || !name || !remove || !help) return;
-
-    if (selectedJDFile) {
-      if (view) view.classList.add('hidden');
-      if (open) open.classList.add('hidden');
-      if (download) download.classList.add('hidden');
-      closeRequirementJDViewer();
-      name.textContent = selectedJDFile.name;
-      name.title = selectedJDFile.name;
-      name.classList.remove('hidden');
-      remove.classList.add('hidden');
-      help.textContent = `Selected: ${selectedJDFile.name} (${Math.ceil(selectedJDFile.size / 1024)} KB). It will be uploaded when the requirement is saved.`;
-      return;
-    }
-
-    if (existingJDFile && !jdRemoveRequested) {
-      name.textContent = existingJDFile.name || 'Existing JD document';
-      name.title = existingJDFile.name || '';
-      name.classList.remove('hidden');
-      remove.classList.toggle('hidden', viewMode);
-      if (view) view.classList.remove('hidden');
-      if (open) open.classList.remove('hidden');
-      if (download) download.classList.remove('hidden');
-      help.textContent = viewMode
-        ? 'JD document is available. Use View JD to preview it inline.'
-        : 'An existing JD document is stored for this requirement. Select a new file to replace it.';
-      return;
-    }
-
-    name.textContent = '';
-    name.title = '';
-    name.classList.add('hidden');
-    remove.classList.add('hidden');
-    if (view) view.classList.add('hidden');
-    if (open) open.classList.add('hidden');
-    if (download) download.classList.add('hidden');
-    closeRequirementJDViewer();
-    help.textContent = jdRemoveRequested
-      ? 'The existing JD will be removed when you save this requirement.'
-      : 'Optional. Maximum 5 MB. PDF, DOC or DOCX.';
   }
 
   function formatType(type) {
@@ -417,19 +83,16 @@
     const body = $('jobsTableBody');
     const empty = $('emptyJobs');
     const rows = filteredJobs();
-    const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-    if (currentPage > totalPages) currentPage = totalPages;
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const pageRows = rows.slice(start, start + PAGE_SIZE);
 
-    body.innerHTML = pageRows.length ? pageRows.map(job => `
-      <tr>
+    body.innerHTML = rows.length ? rows.map(job => {
+      const selected = String(selectedRequirementId) === String(job.id) ? ' requirement-row-selected' : '';
+      return `
+      <tr class="requirement-row${selected}" data-requirement-row-id="${escapeHtml(job.id)}">
         <td>
           <div class="job-title-cell">
             <strong>${escapeHtml(job.title)}</strong>
           </div>
         </td>
-        <td>${escapeHtml(job.number_of_positions ?? '—')}</td>
         <td>${escapeHtml(job.client_name || '—')}</td>
         <td>${escapeHtml(job.location || '—')}</td>
         <td>${escapeHtml(job.skill_level || '—')}</td>
@@ -437,55 +100,75 @@
         <td>${escapeHtml(job.experience || '—')}</td>
         <td><span class="status-pill ${statusClass(job.status)}">${escapeHtml(statusLabel(job.status))}</span></td>
         <td>${escapeHtml(formatDate(job.job_open_date))}</td>
-        <td>${escapeHtml(job.profile_count ?? 0)}</td>
-        <td>
-          <div class="row-actions">
-            <button class="icon-button" type="button" data-action="candidates" data-id="${job.id}" title="Manage candidates for requirement" aria-label="Manage candidates for requirement">
-              <i class="fa-solid fa-users"></i>
-            </button>
-            <button class="icon-button" type="button" data-action="view" data-id="${job.id}" title="View requirement" aria-label="View requirement">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="icon-button" type="button" data-action="edit" data-id="${job.id}" title="Edit requirement" aria-label="Edit requirement">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button class="icon-button danger-icon" type="button" data-action="delete" data-id="${job.id}" title="Delete requirement" aria-label="Delete requirement">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
       </tr>
-    `).join('') : `
+    `;
+    }).join('') : `
       <tr class="empty-row">
-        <td colspan="11">
+        <td colspan="8">
           <span class="empty-row-title">No requirements found</span>
-          <span class="empty-row-text">Use “Add New Requirement” to create the first career opportunity.</span>
+          <span class="empty-row-text">Use “Add Requirement” to create the first career opportunity.</span>
         </td>
       </tr>`;
 
-    const hasRows = pageRows.length > 0;
     empty.classList.add('hidden');
     body.parentElement.classList.remove('hidden');
-    updateJobsPagination(rows.length, totalPages, start, pageRows.length);
     updateSummary();
   }
 
-  function updateJobsPagination(total, totalPages, start, count) {
-    const wrap = $('jobsPagination');
-    if (!wrap) return;
-    wrap.classList.remove('hidden');
-    $('jobsPageInfo').textContent = total ? `Showing ${start + 1}-${start + count} of ${total}` : 'Showing 0 of 0';
-    $('jobsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
-    $('jobsFirst').disabled = currentPage <= 1;
-    $('jobsPrev').disabled = currentPage <= 1;
-    $('jobsNext').disabled = currentPage >= totalPages;
-    $('jobsLast').disabled = currentPage >= totalPages;
+  function selectRequirementRow(requirementId) {
+    selectedRequirementId = requirementId || '';
+    document.querySelectorAll('.jobs-table tbody tr.requirement-row').forEach(row => {
+      row.classList.toggle('requirement-row-selected', String(row.dataset.requirementRowId) === String(selectedRequirementId));
+    });
   }
 
-  function goToJobsPage(page) {
-    const totalPages = Math.max(1, Math.ceil(filteredJobs().length / PAGE_SIZE));
-    currentPage = Math.min(Math.max(1, page), totalPages);
-    renderJobs();
+  function hideRequirementRowContextMenu() {
+    const menu = $('requirementRowContextMenu');
+    if (!menu) return;
+    menu.classList.add('hidden');
+  }
+
+  function openRequirementRowContextMenu(requirementId, x, y) {
+    const menu = $('requirementRowContextMenu');
+    const job = jobs.find(item => String(item.id) === String(requirementId));
+    if (!menu || !job) return;
+    selectRequirementRow(requirementId);
+    const title = $('requirementRowContextMenuTitle');
+    if (title) title.textContent = job.title ? `Requirement Actions — ${job.title}` : 'Requirement Actions';
+    menu.classList.remove('hidden');
+    const rect = menu.getBoundingClientRect();
+    const left = Math.min(x, window.innerWidth - rect.width - 8);
+    const top = Math.min(y, window.innerHeight - rect.height - 8);
+    menu.style.left = `${Math.max(8, left)}px`;
+    menu.style.top = `${Math.max(8, top)}px`;
+  }
+
+  async function handleRequirementContextAction(action) {
+    const id = selectedRequirementId;
+    if (!id) return;
+    hideRequirementRowContextMenu();
+    try {
+      if (action === 'candidates') {
+        window.location.href = `profiles.html?requirement=${encodeURIComponent(id)}`;
+        return;
+      }
+      if (action === 'view') {
+        const job = await loadJobDetails(id);
+        openModal(job, 'view');
+        return;
+      }
+      if (action === 'edit') {
+        const job = await loadJobDetails(id);
+        openModal(job);
+        return;
+      }
+      if (action === 'delete') {
+        const job = jobs.find(item => String(item.id) === String(id));
+        openDeleteModal(id, job?.title || 'this requirement');
+      }
+    } catch (error) {
+      showMessage(`Could not complete the selected action: ${error.message || error}`, 'error');
+    }
   }
 
   async function loadMasterData() {
@@ -555,39 +238,28 @@
   async function loadJobs() {
     showMessage('Loading jobs…', '');
     try {
-      const [jobResult, metadataResult, associationResult] = await Promise.all([
+      const [jobResult, metadataResult] = await Promise.all([
         supabase
           .from('jobs')
           .select('*, clients:client_id(client_name)')
           .order('created_at', { ascending: false }),
         supabase
           .from('job_admin_metadata')
-          .select('job_id, client_name'),
-        supabase
-          .from('profile_requirement_associations')
-          .select('requirement_id')
+          .select('job_id, client_name')
       ]);
       if (jobResult.error) throw jobResult.error;
       if (metadataResult.error) throw metadataResult.error;
-      if (associationResult.error) throw associationResult.error;
 
       const metadataByJob = Object.fromEntries(
         (metadataResult.data || []).map(item => [item.job_id, item])
       );
-      const profileCountsByRequirement = {};
-      (associationResult.data || []).forEach(item => {
-        if (!item.requirement_id) return;
-        profileCountsByRequirement[item.requirement_id] =
-          (profileCountsByRequirement[item.requirement_id] || 0) + 1;
-      });
 
       jobs = (jobResult.data || []).map(job => ({
         ...job,
         client_name:
           job.clients?.client_name ||
           metadataByJob[job.id]?.client_name ||
-          '',
-        profile_count: profileCountsByRequirement[job.id] || 0
+          ''
       }));
       renderJobs();
       showMessage(jobs.length ? '' : 'No requirements have been created yet.', '');
@@ -654,7 +326,6 @@
     clearList('responsibilities');
     clearList('requirements');
     clearList('qualifications');
-    resetJDState();
     showFormMessage('');
   }
 
@@ -678,7 +349,6 @@
     $('saveJobButton').classList.toggle('hidden', enabled);
     $('cancelJobButton').textContent = enabled ? 'Close' : 'Cancel';
     $('jobModalTitle').textContent = enabled ? 'View Requirement' : ($('jobId').value ? 'Edit Requirement' : 'Add New Requirement');
-    renderJDState();
   }
 
   function openModal(job = null, mode = 'edit') {
@@ -693,15 +363,6 @@
       $('jobCategory').value = job.job_category_id || '';
       $('jobOpenDate').value = job.job_open_date || '';
       $('skillLevel').value = job.skill_level || '';
-      $('numberOfPositions').value = job.number_of_positions ?? '';
-      existingJDFile = job.jd_file_name ? {
-        name: job.jd_file_name,
-        objectPath: job.jd_object_path || '',
-        type: job.jd_file_type || '',
-        size: job.jd_file_size || null,
-        uploadedAt: job.jd_uploaded_at || null
-      } : null;
-      jdRemoveRequested = false;
       $('jobTitle').value = job.title || '';
       const matchedLocation = locations.find(item => item.id === job.location_id) ||
         locations.find(item => String(item.location_name || '').trim().toLowerCase() === String(job.location || '').trim().toLowerCase());
@@ -722,8 +383,6 @@
       addListItem('requirements');
       addListItem('qualifications');
     }
-
-    renderJDState();
 
     if (mode === 'view') {
       setViewMode(true);
@@ -768,7 +427,6 @@
     pendingCloseAfterDiscard = false;
     hideDiscardChangesModal();
     jobFormDirty = false;
-    closeRequirementJDViewer();
     setViewMode(false);
     $('jobModal').classList.add('hidden');
     $('jobModal').setAttribute('aria-hidden', 'true');
@@ -830,8 +488,6 @@
     const employmentType = $('employmentType').value;
     const experience = $('jobExperience').value.trim();
     const skillLevel = $('skillLevel').value.trim() || null;
-    const numberOfPositionsRaw = $('numberOfPositions').value.trim();
-    const numberOfPositions = numberOfPositionsRaw ? Number(numberOfPositionsRaw) : null;
     const status = $('jobStatus').value;
     const salaryRange = $('salaryRange').value.trim() || null;
     const closingDate = $('closingDate').value || null;
@@ -840,14 +496,6 @@
 
     if (!clientId || !categoryId || !locationId || !jobOpenDate || !title || !location || !experience) {
       showFormMessage('Please complete all required fields.', 'error');
-      return;
-    }
-    if (numberOfPositions !== null && (!Number.isInteger(numberOfPositions) || numberOfPositions < 1)) {
-      showFormMessage('Number of Positions must be a whole number greater than 0.', 'error');
-      return;
-    }
-    if (selectedJDFile && selectedJDFile.size > 5 * 1024 * 1024) {
-      showFormMessage('JD document must not exceed 5 MB.', 'error');
       return;
     }
 
@@ -875,7 +523,6 @@
           closing_date: closingDate,
           job_open_date: jobOpenDate,
           skill_level: skillLevel,
-          number_of_positions: numberOfPositions,
           client_id: clientId,
           job_category_id: categoryId
         };
@@ -917,13 +564,12 @@
 
         // Salary Range is stored in the existing jobs.salary_budget field.
         const { data: salaryUpdatedJob, error: salaryError } = await supabase.from('jobs')
-          .update({ salary_budget: salaryRange, number_of_positions: numberOfPositions })
+          .update({ salary_budget: salaryRange })
           .eq('id', savedJob.id)
           .select('*')
           .single();
         if (salaryError) throw salaryError;
         savedJob = salaryUpdatedJob;
-        $('jobId').value = savedJob.id;
       }
 
       await Promise.all([
@@ -931,19 +577,6 @@
         saveList('job_requirements', savedJob.id, 'requirement', getListValues('requirements')),
         saveList('job_qualifications', savedJob.id, 'qualification', getListValues('qualifications'))
       ]);
-
-      if (selectedJDFile) {
-        const fd = new FormData();
-        fd.append('action', 'upload');
-        fd.append('job_id', savedJob.id);
-        fd.append('file', selectedJDFile);
-        await callRequirementDocumentFunction(fd);
-      } else if (jdRemoveRequested && existingJDFile?.objectPath) {
-        const fd = new FormData();
-        fd.append('action', 'delete');
-        fd.append('job_id', savedJob.id);
-        await callRequirementDocumentFunction(fd);
-      }
 
       jobFormDirty = false;
       closeModal(true);
@@ -1028,37 +661,6 @@
       if (event.target.closest('[data-add-list], .remove-item')) markJobFormDirty();
     });
 
-    const jdFileInput = $('jdFile');
-    if (jdFileInput) {
-      jdFileInput.addEventListener('change', () => {
-        const file = jdFileInput.files?.[0] || null;
-        selectedJDFile = file;
-        if (file) jdRemoveRequested = false;
-        markJobFormDirty();
-        renderJDState();
-      });
-    }
-
-    const removeJDButton = $('removeJDButton');
-    if (removeJDButton) {
-      removeJDButton.addEventListener('click', openRemoveJDConfirmation);
-    }
-    const cancelRemoveJDButton = $('cancelRemoveJDButton');
-    if (cancelRemoveJDButton) cancelRemoveJDButton.addEventListener('click', closeRemoveJDConfirmation);
-    const confirmRemoveJDButton = $('confirmRemoveJDButton');
-    if (confirmRemoveJDButton) confirmRemoveJDButton.addEventListener('click', confirmRemoveJD);
-
-    const viewJDButton = $('viewJDButton');
-    if (viewJDButton) viewJDButton.addEventListener('click', viewRequirementJD);
-    const openJDNewTabButton = $('openJDNewTabButton');
-    if (openJDNewTabButton) openJDNewTabButton.addEventListener('click', openRequirementJDInNewTab);
-    const downloadJDButton = $('downloadJDButton');
-    if (downloadJDButton) downloadJDButton.addEventListener('click', downloadRequirementJD);
-    const jdInlineCloseButton = $('jdInlineCloseButton');
-    if (jdInlineCloseButton) jdInlineCloseButton.addEventListener('click', closeRequirementJDViewer);
-    const jdInlineCloseTopButton = $('jdInlineCloseTopButton');
-    if (jdInlineCloseTopButton) jdInlineCloseTopButton.addEventListener('click', closeRequirementJDViewer);
-
     $('clientName').addEventListener('change', updateJobCodePreview);
     $('jobCategory').addEventListener('change', updateJobCodePreview);
     $('jobOpenDate').addEventListener('change', updateJobCodePreview);
@@ -1070,7 +672,6 @@
         $('statusFilter').value = '';
         if ($('locationFilter')) $('locationFilter').value = '';
         if ($('clientFilter')) $('clientFilter').value = '';
-        currentPage = 1;
         renderJobs();
       });
     }
@@ -1097,56 +698,38 @@
       });
     }
 
-    $('jobSearch').addEventListener('input', () => { currentPage = 1; renderJobs(); });
-    $('statusFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
-    $('locationFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
-    $('clientFilter').addEventListener('change', () => { currentPage = 1; renderJobs(); });
-    $('refreshJobsButton').addEventListener('click', () => { currentPage = 1; loadJobs(); });
-    $('jobsFirst').addEventListener('click', () => goToJobsPage(1));
-    $('jobsPrev').addEventListener('click', () => goToJobsPage(currentPage - 1));
-    $('jobsNext').addEventListener('click', () => goToJobsPage(currentPage + 1));
-    $('jobsLast').addEventListener('click', () => goToJobsPage(Math.max(1, Math.ceil(filteredJobs().length / PAGE_SIZE))));
+    $('jobSearch').addEventListener('input', renderJobs);
+    $('statusFilter').addEventListener('change', renderJobs);
+    $('locationFilter').addEventListener('change', renderJobs);
+    $('clientFilter').addEventListener('change', renderJobs);
+    $('refreshJobsButton').addEventListener('click', loadJobs);
 
-    $('jobsTableBody').addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-action]');
-      if (!button) return;
-      const id = button.dataset.id;
-
-      if (button.dataset.action === 'candidates') {
-        window.location.href = `profiles.html?requirement=${encodeURIComponent(id)}`;
-        return;
-      }
-
-      if (button.dataset.action === 'view') {
-        try {
-          button.disabled = true;
-          const job = await loadJobDetails(id);
-          openModal(job, 'view');
-        } catch (error) {
-          showMessage(`Could not load job details: ${error.message || error}`, 'error');
-        } finally {
-          button.disabled = false;
-        }
-        return;
-      }
-
-      if (button.dataset.action === 'delete') {
-        openDeleteModal(id);
-        return;
-      }
-
-      if (button.dataset.action === 'edit') {
-        try {
-          button.disabled = true;
-          const job = await loadJobDetails(id);
-          openModal(job);
-        } catch (error) {
-          showMessage(`Could not load job details: ${error.message || error}`, 'error');
-        } finally {
-          button.disabled = false;
-        }
-      }
+    $('jobsTableBody').addEventListener('click', (event) => {
+      const row = event.target.closest('tr.requirement-row');
+      if (!row) return;
+      selectRequirementRow(row.dataset.requirementRowId);
     });
+
+    $('jobsTableBody').addEventListener('contextmenu', (event) => {
+      const row = event.target.closest('tr.requirement-row');
+      if (!row) return;
+      event.preventDefault();
+      openRequirementRowContextMenu(row.dataset.requirementRowId, event.clientX, event.clientY);
+    });
+
+    $('requirementRowContextMenu').addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-context-action]');
+      if (!button) return;
+      await handleRequirementContextAction(button.dataset.contextAction);
+    });
+
+    document.addEventListener('click', (event) => {
+      const menu = $('requirementRowContextMenu');
+      if (menu && !menu.contains(event.target)) hideRequirementRowContextMenu();
+    });
+
+    window.addEventListener('resize', hideRequirementRowContextMenu);
+    window.addEventListener('scroll', hideRequirementRowContextMenu, true);
 
     document.querySelectorAll('[data-add-list]').forEach(button => {
       button.addEventListener('click', () => addListItem(button.dataset.addList));
