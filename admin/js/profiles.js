@@ -700,7 +700,7 @@
       `;
       document.head.appendChild(style);
     }
-    if(pagination)pagination.style.display='none';
+    if(pagination)pagination.remove();
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
