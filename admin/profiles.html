@@ -2780,7 +2780,17 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 
 <style id="profiles-final-nine-column-layout">
 /* Final Profiles list: Actions are no longer displayed; right-click Profile Actions remains the interaction method. */
-.profiles-table thead th.profiles-actions-column,
+.profiles-table thead th.profiles-actions-column {
+  display:table-cell !important;
+  width:0 !important;
+  min-width:0 !important;
+  max-width:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  overflow:hidden !important;
+}
 .profiles-table tbody td:last-child {
   display:none !important;
 }
