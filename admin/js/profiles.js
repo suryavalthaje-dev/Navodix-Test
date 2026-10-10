@@ -680,6 +680,21 @@
       th.style.top='0';
       th.style.zIndex='3';
     });
+    table.querySelectorAll('th:last-child, td:last-child').forEach(cell=>{
+      cell.style.borderRight='1px solid #D7E0EA';
+    });
+    if(!document.getElementById('profiles-list-scrollbar-v33-style')){
+      const style=document.createElement('style');
+      style.id='profiles-list-scrollbar-v33-style';
+      style.textContent=`
+        .profiles-list-card .table-wrap{scrollbar-width:thin;scrollbar-color:#AFC0D2 #EEF3F8;}
+        .profiles-list-card .table-wrap::-webkit-scrollbar{width:7px;height:7px;}
+        .profiles-list-card .table-wrap::-webkit-scrollbar-track{background:#EEF3F8;}
+        .profiles-list-card .table-wrap::-webkit-scrollbar-thumb{background:#AFC0D2;border-radius:6px;border:1px solid #EEF3F8;}
+        .profiles-list-card .table-wrap::-webkit-scrollbar-thumb:hover{background:#91A8BE;}
+      `;
+      document.head.appendChild(style);
+    }
     if(pagination)pagination.style.display='none';
 }
 
