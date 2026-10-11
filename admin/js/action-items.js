@@ -4,8 +4,6 @@ const supabase=window.navodixSupabase;
 let items=[],assignees=[],projects=[],selected=null,saving=false,returnToDetailAfterForm=false,quickFilter='';
 let currentUser=null,currentUserAssigneeId=null;
 let actionItemLastViews=new Map(),actionItemHasUnseenChanges=new Map();
-let currentPage=1;
-const PAGE_SIZE=20;
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const labels={pending:'Pending',in_progress:'In Progress',on_hold:'On Hold',completed:'Completed',cancelled:'Cancelled',high:'High',medium:'Medium',low:'Low'};
@@ -57,7 +55,6 @@ async function load(){
     updateActionFilterHighlights();
     updateQuickFilterButtons();
     populateSelect('actionProject',projects.filter(x=>x.is_active),'Select Project / Area');
-    currentPage=1;
     render();
     msg('');
   }catch(e){console.error(e);msg(`Could not load action items: ${e.message||e}`,'error');}
@@ -165,35 +162,47 @@ function isOpen(x){return !['completed','cancelled'].includes(x.status);}
 function renderSummary(){const t=today();$('summaryTotal').textContent=items.length;$('summaryOpen').textContent=items.filter(isOpen).length;$('summaryToday').textContent=items.filter(x=>isOpen(x)&&x.due_date===t).length;$('summaryOverdue').textContent=items.filter(x=>isOpen(x)&&x.due_date&&x.due_date<t).length;$('summaryCompleted').textContent=items.filter(x=>x.status==='completed').length;}
 function filtered(){const q=$('actionSearch').value.trim().toLowerCase(),s=$('actionStatusFilter').value,p=$('actionPriorityFilter').value,a=$('actionAssigneeFilter').value,pr=$('actionProjectFilter').value,d=$('actionDueDateFilter').value;return items.filter(x=>{const names=(x.assignees||[]).map(v=>v.name).join(' ');const hay=`${x.title} ${x.description||''} ${x.project?.name||''} ${names}`.toLowerCase();const incomplete=x.status==='pending'||x.status==='in_progress';const assignedIds=(x.assignees||[]).map(v=>v.id);const quickMatch=!quickFilter||(incomplete&&(quickFilter==='all-incomplete'||(quickFilter==='my-incomplete'&&currentUserAssigneeId&&assignedIds.includes(currentUserAssigneeId))));return quickMatch&&(!q||hay.includes(q))&&(!s||x.status===s)&&(!p||x.priority===p)&&(!a||assignedIds.includes(a))&&(!pr||x.project_area_id===pr)&&(!d||x.due_date===d);});}
 function dueClass(x){if(x.status==='completed')return ' action-due-completed';if(!x.due_date)return '';const t=today();return x.due_date<t?' action-overdue':x.due_date===t?' action-due-today':'';}
-function render(){const rows=filtered();const totalPages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE));if(currentPage>totalPages)currentPage=totalPages;const start=(currentPage-1)*PAGE_SIZE;const pageRows=rows.slice(start,start+PAGE_SIZE);$('actionItemsTableBody').innerHTML=pageRows.map(x=>{const unseen=actionItemHasUnseenChanges.get(x.id)===true;return `<tr class="${dueClass(x)}"><td><span class="action-title-text">${esc(x.title)}</span></td><td>${esc(x.project?.name||'—')}</td><td class="action-assignees-cell">${assigneeNamesHtml(x)}</td><td><span class="action-priority-text priority-${x.priority}">${labels[x.priority]}</span></td><td class="${dueClass(x).includes('action-due-completed')?'action-due-completed-cell':dueClass(x).includes('action-overdue')?'action-due-past':dueClass(x).includes('action-due-today')?'action-due-today-cell':''}">${formatDate(x.due_date)}</td><td><span class="action-status-text status-${x.status}">${labels[x.status]||x.status}</span></td><td class="action-updated-cell">${formatDateOnlyLocal(x.updated_at)}<span class="action-updated-time">${formatTimeOnlyLocal(x.updated_at)}</span></td><td class="action-buttons-cell"><button class="btn btn-outline btn-small application-view-button action-view-button${unseen?' action-view-button-new':''}" type="button" data-action="view" data-id="${x.id}"${unseen?' title="Updated since you last viewed this Action Item"':''}><i class="fa-solid fa-eye" aria-hidden="true"></i> View details</button></td></tr>`;}).join('');const hasRows=pageRows.length>0;$('emptyActionItems').classList.toggle('hidden',hasRows);$('actionItemsTableBody').closest('.table-wrap').classList.toggle('hidden',!hasRows);updatePagination(rows.length,totalPages,start,pageRows.length);renderSummary();}
+function updateActionItemsListHeight(){
+  const card=document.querySelector('.action-card');
+  const wrap=card?.querySelector('.table-wrap');
+  const table=card?.querySelector('.action-table');
+  if(!card||!wrap||!table)return;
+  wrap.style.height='auto';
+  wrap.style.maxHeight='500px';
+  wrap.style.overflowY='hidden';
+  const naturalHeight=table.scrollHeight;
+  const maxHeight=500;
+  wrap.style.height=Math.min(naturalHeight,maxHeight)+'px';
+  wrap.style.overflowY=naturalHeight>maxHeight?'auto':'hidden';
+}
+function closeActionRowContextMenu(){
+  const menu=$('actionRowContextMenu');
+  if(menu)menu.classList.add('hidden');
+}
+function positionActionRowContextMenu(x,y){
+  const menu=$('actionRowContextMenu');
+  if(!menu)return;
+  menu.classList.remove('hidden');
+  const r=menu.getBoundingClientRect();
+  menu.style.left=Math.max(6,Math.min(x,window.innerWidth-r.width-6))+'px';
+  menu.style.top=Math.max(6,Math.min(y,window.innerHeight-r.height-6))+'px';
+}
+function render(){
+  const rows=filtered();
+  const body=$('actionItemsTableBody');
+  body.innerHTML=rows.map(x=>{
+    const unseen=actionItemHasUnseenChanges.get(x.id)===true;
+    return `<tr class="action-data-row ${dueClass(x)}" data-row-id="${x.id}"><td><span class="action-title-text">${esc(x.title)}</span></td><td>${esc(x.project?.name||'—')}</td><td class="action-assignees-cell">${assigneeNamesHtml(x)}</td><td><span class="action-priority-text priority-${x.priority}">${labels[x.priority]}</span></td><td class="${dueClass(x).includes('action-due-completed')?'action-due-completed-cell':dueClass(x).includes('action-overdue')?'action-due-past':dueClass(x).includes('action-due-today')?'action-due-today-cell':''}">${formatDate(x.due_date)}</td><td><span class="action-status-text status-${x.status}">${labels[x.status]||x.status}</span></td><td class="action-updated-cell">${formatDateOnlyLocal(x.updated_at)}<span class="action-updated-time">${formatTimeOnlyLocal(x.updated_at)}</span></td></tr>`;
+  }).join('');
+  if(!rows.length){
+    body.innerHTML='<tr class="action-items-empty-row"><td colspan="7"><div class="action-items-empty-cell"><i class="fa-solid fa-list-check"></i><strong>No action items found</strong><span>Use “Add Action Item” to create the first action item.</span></div></td></tr>';
+  }
+  $('emptyActionItems')?.classList.add('hidden');
+  body.closest('.table-wrap')?.classList.remove('hidden');
+  renderSummary();
+  requestAnimationFrame(updateActionItemsListHeight);
+}
 
-function updatePagination(total,totalPages,start,count){
-  const wrap=$('actionItemsPagination');
-  if(!wrap)return;
-  const hidden=total===0;
-  wrap.classList.toggle('hidden',hidden);
-  if(hidden)return;
-  $('actionItemsPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`;
-  $('actionItemsPageNumber').textContent=`Page ${currentPage} of ${totalPages}`;
-  $('actionItemsFirst').disabled=currentPage<=1;
-  $('actionItemsPrev').disabled=currentPage<=1;
-  $('actionItemsNext').disabled=currentPage>=totalPages;
-  $('actionItemsLast').disabled=currentPage>=totalPages;
-}
-function goToActionItemsPage(page){
-  const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));
-  currentPage=Math.min(Math.max(1,page),totalPages);
-  render();
-}
-function goToActionItemsFirst(){
-  goToActionItemsPage(1);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function goToActionItemsLast(){
-  const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));
-  goToActionItemsPage(totalPages);
-  requestAnimationFrame(()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}));
-}
 function openForm(item=null,fromDetail=false){returnToDetailAfterForm=Boolean(item&&fromDetail);$('actionItemModal').classList.toggle('action-edit-overlay',returnToDetailAfterForm);$('actionItemForm').reset();$('actionItemId').value=item?.id||'';$('actionModalTitle').textContent=item?'Edit Action Item':'Add Action Item';$('actionTitle').value=item?.title||'';$('actionDescription').value=item?.description||'';$('actionProject').value=item?.project_area_id||'';const primaryId=item?.primaryAssignee?.id||item?.assignee?.id||'';$('actionPrimaryAssignee').value=primaryId;refreshSecondaryAssigneeOptions((item?.secondaryAssignees||[]).map(a=>a.id).filter(Boolean));$('actionPriority').value=item?.priority||'medium';$('actionDueDate').value=item?.due_date||'';$('actionStatus').value=item?.status||'pending';fmsg('');$('actionItemModal').classList.remove('hidden');$('actionItemModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('actionTitle').focus();}
 function closeForm(force=false){if(saving&&!force)return;$('actionItemModal').classList.remove('action-edit-overlay');$('actionItemModal').classList.add('hidden');$('actionItemModal').setAttribute('aria-hidden','true');if(returnToDetailAfterForm&&selected){returnToDetailAfterForm=false;openDetail(selected.id);}else if(!$('actionDetailModal').classList.contains('hidden'))document.body.classList.add('modal-open');else document.body.classList.remove('modal-open');}
 async function save(e){
@@ -462,8 +471,8 @@ async function addNote(e){
 }
 function updateActionFilterHighlights(){['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>{const control=$(id);if(!control)return;control.classList.toggle('action-filter-active',Boolean(control.value));});}
 function updateQuickFilterButtons(){const all=$('allIncompleteItemsButton'),mine=$('myIncompleteItemsButton');if(all)all.classList.toggle('action-quick-filter-active',quickFilter==='all-incomplete');if(mine){mine.classList.toggle('action-quick-filter-active',quickFilter==='my-incomplete');mine.title=quickFilter==='my-incomplete'&&!currentUserAssigneeId?'No active Action Item Assignee record matches your logged-in account.':'Show my Pending and In Progress action items';}}
-function applyQuickFilter(type){currentPage=1;quickFilter=type;$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
-function clearFilters(){currentPage=1;$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
-function bind(){$('addActionItemButton').addEventListener('click',()=>openForm());$('actionPrimaryAssignee').addEventListener('change',()=>refreshSecondaryAssigneeOptions());$('allIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('all-incomplete'));$('myIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('my-incomplete'));$('closeActionModal').addEventListener('click',closeForm);$('cancelActionButton').addEventListener('click',closeForm);$('actionItemForm').addEventListener('submit',save);$('actionSearch').addEventListener('input',()=>{currentPage=1;quickFilter='';updateQuickFilterButtons();render();});['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>$(id).addEventListener('change',()=>{currentPage=1;quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}));$('clearActionFilters').addEventListener('click',clearFilters);$('refreshActionItems').addEventListener('click',()=>{currentPage=1;load();});$('actionItemsFirst').addEventListener('click',goToActionItemsFirst);$('actionItemsPrev').addEventListener('click',()=>goToActionItemsPage(currentPage-1));$('actionItemsNext').addEventListener('click',()=>goToActionItemsPage(currentPage+1));$('actionItemsLast').addEventListener('click',goToActionItemsLast);$('actionItemsTableBody').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='view')openDetail(b.dataset.id);});$('closeActionDetail').addEventListener('click',closeDetail);$('actionDetailCloseBtn').addEventListener('click',closeDetail);$('actionDetailEditBtn').addEventListener('click',()=>{if(!selected)return;openForm(selected,true);});$('actionDetailDeleteBtn').addEventListener('click',deleteSelectedActionItem);$('actionNoteForm').addEventListener('submit',addNote);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('actionItemModal').classList.contains('hidden'))closeForm();else if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();});}
+function applyQuickFilter(type){quickFilter=type;$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
+function clearFilters(){$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
+function bind(){$('addActionItemButton').addEventListener('click',()=>openForm());$('actionPrimaryAssignee').addEventListener('change',()=>refreshSecondaryAssigneeOptions());$('allIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('all-incomplete'));$('myIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('my-incomplete'));$('closeActionModal').addEventListener('click',closeForm);$('cancelActionButton').addEventListener('click',closeForm);$('actionItemForm').addEventListener('submit',save);$('actionSearch').addEventListener('input',()=>{quickFilter='';updateQuickFilterButtons();render();});['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>$(id).addEventListener('change',()=>{quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}));$('clearActionFilters').addEventListener('click',clearFilters);$('refreshActionItems').addEventListener('click',load);$('actionItemsTableBody').addEventListener('click',e=>{const row=e.target.closest('tr[data-row-id]');if(row){document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');}});$('actionItemsTableBody').addEventListener('contextmenu',e=>{const row=e.target.closest('tr[data-row-id]');if(!row)return;e.preventDefault();document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');selected=items.find(x=>String(x.id)===String(row.dataset.rowId))||null;const menu=$('actionRowContextMenu');if(menu){menu.dataset.rowId=row.dataset.rowId;positionActionRowContextMenu(e.clientX,e.clientY);}});$('actionRowContextMenu')?.addEventListener('click',e=>{const b=e.target.closest('[data-context-action]');if(!b)return;const id=$('actionRowContextMenu').dataset.rowId;closeActionRowContextMenu();if(b.dataset.contextAction==='view'&&id)openDetail(id);});document.addEventListener('click',e=>{if(!e.target.closest('#actionRowContextMenu'))closeActionRowContextMenu();});window.addEventListener('resize',closeActionRowContextMenu);$('closeActionDetail').addEventListener('click',closeDetail);$('actionDetailCloseBtn').addEventListener('click',closeDetail);$('actionDetailEditBtn').addEventListener('click',()=>{if(!selected)return;openForm(selected,true);});$('actionDetailDeleteBtn').addEventListener('click',deleteSelectedActionItem);$('actionNoteForm').addEventListener('submit',addNote);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('actionItemModal').classList.contains('hidden'))closeForm();else if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();});}
 document.addEventListener('DOMContentLoaded',async()=>{bind();const allowed=await window.navodixAdminReady;if(allowed!==false)await load();});
 })();
