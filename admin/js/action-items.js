@@ -128,20 +128,23 @@ async function loadActionItemChangeFlags(){
   if(historyError)throw historyError;
   if(notesError)throw notesError;
 
+  const hasActivityAfterView=new Set();
   (history||[]).forEach(row=>{
     const viewed=actionItemLastViews.get(row.action_item_id);
     const activityTime=new Date(row.created_at).getTime();
     const viewedTime=viewed?new Date(viewed).getTime():NaN;
-    if(row.changed_by!==currentUser.id&&Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
-      actionItemHasUnseenChanges.set(row.action_item_id,true);
+    if(Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
+      hasActivityAfterView.add(row.action_item_id);
+      if(row.changed_by!==currentUser.id)actionItemHasUnseenChanges.set(row.action_item_id,true);
     }
   });
   (notes||[]).forEach(row=>{
     const viewed=actionItemLastViews.get(row.action_item_id);
     const activityTime=new Date(row.created_at).getTime();
     const viewedTime=viewed?new Date(viewed).getTime():NaN;
-    if(row.added_by!==currentUser.id&&Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
-      actionItemHasUnseenChanges.set(row.action_item_id,true);
+    if(Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
+      hasActivityAfterView.add(row.action_item_id);
+      if(row.added_by!==currentUser.id)actionItemHasUnseenChanges.set(row.action_item_id,true);
     }
   });
 
@@ -150,7 +153,7 @@ async function loadActionItemChangeFlags(){
   // use its updated_at timestamp. This ensures the View button still signals
   // an unread update for a user who has never opened the item.
   items.forEach(item=>{
-    if(actionItemHasUnseenChanges.has(item.id))return;
+    if(actionItemHasUnseenChanges.has(item.id)||hasActivityAfterView.has(item.id))return;
     const viewed=actionItemLastViews.get(item.id);
     if(!viewed){
       const created=new Date(item.created_at||0).getTime();
@@ -457,6 +460,19 @@ function closeQuickAddNoteModal(){
   const modal=$('quickAddActionNoteModal');if(!modal)return;
   modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');addNoteModalItemId=null;
 }
+async function refreshActionItemUpdatedAt(actionItemId){
+  const {data,error}=await supabase
+    .from('action_items')
+    .update({updated_at:new Date().toISOString()})
+    .eq('id',actionItemId)
+    .select('id,updated_at')
+    .single();
+  if(error)throw error;
+  if(!data?.updated_at)throw new Error('The note was saved, but the Action Item timestamp could not be confirmed.');
+  items=items.map(item=>item.id===actionItemId?{...item,updated_at:data.updated_at}:item);
+  if(selected?.id===actionItemId)selected={...selected,updated_at:data.updated_at};
+  return data.updated_at;
+}
 async function saveQuickActionNote(){
   const actionItemId=addNoteModalItemId;const note=$('quickAddActionNoteText')?.value.trim();
   if(!actionItemId)return;
@@ -470,7 +486,14 @@ async function saveQuickActionNote(){
     const {data:savedNote,error}=await supabase.from('action_item_notes').insert({action_item_id:actionItemId,note,added_by:user.id}).select('id,action_item_id,note,added_by,created_at').single();
     if(error)throw error;
     if(!savedNote)throw new Error('The note was not returned after saving. Please try again.');
-    $('quickAddActionNoteMessage').textContent='Note added successfully.';$('quickAddActionNoteMessage').className='admin-message quick-note-message success';
+    let timestampWarning='';
+    try{await refreshActionItemUpdatedAt(actionItemId);}catch(timestampError){
+      console.error('Note saved, but Action Item Last Updated could not be refreshed:',timestampError);
+      timestampWarning=' The note was saved, but Last Updated could not be refreshed; please contact an administrator.';
+    }
+    try{await loadActionItemChangeFlags();}catch(flagError){console.warn('Unread indicators could not be refreshed after adding a note:',flagError);}
+    render();
+    $('quickAddActionNoteMessage').textContent='Note added successfully.'+timestampWarning;$('quickAddActionNoteMessage').className='admin-message quick-note-message '+(timestampWarning?'error':'success');
     if(selected?.id===actionItemId&&!$('actionDetailModal').classList.contains('hidden'))await loadDetailHistory(actionItemLastViews.get(actionItemId)||null);
     $('quickAddActionNoteText').value='';saveButton.disabled=false;cancelButton.disabled=false;saveButton.textContent='Save';
   }catch(error){
@@ -603,10 +626,16 @@ async function addNote(e){
       .single();
     if(insertError)throw insertError;
     if(!savedNote)throw new Error('The note was not returned after saving. Please try again.');
+    let timestampWarning='';
+    try{await refreshActionItemUpdatedAt(actionItemId);}catch(timestampError){
+      console.error('Note saved, but Action Item Last Updated could not be refreshed:',timestampError);
+      timestampWarning=' The note was saved, but Last Updated could not be refreshed; please contact an administrator.';
+    }
+    try{await loadActionItemChangeFlags();render();}catch(flagError){console.warn('Unread indicators could not be refreshed after adding a note:',flagError);}
 
     $('actionNoteText').value='';
-    $('actionNoteMessage').textContent='Note added successfully.';
-    $('actionNoteMessage').className='admin-message success';
+    $('actionNoteMessage').textContent='Note added successfully.'+timestampWarning;
+    $('actionNoteMessage').className=timestampWarning?'admin-message error':'admin-message success';
 
     // First refresh from the database. If the immediate read does not return
     // the row, render the confirmed inserted row so the user still sees what
