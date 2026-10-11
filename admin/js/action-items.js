@@ -584,7 +584,6 @@ async function makeAllUnreadItemsRead(){
     unreadIds.forEach(id=>{actionItemLastViews.set(id,viewedAt);actionItemHasUnseenChanges.delete(id);});
     renderSummary();
     render();
-    msg(`Marked ${unreadIds.length} Action Item${unreadIds.length===1?'':'s'} as read for you.`,'success');
   }catch(error){
     console.error('Make All Read failed:',error);
     msg(`Could not mark items as read: ${error.message||error}`,'error');
