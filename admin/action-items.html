@@ -1364,6 +1364,36 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
 #makeAllReadInfoModal .modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;}
 </style>
 
+
+<style id="action-items-quick-button-light-blue">
+/* Light-blue Navodix treatment and relevant icons for Action Items quick actions. */
+body.action-items-list-standard .action-heading-buttons #allIncompleteItemsButton,
+body.action-items-list-standard .action-heading-buttons #myIncompleteItemsButton,
+body.action-items-list-standard .action-heading-buttons #unreadItemsButton,
+body.action-items-list-standard .action-heading-buttons #makeAllReadButton {
+  background:#EAF3FF !important;
+  border:1px solid #B8D5F8 !important;
+  color:#1558B0 !important;
+}
+body.action-items-list-standard .action-heading-buttons #allIncompleteItemsButton:hover,
+body.action-items-list-standard .action-heading-buttons #myIncompleteItemsButton:hover,
+body.action-items-list-standard .action-heading-buttons #unreadItemsButton:hover,
+body.action-items-list-standard .action-heading-buttons #makeAllReadButton:hover {
+  background:#DCEBFF !important;
+  border-color:#8DBBF3 !important;
+}
+body.action-items-list-standard .action-heading-buttons .action-quick-filter-button i,
+body.action-items-list-standard .action-heading-buttons #makeAllReadButton i {
+  margin-right:5px !important;
+  font-size:11px !important;
+}
+body.action-items-list-standard .action-heading-buttons .action-quick-filter-button.action-quick-filter-active {
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1389,9 +1419,9 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
     <div class="jobs-heading-text"><h1>Action Items</h1><span class="jobs-heading-subtitle">Track follow-ups, responsibilities and operational activities</span></div>
     <div class="action-heading-buttons" aria-label="Action item quick views">
       <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
-      <button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" type="button">All Incomplete Items</button>
-      <button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" type="button">My Incomplete Items</button>
-      <button class="btn btn-outline action-quick-filter-button" id="unreadItemsButton" type="button">Unread Items</button>
+      <button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" type="button"><i class="fa-solid fa-list-check" aria-hidden="true"></i> All Incomplete Items</button>
+      <button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" type="button"><i class="fa-solid fa-user-check" aria-hidden="true"></i> My Incomplete Items</button>
+      <button class="btn btn-outline action-quick-filter-button" id="unreadItemsButton" type="button"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i> Unread Items</button>
       <button class="btn btn-outline action-quick-filter-button" id="makeAllReadButton" type="button" title="Mark all currently unread Action Items as read for you"><i class="fa-solid fa-check-double"></i> Make All Read</button>
     </div>
   </div>
