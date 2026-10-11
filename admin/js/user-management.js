@@ -87,7 +87,7 @@
     if (Number.isNaN(date.getTime())) return '—';
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     if (includeTime) { options.hour = '2-digit'; options.minute = '2-digit'; }
-    return date.toLocaleDateString(undefined, options);
+    return includeTime ? date.toLocaleString(undefined, options) : date.toLocaleDateString(undefined, options);
   }
 
   function renderUsers() {
@@ -98,12 +98,9 @@
 
     if (!state.users.length) {
       tbody.innerHTML = '';
-      tableWrap.classList.remove('hidden');
+      tableWrap.classList.add('hidden');
       empty.classList.remove('hidden');
-      $('usersPagination')?.classList.remove('hidden');
-      $('usersPageInfo').textContent = 'Showing 0-0 of 0';
-      $('usersPageNumber').textContent = 'Page 1 of 1';
-      ['usersFirst','usersPrev','usersNext','usersLast'].forEach(id => { const button = $(id); if (button) button.disabled = true; });
+      $('usersPagination')?.classList.add('hidden');
       return;
     }
 
@@ -132,7 +129,8 @@
           <td><span class="user-email-text">${escapeHtml(user.email || '—')}</span></td>
           <td><span class="role-pill role-${escapeHtml(user.role)}">${roleLabel(user.role)}</span></td>
           <td>${statusPill(user)}</td>
-          <td><span class="user-date-main">${escapeHtml(formatDate(user.created_at))}</span>${user.last_sign_in_at ? `<small class="user-date-sub">Last login ${escapeHtml(formatDate(user.last_sign_in_at))}</small>` : ''}</td>
+          <td><span class="user-date-main">${escapeHtml(formatDate(user.created_at))}</span></td>
+          <td><span class="user-last-login">${escapeHtml(formatDate(user.last_sign_in_at, true))}</span></td>
           <td class="actions-column">
             <div class="user-actions">
               <button class="icon-button user-edit-button" type="button" data-user-id="${escapeHtml(user.user_id)}" title="Edit user" aria-label="Edit ${escapeHtml(user.display_name || user.email || 'user')}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
