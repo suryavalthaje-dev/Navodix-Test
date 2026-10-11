@@ -4433,3 +4433,15 @@ body.modal-open { overflow: hidden; }
   .profile-interview-modal { width: 100% !important; max-width: 100% !important; }
   .profile-interview-modal-body { padding: 14px 12px 12px; }
 }
+
+/* Action Items: unread activity from another user */
+.action-table tbody tr.action-unread td {
+  background: #FDECEC !important;
+}
+.action-table tbody tr.action-unread:hover td {
+  background: #FBDADA !important;
+}
+.action-table tbody tr.action-unread td:first-child {
+  border-left: 3px solid #D92D20 !important;
+}
+
