@@ -19,22 +19,27 @@ function populateSelect(id,data,placeholder){const el=$(id);const current=el.val
 async function load(){
   msg('Loading action items…');
   try{
-    const [userResult,aResult,pResult,iResult,mResult]=await Promise.all([
+    const [userResult,aResult,pResult,iResult]=await Promise.all([
       supabase.auth.getUser(),
       supabase.from('action_item_assignees').select('id,name,email,is_active').order('name'),
       supabase.from('projects_areas').select('id,name,is_active').order('name'),
-      supabase.from('action_items').select('*,project:project_area_id(id,name),assignee:assigned_to(id,name,is_active)').order('updated_at',{ascending:false}),
-      supabase.from('action_item_assignee_map').select('action_item_id,assignee_id,responsibility_type,created_at').order('created_at')
+      supabase.from('action_items').select('*,project:project_area_id(id,name),assignee:assigned_to(id,name,is_active)').order('updated_at',{ascending:false})
     ]);
     if(userResult.error)throw userResult.error;
     if(aResult.error)throw aResult.error;
     if(pResult.error)throw pResult.error;
     if(iResult.error)throw iResult.error;
-    if(mResult.error)throw mResult.error;
     currentUser=userResult.data?.user||null;
     assignees=aResult.data||[];
     projects=pResult.data||[];
-    const mapRows=mResult.data||[];
+    let mapRows=[];
+    try{
+      const {data,error}=await supabase.from('action_item_assignee_map').select('action_item_id,assignee_id,responsibility_type,created_at').order('created_at');
+      if(!error)mapRows=data||[];
+      else console.warn('Action item assignee map could not be loaded; using primary assignee data.',error);
+    }catch(error){
+      console.warn('Action item assignee map could not be loaded; using primary assignee data.',error);
+    }
     const byId=new Map(assignees.map(x=>[x.id,x]));
     const grouped=new Map();
     mapRows.forEach(r=>{if(!grouped.has(r.action_item_id))grouped.set(r.action_item_id,[]);const a=byId.get(r.assignee_id);if(a)grouped.get(r.action_item_id).push({...a,responsibility_type:r.responsibility_type||null,created_at:r.created_at});});
@@ -47,7 +52,11 @@ async function load(){
       return {...x,assignees:assignedPeople,primaryAssignee:primary,secondaryAssignees:secondary,assignee:primary};
     });
     await resolveCurrentUserAssignee();
-    await loadActionItemChangeFlags();
+    try{await loadActionItemChangeFlags();}catch(error){
+      console.warn('Action item activity indicators could not be loaded; continuing with the action item list.',error);
+      actionItemLastViews=new Map();
+      actionItemHasUnseenChanges=new Map();
+    }
     populateSelect('actionAssigneeFilter',assignees.filter(x=>x.is_active),'All Assignees');
     populateSelect('actionProjectFilter',projects.filter(x=>x.is_active),'All Projects / Areas');
     populateSelect('actionPrimaryAssignee',assignees.filter(x=>x.is_active),'Select Primary Responsibility');
