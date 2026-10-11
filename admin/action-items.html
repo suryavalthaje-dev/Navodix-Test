@@ -370,6 +370,11 @@
   overflow:hidden !important;
   border-radius:10px !important;
   box-sizing:border-box !important;
+  width:min(810px, calc(100vw - 24px)) !important;
+  max-width:calc(100vw - 24px) !important;
+  max-height:calc(100vh - 24px) !important;
+  max-height:calc(100dvh - 24px) !important;
+  margin:auto !important;
 }
 #actionItemModal .action-item-modal > .modal-header{
   flex:0 0 56px !important;
@@ -426,6 +431,16 @@
   min-height:32px !important;
   height:32px !important;
   margin:0 !important;
+}
+@media (max-height: 760px){
+  #actionItemModal .action-item-modal.profile-interview-modal-shell{
+    max-height:calc(100vh - 16px) !important;
+    max-height:calc(100dvh - 16px) !important;
+  }
+  #actionItemModal .action-item-modal-body.profile-interview-modal-body{
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
 }
 
 /* View Details */
