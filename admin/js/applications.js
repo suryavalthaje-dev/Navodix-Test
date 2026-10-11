@@ -2,9 +2,8 @@
   'use strict';
 
   const supabase = window.navodixSupabase;
-  const PAGE_SIZE = 20;
   let applications = [];
-  let currentPage = 1;
+  let selectedApplicationId = '';
   let selectedApplication = null;
   let editingInterviewId = null;
   let pendingInterviewDeleteId = null;
@@ -177,30 +176,28 @@
     $('applicationDateTo').value = '';
     $('applicationInterviewResultFilter').value = '';
     $('applicationSubmittedClientFilter').value = '';
-    currentPage = 1;
+    selectedApplicationId = '';
+    hideApplicationRowContextMenu();
     updateApplicationFilterHighlights();
     renderApplications();
   }
 
   function renderApplications() {
     const body = $('applicationsTableBody');
-    const empty = $('emptyApplications');
     const rows = filteredApplications();
-    const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
 
-    if (currentPage > totalPages) currentPage = totalPages;
-
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const pageRows = rows.slice(start, start + PAGE_SIZE);
-
-    body.innerHTML = pageRows.map(application => {
+    body.innerHTML = rows.map(application => {
       const applicant = application.applicants || {};
       const job = application.jobs || {};
+      const selected = String(selectedApplicationId) === String(application.id) ? ' application-row-selected' : '';
       return `
-        <tr>
+        <tr class="application-row${selected}" data-application-row-id="${escapeHtml(application.id)}">
           <td>
             <div class="application-number-cell">
-              <strong>${escapeHtml(application.application_number || '—')}</strong>
+              <div class="application-primary-cell">
+                <span class="application-primary-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
+                <strong>${escapeHtml(application.application_number || '—')}</strong>
+              </div>
               <span>${escapeHtml(job.clients?.client_name || 'Client not provided')}</span>
             </div>
           </td>
@@ -225,26 +222,17 @@
           <td>${escapeHtml(formatExperience(applicant.total_experience))}</td>
           <td>${escapeHtml(formatDate(application.submitted_at || application.applied_at))}</td>
           <td><span class="status-pill ${statusClass(application.status)}">${escapeHtml(statusLabel(application.status))}</span></td>
-          <td><button class="btn btn-outline btn-small application-view-button" type="button" data-id="${escapeHtml(application.id)}"><i class="fa-solid fa-eye" aria-hidden="true"></i> Details</button></td>
         </tr>
       `;
     }).join('');
 
-    const hasRows = pageRows.length > 0;
-    empty.classList.toggle('hidden', hasRows);
+    if (!rows.length) {
+      body.innerHTML = '<tr class="applications-empty-row"><td colspan="7"><div class="applications-empty-cell"><i class="fa-solid fa-file-circle-xmark" aria-hidden="true"></i><span>No applications found</span><small>Submitted career applications will appear here.</small></div></td></tr>';
+    }
+
     body.parentElement.classList.remove('hidden');
     body.parentElement.style.removeProperty('display');
-
-    const showingStart = rows.length ? start + 1 : 0;
-    const showingEnd = rows.length ? start + pageRows.length : 0;
-    $('applicationsPageInfo').textContent = `Showing ${showingStart}-${showingEnd} of ${rows.length}`;
-    $('applicationsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
-    $('applicationsFirst').disabled = currentPage <= 1;
-    $('applicationsPrev').disabled = currentPage <= 1;
-    $('applicationsNext').disabled = currentPage >= totalPages;
-    $('applicationsLast').disabled = currentPage >= totalPages;
-    $('applicationsPagination').classList.remove('hidden');
-
+    updateApplicationListHeight();
     updateSummary();
   }
 
@@ -325,13 +313,15 @@
       });
 
       populateFilterOptions();
-      currentPage = 1;
+      selectedApplicationId = '';
+      hideApplicationRowContextMenu();
       renderApplications();
       showMessage('', '');
     } catch (error) {
       console.error('Navodix Applications load failed:', error);
       applications = [];
-      currentPage = 1;
+      selectedApplicationId = '';
+      hideApplicationRowContextMenu();
       renderApplications();
       showMessage(`Could not load applications: ${error.message || error}`, 'error');
     }
@@ -1329,9 +1319,93 @@
     selectedApplication = null;
   }
 
+  function hideApplicationRowContextMenu(){
+    const menu=$('applicationRowContextMenu');
+    if(menu)menu.classList.add('hidden');
+  }
+
+  function selectApplicationRow(applicationId){
+    selectedApplicationId=applicationId||'';
+    document.querySelectorAll('.applications-table tbody tr.application-row').forEach(row=>{
+      row.classList.toggle('application-row-selected',String(row.dataset.applicationRowId)===String(selectedApplicationId));
+    });
+  }
+
+  function positionApplicationRowContextMenu(x,y){
+    const menu=$('applicationRowContextMenu');
+    if(!menu)return;
+    menu.classList.remove('hidden');
+    const rect=menu.getBoundingClientRect();
+    const left=Math.min(x,window.innerWidth-rect.width-8);
+    const top=Math.min(y,window.innerHeight-rect.height-8);
+    menu.style.left=Math.max(8,left)+'px';
+    menu.style.top=Math.max(8,top)+'px';
+  }
+
+  function openApplicationRowContextMenu(applicationId,x,y){
+    const application=applications.find(item=>String(item.id)===String(applicationId));
+    if(!application)return;
+    selectApplicationRow(applicationId);
+    const title=$('applicationRowContextMenuTitle');
+    if(title)title.textContent=`${application.application_number||'Application'} — Actions`;
+    positionApplicationRowContextMenu(x,y);
+  }
+
+  async function handleApplicationContextAction(action){
+    const id=selectedApplicationId;
+    if(!id)return;
+    hideApplicationRowContextMenu();
+    if(action==='view') await openApplicationModal(id);
+  }
+
+  function updateApplicationListHeight(){
+    const card=document.querySelector('.applications-card');
+    const wrap=card?.querySelector('.table-wrap');
+    const table=card?.querySelector('.applications-table');
+    if(!card||!wrap||!table)return;
+    wrap.style.height='auto';
+    wrap.style.maxHeight='500px';
+    wrap.style.overflowY='hidden';
+    const naturalHeight=table.scrollHeight;
+    const maxHeight=500;
+    wrap.style.height=Math.min(naturalHeight,maxHeight)+'px';
+    wrap.style.overflowY=naturalHeight>maxHeight?'auto':'hidden';
+  }
+
+  function applyApplicationsListStandard(){
+    const card=document.querySelector('.applications-card');
+    const wrap=card?.querySelector('.table-wrap');
+    const table=card?.querySelector('.applications-table');
+    if(!card||!wrap||!table)return;
+    wrap.style.width='100%';
+    wrap.style.maxWidth='100%';
+    wrap.style.height='auto';
+    wrap.style.maxHeight='500px';
+    wrap.style.overflowY='auto';
+    wrap.style.overflowX='hidden';
+    wrap.style.boxSizing='border-box';
+    wrap.style.scrollbarGutter='stable';
+    table.style.width='100%';
+    table.style.maxWidth='100%';
+    table.style.minWidth='0';
+    table.style.tableLayout='fixed';
+    table.style.boxSizing='border-box';
+    table.querySelectorAll('thead th').forEach(th=>{
+      th.style.position='sticky';
+      th.style.top='0';
+      th.style.zIndex='3';
+    });
+    table.querySelectorAll('th:last-child, td:last-child').forEach(cell=>{
+      cell.style.borderRight='1px solid #D7E0EA';
+      cell.style.boxSizing='border-box';
+    });
+    updateApplicationListHeight();
+  }
+
   function bindEvents() {
     $('applicationSearch').addEventListener('input', function () {
-      currentPage = 1;
+      selectedApplicationId = '';
+      hideApplicationRowContextMenu();
       renderApplications();
     });
 
@@ -1347,7 +1421,8 @@
       'applicationSubmittedClientFilter'
     ].forEach(id => {
       $(id).addEventListener('change', function () {
-        currentPage = 1;
+        selectedApplicationId = '';
+        hideApplicationRowContextMenu();
         updateApplicationFilterHighlights();
         renderApplications();
       });
@@ -1356,16 +1431,31 @@
     $('clearApplicationFiltersButton').addEventListener('click', clearApplicationFilters);
     $('refreshApplicationsButton').addEventListener('click', loadApplications);
 
-    $('applicationsFirst').addEventListener('click', function () { currentPage = 1; renderApplications(); });
-    $('applicationsPrev').addEventListener('click', function () { if (currentPage > 1) { currentPage -= 1; renderApplications(); } });
-    $('applicationsNext').addEventListener('click', function () { const totalPages = Math.max(1, Math.ceil(filteredApplications().length / PAGE_SIZE)); if (currentPage < totalPages) { currentPage += 1; renderApplications(); } });
-    $('applicationsLast').addEventListener('click', function () { const totalPages = Math.max(1, Math.ceil(filteredApplications().length / PAGE_SIZE)); currentPage = totalPages; renderApplications(); });
-
     $('applicationsTableBody').addEventListener('click', function (event) {
-      const button = event.target.closest('.application-view-button');
+      const row = event.target.closest('tr.application-row');
+      if (!row) return;
+      selectApplicationRow(row.dataset.applicationRowId);
+      hideApplicationRowContextMenu();
+    });
+
+    $('applicationsTableBody').addEventListener('contextmenu', function (event) {
+      const row = event.target.closest('tr.application-row');
+      if (!row) return;
+      event.preventDefault();
+      openApplicationRowContextMenu(row.dataset.applicationRowId, event.clientX, event.clientY);
+    });
+
+    document.addEventListener('click', function (event) {
+      const menu = $('applicationRowContextMenu');
+      if (menu && !menu.contains(event.target)) hideApplicationRowContextMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') hideApplicationRowContextMenu();
+    });
+    $('applicationRowContextMenu').addEventListener('click', function (event) {
+      const button = event.target.closest('[data-context-action]');
       if (!button) return;
-      event.stopPropagation();
-      openApplicationModal(button.dataset.id);
+      handleApplicationContextAction(button.dataset.contextAction);
     });
 
     $('closeApplicationModal').addEventListener('click', closeApplicationModal);
@@ -1554,6 +1644,8 @@ html,body{margin:0;padding:0;background:#eef2f7;color:#1f2937;font-family:Arial,
 
   document.addEventListener('DOMContentLoaded', async function () {
     await window.navodixAdminReady;
+    applyApplicationsListStandard();
+    window.addEventListener('resize', updateApplicationListHeight);
     bindEvents();
     await loadApplications();
   });
