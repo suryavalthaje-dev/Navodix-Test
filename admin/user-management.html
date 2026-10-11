@@ -746,7 +746,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             <button class="btn btn-primary" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
             <button class="btn btn-outline user-columns-button" id="userColumnsButton" type="button" aria-expanded="false" aria-controls="userColumnsPopover"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
           </div>
-          <div class="user-columns-popover" id="userColumnsPopover" style="display:none">
+          <div class="user-columns-popover" id="userColumnsPopover" hidden>
             <div class="user-columns-popover-title">Show / Hide Columns</div>
             <label><input type="checkbox" checked data-user-col="0"> Name</label>
             <label><input type="checkbox" checked data-user-col="1"> Email</label>
@@ -1147,13 +1147,13 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     });
     columnsButton?.addEventListener('click',e=>{
       e.stopPropagation();
-      const willOpen = !columnsPopover || columnsPopover.style.display === 'none';
-      if (columnsPopover) columnsPopover.style.display = willOpen ? 'block' : 'none';
+      const willOpen = !!columnsPopover && columnsPopover.hidden;
+      if (columnsPopover) columnsPopover.hidden = !willOpen;
       columnsButton.setAttribute('aria-expanded',String(willOpen));
     });
     document.addEventListener('click',e=>{
-      if(columnsPopover && columnsPopover.style.display !== 'none' && !e.target.closest('#userColumnsPopover') && !e.target.closest('#userColumnsButton')){
-        columnsPopover.style.display='none'; columnsButton?.setAttribute('aria-expanded','false');
+      if(columnsPopover && !columnsPopover.hidden && !e.target.closest('#userColumnsPopover') && !e.target.closest('#userColumnsButton')){
+        columnsPopover.hidden=true; columnsButton?.setAttribute('aria-expanded','false');
       }
     });
   }
@@ -1203,6 +1203,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-radius:7px !important;box-sizing:border-box !important;
 }
 .admin-app-page .user-dashboard-frame .user-summary-grid{gap:8px !important;}
+.admin-app-page .user-columns-popover[hidden]{display:none !important;}
 .admin-app-page .user-columns-popover{
   position:absolute !important;right:14px !important;top:56px !important;z-index:2000 !important;
   width:210px !important;padding:10px !important;background:#FFFFFF !important;
@@ -1210,7 +1211,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   box-shadow:0 8px 22px rgba(30,55,85,.12) !important;
 }
 .admin-app-page .user-columns-popover.hidden{display:none !important;}
-.admin-app-page .user-columns-popover[style*="display:none"]{display:none !important;}
 .admin-app-page .user-columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
 .admin-app-page .user-columns-popover label{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;cursor:pointer !important;}
 .admin-app-page .user-columns-popover input{accent-color:#2878E8 !important;}
