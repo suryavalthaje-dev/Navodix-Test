@@ -426,6 +426,66 @@ async function loadDetailHistory(lastViewedAt=null){
     $('actionHistoryList').innerHTML=`<div class="application-activity-empty error">Could not load status history: ${esc(e.message||e)}</div>`;
   }
 }
+let addNoteModalItemId=null;
+function ensureQuickAddNoteModal(){
+  let modal=$('quickAddActionNoteModal');
+  if(modal)return modal;
+  if(!$('quickAddActionNoteStyles')){
+    const style=document.createElement('style');style.id='quickAddActionNoteStyles';
+    style.textContent=`#quickAddActionNoteModal{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.48)}#quickAddActionNoteModal.hidden{display:none!important}#quickAddActionNoteModal .quick-note-shell{width:min(460px,calc(100vw - 32px));box-sizing:border-box;background:#fff;border:1px solid #D7E0EA;border-radius:10px;box-shadow:0 18px 48px rgba(15,23,42,.24);overflow:hidden}#quickAddActionNoteModal .quick-note-header{padding:14px 18px;background:#12366A;color:#fff}#quickAddActionNoteModal .quick-note-header h2{margin:0;font-size:16px;line-height:1.35;font-weight:700;overflow-wrap:anywhere}#quickAddActionNoteModal .quick-note-body{padding:18px}#quickAddActionNoteModal label{display:block;margin:0 0 7px;color:#26364B;font-size:13px;font-weight:600}#quickAddActionNoteModal textarea{display:block;width:100%;min-height:94px;resize:vertical;box-sizing:border-box;padding:9px 10px;border:1px solid #C8D2DF;border-radius:6px;font:13px inherit;color:#243247}#quickAddActionNoteModal textarea:focus{outline:2px solid rgba(40,120,232,.2);border-color:#2878E8}#quickAddActionNoteModal .quick-note-message{min-height:0;margin-top:8px;font-size:12px;color:#B42318}#quickAddActionNoteModal .quick-note-footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid #E5EAF0;background:#F8FAFC}#quickAddActionNoteModal .quick-note-footer button{min-height:34px;padding:0 16px;border:1px solid #C8D2DF;border-radius:6px;background:#fff;color:#26364B;font-size:13px;font-weight:600;cursor:pointer}#quickAddActionNoteModal .quick-note-footer .primary{border-color:#0B5ED7;background:#0B5ED7;color:#fff}#quickAddActionNoteModal button:disabled{opacity:.65;cursor:wait}`;
+    document.head.appendChild(style);
+  }
+  modal=document.createElement('div');modal.id='quickAddActionNoteModal';modal.className='hidden';modal.setAttribute('aria-hidden','true');
+  modal.innerHTML='<div class="quick-note-shell" role="dialog" aria-modal="true" aria-labelledby="quickAddActionNoteTitle"><div class="quick-note-header"><h2 id="quickAddActionNoteTitle">Add Note</h2></div><div class="quick-note-body"><label for="quickAddActionNoteText">Note</label><textarea id="quickAddActionNoteText" rows="3" placeholder="Enter a note or update"></textarea><div id="quickAddActionNoteMessage" class="quick-note-message" aria-live="polite"></div></div><div class="quick-note-footer"><button type="button" id="quickAddActionNoteCancel">Cancel</button><button type="button" id="quickAddActionNoteSave" class="primary">Save</button></div></div>';
+  document.body.appendChild(modal);
+  $('quickAddActionNoteCancel').addEventListener('click',closeQuickAddNoteModal);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeQuickAddNoteModal();});
+  $('quickAddActionNoteSave').addEventListener('click',saveQuickActionNote);
+  $('quickAddActionNoteText').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')saveQuickActionNote();});
+  return modal;
+}
+function openQuickAddNote(item){
+  if(!item)return;
+  const modal=ensureQuickAddNoteModal();addNoteModalItemId=item.id;
+  $('quickAddActionNoteTitle').textContent=item.title||'Add Note';
+  $('quickAddActionNoteText').value='';$('quickAddActionNoteMessage').textContent='';
+  $('quickAddActionNoteSave').disabled=false;$('quickAddActionNoteCancel').disabled=false;$('quickAddActionNoteSave').textContent='Save';
+  modal.classList.remove('hidden');modal.setAttribute('aria-hidden','false');
+  $('quickAddActionNoteText').focus();
+}
+function closeQuickAddNoteModal(){
+  const modal=$('quickAddActionNoteModal');if(!modal)return;
+  modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');addNoteModalItemId=null;
+}
+async function saveQuickActionNote(){
+  const actionItemId=addNoteModalItemId;const note=$('quickAddActionNoteText')?.value.trim();
+  if(!actionItemId)return;
+  if(!note){$('quickAddActionNoteMessage').textContent='Please enter a note.';$('quickAddActionNoteText').focus();return;}
+  const saveButton=$('quickAddActionNoteSave'),cancelButton=$('quickAddActionNoteCancel');
+  saveButton.disabled=true;cancelButton.disabled=true;saveButton.textContent='Saving…';$('quickAddActionNoteMessage').textContent='';
+  try{
+    const {data:{user},error:userError}=await supabase.auth.getUser();
+    if(userError)throw userError;
+    if(!user)throw new Error('Your login session could not be verified. Please sign in again.');
+    const {data:savedNote,error}=await supabase.from('action_item_notes').insert({action_item_id:actionItemId,note,added_by:user.id}).select('id,action_item_id,note,added_by,created_at').single();
+    if(error)throw error;
+    if(!savedNote)throw new Error('The note was not returned after saving. Please try again.');
+    closeQuickAddNoteModal();
+    msg('Note added successfully.','success');
+    if(selected?.id===actionItemId&&!$('actionDetailModal').classList.contains('hidden'))await loadDetailHistory(actionItemLastViews.get(actionItemId)||null);
+  }catch(error){
+    console.error('Quick Add Note failed:',error);
+    $('quickAddActionNoteMessage').textContent=`Could not save note: ${error.message||error}`;
+    saveButton.disabled=false;cancelButton.disabled=false;saveButton.textContent='Save';
+  }
+}
+function ensureAddNoteContextAction(){
+  const menu=$('actionRowContextMenu');if(!menu||menu.querySelector('[data-context-action="add-note"]'))return;
+  const button=document.createElement('button');button.type='button';button.setAttribute('role','menuitem');button.dataset.contextAction='add-note';button.innerHTML='<i class="fa-regular fa-note-sticky"></i><span>Add Note</span>';
+  const editButton=menu.querySelector('[data-context-action="edit"]');
+  if(editButton)editButton.insertAdjacentElement('afterend',button);else menu.appendChild(button);
+}
+
 function confirmMakeAllRead(count){
   const modal=$('makeAllReadConfirmModal');
   const text=$('makeAllReadConfirmText');
@@ -593,6 +653,7 @@ function updateQuickFilterButtons(){const all=$('allIncompleteItemsButton'),mine
 function applyQuickFilter(type){quickFilter=type;$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
 function clearFilters(){$('actionSearch').value='';$('actionStatusFilter').value='';$('actionPriorityFilter').value='';$('actionAssigneeFilter').value='';$('actionProjectFilter').value='';$('actionDueDateFilter').value='';quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}
 function bind(){
+  ensureAddNoteContextAction();
   const columnsButton=$('columnsButton');
   const columnsPopover=$('columnsPopover');
   const actionTable=document.querySelector('.action-table');
@@ -609,6 +670,6 @@ function bind(){
     });
     document.addEventListener('click',()=>columnsPopover.classList.add('hidden'));
   }
-$('addActionItemButton').addEventListener('click',()=>openForm());$('actionPrimaryAssignee').addEventListener('change',()=>refreshSecondaryAssigneeOptions());$('allIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('all-incomplete'));$('myIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('my-incomplete'));$('unreadItemsButton').addEventListener('click',()=>applyQuickFilter('unread'));$('makeAllReadButton').addEventListener('click',makeAllUnreadItemsRead);$('closeActionModal').addEventListener('click',closeForm);$('cancelActionButton').addEventListener('click',closeForm);$('actionItemForm').addEventListener('submit',save);$('actionSearch').addEventListener('input',()=>{quickFilter='';updateQuickFilterButtons();render();});['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>$(id).addEventListener('change',()=>{quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}));$('clearActionFilters').addEventListener('click',clearFilters);$('refreshActionItems').addEventListener('click',load);$('actionItemsTableBody').addEventListener('click',e=>{const row=e.target.closest('tr[data-row-id]');if(row){document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');}});$('actionItemsTableBody').addEventListener('contextmenu',e=>{const row=e.target.closest('tr[data-row-id]');if(!row)return;e.preventDefault();document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');selected=items.find(x=>String(x.id)===String(row.dataset.rowId))||null;const menu=$('actionRowContextMenu');if(menu){menu.dataset.rowId=row.dataset.rowId;positionActionRowContextMenu(e.clientX,e.clientY);}});$('actionRowContextMenu')?.addEventListener('click',e=>{const b=e.target.closest('[data-context-action]');if(!b)return;const id=$('actionRowContextMenu').dataset.rowId;closeActionRowContextMenu();if(!id)return;if(b.dataset.contextAction==='view'){openDetail(id);return;}if(b.dataset.contextAction==='edit'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)openForm(selected,false);return;}if(b.dataset.contextAction==='delete'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)deleteSelectedActionItem();}});document.addEventListener('click',e=>{if(!e.target.closest('#actionRowContextMenu'))closeActionRowContextMenu();});window.addEventListener('resize',closeActionRowContextMenu);$('cancelActionItemDeleteConfirmButton')?.addEventListener('click',()=>finishActionItemDeleteConfirmation(false));$('confirmActionItemDeleteButton')?.addEventListener('click',()=>finishActionItemDeleteConfirmation(true));$('actionItemDeleteConfirmModal')?.addEventListener('click',e=>{if(e.target===$('actionItemDeleteConfirmModal'))finishActionItemDeleteConfirmation(false);});$('closeActionDetail').addEventListener('click',closeDetail);$('actionDetailCloseBtn').addEventListener('click',closeDetail);$('actionDetailEditBtn')?.addEventListener('click',()=>{if(!selected)return;openForm(selected,true);});$('actionDetailDeleteBtn')?.addEventListener('click',deleteSelectedActionItem);$('actionNoteForm').addEventListener('submit',addNote);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('actionItemModal').classList.contains('hidden'))closeForm();else if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();});}
+$('addActionItemButton').addEventListener('click',()=>openForm());$('actionPrimaryAssignee').addEventListener('change',()=>refreshSecondaryAssigneeOptions());$('allIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('all-incomplete'));$('myIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('my-incomplete'));$('unreadItemsButton').addEventListener('click',()=>applyQuickFilter('unread'));$('makeAllReadButton').addEventListener('click',makeAllUnreadItemsRead);$('closeActionModal').addEventListener('click',closeForm);$('cancelActionButton').addEventListener('click',closeForm);$('actionItemForm').addEventListener('submit',save);$('actionSearch').addEventListener('input',()=>{quickFilter='';updateQuickFilterButtons();render();});['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>$(id).addEventListener('change',()=>{quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}));$('clearActionFilters').addEventListener('click',clearFilters);$('refreshActionItems').addEventListener('click',load);$('actionItemsTableBody').addEventListener('click',e=>{const row=e.target.closest('tr[data-row-id]');if(row){document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');}});$('actionItemsTableBody').addEventListener('contextmenu',e=>{const row=e.target.closest('tr[data-row-id]');if(!row)return;e.preventDefault();document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');selected=items.find(x=>String(x.id)===String(row.dataset.rowId))||null;const menu=$('actionRowContextMenu');if(menu){menu.dataset.rowId=row.dataset.rowId;positionActionRowContextMenu(e.clientX,e.clientY);}});$('actionRowContextMenu')?.addEventListener('click',e=>{const b=e.target.closest('[data-context-action]');if(!b)return;const id=$('actionRowContextMenu').dataset.rowId;closeActionRowContextMenu();if(!id)return;if(b.dataset.contextAction==='view'){openDetail(id);return;}if(b.dataset.contextAction==='edit'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)openForm(selected,false);return;}if(b.dataset.contextAction==='add-note'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)openQuickAddNote(selected);return;}if(b.dataset.contextAction==='delete'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)deleteSelectedActionItem();}});document.addEventListener('click',e=>{if(!e.target.closest('#actionRowContextMenu'))closeActionRowContextMenu();});window.addEventListener('resize',closeActionRowContextMenu);$('cancelActionItemDeleteConfirmButton')?.addEventListener('click',()=>finishActionItemDeleteConfirmation(false));$('confirmActionItemDeleteButton')?.addEventListener('click',()=>finishActionItemDeleteConfirmation(true));$('actionItemDeleteConfirmModal')?.addEventListener('click',e=>{if(e.target===$('actionItemDeleteConfirmModal'))finishActionItemDeleteConfirmation(false);});$('closeActionDetail').addEventListener('click',closeDetail);$('actionDetailCloseBtn').addEventListener('click',closeDetail);$('actionDetailEditBtn')?.addEventListener('click',()=>{if(!selected)return;openForm(selected,true);});$('actionDetailDeleteBtn')?.addEventListener('click',deleteSelectedActionItem);$('actionNoteForm').addEventListener('submit',addNote);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('quickAddActionNoteModal')&&!$('quickAddActionNoteModal').classList.contains('hidden'))closeQuickAddNoteModal();else if(!$('actionItemModal').classList.contains('hidden'))closeForm();else if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();});}
 document.addEventListener('DOMContentLoaded',async()=>{bind();try{await window.navodixAdminReady;}catch(error){console.warn('Admin readiness check failed; attempting to load Action Items.',error);}await load();});
 })();
