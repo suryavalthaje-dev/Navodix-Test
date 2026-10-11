@@ -10,6 +10,104 @@
   let jobCategories = [];
   let locations = [];
   let selectedRequirementId = '';
+  let currentJD = null;
+  let jdRemovalRequested = false;
+
+  function formatFileSize(bytes) {
+    const size = Number(bytes || 0);
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(0)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
+  function renderJDState(job = null) {
+    currentJD = job && job.jd_object_path ? {
+      file_name: job.jd_file_name || 'Job Description',
+      file_size: job.jd_file_size || 0,
+      uploaded_at: job.jd_uploaded_at || null
+    } : null;
+    jdRemovalRequested = false;
+    const current = $('jdCurrentDocument');
+    const status = $('jdDocumentStatus');
+    const fileName = $('jdCurrentFileName');
+    const fileSize = $('jdCurrentFileSize');
+    const fileInput = $('jdFileInput');
+    const selectedName = $('jdSelectedFileName');
+    const clearButton = $('clearJDSelectionButton');
+    if (fileInput) fileInput.value = '';
+    if (selectedName) selectedName.textContent = 'No file selected';
+    if (clearButton) clearButton.classList.add('hidden');
+    if (currentJD) {
+      current.classList.remove('hidden');
+      fileName.textContent = currentJD.file_name;
+      fileSize.textContent = formatFileSize(currentJD.file_size);
+      status.textContent = 'JD attached';
+      status.classList.add('has-document');
+    } else {
+      current.classList.add('hidden');
+      fileName.textContent = '';
+      fileSize.textContent = '';
+      status.textContent = 'No JD attached';
+      status.classList.remove('has-document');
+    }
+    $('jdUploadControls').classList.toggle('hidden', viewMode);
+    $('removeJDButton').classList.toggle('hidden', viewMode || !currentJD);
+    $('viewJDButton').disabled = !currentJD;
+    $('downloadJDButton').disabled = !currentJD;
+  }
+
+  async function requirementDocumentAction(action, file = null) {
+    const jobId = $('jobId').value;
+    if (!jobId) throw new Error('Save the requirement before managing its JD document.');
+    const body = new FormData();
+    body.append('action', action);
+    body.append('job_id', jobId);
+    if (file) body.append('file', file, file.name);
+    const { data, error } = await supabase.functions.invoke('requirement-documents', { body });
+    if (error) {
+      let message = error.message || 'The JD document request failed.';
+      try { if (error.context && typeof error.context.json === 'function') { const detail = await error.context.json(); if (detail && detail.error) message = detail.error; } } catch (_) {}
+      throw new Error(message);
+    }
+    if (!data || data.success === false) throw new Error(data?.error || 'The JD document request failed.');
+    return data;
+  }
+
+  async function refreshRequirementJD() {
+    const jobId = $('jobId').value;
+    if (!jobId) { renderJDState(null); return; }
+    const { data, error } = await supabase.from('jobs')
+      .select('jd_file_name,jd_object_path,jd_file_type,jd_file_size,jd_uploaded_at')
+      .eq('id', jobId).single();
+    if (error) throw error;
+    renderJDState(data);
+  }
+
+  async function openJDUrl(action) {
+    try {
+      const data = await requirementDocumentAction(action);
+      if (!data.signed_url) throw new Error('The document link was not returned.');
+      window.open(data.signed_url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      showFormMessage(`Could not ${action === 'view-url' ? 'open' : 'download'} JD: ${error.message || error}`, 'error');
+    }
+  }
+
+  async function removeRequirementJD() {
+    if (!currentJD || !window.confirm('Remove the attached JD document from this requirement?')) return;
+    const button = $('removeJDButton');
+    button.disabled = true;
+    try {
+      await requirementDocumentAction('delete');
+      await refreshRequirementJD();
+      jobFormDirty = false;
+      showFormMessage('JD document removed.', 'success');
+    } catch (error) {
+      showFormMessage(`Could not remove JD: ${error.message || error}`, 'error');
+    } finally {
+      button.disabled = false;
+    }
+  }
 
   const $ = (id) => document.getElementById(id);
 
@@ -326,6 +424,7 @@
     clearList('responsibilities');
     clearList('requirements');
     clearList('qualifications');
+    renderJDState(null);
     showFormMessage('');
   }
 
@@ -349,6 +448,8 @@
     $('saveJobButton').classList.toggle('hidden', enabled);
     $('cancelJobButton').textContent = enabled ? 'Close' : 'Cancel';
     $('jobModalTitle').textContent = enabled ? 'View Requirement' : ($('jobId').value ? 'Edit Requirement' : 'Add New Requirement');
+    $('jdUploadControls').classList.toggle('hidden', enabled);
+    $('removeJDButton').classList.toggle('hidden', enabled || !currentJD);
   }
 
   function openModal(job = null, mode = 'edit') {
@@ -377,6 +478,7 @@
       (job.job_responsibilities || []).forEach(x => addListItem('responsibilities', x.responsibility));
       (job.job_requirements || []).forEach(x => addListItem('requirements', x.requirement));
       (job.job_qualifications || []).forEach(x => addListItem('qualifications', x.qualification));
+      renderJDState(job);
     } else {
       $('jobModalTitle').textContent = 'Add New Requirement';
       addListItem('responsibilities');
@@ -578,6 +680,13 @@
         saveList('job_qualifications', savedJob.id, 'qualification', getListValues('qualifications'))
       ]);
 
+      $('jobId').value = savedJob.id;
+      const jdFile = $('jdFileInput').files && $('jdFileInput').files[0];
+      if (jdFile) {
+        showFormMessage('Requirement saved. Uploading JD document…');
+        await requirementDocumentAction('upload', jdFile);
+      }
+
       jobFormDirty = false;
       closeModal(true);
       showMessage(jobId
@@ -657,6 +766,32 @@
     $('jobForm').addEventListener('submit', saveJob);
     $('jobForm').addEventListener('input', markJobFormDirty);
     $('jobForm').addEventListener('change', markJobFormDirty);
+    $('jdFileInput').addEventListener('change', () => {
+      const file = $('jdFileInput').files && $('jdFileInput').files[0];
+      $('jdSelectedFileName').textContent = file ? `${file.name} (${formatFileSize(file.size)})` : 'No file selected';
+      $('clearJDSelectionButton').classList.toggle('hidden', !file);
+      if (file && (file.size <= 0 || file.size > 5 * 1024 * 1024)) {
+        showFormMessage('JD document must be between 1 byte and 5 MB.', 'error');
+        $('jdFileInput').value = '';
+        $('jdSelectedFileName').textContent = 'No file selected';
+        $('clearJDSelectionButton').classList.add('hidden');
+        return;
+      }
+      if (file && !/\.(pdf|doc|docx)$/i.test(file.name)) {
+        showFormMessage('JD document must be a PDF, DOC or DOCX file.', 'error');
+        $('jdFileInput').value = '';
+        $('jdSelectedFileName').textContent = 'No file selected';
+        $('clearJDSelectionButton').classList.add('hidden');
+      }
+    });
+    $('clearJDSelectionButton').addEventListener('click', () => {
+      $('jdFileInput').value = '';
+      $('jdSelectedFileName').textContent = 'No file selected';
+      $('clearJDSelectionButton').classList.add('hidden');
+    });
+    $('viewJDButton').addEventListener('click', () => openJDUrl('view-url'));
+    $('downloadJDButton').addEventListener('click', () => openJDUrl('download-url'));
+    $('removeJDButton').addEventListener('click', removeRequirementJD);
     $('jobForm').addEventListener('click', (event) => {
       if (event.target.closest('[data-add-list], .remove-item')) markJobFormDirty();
     });
