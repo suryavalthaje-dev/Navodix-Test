@@ -432,11 +432,11 @@ function ensureQuickAddNoteModal(){
   if(modal)return modal;
   if(!$('quickAddActionNoteStyles')){
     const style=document.createElement('style');style.id='quickAddActionNoteStyles';
-    style.textContent=`#quickAddActionNoteModal{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.48)}#quickAddActionNoteModal.hidden{display:none!important}#quickAddActionNoteModal .quick-note-shell{width:min(460px,calc(100vw - 32px));box-sizing:border-box;background:#fff;border:1px solid #D7E0EA;border-radius:10px;box-shadow:0 18px 48px rgba(15,23,42,.24);overflow:hidden}#quickAddActionNoteModal .quick-note-header{padding:14px 18px;background:#12366A;color:#fff}#quickAddActionNoteModal .quick-note-header h2{margin:0;font-size:16px;line-height:1.35;font-weight:700;overflow-wrap:anywhere}#quickAddActionNoteModal .quick-note-body{padding:18px}#quickAddActionNoteModal label{display:block;margin:0 0 7px;color:#26364B;font-size:13px;font-weight:600}#quickAddActionNoteModal textarea{display:block;width:100%;min-height:94px;resize:vertical;box-sizing:border-box;padding:9px 10px;border:1px solid #C8D2DF;border-radius:6px;font:13px inherit;color:#243247}#quickAddActionNoteModal textarea:focus{outline:2px solid rgba(40,120,232,.2);border-color:#2878E8}#quickAddActionNoteModal .quick-note-message{min-height:0;margin-top:8px;font-size:12px;color:#B42318}#quickAddActionNoteModal .quick-note-footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid #E5EAF0;background:#F8FAFC}#quickAddActionNoteModal .quick-note-footer button{min-height:34px;padding:0 16px;border:1px solid #C8D2DF;border-radius:6px;background:#fff;color:#26364B;font-size:13px;font-weight:600;cursor:pointer}#quickAddActionNoteModal .quick-note-footer .primary{border-color:#0B5ED7;background:#0B5ED7;color:#fff}#quickAddActionNoteModal button:disabled{opacity:.65;cursor:wait}`;
+    style.textContent=`#quickAddActionNoteModal{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(15,23,42,.48)}#quickAddActionNoteModal.hidden{display:none!important}#quickAddActionNoteModal .action-item-modal{display:flex;flex-direction:column;width:min(460px,calc(100vw - 24px));max-height:calc(100dvh - 24px);margin:auto;overflow:hidden;border-radius:10px;background:#fff;box-shadow:0 18px 48px rgba(15,23,42,.24)}#quickAddActionNoteModal .modal-header{flex:0 0 auto;min-height:50px;padding:12px 18px;box-sizing:border-box;background:#2878E8;color:#fff}#quickAddActionNoteModal .modal-header h2{margin:0;color:#fff;font-size:15px;line-height:1.35;font-weight:700;overflow-wrap:anywhere}#quickAddActionNoteModal .quick-note-body{padding:18px;flex:1 1 auto;min-height:0}#quickAddActionNoteModal label{display:block;margin:0 0 7px;color:#26364B;font-size:13px;font-weight:600}#quickAddActionNoteModal textarea{display:block;width:100%;min-height:94px;resize:vertical;box-sizing:border-box;padding:9px 10px;border:1px solid #C8D2DF;border-radius:6px;font-family:inherit;font-size:13px;color:#243247}#quickAddActionNoteModal textarea:focus{outline:2px solid rgba(40,120,232,.2);border-color:#2878E8}#quickAddActionNoteModal .quick-note-footer{flex:0 0 54px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px;border-top:1px solid #E5EAF0;background:#F8FAFC;box-sizing:border-box}#quickAddActionNoteModal .quick-note-message{flex:1 1 auto;min-width:0;margin:0;font-size:12px;line-height:1.3;overflow-wrap:anywhere}#quickAddActionNoteModal .quick-note-message.error{color:#B42318}#quickAddActionNoteModal .quick-note-message.success{color:#18794E}#quickAddActionNoteModal .quick-note-footer-buttons{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:0 0 auto}#quickAddActionNoteModal .quick-note-footer button{height:32px;min-height:32px;padding:0 16px;border:1px solid #C8D2DF;border-radius:6px;background:#fff;color:#26364B;font-size:13px;font-weight:600;cursor:pointer}#quickAddActionNoteModal .quick-note-footer .primary{border-color:#2878E8;background:#2878E8;color:#fff}#quickAddActionNoteModal button:disabled{opacity:.65;cursor:wait}`;
     document.head.appendChild(style);
   }
-  modal=document.createElement('div');modal.id='quickAddActionNoteModal';modal.className='hidden';modal.setAttribute('aria-hidden','true');
-  modal.innerHTML='<div class="quick-note-shell" role="dialog" aria-modal="true" aria-labelledby="quickAddActionNoteTitle"><div class="quick-note-header"><h2 id="quickAddActionNoteTitle">Add Note</h2></div><div class="quick-note-body"><label for="quickAddActionNoteText">Note</label><textarea id="quickAddActionNoteText" rows="3" placeholder="Enter a note or update"></textarea><div id="quickAddActionNoteMessage" class="quick-note-message" aria-live="polite"></div></div><div class="quick-note-footer"><button type="button" id="quickAddActionNoteCancel">Cancel</button><button type="button" id="quickAddActionNoteSave" class="primary">Save</button></div></div>';
+  modal=document.createElement('div');modal.id='quickAddActionNoteModal';modal.className='modal-backdrop hidden';modal.setAttribute('aria-hidden','true');
+  modal.innerHTML='<div class="action-item-modal profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="quickAddActionNoteTitle"><div class="modal-header"><h2 id="quickAddActionNoteTitle">Add Note</h2></div><div class="quick-note-body profile-interview-modal-body"><label for="quickAddActionNoteText">Note</label><textarea id="quickAddActionNoteText" rows="3" placeholder="Enter a note or update"></textarea></div><div class="quick-note-footer profile-interview-modal-actions"><div id="quickAddActionNoteMessage" class="admin-message quick-note-message" aria-live="polite"></div><div class="quick-note-footer-buttons"><button type="button" id="quickAddActionNoteCancel">Cancel</button><button type="button" id="quickAddActionNoteSave" class="primary">Save</button></div></div></div>';
   document.body.appendChild(modal);
   $('quickAddActionNoteCancel').addEventListener('click',closeQuickAddNoteModal);
   modal.addEventListener('click',e=>{if(e.target===modal)closeQuickAddNoteModal();});
@@ -448,7 +448,7 @@ function openQuickAddNote(item){
   if(!item)return;
   const modal=ensureQuickAddNoteModal();addNoteModalItemId=item.id;
   $('quickAddActionNoteTitle').textContent=item.title||'Add Note';
-  $('quickAddActionNoteText').value='';$('quickAddActionNoteMessage').textContent='';
+  $('quickAddActionNoteText').value='';$('quickAddActionNoteMessage').textContent='';$('quickAddActionNoteMessage').className='admin-message quick-note-message';
   $('quickAddActionNoteSave').disabled=false;$('quickAddActionNoteCancel').disabled=false;$('quickAddActionNoteSave').textContent='Save';
   modal.classList.remove('hidden');modal.setAttribute('aria-hidden','false');
   $('quickAddActionNoteText').focus();
@@ -460,7 +460,7 @@ function closeQuickAddNoteModal(){
 async function saveQuickActionNote(){
   const actionItemId=addNoteModalItemId;const note=$('quickAddActionNoteText')?.value.trim();
   if(!actionItemId)return;
-  if(!note){$('quickAddActionNoteMessage').textContent='Please enter a note.';$('quickAddActionNoteText').focus();return;}
+  if(!note){$('quickAddActionNoteMessage').textContent='Please enter a note.';$('quickAddActionNoteMessage').className='admin-message quick-note-message error';$('quickAddActionNoteText').focus();return;}
   const saveButton=$('quickAddActionNoteSave'),cancelButton=$('quickAddActionNoteCancel');
   saveButton.disabled=true;cancelButton.disabled=true;saveButton.textContent='Saving…';$('quickAddActionNoteMessage').textContent='';
   try{
@@ -470,12 +470,12 @@ async function saveQuickActionNote(){
     const {data:savedNote,error}=await supabase.from('action_item_notes').insert({action_item_id:actionItemId,note,added_by:user.id}).select('id,action_item_id,note,added_by,created_at').single();
     if(error)throw error;
     if(!savedNote)throw new Error('The note was not returned after saving. Please try again.');
-    closeQuickAddNoteModal();
-    msg('Note added successfully.','success');
+    $('quickAddActionNoteMessage').textContent='Note added successfully.';$('quickAddActionNoteMessage').className='admin-message quick-note-message success';
     if(selected?.id===actionItemId&&!$('actionDetailModal').classList.contains('hidden'))await loadDetailHistory(actionItemLastViews.get(actionItemId)||null);
+    $('quickAddActionNoteText').value='';saveButton.disabled=false;cancelButton.disabled=false;saveButton.textContent='Save';
   }catch(error){
     console.error('Quick Add Note failed:',error);
-    $('quickAddActionNoteMessage').textContent=`Could not save note: ${error.message||error}`;
+    $('quickAddActionNoteMessage').textContent=`Could not save note: ${error.message||error}`;$('quickAddActionNoteMessage').className='admin-message quick-note-message error';
     saveButton.disabled=false;cancelButton.disabled=false;saveButton.textContent='Save';
   }
 }
