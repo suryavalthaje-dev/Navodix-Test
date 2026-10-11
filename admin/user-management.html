@@ -1184,26 +1184,36 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </style>
 
 <style id="user-management-requested-polish">
-/* Match the Action Items list-heading controls and dashboard summary height. */
+/* Match the approved Action Items list-heading buttons exactly. */
 .admin-app-page .users-list-heading{position:relative !important;}
-.admin-app-page .users-list-heading-actions .btn,
-.admin-app-page .users-list-heading-actions .user-add-button{
-  height:36px !important;min-height:36px !important;box-sizing:border-box !important;
-  padding:0 14px !important;border-radius:6px !important;font-size:12px !important;
-  font-weight:600 !important;white-space:nowrap !important;display:inline-flex !important;
-  align-items:center !important;justify-content:center !important;gap:7px !important;
-}
 .admin-app-page .users-list-heading-actions #addUserButton,
-.admin-app-page .users-list-heading-actions #refreshUsersButton{
-  background:#2878E8 !important;color:#FFFFFF !important;border:1px solid #2878E8 !important;
+.admin-app-page .users-list-heading-actions #refreshUsersButton,
+.admin-app-page .users-list-heading-actions #userColumnsButton{
+  height:34px !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 12px !important;
+  border:1px solid #B8D5F8 !important;
+  border-radius:6px !important;
+  background:#EAF3FF !important;
+  color:#1558B0 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
 }
 .admin-app-page .users-list-heading-actions #addUserButton:hover,
-.admin-app-page .users-list-heading-actions #refreshUsersButton:hover{background:#1D65C7 !important;border-color:#1D65C7 !important;}
-.admin-app-page .users-list-heading-actions .user-columns-button{
-  min-width:100px !important;background:#2878E8 !important;color:#FFFFFF !important;
+.admin-app-page .users-list-heading-actions #refreshUsersButton:hover,
+.admin-app-page .users-list-heading-actions #userColumnsButton:hover{
+  background:#EAF3FF !important;
   border:1px solid #2878E8 !important;
+  color:#1558B0 !important;
+  box-shadow:0 0 0 1px rgba(40,120,232,.12) !important;
+  font-weight:600 !important;
 }
-.admin-app-page .users-list-heading-actions .user-columns-button:hover{background:#1D65C7 !important;border-color:#1D65C7 !important;}
 .admin-app-page .user-dashboard-frame .user-summary-card{
   height:38px !important;min-height:38px !important;padding:5px 13px !important;
   border-radius:7px !important;box-sizing:border-box !important;
