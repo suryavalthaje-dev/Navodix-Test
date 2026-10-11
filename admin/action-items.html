@@ -519,6 +519,101 @@ body.action-items-list-standard .admin-main-nav-link{white-space:nowrap !importa
 body.action-items-list-standard .admin-section-nav-link{white-space:nowrap !important;}
 body.action-items-list-standard .master-data-menu a{display:block !important;}
 </style>
+<style id="action-items-menu-standard-final-v1">
+/* Exact approved secondary Admin Portal menu standard. Action Items is the active section. */
+body.action-items-list-standard .admin-section-nav{
+  background:#F7F9FC !important;
+  border-top:1px solid #E5EBF2 !important;
+  border-bottom:1px solid #D7E1ED !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+}
+body.action-items-list-standard .admin-section-nav-inner{
+  min-height:48px !important;
+  height:48px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  overflow:visible !important;
+}
+body.action-items-list-standard .admin-section-nav-link{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
+  padding:0 13px !important;
+  border:1px solid transparent !important;
+  border-radius:7px !important;
+  background:transparent !important;
+  color:#29415E !important;
+  font-size:11.5px !important;
+  font-weight:600 !important;
+  line-height:34px !important;
+  white-space:nowrap !important;
+  text-decoration:none !important;
+  box-sizing:border-box !important;
+}
+body.action-items-list-standard .admin-section-nav-link:hover{
+  background:#FFFFFF !important;
+  border-color:#D5E0EC !important;
+  color:#173F78 !important;
+}
+body.action-items-list-standard .admin-section-nav-link.active{
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+  box-shadow:0 2px 5px rgba(40,120,232,.18) !important;
+}
+body.action-items-list-standard .admin-section-nav-dropdown{
+  position:relative !important;
+  height:34px !important;
+  display:block !important;
+}
+body.action-items-list-standard .admin-section-nav-dropdown > summary{
+  height:34px !important;
+  min-height:34px !important;
+}
+body.action-items-list-standard .admin-section-nav-dropdown[open] > summary{
+  background:#FFFFFF !important;
+  border-color:#D5E0EC !important;
+  color:#173F78 !important;
+}
+body.action-items-list-standard .master-data-menu{
+  position:absolute !important;
+  top:100% !important;
+  left:0 !important;
+  margin-top:4px !important;
+  z-index:2000 !important;
+  min-width:220px !important;
+  padding:7px !important;
+  background:#FFFFFF !important;
+  border:1px solid #AEBFD2 !important;
+  border-radius:0 0 9px 9px !important;
+  box-shadow:0 12px 28px rgba(16,24,40,.14) !important;
+}
+body.action-items-list-standard .master-data-menu a{
+  display:block !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  padding:9px 12px !important;
+  border:0 !important;
+  border-radius:7px !important;
+  background:transparent !important;
+  color:#4A5D73 !important;
+  font-family:inherit !important;
+  font-size:11.5px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  text-decoration:none !important;
+  text-align:left !important;
+}
+body.action-items-list-standard .master-data-menu a:hover{
+  background:#F1F6FC !important;
+  color:#173F78 !important;
+}
+</style>
 
 <style id="action-items-list-standard-v1">
 /* Action Items — approved Navodix List Standard. Page-local UI only. */
@@ -894,6 +989,142 @@ body.action-items-list-standard .master-data-menu a{display:block !important;}
 .action-card .action-table tbody tr.action-items-empty-row:hover{background:#FFFFFF !important;}
 @media (max-width:760px){.action-card .table-wrap{max-height:500px !important;}.action-row-context-menu{min-width:180px;}}
 </style>
+<style id="action-items-list-standard-final-v2">
+/* Final Action Items List Standard — aligned to the approved Manage Requirements list structure. */
+body.action-items-list-standard .admin-main{padding:26px 0 40px !important;}
+body.action-items-list-standard .admin-main > .admin-container{max-width:1200px !important;width:calc(100% - 40px) !important;}
+body.action-items-list-standard .jobs-heading{
+  display:flex !important;align-items:baseline !important;justify-content:space-between !important;
+  gap:20px !important;margin:0 0 8px !important;
+}
+body.action-items-list-standard .jobs-heading-text{
+  display:flex !important;align-items:baseline !important;gap:12px !important;
+  min-width:0 !important;flex:1 1 auto !important;
+}
+body.action-items-list-standard .jobs-heading h1{
+  margin:0 !important;color:#071B4D !important;font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:26px !important;line-height:1.15 !important;font-weight:700 !important;letter-spacing:-.2px !important;white-space:nowrap !important;
+}
+body.action-items-list-standard .jobs-heading-subtitle{
+  margin:0 !important;color:#556579 !important;font-size:13px !important;line-height:1.35 !important;
+  font-weight:400 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;
+}
+body.action-items-list-standard .list-controls-frame{
+  background:#F9FBFE !important;border:1px solid #AEBFD2 !important;border-radius:12px !important;
+  padding:9px !important;margin:0 0 12px !important;box-shadow:0 1px 2px rgba(30,55,85,.04) !important;
+}
+body.action-items-list-standard .action-toolbar{
+  display:grid !important;grid-template-columns:minmax(250px,2fr) minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(130px,1fr) minmax(105px,auto) minmax(95px,auto) !important;
+  gap:7px !important;align-items:center !important;padding:0 !important;margin:0 !important;
+  background:#FFFFFF !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;
+}
+body.action-items-list-standard .action-toolbar select,
+body.action-items-list-standard .action-toolbar input[type="date"],
+body.action-items-list-standard .action-toolbar .toolbar-search input{
+  width:100% !important;height:32px !important;min-height:32px !important;border:1px solid #CBD8E8 !important;
+  border-radius:6px !important;background:#FFFFFF !important;color:#263F62 !important;padding:0 11px !important;
+  font-family:inherit !important;font-size:12px !important;outline:none !important;box-sizing:border-box !important;
+}
+body.action-items-list-standard .action-toolbar .toolbar-search input{padding-left:31px !important;}
+body.action-items-list-standard .action-toolbar .toolbar-search input::placeholder{font-size:12px !important;color:#718096 !important;}
+body.action-items-list-standard .action-toolbar .btn{
+  height:32px !important;min-height:32px !important;min-width:92px !important;padding:0 13px !important;
+  border-radius:6px !important;font-size:12px !important;font-weight:600 !important;white-space:nowrap !important;
+}
+body.action-items-list-standard .action-summary{
+  display:grid !important;grid-template-columns:repeat(5,minmax(0,1fr)) !important;gap:8px !important;margin:7px 0 0 !important;padding:0 !important;
+  border:0 !important;border-radius:0 !important;background:transparent !important;box-shadow:none !important;
+}
+body.action-items-list-standard .action-summary .summary-card{
+  height:38px !important;min-height:38px !important;padding:5px 13px !important;background:#FFFFFF !important;
+  border:1px solid #E2E8F0 !important;border-radius:7px !important;display:flex !important;align-items:center !important;
+  justify-content:space-between !important;box-sizing:border-box !important;
+}
+body.action-items-list-standard .action-summary .summary-card span{display:block !important;margin:0 !important;color:#556579 !important;font-size:11px !important;font-weight:600 !important;}
+body.action-items-list-standard .action-summary .summary-card strong{color:#071B4D !important;font-size:13px !important;line-height:1 !important;font-weight:700 !important;}
+body.action-items-list-standard .action-card{
+  position:relative !important;background:#FFFFFF !important;border:2px solid #AFC2D8 !important;border-top:4px solid #2878E8 !important;
+  border-left:2px solid #AFC2D8 !important;border-radius:10px !important;overflow:visible !important;
+  box-shadow:0 2px 5px rgba(30,55,85,.05) !important;
+}
+body.action-items-list-standard .action-list-heading{
+  min-height:50px !important;padding:7px 14px !important;display:flex !important;justify-content:space-between !important;
+  align-items:center !important;gap:14px !important;border-bottom:1px solid #CBD8E8 !important;position:relative !important;
+}
+body.action-items-list-standard .action-list-heading-inline{
+  display:flex !important;align-items:baseline !important;gap:10px !important;min-width:0 !important;flex:1 1 auto !important;
+}
+body.action-items-list-standard .action-list-heading h2{
+  margin:0 !important;color:#0B2A5B !important;font-size:16px !important;line-height:1.2 !important;font-weight:700 !important;white-space:nowrap !important;
+}
+body.action-items-list-standard .action-list-heading p{
+  margin:0 !important;color:#65758A !important;font-size:11.5px !important;line-height:1.3 !important;font-weight:400 !important;
+  white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;
+}
+body.action-items-list-standard .action-list-heading-actions{display:flex !important;gap:8px !important;align-items:center !important;flex:0 0 auto !important;}
+body.action-items-list-standard .action-list-heading-actions .action-columns-button{
+  height:36px !important;min-height:36px !important;min-width:100px !important;padding:0 14px !important;border-radius:6px !important;
+  font-size:12px !important;font-weight:600 !important;white-space:nowrap !important;
+}
+body.action-items-list-standard .columns-popover{
+  position:absolute !important;right:14px !important;top:56px !important;z-index:2000 !important;width:210px !important;
+  background:#FFFFFF !important;border:1px solid #AEBFD2 !important;border-radius:8px !important;box-shadow:0 8px 22px rgba(30,55,85,.12) !important;padding:10px !important;
+}
+body.action-items-list-standard .columns-popover.hidden{display:none !important;}
+body.action-items-list-standard .columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
+body.action-items-list-standard .column-option{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;}
+body.action-items-list-standard .column-option input{accent-color:#2878E8 !important;}
+body.action-items-list-standard .action-card .table-wrap{width:100% !important;max-width:100% !important;overflow-x:hidden !important;position:relative !important;}
+body.action-items-list-standard .action-table{width:100% !important;min-width:0 !important;table-layout:fixed !important;border-collapse:collapse !important;border:0 !important;}
+body.action-items-list-standard .action-table thead th{
+  height:40px !important;background:#2878E8 !important;color:#FFFFFF !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;font-weight:600 !important;letter-spacing:0 !important;text-transform:none !important;text-align:left !important;
+  padding:0 10px !important;line-height:1.1 !important;white-space:nowrap !important;border:0 !important;border-right:1px solid rgba(255,255,255,.24) !important;position:sticky !important;top:0 !important;z-index:3 !important;
+}
+body.action-items-list-standard .action-table thead th:last-child{border-right:0 !important;}
+body.action-items-list-standard .action-table tbody tr:nth-child(odd){background:#FFFFFF !important;}
+body.action-items-list-standard .action-table tbody tr:nth-child(even){background:#F2F5F8 !important;}
+body.action-items-list-standard .action-table tbody tr:hover{background:#EAF3FF !important;}
+body.action-items-list-standard .action-table tbody td{
+  min-height:40px !important;padding:7px 10px !important;border-right:1px solid #CBD8E8 !important;border-bottom:1px solid #CBD8E8 !important;
+  color:#1E293B !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;font-weight:400 !important;
+  line-height:1.25 !important;vertical-align:middle !important;white-space:normal !important;overflow-wrap:anywhere !important;
+}
+body.action-items-list-standard .action-table tbody td:last-child{border-right:0 !important;}
+body.action-items-list-standard .action-table tbody tr:last-child td{border-bottom:0 !important;}
+body.action-items-list-standard .action-table td .action-title-text{font-size:12px !important;font-weight:400 !important;color:#1E293B !important;line-height:1.25 !important;}
+body.action-items-list-standard .action-table td .action-priority-text,body.action-items-list-standard .action-table td .action-status-text{font-size:12px !important;font-weight:400 !important;}
+body.action-items-list-standard .action-table td.action-updated-cell{padding-top:7px !important;padding-bottom:7px !important;}
+body.action-items-list-standard .action-table .action-updated-time{font-size:11px !important;line-height:1.05 !important;margin-top:2px !important;}
+body.action-items-list-standard .action-card .table-wrap{scrollbar-width:thin;scrollbar-color:#8FA4BA #EEF3F8;}
+body.action-items-list-standard .action-card .table-wrap::-webkit-scrollbar{width:4px !important;height:4px !important;}
+body.action-items-list-standard .action-card .table-wrap::-webkit-scrollbar-track{background:#EEF3F8 !important;}
+body.action-items-list-standard .action-card .table-wrap::-webkit-scrollbar-thumb{background:#8FA4BA !important;border-radius:4px !important;border:0 !important;}
+body.action-items-list-standard .action-card .table-wrap::after{content:'';position:absolute;top:0;bottom:0;right:4px;width:1px;background:#D7E0EA;pointer-events:none;z-index:4;}
+body.action-items-list-standard .action-row-selected,body.action-items-list-standard .action-row-selected td{background:#5B7865 !important;color:#FFFFFF !important;}
+body.action-items-list-standard .action-row-selected td{border-bottom-color:#80998A !important;}
+body.action-items-list-standard .action-items-empty-row td{padding:0 !important;border-bottom:0 !important;}
+body.action-items-list-standard .action-items-empty-cell{min-height:78px !important;padding:16px !important;display:flex !important;align-items:center !important;justify-content:center !important;gap:8px !important;flex-direction:column !important;color:#718096 !important;text-align:center !important;}
+body.action-items-list-standard .action-items-empty-cell i{font-size:20px !important;color:#9AA9B8 !important;}
+body.action-items-list-standard .action-items-empty-cell strong{font-size:12px !important;color:#526274 !important;}
+body.action-items-list-standard .action-items-empty-cell span{font-size:11px !important;color:#7A8898 !important;}
+@media(max-width:1100px){
+  body.action-items-list-standard .action-toolbar{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+  body.action-items-list-standard .action-toolbar .toolbar-search{grid-column:span 2 !important;}
+}
+@media(max-width:760px){
+  body.action-items-list-standard .admin-main > .admin-container{width:calc(100% - 28px) !important;}
+  body.action-items-list-standard .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}
+  body.action-items-list-standard .jobs-heading-text{display:block !important;width:100% !important;}
+  body.action-items-list-standard .jobs-heading h1,body.action-items-list-standard .jobs-heading-subtitle{white-space:normal !important;}
+  body.action-items-list-standard .action-toolbar{grid-template-columns:1fr !important;}
+  body.action-items-list-standard .action-toolbar .toolbar-search{grid-column:auto !important;}
+  body.action-items-list-standard .action-summary{grid-template-columns:1fr 1fr !important;}
+  body.action-items-list-standard .action-list-heading{align-items:flex-start !important;}
+  body.action-items-list-standard .action-list-heading-inline{display:block !important;}
+  body.action-items-list-standard .action-list-heading h2,body.action-items-list-standard .action-list-heading p{white-space:normal !important;}
+}
+</style>
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -925,15 +1156,8 @@ body.action-items-list-standard .master-data-menu a{display:block !important;}
   </div>
   <div id="actionItemsMessage" class="admin-message" role="status" aria-live="polite"></div>
 
-  <section class="action-summary" aria-label="Action item summary">
-    <div class="summary-card"><span>Total</span><strong id="summaryTotal">0</strong></div>
-    <div class="summary-card"><span>Open</span><strong id="summaryOpen">0</strong></div>
-    <div class="summary-card"><span>Due Today</span><strong id="summaryToday">0</strong></div>
-    <div class="summary-card"><span>Overdue</span><strong id="summaryOverdue">0</strong></div>
-    <div class="summary-card"><span>Completed</span><strong id="summaryCompleted">0</strong></div>
-  </section>
-
-  <section class="action-toolbar" aria-label="Action item filters">
+  <section class="list-controls-frame" aria-label="Action item filters and dashboard">
+    <section class="action-toolbar" aria-label="Action item filters">
     <div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="actionSearch" type="search" placeholder="Search action item, project or assignee"></div>
     <select id="actionStatusFilter"><option value="">All Statuses</option><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="on_hold">On Hold</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
     <select id="actionPriorityFilter"><option value="">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
@@ -942,6 +1166,15 @@ body.action-items-list-standard .master-data-menu a{display:block !important;}
     <input id="actionDueDateFilter" type="date" aria-label="Due Date">
     <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
     <button class="btn btn-outline" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+    </section>
+
+    <section class="action-summary" aria-label="Action item summary">
+      <div class="summary-card"><span>Total</span><strong id="summaryTotal">0</strong></div>
+      <div class="summary-card"><span>Open</span><strong id="summaryOpen">0</strong></div>
+      <div class="summary-card"><span>Due Today</span><strong id="summaryToday">0</strong></div>
+      <div class="summary-card"><span>Overdue</span><strong id="summaryOverdue">0</strong></div>
+      <div class="summary-card"><span>Completed</span><strong id="summaryCompleted">0</strong></div>
+    </section>
   </section>
 
   <section class="jobs-card action-card">
@@ -949,6 +1182,19 @@ body.action-items-list-standard .master-data-menu a{display:block !important;}
     <div class="list-heading-inline">
       <h2>Action Items</h2>
       <p>Track and manage follow-ups, responsibilities and operational activities.</p>
+    </div>
+    <div class="action-list-heading-actions">
+      <button class="btn btn-outline action-columns-button" id="columnsButton" type="button">☷ Columns</button>
+    </div>
+    <div class="columns-popover hidden" id="columnsPopover">
+      <div class="columns-popover-title">Show / Hide Columns</div>
+      <label class="column-option"><input type="checkbox" checked data-col="0"> Action Item</label>
+      <label class="column-option"><input type="checkbox" checked data-col="1"> Project / Area</label>
+      <label class="column-option"><input type="checkbox" checked data-col="2"> Assigned To</label>
+      <label class="column-option"><input type="checkbox" checked data-col="3"> Priority</label>
+      <label class="column-option"><input type="checkbox" checked data-col="4"> Due Date</label>
+      <label class="column-option"><input type="checkbox" checked data-col="5"> Status</label>
+      <label class="column-option"><input type="checkbox" checked data-col="6"> Last Updated</label>
     </div>
   </div>
   <div class="table-wrap"><table class="action-table"><thead><tr>
