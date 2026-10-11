@@ -1166,6 +1166,41 @@ body.action-items-list-standard .action-items-empty-cell span{font-size:11px !im
   body.action-items-list-standard .action-list-heading h2,body.action-items-list-standard .action-list-heading p{white-space:normal !important;}
 }
 </style>
+
+<style id="action-items-list-standard-v6-requested-adjustments">
+/* v6 requested UI adjustments — page-local only. */
+body.action-items-list-standard .admin-main{padding-top:18px !important;}
+body.action-items-list-standard .jobs-heading{margin-bottom:7px !important;}
+body.action-items-list-standard .action-heading-buttons{gap:8px !important;}
+body.action-items-list-standard .action-heading-buttons .action-quick-filter-button{
+  height:34px !important;min-height:34px !important;padding:0 12px !important;
+  border-radius:6px !important;font-size:12px !important;
+}
+body.action-items-list-standard .list-controls-frame{margin-bottom:10px !important;}
+body.action-items-list-standard .action-list-heading-inline{gap:14px !important;}
+body.action-items-list-standard .action-list-heading-actions{gap:8px !important;}
+body.action-items-list-standard .action-list-heading-actions .action-add-list-button,
+body.action-items-list-standard .action-list-heading-actions .action-columns-button{
+  height:36px !important;min-height:36px !important;box-sizing:border-box !important;
+  border-radius:6px !important;font-size:12px !important;font-weight:600 !important;
+  white-space:nowrap !important;
+}
+body.action-items-list-standard .action-list-heading-actions .action-add-list-button{
+  padding:0 14px !important;
+}
+body.action-items-list-standard .action-list-heading-actions .action-columns-button{
+  min-width:100px !important;padding:0 14px !important;
+}
+body.action-items-list-standard .action-toolbar{
+  grid-template-columns:minmax(250px,2fr) minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(130px,1fr) 100px 100px !important;
+}
+body.action-items-list-standard .action-toolbar #clearActionFilters,
+body.action-items-list-standard .action-toolbar #refreshActionItems{
+  width:100px !important;min-width:100px !important;max-width:100px !important;
+  height:32px !important;min-height:32px !important;box-sizing:border-box !important;
+  padding:0 10px !important;
+}
+</style>
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1192,7 +1227,6 @@ body.action-items-list-standard .action-items-empty-cell span{font-size:11px !im
     <div class="action-heading-buttons" aria-label="Action item quick views">
       <button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" type="button">All Incomplete Items</button>
       <button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" type="button">My Incomplete Items</button>
-      <button class="btn btn-primary" id="addActionItemButton" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
     </div>
   </div>
   <div id="actionItemsMessage" class="admin-message" role="status" aria-live="polite"></div>
@@ -1225,6 +1259,7 @@ body.action-items-list-standard .action-items-empty-cell span{font-size:11px !im
       <p>Track and manage follow-ups, responsibilities and operational activities.</p>
     </div>
     <div class="action-list-heading-actions">
+      <button class="btn btn-primary action-add-list-button" id="addActionItemButton" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
       <button class="btn btn-outline action-columns-button" id="columnsButton" type="button">☷ Columns</button>
     </div>
     <div class="columns-popover hidden" id="columnsPopover">
