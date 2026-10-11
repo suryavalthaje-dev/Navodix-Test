@@ -132,7 +132,7 @@ async function loadActionItemChangeFlags(){
     const viewed=actionItemLastViews.get(row.action_item_id);
     const activityTime=new Date(row.created_at).getTime();
     const viewedTime=viewed?new Date(viewed).getTime():NaN;
-    if(Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
+    if(row.changed_by!==currentUser.id&&Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
       actionItemHasUnseenChanges.set(row.action_item_id,true);
     }
   });
@@ -140,7 +140,7 @@ async function loadActionItemChangeFlags(){
     const viewed=actionItemLastViews.get(row.action_item_id);
     const activityTime=new Date(row.created_at).getTime();
     const viewedTime=viewed?new Date(viewed).getTime():NaN;
-    if(Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
+    if(row.added_by!==currentUser.id&&Number.isFinite(activityTime)&&(!viewed||!Number.isFinite(viewedTime)||activityTime>viewedTime)){
       actionItemHasUnseenChanges.set(row.action_item_id,true);
     }
   });
@@ -201,7 +201,7 @@ function render(){
   const body=$('actionItemsTableBody');
   body.innerHTML=rows.map(x=>{
     const unseen=actionItemHasUnseenChanges.get(x.id)===true;
-    return `<tr class="action-data-row ${dueClass(x)}" data-row-id="${x.id}"><td><span class="action-title-text">${esc(x.title)}</span></td><td>${esc(x.project?.name||'—')}</td><td class="action-assignees-cell">${assigneeNamesHtml(x)}</td><td><span class="action-priority-text priority-${x.priority}">${labels[x.priority]}</span></td><td class="${dueClass(x).includes('action-due-completed')?'action-due-completed-cell':dueClass(x).includes('action-overdue')?'action-due-past':dueClass(x).includes('action-due-today')?'action-due-today-cell':''}">${formatDate(x.due_date)}</td><td><span class="action-status-text status-${x.status}">${labels[x.status]||x.status}</span></td><td class="action-updated-cell">${formatDateOnlyLocal(x.updated_at)}<span class="action-updated-time">${formatTimeOnlyLocal(x.updated_at)}</span></td></tr>`;
+    return `<tr class="action-data-row ${dueClass(x)}${unseen?' action-unread':''}" data-row-id="${x.id}"><td><span class="action-title-text">${esc(x.title)}</span></td><td>${esc(x.project?.name||'—')}</td><td class="action-assignees-cell">${assigneeNamesHtml(x)}</td><td><span class="action-priority-text priority-${x.priority}">${labels[x.priority]}</span></td><td class="${dueClass(x).includes('action-due-completed')?'action-due-completed-cell':dueClass(x).includes('action-overdue')?'action-due-past':dueClass(x).includes('action-due-today')?'action-due-today-cell':''}">${formatDate(x.due_date)}</td><td><span class="action-status-text status-${x.status}">${labels[x.status]||x.status}</span></td><td class="action-updated-cell">${formatDateOnlyLocal(x.updated_at)}<span class="action-updated-time">${formatTimeOnlyLocal(x.updated_at)}</span></td></tr>`;
   }).join('');
   if(!rows.length){
     body.innerHTML='<tr class="action-items-empty-row"><td colspan="7"><div class="action-items-empty-cell"><i class="fa-solid fa-list-check"></i><strong>No action items found</strong><span>Use “Add Action Item” to create the first action item.</span></div></td></tr>';
@@ -248,6 +248,10 @@ async function save(e){
     }
     if(id){
       await load();
+      const hadOtherUnreadActivity=actionItemHasUnseenChanges.get(id)===true;
+      await markActionItemViewed(id);
+      // Do not clear an unread flag that was already present before this user's edit.
+      if(hadOtherUnreadActivity){actionItemHasUnseenChanges.set(id,true);render();}
       selected=items.find(x=>x.id===id)||selected;
       returnToDetailAfterForm=false;
       $('actionItemModal').classList.remove('action-edit-overlay');
@@ -259,6 +263,7 @@ async function save(e){
       closeForm(true);
       msg('Action item created successfully.','success');
       await load();
+      if(actionId)await markActionItemViewed(actionId);
     }
   }catch(e){
     console.error(e);
