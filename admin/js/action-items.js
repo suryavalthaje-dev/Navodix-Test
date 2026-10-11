@@ -449,10 +449,22 @@ function confirmMakeAllRead(count){
     cancelButton.focus();
   });
 }
+function ensureMakeAllReadInfoModal(){
+  let modal=$('makeAllReadInfoModal');
+  if(modal&&$('makeAllReadInfoOkButton'))return modal;
+  /* Fallback for deployments where the matching HTML update has not yet been published. */
+  if(!$('makeAllReadInfoModalStyles')){
+    const style=document.createElement('style');style.id='makeAllReadInfoModalStyles';
+    style.textContent=`#makeAllReadInfoModal{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.48)}#makeAllReadInfoModal.hidden{display:none!important}#makeAllReadInfoModal .confirm-modal{width:min(440px,calc(100vw - 32px));box-sizing:border-box;text-align:center;background:#fff;border:1px solid #D7E0EA;border-radius:10px;padding:24px;box-shadow:0 18px 48px rgba(15,23,42,.24)}#makeAllReadInfoModal .confirm-icon{width:48px;height:48px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#EAF2FF;color:#2878E8;font-size:22px}#makeAllReadInfoModal h2{margin:0 0 10px;color:#12366A;font-size:20px}#makeAllReadInfoModal p{margin:0 auto 20px;max-width:380px;color:#526274;line-height:1.5;font-size:14px}#makeAllReadInfoModal .modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px}#makeAllReadInfoModal .btn{min-height:36px;padding:0 18px;border-radius:6px;border:1px solid #0B5ED7;font-weight:600;cursor:pointer}#makeAllReadInfoModal .btn-primary{background:#0B5ED7;color:#fff}`;
+    document.head.appendChild(style);
+  }
+  modal=document.createElement('div');modal.className='modal-backdrop';modal.id='makeAllReadInfoModal';modal.setAttribute('aria-hidden','true');modal.innerHTML='<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="makeAllReadInfoTitle" aria-describedby="makeAllReadInfoText"><div class="confirm-icon" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></div><h2 id="makeAllReadInfoTitle">No Unread Items</h2><p id="makeAllReadInfoText">There are no unread Action Items for your account.</p><div class="modal-actions"><button class="btn btn-primary" id="makeAllReadInfoOkButton" type="button">OK</button></div></div>';
+  document.body.appendChild(modal);
+  return modal;
+}
 function showMakeAllReadInfo(){
-  const modal=$('makeAllReadInfoModal');
+  const modal=ensureMakeAllReadInfoModal();
   const okButton=$('makeAllReadInfoOkButton');
-  if(!modal||!okButton){msg('There are no unread Action Items for your account.','info');return;}
   modal.classList.remove('hidden');modal.setAttribute('aria-hidden','false');
   const close=()=>{
     modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');
