@@ -658,6 +658,20 @@
       try{let q=supabase.from('profile_notes').delete().eq('id',del.dataset.profileNoteDelete).eq('profile_id',profileNotesProfileId);q=profileNotesRequirementId?q.eq('requirement_id',profileNotesRequirementId):q.is('requirement_id',null);const {error}=await q;if(error)throw error;message(profileNotesRequirementId?'Requirement-specific note deleted successfully.':'Profile-level note deleted successfully.','success');resetProfileNoteForm();if(profileNotesRequirementId)await loadRequirementNotes();else await loadProfileLevelNotes();await openProfileDetails(profileNotesProfileId);}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}finally{del.disabled=false;}}
   });
   $('closeInterviewModal').addEventListener('click',closeInterviewModal); $('cancelInterviewModalButton').addEventListener('click',closeInterviewModal); $('addInterviewButton').addEventListener('click',()=>openInterviewForm()); $('closeInterviewFormModal').addEventListener('click',closeInterviewFormModal); $('cancelInterviewButton').addEventListener('click',closeInterviewFormModal); $('interviewForm').addEventListener('submit',saveInterview); $('interviewTableBody').addEventListener('click',async e=>{const edit=e.target.closest('[data-interview-edit]'); if(edit){const {data,error}=await supabase.from('profile_requirement_interviews').select('*').eq('id',edit.dataset.interviewEdit).single(); if(error){interviewMessage(error.message,'error');return;} openInterviewForm(data); return;} const del=e.target.closest('[data-interview-delete]'); if(del){if(!confirm('Delete this interview round?'))return; del.disabled=true; try{const {error}=await supabase.from('profile_requirement_interviews').delete().eq('id',del.dataset.interviewDelete); if(error)throw error; await loadInterviews();}catch(err){interviewMessage(err.message||String(err),'error');}finally{del.disabled=false;}}}); $('profileModal').addEventListener('click',e=>{if(e.target===$('profileModal'))return;});
+  function updateProfilesListHeight(){
+    const card=document.querySelector('.profiles-list-card');
+    const wrap=card?.querySelector('.table-wrap');
+    const table=card?.querySelector('.profiles-table');
+    if(!card||!wrap||!table)return;
+    wrap.style.height='auto';
+    wrap.style.maxHeight='500px';
+    wrap.style.overflowY='hidden';
+    const naturalHeight=table.scrollHeight;
+    const maxHeight=500;
+    wrap.style.height=Math.min(naturalHeight,maxHeight)+'px';
+    wrap.style.overflowY=naturalHeight>maxHeight?'auto':'hidden';
+  }
+
   function applyProfilesListScrollLayout(){
     const card=document.querySelector('.profiles-list-card');
     const wrap=card?.querySelector('.table-wrap');
@@ -666,7 +680,7 @@
     if(!card||!wrap||!table)return;
     wrap.style.width='100%';
     wrap.style.maxWidth='100%';
-    wrap.style.height='500px';
+    wrap.style.height='auto';
     wrap.style.maxHeight='500px';
     wrap.style.overflowY='auto';
     wrap.style.overflowX='hidden';
@@ -700,8 +714,9 @@
       `;
       document.head.appendChild(style);
     }
+    updateProfilesListHeight();
     if(pagination)pagination.remove();
 }
 
-document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
+document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();window.addEventListener('resize',updateProfilesListHeight);try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
 })();
