@@ -1201,6 +1201,92 @@ body.action-items-list-standard .action-toolbar #refreshActionItems{
   padding:0 10px !important;
 }
 </style>
+
+<style id="action-items-v8-requested-adjustments">
+/* v8 requested UI adjustments — page-local only. */
+/* Move the combined filters/dashboard frame and the list upward together by 25px. */
+body.action-items-list-standard .list-controls-frame{
+  margin-top:-25px !important;
+}
+/* The second Refresh row adds 39px to the controls frame; offset that so the list itself also sits 25px higher than v7. */
+body.action-items-list-standard .action-card{
+  margin-top:-39px !important;
+}
+
+/* Keep the main Action Items heading and its description on one line. */
+body.action-items-list-standard .jobs-heading{
+  flex-direction:row !important;
+  align-items:baseline !important;
+}
+body.action-items-list-standard .jobs-heading-text{
+  display:flex !important;
+  align-items:baseline !important;
+  flex-direction:row !important;
+  gap:12px !important;
+  width:auto !important;
+}
+body.action-items-list-standard .jobs-heading h1,
+body.action-items-list-standard .jobs-heading-subtitle{
+  white-space:nowrap !important;
+}
+
+/* Refresh stays at the right, directly below Clear Filters. */
+body.action-items-list-standard .action-toolbar #clearActionFilters{
+  grid-column:7 !important;
+  grid-row:1 !important;
+}
+body.action-items-list-standard .action-toolbar #refreshActionItems{
+  grid-column:7 !important;
+  grid-row:2 !important;
+}
+
+/* Use a different, blue relevant icon before the first-column Action Item value. */
+body.action-items-list-standard .action-table td .action-title-text:before{
+  content:"\f46c" !important;
+  font-family:"Font Awesome 6 Free" !important;
+  font-weight:900 !important;
+  color:#2878E8 !important;
+}
+body.action-items-list-standard .action-table tbody tr.action-row-selected .action-title-text:before{
+  color:#FFFFFF !important;
+}
+
+/* When a row is selected, all column values become white; normal rows keep their existing colors. */
+body.action-items-list-standard .action-table tbody tr.action-row-selected td,
+body.action-items-list-standard .action-table tbody tr.action-row-selected td *{
+  color:#FFFFFF !important;
+}
+
+@media(max-width:1100px){
+  body.action-items-list-standard .action-toolbar{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+  body.action-items-list-standard .action-toolbar #clearActionFilters{
+    grid-column:4 !important;grid-row:1 !important;
+  }
+  body.action-items-list-standard .action-toolbar #refreshActionItems{
+    grid-column:4 !important;grid-row:2 !important;
+  }
+}
+
+@media(max-width:760px){
+  body.action-items-list-standard .jobs-heading{
+    flex-direction:row !important;
+    align-items:baseline !important;
+  }
+  body.action-items-list-standard .jobs-heading-text{
+    display:flex !important;
+    width:auto !important;
+    flex-direction:row !important;
+    align-items:baseline !important;
+  }
+  body.action-items-list-standard .jobs-heading h1,
+  body.action-items-list-standard .jobs-heading-subtitle{
+    white-space:nowrap !important;
+  }
+}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
