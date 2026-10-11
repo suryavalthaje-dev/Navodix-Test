@@ -607,9 +607,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           <h1>User Management</h1>
           <span class="jobs-heading-subtitle">Manage Careers Admin and HR access</span>
         </div>
-        <button class="btn btn-primary user-add-button" id="addUserButton" type="button">
-          <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Admin / HR User
-        </button>
+
       </div>
 
       <div id="usersMessage" class="admin-message" role="status" aria-live="polite"></div>
@@ -715,7 +713,12 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             <h2>Admin &amp; HR Users</h2>
             <p>Active users can access the Careers Admin area. Inactive users cannot sign in.</p>
           </div>
-          <button class="btn btn-outline" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+          <div class="users-list-heading-actions">
+            <button class="btn btn-primary user-add-button" id="addUserButton" type="button">
+              <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Admin / HR User
+            </button>
+            <button class="btn btn-outline" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+          </div>
         </div>
 
         <div class="table-wrap" id="usersTableWrap">
@@ -826,6 +829,32 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </script>
   <script src="js/user-management.js?v=25"></script>
 <script src="js/navigation.js?v=33"></script>
+
+<style id="user-management-list-standard-v2-fix">
+/* v2: keep Add User beside Refresh and restore Last Login to its own column. */
+.users-list-heading-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  flex:0 0 auto !important;
+}
+.users-list-heading-actions .btn{
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table .user-last-login{
+  display:block !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:400 !important;
+  color:#1E293B !important;
+  line-height:1.35 !important;
+  white-space:nowrap !important;
+}
+@media(max-width:760px){
+  .users-list-heading-actions{width:100% !important;justify-content:flex-end !important;}
+}
+</style>
 
 <style id="user-management-list-standard-v1">
 /* User Management — finalized List Standard. UI/list behavior only. */
@@ -1066,6 +1095,48 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     document.getElementById('refreshUsersButton')?.addEventListener('click',()=>setTimeout(syncList,0));
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
+
+<script id="user-management-last-login-column-fix">
+(function(){
+  function fixLastLoginColumn(){
+    const body=document.getElementById('usersTableBody');
+    if(!body)return;
+    body.querySelectorAll('tr').forEach(row=>{
+      if(row.classList.contains('users-empty-standard-row'))return;
+      const cells=row.cells;
+      if(!cells || cells.length < 5)return;
+      const createdCell=cells[4];
+      const sub=createdCell.querySelector('.user-date-sub');
+      if(!sub)return;
+
+      let lastLoginCell=cells[5];
+      if(!lastLoginCell){
+        lastLoginCell=document.createElement('td');
+        row.appendChild(lastLoginCell);
+      }
+      if(lastLoginCell.querySelector('.user-last-login'))return;
+
+      const login=document.createElement('span');
+      login.className='user-last-login';
+      login.textContent=sub.textContent.trim();
+      lastLoginCell.innerHTML='';
+      lastLoginCell.appendChild(login);
+      sub.remove();
+    });
+  }
+
+  function init(){
+    const body=document.getElementById('usersTableBody');
+    if(!body)return;
+    fixLastLoginColumn();
+    new MutationObserver(()=>requestAnimationFrame(fixLastLoginColumn))
+      .observe(body,{childList:true,subtree:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
 })();
 </script>
 
