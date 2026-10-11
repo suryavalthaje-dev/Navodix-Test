@@ -684,6 +684,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <option value="admin">Admin</option>
               </select>
             </div>
+            <div class="field-group">
+              <label for="userSessionTimeout">Session Timeout</label>
+              <select id="userSessionTimeout" name="session_timeout_minutes" required>
+                <option value="15">15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="30" selected>30 minutes (Default)</option>
+                <option value="45">45 minutes</option>
+                <option value="60">60 minutes</option>
+                <option value="120">120 minutes</option>
+              </select>
+              <div class="user-field-help">Signs the user out after this period of inactivity.</div>
+            </div>
             <div class="user-form-actions">
               <button class="btn btn-primary" id="createUserSubmit" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Invitation</button>
               <button class="btn btn-outline" id="cancelAddUserButtonBottom" type="button" data-close-user-modal>Cancel</button>
@@ -724,6 +736,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <option value="admin">Admin</option>
               </select>
               <div class="user-field-help" id="editRoleHelp">Only Admin can change a user's role.</div>
+            </div>
+            <div class="field-group">
+              <label for="editSessionTimeout">Session Timeout</label>
+              <select id="editSessionTimeout" required>
+                <option value="15">15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="30">30 minutes (Default)</option>
+                <option value="45">45 minutes</option>
+                <option value="60">60 minutes</option>
+                <option value="120">120 minutes</option>
+              </select>
+              <div class="user-field-help">Signs the user out after this period of inactivity.</div>
             </div>
             <div class="user-form-actions">
               <button class="btn btn-primary" id="saveUserEditButton" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Changes</button>
