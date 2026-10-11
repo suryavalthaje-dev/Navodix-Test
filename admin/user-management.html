@@ -591,6 +591,38 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="user-modal-navodix-standard">
+/* Navodix modal standard: fixed blue header, scrollable form body, fixed 54px footer. */
+#addUserCard .user-modal-dialog, #editUserCard .user-modal-dialog {
+  display:flex !important; flex-direction:column !important; max-height:calc(100vh - 32px) !important;
+  overflow:hidden !important; border-radius:14px !important;
+}
+#addUserCard .user-modal-header, #editUserCard .user-modal-header {
+  flex:0 0 auto !important; min-height:78px !important; border-radius:12px 12px 0 0 !important;
+}
+#addUserCard .user-form-grid, #editUserCard .user-form-grid {
+  display:grid !important; flex:1 1 auto !important; min-height:0 !important; overflow-y:auto !important;
+  align-content:start !important; padding:18px 24px 12px !important;
+}
+#addUserCard .user-form-actions, #editUserCard .user-form-actions {
+  position:sticky !important; bottom:0 !important; z-index:2 !important; grid-column:1 / -1 !important;
+  display:flex !important; flex:0 0 54px !important; align-items:center !important; justify-content:flex-end !important;
+  min-height:54px !important; margin:4px -24px -12px !important; padding:0 24px !important;
+  background:#fff !important; border-top:1px solid #dce3ec !important;
+}
+.users-list-card .users-table tbody tr.user-row-selected td *,
+.users-list-card .users-table tbody tr.user-row-selected td .role-pill,
+.users-list-card .users-table tbody tr.user-row-selected td .status-pill,
+.users-list-card .users-table tbody tr.user-row-selected td .user-date-main,
+.users-list-card .users-table tbody tr.user-row-selected td .user-date-sub { color:#fff !important; }
+.users-list-card .users-table tbody tr.user-row-selected td .user-self-note { color:#fff !important; background:rgba(255,255,255,.18) !important; border-color:rgba(255,255,255,.35) !important; }
+@media(max-width:600px){
+  #addUserCard .user-form-grid, #editUserCard .user-form-grid { padding:14px 16px 10px !important; }
+  #addUserCard .user-form-actions, #editUserCard .user-form-actions { margin:4px -16px -10px !important; padding:0 16px !important; }
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -779,6 +811,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             <label><input type="checkbox" checked data-user-col="4"> Created</label>
             <label><input type="checkbox" checked data-user-col="5"> Last Activity</label>
             <label><input type="checkbox" checked data-user-col="6"> Last Login</label>
+            <label><input type="checkbox" checked data-user-col="7"> Timeout</label>
           </div>
         </div>
 
@@ -793,6 +826,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <th>Created</th>
                 <th>Last Activity</th>
                 <th>Last Login</th>
+                <th>Timeout</th>
                 <th class="actions-column">Actions</th>
               </tr>
             </thead>
