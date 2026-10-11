@@ -565,6 +565,31 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 </style>
 
+
+<style id="user-management-final-request-v3">
+/* v3: requested final User Management list refinements. */
+.users-list-heading-actions .user-add-button{
+  height:36px !important;
+  min-height:36px !important;
+  max-height:36px !important;
+  box-sizing:border-box !important;
+}
+.admin-app-page .users-list-card .users-table .status-pill{
+  display:inline !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  color:#1E293B !important;
+  white-space:nowrap !important;
+}
+.admin-app-page .users-list-card .users-table .status-pill i{
+  margin-right:4px !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -715,7 +740,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
           </div>
           <div class="users-list-heading-actions">
             <button class="btn btn-primary user-add-button" id="addUserButton" type="button">
-              <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Admin / HR User
+              <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add User
             </button>
             <button class="btn btn-outline" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
           </div>
@@ -827,7 +852,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   });
 })();
 </script>
-  <script src="js/user-management.js?v=25"></script>
+  <script src="js/user-management.js?v=26"></script>
 <script src="js/navigation.js?v=33"></script>
 
 <style id="user-management-list-standard-v2-fix">
@@ -1099,46 +1124,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 </script>
 
 
-<script id="user-management-last-login-column-fix">
-(function(){
-  function fixLastLoginColumn(){
-    const body=document.getElementById('usersTableBody');
-    if(!body)return;
-    body.querySelectorAll('tr').forEach(row=>{
-      if(row.classList.contains('users-empty-standard-row'))return;
-      const cells=row.cells;
-      if(!cells || cells.length < 5)return;
-      const createdCell=cells[4];
-      const sub=createdCell.querySelector('.user-date-sub');
-      if(!sub)return;
 
-      let lastLoginCell=cells[5];
-      if(!lastLoginCell){
-        lastLoginCell=document.createElement('td');
-        row.appendChild(lastLoginCell);
-      }
-      if(lastLoginCell.querySelector('.user-last-login'))return;
-
-      const login=document.createElement('span');
-      login.className='user-last-login';
-      login.textContent=sub.textContent.trim();
-      lastLoginCell.innerHTML='';
-      lastLoginCell.appendChild(login);
-      sub.remove();
-    });
-  }
-
-  function init(){
-    const body=document.getElementById('usersTableBody');
-    if(!body)return;
-    fixLastLoginColumn();
-    new MutationObserver(()=>requestAnimationFrame(fixLastLoginColumn))
-      .observe(body,{childList:true,subtree:true});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
-  else init();
-})();
-</script>
 
 </body>
 </html>
