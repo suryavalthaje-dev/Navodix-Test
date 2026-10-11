@@ -1178,6 +1178,18 @@ body.action-items-list-standard .action-heading-buttons .action-quick-filter-but
 }
 body.action-items-list-standard .list-controls-frame{margin-bottom:10px !important;}
 body.action-items-list-standard .action-list-heading-inline{gap:14px !important;}
+body.action-items-list-standard .list-heading-inline{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:baseline !important;
+  gap:10px !important;
+  min-width:0 !important;
+}
+body.action-items-list-standard .list-heading-inline h2,
+body.action-items-list-standard .list-heading-inline p{
+  margin:0 !important;
+  white-space:nowrap !important;
+}
 body.action-items-list-standard .action-list-heading-actions{gap:8px !important;}
 body.action-items-list-standard .action-list-heading-actions .action-add-list-button,
 body.action-items-list-standard .action-list-heading-actions .action-columns-button{
@@ -1208,9 +1220,9 @@ body.action-items-list-standard .action-toolbar #refreshActionItems{
 body.action-items-list-standard .list-controls-frame{
   margin-top:-25px !important;
 }
-/* The second Refresh row adds 39px to the controls frame; offset that so the list itself also sits 25px higher than v7. */
+/* Keep the list below the complete filters/dashboard frame with a clear 5px gap. */
 body.action-items-list-standard .action-card{
-  margin-top:-39px !important;
+  margin-top:5px !important;
 }
 
 /* Keep the main Action Items heading and its description on one line. */
