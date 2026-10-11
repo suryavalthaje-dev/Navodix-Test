@@ -1432,7 +1432,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 .admin-app-page .applications-card .applications-table thead{display:table-header-group !important;visibility:visible !important;}
 .admin-app-page .applications-card .applications-table thead tr{display:table-row !important;visibility:visible !important;}
 .admin-app-page .applications-card .applications-table thead th{display:table-cell !important;visibility:visible !important;}
-
+.admin-app-page .applications-card .standard-list-pagination{display:grid !important;visibility:visible !important;}
 </style>
 <style id="applications-filter-command-order-v2">
 /* Applications filter toolbar — keep all filters in two desktop rows; commands at far right. */
@@ -1681,6 +1681,9 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </thead>
 <tbody id="applicationsTableBody"></tbody>
 </table>
+</div>
+<div class="pagination-center"><span class="pagination-page" id="applicationsPageNumber">Page 1 of 1</span></div>
+<div class="pagination-right"><button class="btn btn-outline btn-small" id="applicationsNext" type="button">Next</button><button class="btn btn-outline btn-small" id="applicationsLast" type="button">Last</button><span class="pagination-total" id="applicationsPageInfo">Showing 0-0 of 0</span></div>
 </div>
 </section>
 <div id="applicationRowContextMenu" class="application-row-context-menu hidden" role="menu" aria-label="Application actions">
