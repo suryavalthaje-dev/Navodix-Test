@@ -525,7 +525,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 
 <style id="user-management-last-login-column">
-/* Last Login column — same value typography as the Role/Admin value. */
+/* Last Activity and Last Login columns — preserve existing activity tracking and show sign-in separately. */
 .admin-app-page .users-list-card .users-table .user-date-main,
 .admin-app-page .users-list-card .users-table .user-last-activity {
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
@@ -756,6 +756,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <th>Role</th>
                 <th>Status</th>
                 <th>Created</th>
+                <th>Last Activity</th>
                 <th>Last Login</th>
                 <th class="actions-column">Actions</th>
               </tr>
@@ -857,7 +858,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <script src="js/navigation.js?v=33"></script>
 
 <style id="user-management-list-standard-v2-fix">
-/* v2: keep Add User beside Refresh and keep Last Login in its own column. */
+/* v2: keep Add User beside Refresh and preserve separate Last Activity and Last Login columns. */
 .users-list-heading-actions{
   display:flex !important;
   align-items:center !important;
@@ -1129,3 +1130,14 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 </body>
 </html>
+
+<style id="user-management-eight-column-layout">
+.admin-app-page .users-list-card .users-table th:nth-child(1), .admin-app-page .users-list-card .users-table td:nth-child(1) { width:15% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(2), .admin-app-page .users-list-card .users-table td:nth-child(2) { width:18% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(3), .admin-app-page .users-list-card .users-table td:nth-child(3) { width:7% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(4), .admin-app-page .users-list-card .users-table td:nth-child(4) { width:10% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(5), .admin-app-page .users-list-card .users-table td:nth-child(5) { width:11% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(6), .admin-app-page .users-list-card .users-table td:nth-child(6) { width:11% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(7), .admin-app-page .users-list-card .users-table td:nth-child(7) { width:11% !important; }
+.admin-app-page .users-list-card .users-table th:nth-child(8), .admin-app-page .users-list-card .users-table td:nth-child(8) { width:17% !important; }
+</style>
