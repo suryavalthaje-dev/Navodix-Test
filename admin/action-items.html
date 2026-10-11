@@ -1346,6 +1346,16 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
 @media(max-width:1100px){body.action-items-list-standard .action-toolbar{grid-template-columns:minmax(180px,1.7fr) repeat(4,minmax(95px,1fr)) minmax(115px,1fr) !important;}body.action-items-list-standard .action-heading-buttons{gap:5px !important;}body.action-items-list-standard .action-heading-buttons .btn{padding:0 7px !important;font-size:10px !important;}}
 @media(max-width:760px){body.action-items-list-standard .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}body.action-items-list-standard .action-heading-buttons{width:100% !important;justify-content:flex-start !important;flex-wrap:wrap !important;}body.action-items-list-standard .action-heading-buttons .btn{flex:0 1 auto !important;}body.action-items-list-standard .action-toolbar{grid-template-columns:1fr !important;}}
 </style>
+
+<style id="make-all-read-confirm-standard">
+/* Navodix-standard confirmation modal for Make All Read. */
+#makeAllReadConfirmModal .confirm-modal{width:min(440px,calc(100vw - 32px));box-sizing:border-box;text-align:center;}
+#makeAllReadConfirmModal .confirm-modal .confirm-icon{margin:0 auto 14px;color:#2878E8;}
+#makeAllReadConfirmModal .confirm-modal h2{margin:0 0 10px;}
+#makeAllReadConfirmModal .confirm-modal p{margin:0 auto 20px;max-width:380px;line-height:1.5;}
+#makeAllReadConfirmModal .modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1513,6 +1523,19 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
   </div>
 </div>
 
+
+
+<div class="modal-backdrop hidden" id="makeAllReadConfirmModal" aria-hidden="true">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="makeAllReadConfirmTitle" aria-describedby="makeAllReadConfirmText">
+    <div class="confirm-icon"><i class="fa-solid fa-check-double" aria-hidden="true"></i></div>
+    <h2 id="makeAllReadConfirmTitle">Make All Read</h2>
+    <p id="makeAllReadConfirmText">Mark all currently unread Action Items as read for your account? Other users will not be affected.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="cancelMakeAllReadButton" type="button">Cancel</button>
+      <button class="btn btn-primary" id="confirmMakeAllReadButton" type="button"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Make All Read</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal-backdrop hidden" id="actionItemDeleteConfirmModal" aria-hidden="true">
   <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="actionItemDeleteConfirmTitle" aria-describedby="actionItemDeleteConfirmText">
