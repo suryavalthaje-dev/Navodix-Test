@@ -275,23 +275,23 @@ async function deleteSelectedActionItem(){
   const item=selected;
   const confirmed=window.confirm(`Delete this action item?\n\n"${item.title}"\n\nThis action cannot be undone. The associated notes and history will also be deleted.`);
   if(!confirmed)return;
-  const b=$('actionDetailDeleteBtn');
-  b.disabled=true;
-  b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';
+  const b=$('actionDetailDeleteBtn'); // Optional: the detail-screen delete button is intentionally removed.
+  if(b){b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Deleting…';}
   try{
     const {error}=await supabase.from('action_items').delete().eq('id',item.id);
     if(error)throw error;
-    closeDetail();
+    closeActionRowContextMenu();
+    if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();
+    selected=null;
     msg('Action item deleted successfully.','success');
     await load();
   }catch(e){
     console.error(e);
     const detailMsg=$('actionDetailMessage');
-    detailMsg.textContent=`Could not delete action item: ${e.message||e}`;
-    detailMsg.className='admin-message error';
+    if(detailMsg){detailMsg.textContent=`Could not delete action item: ${e.message||e}`;detailMsg.className='admin-message error';}
+    else msg(`Could not delete action item: ${e.message||e}`,'error');
   }finally{
-    b.disabled=false;
-    b.innerHTML='<i class="fa-solid fa-trash"></i> Delete Action Item';
+    if(b){b.disabled=false;b.innerHTML='<i class="fa-solid fa-trash"></i> Delete Action Item';}
   }
 }
 
@@ -500,5 +500,5 @@ function bind(){
     document.addEventListener('click',()=>columnsPopover.classList.add('hidden'));
   }
 $('addActionItemButton').addEventListener('click',()=>openForm());$('actionPrimaryAssignee').addEventListener('change',()=>refreshSecondaryAssigneeOptions());$('allIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('all-incomplete'));$('myIncompleteItemsButton').addEventListener('click',()=>applyQuickFilter('my-incomplete'));$('closeActionModal').addEventListener('click',closeForm);$('cancelActionButton').addEventListener('click',closeForm);$('actionItemForm').addEventListener('submit',save);$('actionSearch').addEventListener('input',()=>{quickFilter='';updateQuickFilterButtons();render();});['actionStatusFilter','actionPriorityFilter','actionAssigneeFilter','actionProjectFilter','actionDueDateFilter'].forEach(id=>$(id).addEventListener('change',()=>{quickFilter='';updateActionFilterHighlights();updateQuickFilterButtons();render();}));$('clearActionFilters').addEventListener('click',clearFilters);$('refreshActionItems').addEventListener('click',load);$('actionItemsTableBody').addEventListener('click',e=>{const row=e.target.closest('tr[data-row-id]');if(row){document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');}});$('actionItemsTableBody').addEventListener('contextmenu',e=>{const row=e.target.closest('tr[data-row-id]');if(!row)return;e.preventDefault();document.querySelectorAll('.action-row-selected').forEach(r=>r.classList.remove('action-row-selected'));row.classList.add('action-row-selected');selected=items.find(x=>String(x.id)===String(row.dataset.rowId))||null;const menu=$('actionRowContextMenu');if(menu){menu.dataset.rowId=row.dataset.rowId;positionActionRowContextMenu(e.clientX,e.clientY);}});$('actionRowContextMenu')?.addEventListener('click',e=>{const b=e.target.closest('[data-context-action]');if(!b)return;const id=$('actionRowContextMenu').dataset.rowId;closeActionRowContextMenu();if(!id)return;if(b.dataset.contextAction==='view'){openDetail(id);return;}if(b.dataset.contextAction==='edit'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)openForm(selected,false);return;}if(b.dataset.contextAction==='delete'){selected=items.find(x=>String(x.id)===String(id))||null;if(selected)deleteSelectedActionItem();}});document.addEventListener('click',e=>{if(!e.target.closest('#actionRowContextMenu'))closeActionRowContextMenu();});window.addEventListener('resize',closeActionRowContextMenu);$('closeActionDetail').addEventListener('click',closeDetail);$('actionDetailCloseBtn').addEventListener('click',closeDetail);$('actionDetailEditBtn').addEventListener('click',()=>{if(!selected)return;openForm(selected,true);});$('actionDetailDeleteBtn')?.addEventListener('click',deleteSelectedActionItem);$('actionNoteForm').addEventListener('submit',addNote);document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('actionItemModal').classList.contains('hidden'))closeForm();else if(!$('actionDetailModal').classList.contains('hidden'))closeDetail();});}
-document.addEventListener('DOMContentLoaded',async()=>{bind();const allowed=await window.navodixAdminReady;if(allowed!==false)await load();});
+document.addEventListener('DOMContentLoaded',async()=>{bind();try{await window.navodixAdminReady;}catch(error){console.warn('Admin readiness check failed; attempting to load Action Items.',error);}await load();});
 })();
