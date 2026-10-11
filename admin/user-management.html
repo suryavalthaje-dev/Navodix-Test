@@ -87,12 +87,13 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <style id="user-row-fit-fix">
 /* User Management rows/columns: keep each user to one row where possible, maximum two rows. */
-.users-table th:nth-child(1), .users-table td:nth-child(1) { width:19% !important; }
-.users-table th:nth-child(2), .users-table td:nth-child(2) { width:27% !important; }
-.users-table th:nth-child(3), .users-table td:nth-child(3) { width:10% !important; }
-.users-table th:nth-child(4), .users-table td:nth-child(4) { width:11% !important; }
-.users-table th:nth-child(5), .users-table td:nth-child(5) { width:16% !important; }
-.users-table th:nth-child(6), .users-table td:nth-child(6) { width:17% !important; }
+.users-table th:nth-child(1), .users-table td:nth-child(1) { width:16% !important; }
+.users-table th:nth-child(2), .users-table td:nth-child(2) { width:23% !important; }
+.users-table th:nth-child(3), .users-table td:nth-child(3) { width:8% !important; }
+.users-table th:nth-child(4), .users-table td:nth-child(4) { width:10% !important; }
+.users-table th:nth-child(5), .users-table td:nth-child(5) { width:13% !important; }
+.users-table th:nth-child(6), .users-table td:nth-child(6) { width:14% !important; }
+.users-table th:nth-child(7), .users-table td:nth-child(7) { width:16% !important; }
 .users-table tbody td:nth-child(1),
 .users-table tbody td:nth-child(2),
 .users-table tbody td:nth-child(3),
@@ -755,7 +756,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <th>Role</th>
                 <th>Status</th>
                 <th>Created</th>
-                <th>Last Activity</th>
+                <th>Last Login</th>
                 <th class="actions-column">Actions</th>
               </tr>
             </thead>
@@ -856,7 +857,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <script src="js/navigation.js?v=33"></script>
 
 <style id="user-management-list-standard-v2-fix">
-/* v2: keep Add User beside Refresh and keep Last Activity in its own column. */
+/* v2: keep Add User beside Refresh and keep Last Login in its own column. */
 .users-list-heading-actions{
   display:flex !important;
   align-items:center !important;
