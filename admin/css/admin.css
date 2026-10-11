@@ -3619,7 +3619,7 @@ body.modal-open { overflow: hidden; }
 /* ============================================================
    Action Items + Action Item Master Data - v30
    ============================================================ */
-.action-summary { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:14px; margin-bottom:18px; }
+.action-summary { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:14px; margin-bottom:18px; }
 .action-summary .summary-card { display:flex; align-items:center; justify-content:space-between; min-height:52px; box-sizing:border-box; }
 .action-summary .summary-card span,
 .action-summary .summary-card strong { margin:0; line-height:1.2; }
