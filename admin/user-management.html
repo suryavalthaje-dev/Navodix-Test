@@ -743,7 +743,18 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
             <button class="btn btn-primary user-add-button" id="addUserButton" type="button">
               <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add User
             </button>
-            <button class="btn btn-outline" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+            <button class="btn btn-primary" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+            <button class="btn btn-outline user-columns-button" id="userColumnsButton" type="button" aria-expanded="false" aria-controls="userColumnsPopover"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
+          </div>
+          <div class="user-columns-popover hidden" id="userColumnsPopover">
+            <div class="user-columns-popover-title">Show / Hide Columns</div>
+            <label><input type="checkbox" checked data-user-col="0"> Name</label>
+            <label><input type="checkbox" checked data-user-col="1"> Email</label>
+            <label><input type="checkbox" checked data-user-col="2"> Role</label>
+            <label><input type="checkbox" checked data-user-col="3"> Status</label>
+            <label><input type="checkbox" checked data-user-col="4"> Created</label>
+            <label><input type="checkbox" checked data-user-col="5"> Last Activity</label>
+            <label><input type="checkbox" checked data-user-col="6"> Last Login</label>
           </div>
         </div>
 
@@ -1065,9 +1076,12 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     iconWrap.appendChild(icon);
     const existing=cell.querySelector('.user-name-cell');
     if(existing){
-      const text=existing.textContent.trim();
+      const nameNode=existing.querySelector('strong, .user-name-text');
+      const nameText=nameNode ? nameNode.textContent.trim() : existing.childNodes[0]?.textContent?.trim() || '';
+      const selfNote=existing.querySelector('.user-self-note');
       existing.innerHTML=''; existing.appendChild(iconWrap);
-      const span=document.createElement('span'); span.className='user-name-text'; span.textContent=text; existing.appendChild(span);
+      const span=document.createElement('span'); span.className='user-name-text'; span.textContent=nameText; existing.appendChild(span);
+      if(selfNote) existing.appendChild(selfNote);
     }else{
       const text=cell.textContent.trim(); cell.textContent='';
       const wrapName=document.createElement('span'); wrapName.className='user-name-cell';
@@ -1120,6 +1134,27 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     document.addEventListener('click',e=>{if(!e.target.closest('#userRowContextMenu'))closeContextMenu();});
     document.addEventListener('keydown',e=>{if(e.key==='Escape')closeContextMenu();});
     document.getElementById('refreshUsersButton')?.addEventListener('click',()=>setTimeout(syncList,0));
+    const columnsButton=document.getElementById('userColumnsButton');
+    const columnsPopover=document.getElementById('userColumnsPopover');
+    const usersTable=document.querySelector('.users-list-card .users-table');
+    function applyUserColumnVisibility(index, visible){
+      if(!usersTable)return;
+      [...usersTable.rows].forEach(row=>{if(row.cells[index])row.cells[index].style.display=visible?'':'none';});
+    }
+    columnsPopover?.querySelectorAll('input[data-user-col]').forEach(input=>{
+      const index=Number(input.dataset.userCol);
+      input.addEventListener('change',()=>applyUserColumnVisibility(index,input.checked));
+    });
+    columnsButton?.addEventListener('click',e=>{
+      e.stopPropagation();
+      const isHidden=columnsPopover?.classList.toggle('hidden');
+      columnsButton.setAttribute('aria-expanded',String(!isHidden));
+    });
+    document.addEventListener('click',e=>{
+      if(columnsPopover && !columnsPopover.classList.contains('hidden') && !e.target.closest('#userColumnsPopover') && !e.target.closest('#userColumnsButton')){
+        columnsPopover.classList.add('hidden'); columnsButton?.setAttribute('aria-expanded','false');
+      }
+    });
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
@@ -1140,4 +1175,43 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .admin-app-page .users-list-card .users-table th:nth-child(6), .admin-app-page .users-list-card .users-table td:nth-child(6) { width:11% !important; }
 .admin-app-page .users-list-card .users-table th:nth-child(7), .admin-app-page .users-list-card .users-table td:nth-child(7) { width:11% !important; }
 .admin-app-page .users-list-card .users-table th:nth-child(8), .admin-app-page .users-list-card .users-table td:nth-child(8) { width:17% !important; }
+</style>
+
+<style id="user-management-requested-polish">
+/* Match the Action Items list-heading controls and dashboard summary height. */
+.admin-app-page .users-list-heading{position:relative !important;}
+.admin-app-page .users-list-heading-actions .btn,
+.admin-app-page .users-list-heading-actions .user-add-button{
+  height:36px !important;min-height:36px !important;box-sizing:border-box !important;
+  padding:0 14px !important;border-radius:6px !important;font-size:12px !important;
+  font-weight:600 !important;white-space:nowrap !important;display:inline-flex !important;
+  align-items:center !important;justify-content:center !important;gap:7px !important;
+}
+.admin-app-page .users-list-heading-actions #addUserButton,
+.admin-app-page .users-list-heading-actions #refreshUsersButton{
+  background:#2878E8 !important;color:#FFFFFF !important;border:1px solid #2878E8 !important;
+}
+.admin-app-page .users-list-heading-actions #addUserButton:hover,
+.admin-app-page .users-list-heading-actions #refreshUsersButton:hover{background:#1D65C7 !important;border-color:#1D65C7 !important;}
+.admin-app-page .users-list-heading-actions .user-columns-button{
+  min-width:100px !important;background:#FFFFFF !important;color:#2878E8 !important;
+  border:1px solid #AFC2D8 !important;
+}
+.admin-app-page .user-dashboard-frame .user-summary-card{
+  height:38px !important;min-height:38px !important;padding:5px 13px !important;
+  border-radius:7px !important;box-sizing:border-box !important;
+}
+.admin-app-page .user-dashboard-frame .user-summary-grid{gap:8px !important;}
+.admin-app-page .user-columns-popover{
+  position:absolute !important;right:14px !important;top:56px !important;z-index:2000 !important;
+  width:210px !important;padding:10px !important;background:#FFFFFF !important;
+  border:1px solid #AEBFD2 !important;border-radius:8px !important;
+  box-shadow:0 8px 22px rgba(30,55,85,.12) !important;
+}
+.admin-app-page .user-columns-popover.hidden{display:none !important;}
+.admin-app-page .user-columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
+.admin-app-page .user-columns-popover label{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;cursor:pointer !important;}
+.admin-app-page .user-columns-popover input{accent-color:#2878E8 !important;}
+.admin-app-page .users-list-card .users-table .user-self-note{margin-left:7px !important;}
+@media(max-width:760px){.admin-app-page .user-columns-popover{right:8px !important;top:100% !important;}}
 </style>
