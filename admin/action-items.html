@@ -1337,6 +1337,15 @@ body.action-items-list-standard .action-toolbar input[type="date"].action-filter
   font-weight: 600 !important;
 }
 </style>
+<style id="action-items-unread-quick-filter-layout">
+/* Keep all field filters in one row; Clear Filters sits before the quick-view buttons. */
+body.action-items-list-standard .action-heading-buttons{display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:7px !important;flex-wrap:nowrap !important;white-space:nowrap !important;}
+body.action-items-list-standard .action-heading-buttons .btn{height:34px !important;min-height:34px !important;padding:0 10px !important;font-size:11px !important;white-space:nowrap !important;}
+body.action-items-list-standard .action-toolbar{grid-template-columns:minmax(220px,2fr) repeat(4,minmax(105px,1fr)) minmax(125px,1fr) !important;gap:8px !important;}
+body.action-items-list-standard .action-toolbar #clearActionFilters{display:none !important;}
+@media(max-width:1100px){body.action-items-list-standard .action-toolbar{grid-template-columns:minmax(180px,1.7fr) repeat(4,minmax(95px,1fr)) minmax(115px,1fr) !important;}body.action-items-list-standard .action-heading-buttons{gap:5px !important;}body.action-items-list-standard .action-heading-buttons .btn{padding:0 7px !important;font-size:10px !important;}}
+@media(max-width:760px){body.action-items-list-standard .jobs-heading{align-items:flex-start !important;flex-direction:column !important;}body.action-items-list-standard .action-heading-buttons{width:100% !important;justify-content:flex-start !important;flex-wrap:wrap !important;}body.action-items-list-standard .action-heading-buttons .btn{flex:0 1 auto !important;}body.action-items-list-standard .action-toolbar{grid-template-columns:1fr !important;}}
+</style>
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1361,8 +1370,10 @@ body.action-items-list-standard .action-toolbar input[type="date"].action-filter
   <div class="admin-page-heading jobs-heading">
     <div class="jobs-heading-text"><h1>Action Items</h1><span class="jobs-heading-subtitle">Track follow-ups, responsibilities and operational activities</span></div>
     <div class="action-heading-buttons" aria-label="Action item quick views">
+      <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
       <button class="btn btn-outline action-quick-filter-button" id="allIncompleteItemsButton" type="button">All Incomplete Items</button>
       <button class="btn btn-outline action-quick-filter-button" id="myIncompleteItemsButton" type="button">My Incomplete Items</button>
+      <button class="btn btn-outline action-quick-filter-button" id="unreadItemsButton" type="button">Unread</button>
     </div>
   </div>
   <div id="actionItemsMessage" class="admin-message" role="status" aria-live="polite"></div>
@@ -1375,7 +1386,6 @@ body.action-items-list-standard .action-toolbar input[type="date"].action-filter
     <select id="actionAssigneeFilter"><option value="">All Assignees</option></select>
     <select id="actionProjectFilter"><option value="">All Projects / Areas</option></select>
     <input id="actionDueDateFilter" type="date" aria-label="Due Date">
-    <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
     </section>
 
     <section class="action-summary" aria-label="Action item summary">
