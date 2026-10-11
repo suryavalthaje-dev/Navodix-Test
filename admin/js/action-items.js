@@ -422,11 +422,39 @@ async function loadDetailHistory(lastViewedAt=null){
     $('actionHistoryList').innerHTML=`<div class="application-activity-empty error">Could not load status history: ${esc(e.message||e)}</div>`;
   }
 }
+function confirmMakeAllRead(count){
+  const modal=$('makeAllReadConfirmModal');
+  const text=$('makeAllReadConfirmText');
+  const confirmButton=$('confirmMakeAllReadButton');
+  const cancelButton=$('cancelMakeAllReadButton');
+  if(!modal||!confirmButton||!cancelButton)return Promise.resolve(false);
+  if(text)text.textContent=`Mark all ${count} unread Action Item${count===1?'':'s'} as read for your account? Other users will not be affected.`;
+  modal.classList.remove('hidden');modal.setAttribute('aria-hidden','false');
+  return new Promise(resolve=>{
+    const finish=value=>{
+      modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');
+      confirmButton.removeEventListener('click',onConfirm);
+      cancelButton.removeEventListener('click',onCancel);
+      modal.removeEventListener('click',onBackdrop);
+      document.removeEventListener('keydown',onKeydown);
+      resolve(value);
+    };
+    const onConfirm=()=>finish(true),onCancel=()=>finish(false);
+    const onBackdrop=e=>{if(e.target===modal)finish(false);};
+    const onKeydown=e=>{if(e.key==='Escape'&&!modal.classList.contains('hidden'))finish(false);};
+    confirmButton.addEventListener('click',onConfirm);
+    cancelButton.addEventListener('click',onCancel);
+    modal.addEventListener('click',onBackdrop);
+    document.addEventListener('keydown',onKeydown);
+    cancelButton.focus();
+  });
+}
 async function makeAllUnreadItemsRead(){
   if(!currentUser){msg('Could not identify the logged-in user. Please refresh and try again.','error');return;}
   const unreadIds=items.filter(item=>actionItemHasUnseenChanges.get(item.id)===true).map(item=>item.id);
   if(!unreadIds.length){msg('You have no unread Action Items.','success');return;}
-  if(!window.confirm(`Mark all ${unreadIds.length} unread Action Item${unreadIds.length===1?'':'s'} as read for your account? Other users will not be affected.`))return;
+  const confirmed=await confirmMakeAllRead(unreadIds.length);
+  if(!confirmed)return;
   const button=$('makeAllReadButton');
   if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Marking Read…';}
   try{
