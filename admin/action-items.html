@@ -838,6 +838,51 @@
   gap:8px;
 }
 </style>
+
+<style id="action-items-list-standard-v1">
+/* Action Items List Standard — page-only implementation. */
+.action-card .table-wrap{
+  width:100% !important;max-width:100% !important;
+  height:auto !important;max-height:500px !important;
+  overflow-x:hidden !important;overflow-y:auto !important;
+  box-sizing:border-box !important;scrollbar-gutter:stable;position:relative;
+}
+.action-card .action-table{width:100% !important;max-width:100% !important;min-width:0 !important;table-layout:fixed !important;box-sizing:border-box !important;border-right:1px solid #D7E0EA !important;}
+.action-card .action-table th:nth-child(1),.action-card .action-table td:nth-child(1){width:33% !important;}
+.action-card .action-table th:nth-child(2),.action-card .action-table td:nth-child(2){width:14% !important;}
+.action-card .action-table th:nth-child(3),.action-card .action-table td:nth-child(3){width:17% !important;}
+.action-card .action-table th:nth-child(4),.action-card .action-table td:nth-child(4){width:8% !important;}
+.action-card .action-table th:nth-child(5),.action-card .action-table td:nth-child(5){width:10% !important;}
+.action-card .action-table th:nth-child(6),.action-card .action-table td:nth-child(6){width:9% !important;}
+.action-card .action-table th:nth-child(7),.action-card .action-table td:nth-child(7){width:9% !important;}
+.action-card::after{display:none !important;}
+.action-card .action-table thead th{position:sticky !important;top:0 !important;z-index:3 !important;}
+.action-card .action-table th:last-child,.action-card .action-table td:last-child{border-right:1px solid #D7E0EA !important;box-sizing:border-box !important;}
+.action-card .table-wrap{scrollbar-width:thin;scrollbar-color:#8FA4BA #EEF3F8;}
+.action-card .table-wrap::after{content:'';position:absolute;top:0;bottom:0;right:4px;width:1px;background:#D7E0EA;pointer-events:none;z-index:4;}
+.action-card .table-wrap::-webkit-scrollbar{width:4px;height:4px;}
+.action-card .table-wrap::-webkit-scrollbar-track{background:#EEF3F8;}
+.action-card .table-wrap::-webkit-scrollbar-thumb{background:#8FA4BA;border-radius:4px;border:0;}
+.action-card .table-wrap::-webkit-scrollbar-thumb:hover{background:#91A8BE;}
+.action-table tbody tr.action-row-selected,.action-table tbody tr.action-row-selected td{background:#5B7865 !important;color:#FFFFFF !important;}
+.action-table tbody tr.action-row-selected{box-shadow:inset 5px 0 0 #2878E8,inset 0 0 0 1px #45604F !important;}
+.action-table tbody tr.action-row-selected td{border-bottom-color:#80998A !important;}
+.action-table tbody tr.action-row-selected .action-title-text,.action-table tbody tr.action-row-selected .action-assignee-name,.action-table tbody tr.action-row-selected .action-priority-text,.action-table tbody tr.action-row-selected .action-status-text{color:#FFFFFF !important;}
+.action-table tbody tr.action-row-selected:hover,.action-table tbody tr.action-row-selected:hover td{background:#5B7865 !important;}
+.action-row-context-menu{position:fixed;z-index:2500;min-width:190px;padding:6px;background:#FFFFFF;border:1px solid #B8CBE0;border-radius:8px;box-shadow:0 10px 28px rgba(20,45,80,.18);box-sizing:border-box;}
+.action-row-context-menu.hidden{display:none !important;}
+.action-row-context-menu-title{padding:7px 10px 6px;color:#173F78;font-size:11px;font-weight:700;border-bottom:1px solid #E5EBF2;margin-bottom:4px;}
+.action-row-context-menu button{width:100%;height:32px;border:0;background:#FFFFFF;border-radius:6px;text-align:left;padding:0 10px;display:flex;align-items:center;gap:9px;color:#243B53;font-size:12px;cursor:pointer;}
+.action-row-context-menu button:hover{background:#EEF5FC;color:#1767C2;}
+.action-row-context-menu button i{width:15px;text-align:center;color:#1767C2;}
+.action-items-empty-row td{height:110px !important;text-align:center !important;vertical-align:middle !important;}
+.action-items-empty-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:18px 10px;color:#64748B;}
+.action-items-empty-cell i{font-size:22px;color:#8FA4BA;}
+.action-items-empty-cell strong{font-size:13px;color:#475569;}
+.action-items-empty-cell span{font-size:11px;color:#64748B;}
+.action-card .action-table tbody tr.action-items-empty-row:hover{background:#FFFFFF !important;}
+@media (max-width:760px){.action-card .table-wrap{max-height:500px !important;}.action-row-context-menu{min-width:180px;}}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -889,16 +934,16 @@
   </section>
 
   <section class="jobs-card action-card"><div class="table-wrap"><table class="action-table"><thead><tr>
-    <th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th><th class="actions-column">Action</th>
+    <th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th>
   </tr></thead><tbody id="actionItemsTableBody"></tbody></table></div>
-  <div id="emptyActionItems" class="empty-state hidden"><i class="fa-solid fa-list-check"></i><h3>No action items found</h3><p>Use “Add Action Item” to create the first action item.</p></div>
-  <div id="actionItemsPagination" class="standard-list-pagination hidden" aria-label="Action Items pagination">
-<div class="pagination-left"><button class="btn btn-outline btn-small" id="actionItemsFirst" type="button">First</button><button class="btn btn-outline btn-small" id="actionItemsPrev" type="button">Previous</button></div>
-<div class="pagination-center"><span class="pagination-page" id="actionItemsPageNumber">Page 1 of 1</span></div>
-<div class="pagination-right"><button class="btn btn-outline btn-small" id="actionItemsNext" type="button">Next</button><button class="btn btn-outline btn-small" id="actionItemsLast" type="button">Last</button><span class="pagination-total" id="actionItemsPageInfo">Showing 0-0 of 0</span></div>
-</div>
+  <div id="actionItemsPagination" class="standard-list-pagination hidden" aria-label="Action Items pagination"></div>
   </section>
 </div></main>
+
+<div id="actionRowContextMenu" class="action-row-context-menu hidden" role="menu" aria-label="Action Item actions">
+  <div class="action-row-context-menu-title">Action Item Actions</div>
+  <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Action Item</span></button>
+</div>
 
 <div class="modal-backdrop hidden" id="actionItemModal" aria-hidden="true">
   <div class="action-item-modal profile-interview-modal-shell" role="dialog" aria-modal="true" aria-labelledby="actionModalTitle">
