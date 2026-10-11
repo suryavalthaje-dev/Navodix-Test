@@ -744,7 +744,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
               <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add User
             </button>
             <button class="btn btn-primary" id="refreshUsersButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
-            <button class="btn btn-outline user-columns-button" id="userColumnsButton" type="button" aria-expanded="false" aria-controls="userColumnsPopover"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
+            <button class="btn btn-primary user-columns-button" id="userColumnsButton" type="button" aria-expanded="false" aria-controls="userColumnsPopover"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
           </div>
           <div class="user-columns-popover" id="userColumnsPopover" hidden>
             <div class="user-columns-popover-title">Show / Hide Columns</div>
@@ -1145,17 +1145,22 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       const index=Number(input.dataset.userCol);
       input.addEventListener('change',()=>applyUserColumnVisibility(index,input.checked));
     });
+    function closeUserColumnsPopover(){
+      if(columnsPopover) columnsPopover.hidden = true;
+      columnsButton?.setAttribute('aria-expanded','false');
+    }
     columnsButton?.addEventListener('click',e=>{
+      e.preventDefault();
       e.stopPropagation();
       const willOpen = !!columnsPopover && columnsPopover.hidden;
-      if (columnsPopover) columnsPopover.hidden = !willOpen;
+      if(columnsPopover) columnsPopover.hidden = !willOpen;
       columnsButton.setAttribute('aria-expanded',String(willOpen));
     });
+    columnsPopover?.addEventListener('click',e=>e.stopPropagation());
     document.addEventListener('click',e=>{
-      if(columnsPopover && !columnsPopover.hidden && !e.target.closest('#userColumnsPopover') && !e.target.closest('#userColumnsButton')){
-        columnsPopover.hidden=true; columnsButton?.setAttribute('aria-expanded','false');
-      }
+      if(columnsPopover && !columnsPopover.hidden && !e.target.closest('#userColumnsPopover') && !e.target.closest('#userColumnsButton')) closeUserColumnsPopover();
     });
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeUserColumnsPopover();});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
@@ -1195,22 +1200,23 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .admin-app-page .users-list-heading-actions #addUserButton:hover,
 .admin-app-page .users-list-heading-actions #refreshUsersButton:hover{background:#1D65C7 !important;border-color:#1D65C7 !important;}
 .admin-app-page .users-list-heading-actions .user-columns-button{
-  min-width:100px !important;background:#FFFFFF !important;color:#2878E8 !important;
-  border:1px solid #AFC2D8 !important;
+  min-width:100px !important;background:#2878E8 !important;color:#FFFFFF !important;
+  border:1px solid #2878E8 !important;
 }
+.admin-app-page .users-list-heading-actions .user-columns-button:hover{background:#1D65C7 !important;border-color:#1D65C7 !important;}
 .admin-app-page .user-dashboard-frame .user-summary-card{
   height:38px !important;min-height:38px !important;padding:5px 13px !important;
   border-radius:7px !important;box-sizing:border-box !important;
 }
 .admin-app-page .user-dashboard-frame .user-summary-grid{gap:8px !important;}
-.admin-app-page .user-columns-popover[hidden]{display:none !important;}
 .admin-app-page .user-columns-popover{
   position:absolute !important;right:14px !important;top:56px !important;z-index:2000 !important;
   width:210px !important;padding:10px !important;background:#FFFFFF !important;
   border:1px solid #AEBFD2 !important;border-radius:8px !important;
   box-shadow:0 8px 22px rgba(30,55,85,.12) !important;
 }
-.admin-app-page .user-columns-popover.hidden{display:none !important;}
+.admin-app-page .users-list-heading #userColumnsPopover[hidden]{display:none !important;}
+.admin-app-page .users-list-heading #userColumnsPopover:not([hidden]){display:block !important;}
 .admin-app-page .user-columns-popover-title{font-size:11px !important;font-weight:700 !important;color:#173F78 !important;margin-bottom:7px !important;}
 .admin-app-page .user-columns-popover label{display:flex !important;align-items:center !important;gap:7px !important;padding:5px 2px !important;font-size:11px !important;color:#465A70 !important;cursor:pointer !important;}
 .admin-app-page .user-columns-popover input{accent-color:#2878E8 !important;}
