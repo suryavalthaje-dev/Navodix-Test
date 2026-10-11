@@ -449,10 +449,29 @@ function confirmMakeAllRead(count){
     cancelButton.focus();
   });
 }
+function showMakeAllReadInfo(){
+  const modal=$('makeAllReadInfoModal');
+  const okButton=$('makeAllReadInfoOkButton');
+  if(!modal||!okButton){msg('There are no unread Action Items for your account.','info');return;}
+  modal.classList.remove('hidden');modal.setAttribute('aria-hidden','false');
+  const close=()=>{
+    modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');
+    okButton.removeEventListener('click',onOk);
+    modal.removeEventListener('click',onBackdrop);
+    document.removeEventListener('keydown',onKeydown);
+  };
+  const onOk=()=>close();
+  const onBackdrop=e=>{if(e.target===modal)close();};
+  const onKeydown=e=>{if(e.key==='Escape'&&!modal.classList.contains('hidden'))close();};
+  okButton.addEventListener('click',onOk);
+  modal.addEventListener('click',onBackdrop);
+  document.addEventListener('keydown',onKeydown);
+  okButton.focus();
+}
 async function makeAllUnreadItemsRead(){
   if(!currentUser){msg('Could not identify the logged-in user. Please refresh and try again.','error');return;}
   const unreadIds=items.filter(item=>actionItemHasUnseenChanges.get(item.id)===true).map(item=>item.id);
-  if(!unreadIds.length){msg('You have no unread Action Items.','success');return;}
+  if(!unreadIds.length){showMakeAllReadInfo();return;}
   const confirmed=await confirmMakeAllRead(unreadIds.length);
   if(!confirmed)return;
   const button=$('makeAllReadButton');
