@@ -1314,6 +1314,15 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected td *{
 }
 </style>
 
+<style id="action-items-refresh-button-position">
+/* Keep Refresh in the list header, immediately before Add Action Item. */
+body.action-items-list-standard .action-list-heading-actions .action-refresh-list-button{
+  height:36px !important;min-height:36px !important;box-sizing:border-box !important;
+  padding:0 14px !important;border-radius:6px !important;font-size:12px !important;
+  font-weight:600 !important;white-space:nowrap !important;display:inline-flex !important;
+  align-items:center !important;justify-content:center !important;gap:6px !important;
+}
+</style>
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1353,7 +1362,6 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected td *{
     <select id="actionProjectFilter"><option value="">All Projects / Areas</option></select>
     <input id="actionDueDateFilter" type="date" aria-label="Due Date">
     <button class="btn btn-outline" id="clearActionFilters" type="button">Clear Filters</button>
-    <button class="btn btn-outline" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
     </section>
 
     <section class="action-summary" aria-label="Action item summary">
@@ -1372,6 +1380,7 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected td *{
       <p>Track and manage follow-ups, responsibilities and operational activities.</p>
     </div>
     <div class="action-list-heading-actions">
+      <button class="btn btn-outline action-refresh-list-button" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
       <button class="btn btn-primary action-add-list-button" id="addActionItemButton" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
       <button class="btn btn-outline action-columns-button" id="columnsButton" type="button">☷ Columns</button>
     </div>
