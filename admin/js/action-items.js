@@ -350,6 +350,10 @@ function historyValueLabel(activityType,value,assigneeMap){
   const type=String(activityType||'').toLowerCase();
   if(type.includes('assigned')||type.includes('assignee'))return assigneeMap[value]||value;
   if(type.includes('status'))return labels[value]||value;
+  if(type.includes('project')||type.includes('area')){
+    const project=projects.find(p=>p.id===value);
+    return project?.name||value;
+  }
   return value;
 }
 async function loadDetailHistory(lastViewedAt=null){
@@ -410,7 +414,7 @@ async function loadDetailHistory(lastViewedAt=null){
       const assigneeNames=await adminNames(assigneeIds);
 
       $('actionHistoryList').innerHTML=rows.length
-        ? `<div class="application-activity-table-wrap"><table class="application-activity-table action-history-table"><thead><tr><th>Activity</th><th>Date / Time</th><th>Details</th><th>By</th></tr></thead><tbody>${rows.map(x=>{const isNew=Boolean(!lastViewedAt||new Date(x.created_at).getTime()>new Date(lastViewedAt).getTime());const oldLabel=historyValueLabel(x.activity_type,x.old_value,assigneeNames);const newLabel=historyValueLabel(x.activity_type,x.new_value,assigneeNames);return `<tr class="${isNew?'action-activity-new':''}"><td><strong>${esc(x.activity_type==='created'?'Created':x.description||x.activity_type)}</strong></td><td>${formatDateTime(x.created_at)}</td><td class="application-activity-details-cell">${x.old_value?`${esc(oldLabel)} <i class="fa-solid fa-arrow-right"></i> `:''}${esc(newLabel)}${isNew?' <span class="action-new-badge">New</span>':''}</td><td>${esc(names[x.changed_by]||'Not recorded')}</td></tr>`;}).join('')}</tbody></table></div>`
+        ? `<div class="application-activity-table-wrap"><table class="application-activity-table action-history-table"><thead><tr><th>Activity</th><th>Date / Time</th><th>Details</th><th>By</th></tr></thead><tbody>${rows.map(x=>{const isNew=Boolean(!lastViewedAt||new Date(x.created_at).getTime()>new Date(lastViewedAt).getTime());const historyLabelType=`${x.activity_type||''} ${x.description||''}`;const oldLabel=historyValueLabel(historyLabelType,x.old_value,assigneeNames);const newLabel=historyValueLabel(historyLabelType,x.new_value,assigneeNames);return `<tr class="${isNew?'action-activity-new':''}"><td><strong>${esc(x.activity_type==='created'?'Created':x.description||x.activity_type)}</strong></td><td>${formatDateTime(x.created_at)}</td><td class="application-activity-details-cell">${x.old_value?`${esc(oldLabel)} <i class="fa-solid fa-arrow-right"></i> `:''}${esc(newLabel)}${isNew?' <span class="action-new-badge">New</span>':''}</td><td>${esc(names[x.changed_by]||'Not recorded')}</td></tr>`;}).join('')}</tbody></table></div>`
         : '<div class="application-activity-empty">No history is available.</div>';
     }
     if(!notesError&&!historyError&&currentUser){
