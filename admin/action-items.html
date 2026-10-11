@@ -1394,6 +1394,43 @@ body.action-items-list-standard .action-heading-buttons .action-quick-filter-but
 }
 </style>
 
+
+<style id="navodix-action-list-heading-buttons-light-blue">
+/* Match Refresh, Add Action Item, and Columns to the approved light-blue quick-action design. */
+body.action-items-list-standard .action-list-heading-actions .action-refresh-list-button,
+body.action-items-list-standard .action-list-heading-actions .action-add-list-button,
+body.action-items-list-standard .action-list-heading-actions .action-columns-button {
+  height:34px !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 12px !important;
+  border:1px solid #B8D5F8 !important;
+  border-radius:6px !important;
+  background:#EAF3FF !important;
+  color:#1558B0 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+}
+body.action-items-list-standard .action-list-heading-actions .action-refresh-list-button:hover,
+body.action-items-list-standard .action-list-heading-actions .action-add-list-button:hover,
+body.action-items-list-standard .action-list-heading-actions .action-columns-button:hover {
+  background:#DCEBFF !important;
+  border-color:#8DBBF3 !important;
+}
+body.action-items-list-standard .action-list-heading-actions .action-refresh-list-button i,
+body.action-items-list-standard .action-list-heading-actions .action-add-list-button i,
+body.action-items-list-standard .action-list-heading-actions .action-columns-button i {
+  color:inherit !important;
+  font-size:11px !important;
+  margin:0 !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1456,7 +1493,7 @@ body.action-items-list-standard .action-heading-buttons .action-quick-filter-but
     <div class="action-list-heading-actions">
       <button class="btn btn-outline action-refresh-list-button" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
       <button class="btn btn-primary action-add-list-button" id="addActionItemButton" type="button"><i class="fa-solid fa-plus"></i> Add Action Item</button>
-      <button class="btn btn-outline action-columns-button" id="columnsButton" type="button">☷ Columns</button>
+      <button class="btn btn-outline action-columns-button" id="columnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
     </div>
     <div class="columns-popover hidden" id="columnsPopover">
       <div class="columns-popover-title">Show / Hide Columns</div>
