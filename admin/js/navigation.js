@@ -187,3 +187,38 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 })();
+
+/* Navodix Admin Portal activity tracking: record every authenticated admin page access. */
+(function(){
+  'use strict';
+  const ACTIVITY_FUNCTION_URL='https://hgjtqpztgyrrkujqjmcj.supabase.co/functions/v1/create-careers-user';
+
+  async function recordAdminPageActivity(){
+    try{
+      const client=window.navodixSupabase;
+      if(!client || !client.auth) return;
+      const result=await client.auth.getSession();
+      const session=result && result.data && result.data.session;
+      if(!session || !session.access_token) return;
+
+      await fetch(ACTIVITY_FUNCTION_URL,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+session.access_token,
+          'apikey':window.NAVODIX_SUPABASE_PUBLISHABLE_KEY || ''
+        },
+        body:JSON.stringify({action:'activity',page:window.location.pathname})
+      });
+    }catch(error){
+      console.debug('Admin page activity update skipped.',error);
+    }
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',recordAdminPageActivity,{once:true});
+  }else{
+    recordAdminPageActivity();
+  }
+})();
+

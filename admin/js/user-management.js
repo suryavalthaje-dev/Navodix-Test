@@ -130,7 +130,7 @@
           <td><span class="role-pill role-${escapeHtml(user.role)}">${roleLabel(user.role)}</span></td>
           <td>${statusPill(user)}</td>
           <td><span class="user-date-main">${escapeHtml(formatDate(user.created_at))}</span></td>
-          <td><span class="user-last-login">${escapeHtml(formatDate(user.last_sign_in_at, true))}</span></td>
+          <td><span class="user-last-activity">${escapeHtml(formatDate(user.last_activity_at, true))}</span></td>
           <td class="actions-column">
             <div class="user-actions">
               <button class="icon-button user-edit-button" type="button" data-user-id="${escapeHtml(user.user_id)}" title="Edit user" aria-label="Edit ${escapeHtml(user.display_name || user.email || 'user')}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
