@@ -526,7 +526,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <style id="user-management-last-login-column">
 /* Last Login column — same value typography as the Role/Admin value. */
 .admin-app-page .users-list-card .users-table .user-date-main,
-.admin-app-page .users-list-card .users-table .user-last-login {
+.admin-app-page .users-list-card .users-table .user-last-activity {
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
   font-size:12px !important;
   font-weight:400 !important;
@@ -755,7 +755,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
                 <th>Role</th>
                 <th>Status</th>
                 <th>Created</th>
-                <th>Last Login</th>
+                <th>Last Activity</th>
                 <th class="actions-column">Actions</th>
               </tr>
             </thead>
@@ -856,7 +856,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <script src="js/navigation.js?v=33"></script>
 
 <style id="user-management-list-standard-v2-fix">
-/* v2: keep Add User beside Refresh and restore Last Login to its own column. */
+/* v2: keep Add User beside Refresh and keep Last Activity in its own column. */
 .users-list-heading-actions{
   display:flex !important;
   align-items:center !important;
@@ -867,7 +867,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .users-list-heading-actions .btn{
   white-space:nowrap !important;
 }
-.admin-app-page .users-list-card .users-table .user-last-login{
+.admin-app-page .users-list-card .users-table .user-last-activity{
   display:block !important;
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
   font-size:12px !important;
