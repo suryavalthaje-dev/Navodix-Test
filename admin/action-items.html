@@ -509,6 +509,17 @@
 </style>
 
 
+<style id="action-items-navigation-standard">
+/* Keep Action Items navigation identical to the approved Admin Portal navigation standard. */
+body.action-items-list-standard .admin-header,
+body.action-items-list-standard .admin-section-nav{width:100% !important;}
+body.action-items-list-standard .admin-main-nav,
+body.action-items-list-standard .admin-section-nav-inner{box-sizing:border-box !important;}
+body.action-items-list-standard .admin-main-nav-link{white-space:nowrap !important;}
+body.action-items-list-standard .admin-section-nav-link{white-space:nowrap !important;}
+body.action-items-list-standard .master-data-menu a{display:block !important;}
+</style>
+
 <style id="action-items-list-standard-v1">
 /* Action Items — approved Navodix List Standard. Page-local UI only. */
 .action-summary{
@@ -884,7 +895,7 @@
 @media (max-width:760px){.action-card .table-wrap{max-height:500px !important;}.action-row-context-menu{min-width:180px;}}
 </style>
 </head>
-<body class="admin-app-page">
+<body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
   <a class="admin-brand" href="../index.html"><img src="../assets/images/logo.png?v=16" alt="Navodix IT Solutions"></a>
   <nav class="admin-main-nav" aria-label="Admin main menu">
@@ -933,10 +944,16 @@
     <button class="btn btn-outline" id="refreshActionItems" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
   </section>
 
-  <section class="jobs-card action-card"><div class="table-wrap"><table class="action-table"><thead><tr>
+  <section class="jobs-card action-card">
+  <div class="list-heading action-list-heading">
+    <div class="list-heading-inline">
+      <h2>Action Items</h2>
+      <p>Track and manage follow-ups, responsibilities and operational activities.</p>
+    </div>
+  </div>
+  <div class="table-wrap"><table class="action-table"><thead><tr>
     <th>Action Item</th><th>Project / Area</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Last Updated</th>
   </tr></thead><tbody id="actionItemsTableBody"></tbody></table></div>
-  <div id="actionItemsPagination" class="standard-list-pagination hidden" aria-label="Action Items pagination"></div>
   </section>
 </div></main>
 
