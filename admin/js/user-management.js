@@ -232,6 +232,7 @@
     const displayName = $('userDisplayName')?.value.trim() || '';
     const email = $('userEmail')?.value.trim() || '';
     const role = $('userRole')?.value || '';
+    const sessionTimeout = Number($('userSessionTimeout')?.value || 30);
     if (!displayName || !email || !role) {
       showAddFormMessage('Please complete Display Name, Email Address and Role.');
       if (!displayName) $('userDisplayName')?.focus();
@@ -243,7 +244,7 @@
     setBusy(button, true, 'Sending Invitation');
     showMessage('', '');
     try {
-      const result = await callFunction({ action: 'create', display_name: displayName, email, role });
+      const result = await callFunction({ action: 'create', display_name: displayName, email, role, session_timeout_minutes: sessionTimeout });
       closeModal('addUserCard'); resetAddForm();
       showMessage(result.message || 'User created and invitation email sent.', 'success');
       await loadUsers();
@@ -259,6 +260,7 @@
     $('editDisplayName').value = user.display_name || '';
     $('editEmail').value = user.email || '';
     $('editRole').value = user.role || 'hr';
+    $('editSessionTimeout').value = String(user.session_timeout_minutes || 30);
     const roleAllowed = state.currentAdmin?.role === 'admin';
     $('editRole').disabled = !roleAllowed;
     $('editRoleHelp').textContent = roleAllowed ? 'Only Admin can change a user’s role.' : 'Only an Admin can change user roles.';
@@ -271,10 +273,11 @@
     const userId = $('editUserId').value;
     const displayName = $('editDisplayName').value.trim();
     const role = $('editRole').value;
+    const sessionTimeout = Number($('editSessionTimeout').value || 30);
     if (!displayName) { showMessage('Display Name is required.', 'error'); return; }
     setBusy(button, true, 'Saving Changes');
     try {
-      const result = await callFunction({ action: 'edit', user_id: userId, display_name: displayName, role });
+      const result = await callFunction({ action: 'edit', user_id: userId, display_name: displayName, role, session_timeout_minutes: sessionTimeout });
       closeModal('editUserCard'); state.editingUser = null;
       showMessage(result.message || 'User details updated successfully.', 'success');
       await loadUsers();
