@@ -1355,6 +1355,14 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
 #makeAllReadConfirmModal .confirm-modal p{margin:0 auto 20px;max-width:380px;line-height:1.5;}
 #makeAllReadConfirmModal .modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;}
 </style>
+<style id="make-all-read-info-standard">
+/* Navodix-standard information modal for the no-unread-items case. */
+#makeAllReadInfoModal .confirm-modal{width:min(440px,calc(100vw - 32px));box-sizing:border-box;text-align:center;}
+#makeAllReadInfoModal .confirm-modal .confirm-icon{margin:0 auto 14px;color:#2878E8;}
+#makeAllReadInfoModal .confirm-modal h2{margin:0 0 10px;}
+#makeAllReadInfoModal .confirm-modal p{margin:0 auto 20px;max-width:380px;line-height:1.5;}
+#makeAllReadInfoModal .modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;}
+</style>
 
 </head>
 <body class="admin-app-page action-items-list-standard">
@@ -1533,6 +1541,17 @@ body.action-items-list-standard .action-toolbar #clearActionFilters{display:none
     <div class="modal-actions">
       <button class="btn btn-outline" id="cancelMakeAllReadButton" type="button">Cancel</button>
       <button class="btn btn-primary" id="confirmMakeAllReadButton" type="button"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Make All Read</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="makeAllReadInfoModal" aria-hidden="true">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="makeAllReadInfoTitle" aria-describedby="makeAllReadInfoText">
+    <div class="confirm-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></div>
+    <h2 id="makeAllReadInfoTitle">No Unread Items</h2>
+    <p id="makeAllReadInfoText">There are no unread Action Items for your account.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="makeAllReadInfoOkButton" type="button">OK</button>
     </div>
   </div>
 </div>
