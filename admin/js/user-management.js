@@ -72,7 +72,7 @@
 
   function statusInfo(user) {
     if (!user.is_active) return { label: 'Inactive', cls: 'status-closed', icon: 'fa-circle-minus' };
-    if (!user.email_confirmed_at) return { label: 'Invitation Pending', cls: 'status-pending', icon: 'fa-envelope' };
+    if (!user.email_confirmed_at) return { label: 'Pending', cls: 'status-pending', icon: 'fa-envelope' };
     return { label: 'Active', cls: 'status-published', icon: 'fa-circle-check' };
   }
 
@@ -132,6 +132,7 @@
           <td><span class="user-date-main">${escapeHtml(formatDate(user.created_at))}</span></td>
           <td><span class="user-last-activity">${escapeHtml(formatDate(user.last_activity_at, true))}</span></td>
           <td><span class="user-last-login">${escapeHtml(user.last_sign_in_at ? formatDate(user.last_sign_in_at, true) : 'Never')}</span></td>
+          <td><span class="user-timeout-value">${escapeHtml(String(user.session_timeout_minutes || 30))} min</span></td>
           <td class="actions-column">
             <div class="user-actions">
               <button class="icon-button user-edit-button" type="button" data-user-id="${escapeHtml(user.user_id)}" title="Edit user" aria-label="Edit ${escapeHtml(user.display_name || user.email || 'user')}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
