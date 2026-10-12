@@ -947,8 +947,8 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected .acti
 }
 </style>
 
-<style id="action-detail-modal-standard-final-v1">
-/* Action Item View Details — modal standard. Data/body content is intentionally unchanged. */
+<style id="action-detail-modal-standard-final-v2">
+/* View Action Item Details — scoped Navodix Shared Modal UI Standard. */
 #actionDetailModal .action-detail-modal{
   width:min(900px, calc(100vw - 32px)) !important;
   max-width:900px !important;
@@ -958,10 +958,10 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected .acti
   flex-direction:column !important;
   overflow:hidden !important;
   background:#fff !important;
-  border-radius:10px !important;
+  border:3px solid #2878E8 !important;
+  border-radius:8px !important;
   box-sizing:border-box !important;
 }
-
 #actionDetailModal .action-detail-modal > .application-child-modal-header{
   flex:0 0 56px !important;
   height:56px !important;
@@ -969,89 +969,62 @@ body.action-items-list-standard .action-table tbody tr.action-row-selected .acti
   background:#2878E8 !important;
   color:#fff !important;
   border:0 !important;
-  border-radius:10px 10px 0 0 !important;
+  border-radius:5px 5px 0 0 !important;
   box-sizing:border-box !important;
+  padding:0 16px !important;
 }
-
 #actionDetailModal .application-child-modal-header h2,
 #actionDetailModal .application-child-modal-header p,
 #actionDetailModal .application-modal-header-status,
-#actionDetailModal .application-modal-header-status span{
-  color:#fff !important;
-}
-
+#actionDetailModal .application-modal-header-status span{color:#fff !important;}
+#actionDetailModal .application-modal-title-wrap h2{margin:0 0 2px !important; font-size:16px !important; line-height:1.25 !important;}
+#actionDetailModal .application-modal-title-wrap p{margin:0 !important; font-size:11px !important; line-height:1.25 !important;}
 #actionDetailModal .application-child-modal-body{
   flex:1 1 auto !important;
   min-height:0 !important;
   overflow-y:auto !important;
   overflow-x:hidden !important;
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
-  box-sizing:border-box !important;
-}
-
-#actionDetailModal .application-child-modal-actions{
-  flex:0 0 54px !important;
-  height:54px !important;
-  min-height:54px !important;
-  max-height:54px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:10px !important;
-  padding:0 15px !important;
-  margin:0 !important;
-  background:#C9D9EC !important;
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
-  border-bottom:5px solid #2878E8 !important;
-  border-radius:0 0 10px 10px !important;
-  box-sizing:border-box !important;
-  overflow:hidden !important;
-}
-
-#actionDetailModal .application-child-modal-actions .btn{
-  min-width:0 !important;
-  min-height:40px !important;
-  height:40px !important;
-  padding:0 16px !important;
-  margin:0 !important;
-  border-radius:6px !important;
-  font-size:13px !important;
-  font-weight:600 !important;
-  line-height:1 !important;
-  box-sizing:border-box !important;
-}
-
-#actionDetailModal .action-detail-modal .modal-close{
-  width:32px !important;
-  height:32px !important;
-  min-width:32px !important;
-  min-height:32px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  padding:0 !important;
-  margin:0 !important;
-  background:transparent !important;
+  padding:14px 16px !important;
   border:0 !important;
-  color:#fff !important;
+  scrollbar-width:thin;
+  scrollbar-color:#aebed0 #f1f4f8;
+  box-sizing:border-box !important;
 }
-
+#actionDetailModal .application-child-modal-body::-webkit-scrollbar{width:6px;}
+#actionDetailModal .application-child-modal-body::-webkit-scrollbar-track{background:#f1f4f8;}
+#actionDetailModal .application-child-modal-body::-webkit-scrollbar-thumb{background:#aebed0;border-radius:6px;}
+#actionDetailModal .application-detail-section{margin:0 0 12px !important; padding:0 0 10px !important; border-bottom:1px solid #dce3eb !important;}
+#actionDetailModal .application-detail-section:last-child{margin-bottom:0 !important;padding-bottom:0 !important;border-bottom:0 !important;}
+#actionDetailModal .application-detail-heading{margin:0 0 8px !important; padding:0 0 6px !important; border-bottom:1px solid #e1e7ef !important;}
+#actionDetailModal .application-detail-heading h3{margin:0 !important;font-size:13px !important;font-weight:650 !important;line-height:1.35 !important;}
+#actionDetailModal .application-detail-grid{gap:8px 14px !important;}
+#actionDetailModal .application-long-field{padding:9px 11px !important; border:1px solid #d9e1ea !important; border-radius:5px !important;}
+#actionDetailModal .application-long-field p{margin:0 !important;line-height:1.45 !important;overflow-wrap:anywhere;}
+#actionDetailModal .application-activity-list{gap:8px !important;}
+#actionDetailModal .application-updates-notes-section .action-note-form{margin-top:9px !important;padding:10px !important;border:1px solid #dce3eb !important;border-radius:6px !important;background:#f8fafc !important;}
+#actionDetailModal #actionNoteText{min-height:58px !important;max-height:100px !important;padding:8px 10px !important;font-size:13px !important;}
+#actionDetailModal .application-interview-form-actions{margin-top:7px !important;}
+#actionDetailModal .application-child-modal-actions{
+  flex:0 0 54px !important;height:54px !important;min-height:54px !important;max-height:54px !important;
+  display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:8px !important;
+  padding:0 14px !important;margin:0 !important;background:#f3f6fa !important;
+  border:0 !important;border-top:1px solid #d5deea !important;border-radius:0 0 5px 5px !important;
+  box-sizing:border-box !important;overflow:hidden !important;
+}
+#actionDetailModal .application-child-modal-actions .btn{
+  min-width:0 !important;min-height:34px !important;height:34px !important;padding:0 14px !important;margin:0 !important;
+  border-radius:5px !important;font-size:13px !important;font-weight:600 !important;line-height:1 !important;box-sizing:border-box !important;
+}
+#actionDetailModal .action-detail-modal .modal-close{
+  width:32px !important;height:32px !important;min-width:32px !important;min-height:32px !important;
+  display:flex !important;align-items:center !important;justify-content:center !important;padding:0 !important;margin:0 !important;
+  background:transparent !important;border:0 !important;color:#fff !important;
+}
 @media (max-width:700px){
-  #actionDetailModal .action-detail-modal{
-    width:calc(100vw - 20px) !important;
-    max-width:calc(100vw - 20px) !important;
-    height:calc(100dvh - 20px) !important;
-    max-height:calc(100dvh - 20px) !important;
-  }
-  #actionDetailModal .application-child-modal-actions{
-    gap:6px !important;
-    padding:0 10px !important;
-  }
-  #actionDetailModal .application-child-modal-actions .btn{
-    padding:0 10px !important;
-  }
+  #actionDetailModal .action-detail-modal{width:calc(100vw - 20px) !important;max-width:calc(100vw - 20px) !important;height:calc(100dvh - 20px) !important;max-height:calc(100dvh - 20px) !important;}
+  #actionDetailModal .application-child-modal-body{padding:10px !important;}
+  #actionDetailModal .application-child-modal-actions{gap:6px !important;padding:0 10px !important;}
+  #actionDetailModal .application-child-modal-actions .btn{padding:0 10px !important;}
 }
 </style>
 
