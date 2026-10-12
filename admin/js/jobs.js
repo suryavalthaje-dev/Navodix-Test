@@ -54,6 +54,7 @@
     $('removeJDButton').classList.toggle('hidden', viewMode || !currentJD);
     $('viewJDButton').disabled = !currentJD;
     $('downloadJDButton').disabled = !currentJD;
+    if (!currentJD) closeJDViewer();
   }
 
   async function requirementDocumentAction(action, file = null) {
@@ -83,13 +84,80 @@
     renderJDState(data);
   }
 
-  async function openJDUrl(action) {
+  function closeJDViewer() {
+    const viewer = $('jdInlineViewer');
+    const frame = $('jdViewerFrame');
+    const docxViewer = $('jdDocxViewer');
+    const loading = $('jdViewerLoading');
+    const fallback = $('jdViewerFallback');
+    if (frame) { frame.onload = null; frame.src = 'about:blank'; frame.classList.add('hidden'); }
+    if (docxViewer) { docxViewer.innerHTML = ''; docxViewer.classList.add('hidden'); }
+    if (viewer) viewer.classList.add('hidden');
+    if (loading) { loading.textContent = 'Preparing JD document…'; loading.classList.remove('hidden'); }
+    if (fallback) fallback.classList.add('hidden');
+    $('openJDNewTabButton')?.classList.add('hidden');
+    $('closeJDButton')?.classList.add('hidden');
+  }
+
+  async function viewRequirementJD() {
+    const viewer = $('jdInlineViewer');
+    const frame = $('jdViewerFrame');
+    const docxViewer = $('jdDocxViewer');
+    const loading = $('jdViewerLoading');
+    const fallback = $('jdViewerFallback');
     try {
-      const data = await requirementDocumentAction(action);
+      if (!currentJD) throw new Error('No JD document is attached to this requirement.');
+      viewer.classList.remove('hidden');
+      frame.classList.add('hidden');
+      docxViewer.classList.add('hidden');
+      docxViewer.innerHTML = '';
+      fallback.classList.add('hidden');
+      loading.classList.remove('hidden');
+      loading.textContent = 'Preparing JD document…';
+      const data = await requirementDocumentAction('view-url');
       if (!data.signed_url) throw new Error('The document link was not returned.');
-      window.open(data.signed_url, '_blank', 'noopener,noreferrer');
+      const url = data.signed_url;
+      const fileName = String(currentJD.file_name || '');
+      const isPdf = /\.pdf$/i.test(fileName);
+      const isDocx = /\.docx$/i.test(fileName);
+      $('openJDNewTabButton').onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
+      $('openJDNewTabButton').classList.remove('hidden');
+      $('closeJDButton').classList.remove('hidden');
+      if (isDocx) {
+        if (typeof window.docx === 'undefined' || typeof window.docx.renderAsync !== 'function') throw new Error('DOCX preview support is not available. Please refresh the page and try again.');
+        const response = await fetch(url, { credentials: 'omit' });
+        if (!response.ok) throw new Error(`JD request failed (HTTP ${response.status})`);
+        const blob = await response.blob();
+        await window.docx.renderAsync(blob, docxViewer, null, { breakPages: true, ignoreLastRenderedPageBreak: false, renderHeaders: true, renderFooters: true, renderFootnotes: true, renderEndnotes: true });
+        docxViewer.classList.remove('hidden');
+        loading.classList.add('hidden');
+      } else if (isPdf) {
+        frame.onload = () => { loading.classList.add('hidden'); frame.classList.remove('hidden'); };
+        frame.src = url + '#toolbar=1&navpanes=0&view=FitH';
+      } else {
+        loading.classList.add('hidden');
+        fallback.classList.remove('hidden');
+      }
     } catch (error) {
-      showFormMessage(`Could not ${action === 'view-url' ? 'open' : 'download'} JD: ${error.message || error}`, 'error');
+      closeJDViewer();
+      showFormMessage(`Could not open the JD: ${error.message || error}`, 'error');
+    }
+  }
+
+  async function downloadRequirementJD() {
+    try {
+      const data = await requirementDocumentAction('download-url');
+      if (!data.signed_url) throw new Error('The document link was not returned.');
+      const link = document.createElement('a');
+      link.href = data.signed_url;
+      link.download = currentJD?.file_name || 'Job-Description';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      showFormMessage(`Could not download the JD: ${error.message || error}`, 'error');
     }
   }
 
@@ -789,8 +857,9 @@
       $('jdSelectedFileName').textContent = 'No file selected';
       $('clearJDSelectionButton').classList.add('hidden');
     });
-    $('viewJDButton').addEventListener('click', () => openJDUrl('view-url'));
-    $('downloadJDButton').addEventListener('click', () => openJDUrl('download-url'));
+    $('viewJDButton').addEventListener('click', viewRequirementJD);
+    $('downloadJDButton').addEventListener('click', downloadRequirementJD);
+    $('closeJDButton').addEventListener('click', closeJDViewer);
     $('removeJDButton').addEventListener('click', removeRequirementJD);
     $('jobForm').addEventListener('click', (event) => {
       if (event.target.closest('[data-add-list], .remove-item')) markJobFormDirty();
