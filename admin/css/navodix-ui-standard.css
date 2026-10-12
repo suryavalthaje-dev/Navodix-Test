@@ -395,164 +395,126 @@
   }
 }
 
+
 /* ------------------------------------------------------------------
-   MODAL-ONLY SCOPE: do not add global list/table/filter/page selectors here.
-   Existing List Standard remains page-specific and must not be overridden.
-   Non-profile modal standardisation — Version 35
-   Protected: View Profile, Add Profile and Edit Profile are intentionally
-   excluded from these selectors and must retain their approved styling.
+   Shared standard for non-profile admin dialogs.
+   The approved View/Add/Edit Profile dialogs above are intentionally
+   excluded from these selectors and remain unchanged.
    ------------------------------------------------------------------ */
-#actionItemModal .action-item-modal,
-#actionDetailModal .action-detail-modal,
-#applicationModal .application-modal-standard,
-.modal-backdrop .master-modal {
-  border:3px solid var(--navodix-ui-border) !important;
+:where(.master-modal,.user-modal,.user-modal-dialog,.confirm-modal,
+       .application-interview-standard-modal,.application-note-standard-modal,
+       .action-item-modal,.action-detail-modal,#masterModal,#deleteMasterModal,
+       #deleteLocationModal,#customMasterModal,#deleteCustomMasterModal,
+       #applicationModal,#applicationNoteModal,#jobModal,#discardChangesModal,
+       #userDeleteConfirmModal,#actionItemDeleteConfirmModal,
+       #makeAllReadConfirmModal,#makeAllReadInfoModal) {
+  border:3px solid #2878E8 !important;
   border-radius:8px !important;
-  box-shadow:0 18px 48px rgba(15,35,70,.20) !important;
-  background:#FFFFFF !important;
+  box-sizing:border-box !important;
+  overflow:hidden;
 }
 
-#actionItemModal .action-item-modal > .modal-header,
-#actionDetailModal .action-detail-modal > .application-child-modal-header,
-#applicationModal .application-details-modal-header,
-.modal-backdrop .master-modal > .modal-header {
-  background:var(--navodix-ui-blue) !important;
-  color:#FFFFFF !important;
-  border:0 !important;
-  border-bottom:0 !important;
-  padding:10px 18px !important;
+/* Master-data dialogs */
+.master-modal .master-modal-header,
+.master-modal .modal-header,
+.user-modal-header,
+.user-modal .modal-header,
+.user-modal-dialog .modal-header,
+.application-interview-standard-modal .modal-header,
+.application-note-standard-modal .modal-header,
+.action-detail-modal .modal-header,
+#actionDetailModal .action-detail-modal-header {
   min-height:56px !important;
   height:56px !important;
-  box-sizing:border-box !important;
+  padding:10px 18px !important;
+  display:flex !important;
   align-items:center !important;
+  justify-content:space-between !important;
+  box-sizing:border-box !important;
+  background:#2878E8 !important;
+  color:#fff !important;
 }
-
-#actionItemModal .action-item-modal > .modal-header h2,
-#actionDetailModal .application-child-modal-header h2,
-#applicationModal .application-details-modal-header h2,
-.modal-backdrop .master-modal > .modal-header h2 {
-  color:#FFFFFF !important;
-  font-size:20px !important;
-  line-height:24px !important;
-  font-weight:600 !important;
+.master-modal .master-modal-header h2,
+.master-modal .modal-header h2,
+.user-modal-header h2,
+.user-modal .modal-header h2,
+.user-modal-dialog .modal-header h2,
+.application-interview-standard-modal .modal-header h2,
+.application-note-standard-modal .modal-header h2,
+.action-detail-modal .modal-header h2,
+#actionDetailModal .action-detail-modal-header h2 {
   margin:0 !important;
+  color:#fff !important;
+  font-size:20px !important;
+  font-weight:600 !important;
 }
 
-#actionItemModal .action-item-modal .modal-close,
-#actionDetailModal .action-detail-modal .modal-close,
-#applicationModal .application-modal-standard .modal-close,
-.modal-backdrop .master-modal .modal-close {
-  width:32px !important;
-  min-width:32px !important;
-  height:32px !important;
-  min-height:32px !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:4px !important;
-  background:transparent !important;
-  color:#FFFFFF !important;
-}
-
-#actionItemModal .action-item-modal-body {
-  padding:0 !important;
+.master-modal-body,
+.user-modal .modal-body,
+.user-modal-dialog .modal-body,
+.application-interview-standard-modal .modal-body,
+.application-note-standard-modal .modal-body,
+.action-detail-modal .action-detail-modal-body {
+  min-height:0;
+  overflow-y:auto !important;
   scrollbar-width:thin !important;
   scrollbar-color:#B8CADE transparent !important;
+  border-left:0 !important;
+  border-right:0 !important;
 }
-#actionItemModal .action-item-modal-body::-webkit-scrollbar,
-#actionDetailModal .application-child-modal-body::-webkit-scrollbar,
-#applicationModal .application-modal-body::-webkit-scrollbar,
-.modal-backdrop .master-modal-body::-webkit-scrollbar { width:6px; height:6px; }
-#actionItemModal .action-item-modal-body::-webkit-scrollbar-thumb,
-#actionDetailModal .application-child-modal-body::-webkit-scrollbar-thumb,
-#applicationModal .application-modal-body::-webkit-scrollbar-thumb,
-.modal-backdrop .master-modal-body::-webkit-scrollbar-thumb { background:#B8CADE; border-radius:6px; }
-
-/* Compact, balanced Add/Edit Action Item form. */
-#actionItemModal .action-form-grid {
-  padding:18px 22px 4px !important;
-  column-gap:16px !important;
-  row-gap:0 !important;
+.master-modal-body::-webkit-scrollbar,
+.user-modal .modal-body::-webkit-scrollbar,
+.user-modal-dialog .modal-body::-webkit-scrollbar,
+.application-interview-standard-modal .modal-body::-webkit-scrollbar,
+.application-note-standard-modal .modal-body::-webkit-scrollbar,
+.action-detail-modal .action-detail-modal-body::-webkit-scrollbar { width:6px !important; }
+.master-modal-body::-webkit-scrollbar-thumb,
+.user-modal .modal-body::-webkit-scrollbar-thumb,
+.user-modal-dialog .modal-body::-webkit-scrollbar-thumb,
+.application-interview-standard-modal .modal-body::-webkit-scrollbar-thumb,
+.application-note-standard-modal .modal-body::-webkit-scrollbar-thumb,
+.action-detail-modal .action-detail-modal-body::-webkit-scrollbar-thumb {
+  background:#B8CADE !important; border-radius:6px !important;
 }
-#actionItemModal .action-form-grid .field-group { margin-bottom:12px !important; min-width:0; }
-#actionItemModal .action-form-grid .field-group label {
-  display:block !important;
-  margin:0 0 5px !important;
-  color:var(--navodix-ui-label) !important;
-  font-size:11px !important;
-  line-height:15px !important;
-  font-weight:700 !important;
-}
-#actionItemModal .action-form-grid input,
-#actionItemModal .action-form-grid select,
-#actionItemModal .action-form-grid textarea {
-  width:100% !important;
-  box-sizing:border-box !important;
-  border:1px solid var(--navodix-ui-border) !important;
-  border-radius:6px !important;
-  background:#FFFFFF !important;
-  color:var(--navodix-ui-text) !important;
-  font-family:inherit !important;
-  font-size:12px !important;
-  outline:none !important;
-  box-shadow:none;
-}
-#actionItemModal .action-form-grid input,
-#actionItemModal .action-form-grid select:not(#actionSecondaryAssignee) {
-  height:36px !important;
-  min-height:36px !important;
-  padding:0 10px !important;
-}
-#actionItemModal .action-form-grid textarea {
-  min-height:62px !important;
-  height:62px !important;
-  padding:8px 10px !important;
-  line-height:1.4 !important;
-  resize:vertical !important;
-}
-#actionItemModal .action-form-grid select#actionSecondaryAssignee {
-  min-height:94px !important;
-  height:94px !important;
-  padding:5px 8px !important;
-}
-#actionItemModal .action-form-grid select#actionSecondaryAssignee option { padding:4px 5px !important; }
-#actionItemModal .action-form-grid .field-help-text {
-  margin-top:4px !important;
-  color:#64748B !important;
-  font-size:10px !important;
-  line-height:1.35 !important;
-}
-#actionItemModal .action-form-grid input:focus,
-#actionItemModal .action-form-grid select:focus,
-#actionItemModal .action-form-grid textarea:focus {
-  border-color:var(--navodix-ui-blue) !important;
-  box-shadow:0 0 0 2px rgba(40,120,232,.12) !important;
-}
-#actionItemModal .action-item-modal-footer,
-#actionDetailModal .application-child-modal-actions,
-#applicationModal .application-modal-standard-footer,
-.modal-backdrop .master-modal-footer {
-  background:var(--navodix-ui-footer) !important;
+.master-modal-footer,
+.user-modal .modal-footer,
+.user-modal-dialog .modal-footer,
+.application-interview-standard-modal .modal-footer,
+.application-note-standard-modal .modal-footer,
+.action-detail-modal .action-detail-modal-footer {
+  min-height:54px !important;
+  background:#C9D9EC !important;
   border-top:1px solid #B8CADE !important;
+  border-left:0 !important; border-right:0 !important; border-bottom:0 !important;
+  box-sizing:border-box !important;
 }
-#actionItemModal .action-item-modal-footer .btn,
-#actionDetailModal .application-child-modal-actions .btn,
-#applicationModal .application-modal-standard-footer .btn,
-.modal-backdrop .master-modal-footer .btn {
-  height:30px !important;
+.master-modal-footer button,
+.user-modal .modal-footer button,
+.user-modal-dialog .modal-footer button,
+.application-interview-standard-modal .modal-footer button,
+.application-note-standard-modal .modal-footer button,
+.action-detail-modal .action-detail-modal-footer button {
   min-height:30px !important;
+  height:30px !important;
   padding:5px 12px !important;
   border-radius:5px !important;
-  font-size:11px !important;
+  font-size:12px !important;
   font-weight:600 !important;
 }
-
-@media(max-width:700px) {
-  #actionItemModal .action-item-modal > .modal-header,
-  #actionDetailModal .action-detail-modal > .application-child-modal-header,
-  #applicationModal .application-details-modal-header,
-  .modal-backdrop .master-modal > .modal-header { padding:10px 14px !important; }
-  #actionItemModal .action-form-grid { padding:14px 14px 2px !important; }
-  #actionItemModal .action-form-grid { grid-template-columns:minmax(0,1fr) !important; }
-  #actionItemModal .action-form-grid .field-span-2 { grid-column:auto !important; }
+.master-modal label,
+.user-modal label,
+.user-modal-dialog label,
+.application-interview-standard-modal label,
+.application-note-standard-modal label,
+.action-item-modal label {
+  text-align:left !important;
+  color:#263F62 !important;
+  font-size:11px !important;
+  font-weight:700 !important;
 }
-
+.master-modal input,.master-modal select,.master-modal textarea,
+.user-modal input,.user-modal select,.user-modal textarea,
+.user-modal-dialog input,.user-modal-dialog select,.user-modal-dialog textarea,
+.application-interview-standard-modal input,.application-interview-standard-modal select,.application-interview-standard-modal textarea,
+.application-note-standard-modal input,.application-note-standard-modal select,.application-note-standard-modal textarea,
+.action-item-modal input,.action-item-modal select,.action-item-modal textarea { font-size:13px !important; }
