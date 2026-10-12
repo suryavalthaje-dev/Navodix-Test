@@ -22,8 +22,10 @@
 .npp-dialog,
 .nxr-dialog,
 .job-modal{
+  border:1px solid #CBD8E8 !important;
   border-radius:10px !important;
   overflow:hidden;
+  box-sizing:border-box !important;
 }
 
 /* Common modal header */
@@ -54,7 +56,7 @@
   color:#fff !important;
 }
 
-/* Scroll/content area: finalized 5px blue side borders. */
+/* Modal content uses the thin light-blue outer frame; no thick blue inner rails. */
 .profile-details-body,
 .profile-association-new-body,
 .profile-notes-new-body,
@@ -62,12 +64,12 @@
 .npp-body,
 .nxr-body,
 .application-child-modal-body{
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
+  border-left:0 !important;
+  border-right:0 !important;
   box-sizing:border-box !important;
 }
 
-/* Fixed footer/action areas: finalized deeper light-blue footer and 5px borders. */
+/* Fixed footer/action areas match View Profile: light-blue fill and subtle top rule. */
 .profile-details-actions,
 .profile-association-new-footer,
 .profile-notes-new-footer,
@@ -76,10 +78,65 @@
 .nxr-footer,
 .application-child-modal-actions{
   background:#C9D9EC !important;
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
-  border-bottom:5px solid #2878E8 !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-top:1px solid #B8CADE !important;
+  min-height:48px !important;
   box-sizing:border-box !important;
+}
+
+/* Match View Profile action-button geometry. */
+.profile-details-buttons .btn,
+.profile-details-actions .btn,
+.profile-association-new-footer .btn,
+.profile-notes-new-footer .btn,
+.profile-interview-modal-actions .btn,
+.npp-footer .btn,
+.nxr-footer .btn,
+.application-child-modal-actions .btn{
+  height:30px !important;
+  min-height:30px !important;
+  padding:5px 12px !important;
+  border-radius:5px !important;
+  font-size:10px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+}
+
+/* Consistent narrow scrollbars on modal scroll regions (Firefox and WebKit browsers). */
+.profile-details-body,
+.profile-association-new-body,
+.profile-notes-new-body,
+.profile-interview-modal-body,
+.npp-body,
+.nxr-body,
+.application-child-modal-body,
+.profile-list-modal-standard-body{
+  scrollbar-width:thin !important;
+  scrollbar-color:#B8CADE transparent !important;
+}
+.profile-details-body::-webkit-scrollbar,
+.profile-association-new-body::-webkit-scrollbar,
+.profile-notes-new-body::-webkit-scrollbar,
+.profile-interview-modal-body::-webkit-scrollbar,
+.npp-body::-webkit-scrollbar,
+.nxr-body::-webkit-scrollbar,
+.application-child-modal-body::-webkit-scrollbar,
+.profile-list-modal-standard-body::-webkit-scrollbar{
+  width:6px !important;
+  height:6px !important;
+}
+.profile-details-body::-webkit-scrollbar-thumb,
+.profile-association-new-body::-webkit-scrollbar-thumb,
+.profile-notes-new-body::-webkit-scrollbar-thumb,
+.profile-interview-modal-body::-webkit-scrollbar-thumb,
+.npp-body::-webkit-scrollbar-thumb,
+.nxr-body::-webkit-scrollbar-thumb,
+.application-child-modal-body::-webkit-scrollbar-thumb,
+.profile-list-modal-standard-body::-webkit-scrollbar-thumb{
+  background:#B8CADE !important;
+  border-radius:6px !important;
 }
 
 /* Common modal buttons: finalized single blue treatment. */
@@ -212,8 +269,8 @@
   .npp-body,
   .nxr-body,
   .application-child-modal-body{
-    border-left-width:5px !important;
-    border-right-width:5px !important;
+    border-left-width:0 !important;
+    border-right-width:0 !important;
   }
 }
 
