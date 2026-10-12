@@ -122,7 +122,6 @@
       const isDocx = /\.docx$/i.test(fileName);
       $('openJDNewTabButton').onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
       $('openJDNewTabButton').classList.remove('hidden');
-      $('closeJDButton').classList.remove('hidden');
       if (isDocx) {
         if (typeof window.docx === 'undefined' || typeof window.docx.renderAsync !== 'function') throw new Error('DOCX preview support is not available. Please refresh the page and try again.');
         const response = await fetch(url, { credentials: 'omit' });
@@ -131,8 +130,9 @@
         await window.docx.renderAsync(blob, docxViewer, null, { breakPages: true, ignoreLastRenderedPageBreak: false, renderHeaders: true, renderFooters: true, renderFootnotes: true, renderEndnotes: true });
         docxViewer.classList.remove('hidden');
         loading.classList.add('hidden');
+        $('closeJDButton').classList.remove('hidden');
       } else if (isPdf) {
-        frame.onload = () => { loading.classList.add('hidden'); frame.classList.remove('hidden'); };
+        frame.onload = () => { loading.classList.add('hidden'); frame.classList.remove('hidden'); $('closeJDButton').classList.remove('hidden'); };
         frame.src = url + '#toolbar=1&navpanes=0&view=FitH';
       } else {
         loading.classList.add('hidden');
