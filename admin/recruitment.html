@@ -1392,8 +1392,10 @@ body.admin-app-page{
               <span id="jdCurrentFileName" class="jd-current-file-name"></span>
               <span id="jdCurrentFileSize" class="jd-current-file-size"></span>
               <div class="jd-document-actions">
-                <button class="btn btn-outline btn-small" id="viewJDButton" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i> View</button>
-                <button class="btn btn-outline btn-small" id="downloadJDButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Download</button>
+                <button class="btn btn-outline btn-small" id="viewJDButton" type="button"><i class="fa-solid fa-eye" aria-hidden="true"></i> View JD</button>
+                <button class="btn btn-outline btn-small hidden" id="openJDNewTabButton" type="button"><i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open in New Tab</button>
+                <button class="btn btn-outline btn-small" id="downloadJDButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Download JD</button>
+                <button class="btn btn-outline btn-small hidden" id="closeJDButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close JD</button>
                 <button class="btn btn-outline btn-small jd-remove-button" id="removeJDButton" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Remove</button>
               </div>
             </div>
@@ -1404,6 +1406,12 @@ body.admin-app-page{
               <button class="btn btn-outline btn-small hidden" id="clearJDSelectionButton" type="button">Clear selection</button>
             </div>
             <p class="jd-document-help">For a new requirement, save the requirement first. The selected JD will then be uploaded.</p>
+            <div id="jdInlineViewer" class="jd-inline-viewer hidden" aria-label="Job Description viewer">
+              <div id="jdViewerLoading" class="jd-viewer-loading">Preparing JD document…</div>
+              <iframe id="jdViewerFrame" class="jd-viewer-frame hidden" title="Job Description Document"></iframe>
+              <div id="jdDocxViewer" class="jd-docx-viewer hidden" aria-label="Job Description Document"></div>
+              <div id="jdViewerFallback" class="jd-viewer-fallback hidden">This file type may not be previewed by your browser. Use Download JD to open it in a compatible application.</div>
+            </div>
           </section>
 
           <div class="requirement-repeat-section field-span-2">
@@ -1579,9 +1587,24 @@ body.admin-app-page{
   .jobs-toolbar .btn{justify-self:stretch;}
   .jobs-heading-actions{width:100%;justify-content:flex-end !important;}
 }
+/* Inline JD viewer follows the existing Profile Management resume viewer pattern. */
+#jobModal .jd-inline-viewer{padding:10px 12px 12px;border-top:1px solid #DCE4EE;background:#F8FAFC;}
+#jobModal .jd-inline-viewer.hidden{display:none !important;}
+#jobModal .jd-viewer-loading,#jobModal .jd-viewer-fallback{padding:12px;color:#52637A;font-size:12px;}
+#jobModal .jd-viewer-frame{display:block;width:100%;height:min(62vh,620px);min-height:360px;border:1px solid #CBD5E1;background:#FFFFFF;border-radius:4px;}
+#jobModal .jd-viewer-frame.hidden,#jobModal .jd-docx-viewer.hidden,#jobModal .jd-viewer-fallback.hidden{display:none !important;}
+#jobModal .jd-docx-viewer{height:min(62vh,620px);min-height:360px;overflow:auto;padding:20px;background:#FFFFFF;border:1px solid #CBD5E1;border-radius:4px;box-sizing:border-box;}
+#jobModal .jd-docx-viewer .docx-wrapper{background:#E5E7EB;padding:12px;}
+#jobModal .jd-docx-viewer .docx-wrapper > section.docx{margin:0 auto 12px;box-shadow:0 1px 5px rgba(0,0,0,.12);}
+
+#jobModal .jd-document-actions .btn{background:#2878E8;border-color:#2878E8;color:#FFFFFF;}
+#jobModal .jd-document-actions .btn:hover:not(:disabled){background:#1D63C7;border-color:#1D63C7;color:#FFFFFF;}
+@media(max-width:700px){#jobModal .jd-viewer-frame,#jobModal .jd-docx-viewer{height:55vh;min-height:280px;}}
 </style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
   <script src="js/config.js?v=17"></script>
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
