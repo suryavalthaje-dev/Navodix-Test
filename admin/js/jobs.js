@@ -487,6 +487,7 @@
     $('jobCategory').value = '';
     $('jobOpenDate').value = '';
     $('jobCode').value = '';
+    $('numberOfPositions').value = '';
     $('skillLevel').value = '';
     $('jobStatus').value = 'draft';
     clearList('responsibilities');
@@ -533,6 +534,7 @@
       $('jobOpenDate').value = job.job_open_date || '';
       $('skillLevel').value = job.skill_level || '';
       $('jobTitle').value = job.title || '';
+      $('numberOfPositions').value = job.number_of_positions == null ? '' : String(job.number_of_positions);
       const matchedLocation = locations.find(item => item.id === job.location_id) ||
         locations.find(item => String(item.location_name || '').trim().toLowerCase() === String(job.location || '').trim().toLowerCase());
       $('jobLocation').value = matchedLocation ? matchedLocation.id : '';
@@ -652,6 +654,8 @@
     const categoryId = $('jobCategory').value;
     const jobOpenDate = $('jobOpenDate').value;
     const title = $('jobTitle').value.trim();
+    const positionsRaw = $('numberOfPositions').value.trim();
+    const numberOfPositions = positionsRaw === '' ? null : Number(positionsRaw);
     const locationId = $('jobLocation').value;
     const selectedLocation = locations.find(item => item.id === locationId);
     const location = selectedLocation ? selectedLocation.location_name : '';
@@ -668,6 +672,11 @@
       showFormMessage('Please complete all required fields.', 'error');
       return;
     }
+    if (numberOfPositions !== null && (!Number.isInteger(numberOfPositions) || numberOfPositions < 1)) {
+      showFormMessage('Number of Positions must be a whole number greater than zero.', 'error');
+      $('numberOfPositions').focus();
+      return;
+    }
 
     saving = true;
     const button = $('saveJobButton');
@@ -682,6 +691,7 @@
         // Job Code is permanent after creation and is intentionally not editable.
         const payload = {
           title,
+          number_of_positions: numberOfPositions,
           location,
           location_id: locationId,
           employment_type: employmentType,
@@ -740,6 +750,15 @@
           .single();
         if (salaryError) throw salaryError;
         savedJob = salaryUpdatedJob;
+
+        // Keep the position count informational and independent of vacancy/status logic.
+        const { data: positionsUpdatedJob, error: positionsError } = await supabase.from('jobs')
+          .update({ number_of_positions: numberOfPositions })
+          .eq('id', savedJob.id)
+          .select('*')
+          .single();
+        if (positionsError) throw positionsError;
+        savedJob = positionsUpdatedJob;
       }
 
       await Promise.all([
