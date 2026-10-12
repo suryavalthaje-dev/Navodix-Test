@@ -329,11 +329,12 @@
 #jobModal .requirement-jd-heading p{margin:0;color:#667085;font-size:11px;line-height:1.4;}
 #jobModal .jd-document-status{flex:0 0 auto;color:#667085;font-size:11px;font-weight:600;}
 #jobModal .jd-document-status.has-document{color:#087A5A;}
-#jobModal .jd-current-document{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #E5EBF2;color:#29415E;font-size:12px;}
+#jobModal .jd-current-document{display:grid;grid-template-columns:12px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:8px;row-gap:8px;padding:10px 12px;border-bottom:1px solid #E5EBF2;color:#29415E;font-size:12px;}
+#jobModal .jd-current-document > .fa-file-lines{grid-column:1;grid-row:1;align-self:center;}
 #jobModal .jd-current-document.hidden{display:none;}
-#jobModal .jd-current-file-name{font-weight:600;overflow-wrap:anywhere;}
-#jobModal .jd-current-file-size{color:#718096;font-size:11px;white-space:nowrap;}
-#jobModal .jd-document-actions{display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;}
+#jobModal .jd-current-file-name{grid-column:2;grid-row:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#jobModal .jd-current-file-size{grid-column:3;grid-row:1;color:#718096;font-size:11px;white-space:nowrap;}
+#jobModal .jd-document-actions{grid-column:1/-1;grid-row:2;display:flex;gap:6px;align-items:center;justify-content:flex-start;margin-left:0;flex-wrap:wrap;}
 #jobModal .jd-document-actions .btn,#jobModal .jd-upload-controls .btn{height:28px;min-height:28px;padding:4px 8px;border-radius:5px;font-size:11px;white-space:nowrap;}
 #jobModal .jd-remove-button{color:#B42318;border-color:#E8B4B0;}
 #jobModal .jd-upload-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 12px;}
@@ -341,7 +342,7 @@
 #jobModal .jd-file-label{display:inline-flex;align-items:center;gap:6px;height:29px;padding:0 10px;border:1px solid #B8CBE0;border-radius:5px;background:#EEF5FC;color:#173F78;font-size:11px;font-weight:600;cursor:pointer;}
 #jobModal .jd-selected-file-name{color:#667085;font-size:11px;overflow-wrap:anywhere;}
 #jobModal .jd-document-help{margin:0;padding:0 12px 10px;color:#718096;font-size:10.5px;line-height:1.35;}
-@media(max-width:700px){#jobModal .requirement-jd-section{grid-column:1;}#jobModal .requirement-jd-heading{align-items:flex-start;flex-direction:column;}#jobModal .jd-current-document{align-items:flex-start;flex-wrap:wrap;}#jobModal .jd-document-actions{width:100%;margin-left:0;}}
+@media(max-width:700px){#jobModal .requirement-jd-section{grid-column:1;}#jobModal .requirement-jd-heading{align-items:flex-start;flex-direction:column;}#jobModal .jd-current-document{grid-template-columns:12px minmax(0,1fr) auto;align-items:center;}#jobModal .jd-document-actions{width:100%;margin-left:0;}}
 
 </style>
 
