@@ -3510,3 +3510,29 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 })();
 </script>
 </body></html>
+
+<style id="profile-modal-refinement-v1">
+/* Refinements requested after prototype layout approval: elegant full modal frame, wider Add/Edit, slightly left-shifted content, taller Skills field. */
+#profileModal .npp-dialog{
+  width:min(960px,calc(100vw - 24px))!important;
+  max-width:960px!important;
+  border:1px solid #C7D8EC!important;
+  border-radius:10px!important;
+  box-shadow:0 18px 48px rgba(7,29,73,.20)!important;
+}
+#profileModal .npp-header{border-radius:9px 9px 0 0!important;}
+#profileModal .npp-body{padding-left:12px!important;padding-right:18px!important;}
+#profileModal .npp-footer{border-left:0!important;border-right:0!important;border-bottom:0!important;}
+#profileModal .profile-form-grid #skills{height:72px!important;min-height:72px!important;}
+#profileDetailsModal .profile-details-modal{
+  border:1px solid #C7D8EC!important;
+  border-radius:10px!important;
+  box-shadow:0 18px 48px rgba(7,29,73,.20)!important;
+}
+#profileDetailsModal .profile-details-body{padding-left:12px!important;padding-right:18px!important;}
+#profileDetailsModal .profile-details-actions{border-left:0!important;border-right:0!important;border-bottom:0!important;}
+@media(max-width:600px){
+  #profileModal .npp-dialog{width:calc(100vw - 12px)!important;max-width:calc(100vw - 12px)!important;border-radius:10px!important;}
+  #profileModal .npp-body,#profileDetailsModal .profile-details-body{padding-left:10px!important;padding-right:10px!important;}
+}
+</style>
