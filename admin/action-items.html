@@ -369,7 +369,8 @@
   display:flex !important;
   flex-direction:column !important;
   overflow:hidden !important;
-  border-radius:10px !important;
+  border:3px solid #2878E8 !important;
+  border-radius:8px !important;
   box-sizing:border-box !important;
   width:min(810px, calc(100vw - 24px)) !important;
   max-width:calc(100vw - 24px) !important;
@@ -432,6 +433,83 @@
   min-height:32px !important;
   height:32px !important;
   margin:0 !important;
+}
+/* Compact, consistent form rhythm for Add/Edit Action Item only. */
+#actionItemModal .action-item-modal-body{
+  padding:16px 20px 8px !important;
+  scrollbar-width:thin !important;
+  scrollbar-color:#B8CADE transparent !important;
+}
+#actionItemModal .action-item-modal-body::-webkit-scrollbar{width:6px !important;}
+#actionItemModal .action-item-modal-body::-webkit-scrollbar-thumb{background:#B8CADE !important;border-radius:6px !important;}
+#actionItemModal .action-form-grid{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  column-gap:18px !important;
+  row-gap:0 !important;
+  padding:0 !important;
+}
+#actionItemModal .action-form-grid .field-group{
+  min-width:0 !important;
+  margin:0 0 12px !important;
+}
+#actionItemModal .action-form-grid .field-group label{
+  display:block !important;
+  margin:0 0 5px !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  font-weight:600 !important;
+  color:#263F62 !important;
+}
+#actionItemModal .action-form-grid input,
+#actionItemModal .action-form-grid select{
+  width:100% !important;
+  min-width:0 !important;
+  height:36px !important;
+  min-height:36px !important;
+  padding:0 10px !important;
+  box-sizing:border-box !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:5px !important;
+  font-size:12px !important;
+}
+#actionItemModal .action-form-grid textarea{
+  width:100% !important;
+  min-height:66px !important;
+  height:66px !important;
+  padding:8px 10px !important;
+  box-sizing:border-box !important;
+  border:1px solid #CBD8E8 !important;
+  border-radius:5px !important;
+  font-size:12px !important;
+  resize:vertical !important;
+}
+#actionItemModal .action-form-grid select[multiple]{
+  height:76px !important;
+  min-height:76px !important;
+  padding:5px 8px !important;
+}
+#actionItemModal .action-form-grid .field-help-text{
+  display:block !important;
+  margin-top:4px !important;
+  font-size:10px !important;
+  line-height:1.35 !important;
+  color:#64748B !important;
+}
+#actionItemModal .action-form-grid input:focus,
+#actionItemModal .action-form-grid select:focus,
+#actionItemModal .action-form-grid textarea:focus{
+  border-color:#2878E8 !important;
+  outline:none !important;
+  box-shadow:0 0 0 2px rgba(40,120,232,.12) !important;
+}
+#actionItemModal .action-item-modal-footer.profile-interview-modal-actions{
+  background:#C9D9EC !important;
+  border-top:1px solid #B8CADE !important;
+}
+@media(max-width:600px){
+  #actionItemModal .action-form-grid{grid-template-columns:minmax(0,1fr) !important;}
+  #actionItemModal .action-form-grid .field-span-2{grid-column:auto !important;}
 }
 @media (max-height: 760px){
   #actionItemModal .action-item-modal.profile-interview-modal-shell{
