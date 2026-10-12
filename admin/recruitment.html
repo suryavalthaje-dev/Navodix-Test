@@ -1411,6 +1411,11 @@ body.admin-app-page{
             <input id="jobTitle" required maxlength="150" placeholder="e.g. IT Infrastructure Engineer">
           </div>
           <div class="field-group">
+            <label for="numberOfPositions">Number of Positions</label>
+            <input id="numberOfPositions" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 3">
+            <small class="field-help">Informational only; enter the total number of positions for this requirement.</small>
+          </div>
+          <div class="field-group">
             <label for="jobLocation">Location <span>*</span></label>
             <select id="jobLocation" required>
               <option value="">Select Location</option>
@@ -1690,7 +1695,7 @@ body.admin-app-page{
   <script src="js/config.js?v=17"></script>
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
-  <script src="js/jobs.js?v=17"></script>
+  <script src="js/jobs.js?v=18"></script>
   <script>
     (function(){
       const button=document.getElementById('columnsButton');
