@@ -259,16 +259,12 @@
       line-height:1.4;
     }
     .profile-association-panel strong { color:#164B96; }
-    .resume-box {
-      border:1px dashed #AFC2DF;
-      border-radius:7px;
-      padding:12px 14px;
-      background:#F8FAFC;
-    }
-    .resume-upload-row { display:flex; align-items:center; gap:12px; width:100%; }
-    .resume-upload-row input[type=file] { flex:1 1 auto; min-width:0; }
-    .existing-resume-name { flex:0 0 260px; max-width:42%; color:#164B96; font-size:12px; font-weight:600; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .resume-box small { display:block; color:var(--text-muted); margin-top:6px; font-size:11px; }
+    /* Resume upload card follows the approved Manage Requirements JD attachment layout. */
+    #profileModal .resume-box{grid-column:1/-1;min-width:0;margin:0;border:1px solid #DCE4EE;border-radius:5px;padding:0;background:#FFFFFF;overflow:hidden;box-sizing:border-box;}
+    #profileModal .resume-upload-row{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%;padding:10px 12px;box-sizing:border-box;}
+    #profileModal .resume-upload-row input[type=file]{display:block;flex:0 0 auto;min-width:0;width:100%;box-sizing:border-box;border:1px solid #B8CBE0;border-radius:5px;padding:5px 8px;background:#FFFFFF;color:#52647D;font-size:11px;}
+    #profileModal .existing-resume-name{display:block;flex:none;width:100%;max-width:100%;box-sizing:border-box;color:#29415E;font-size:12px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    #profileModal .resume-box small{display:block;margin:0;padding:0 12px 10px;color:#718096;font-size:10.5px;line-height:1.35;}
     .profile-detail-section-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .profile-detail-section-title-row .btn { flex:0 0 auto; }
     
@@ -350,8 +346,6 @@
       .profile-context { align-items:flex-start; flex-direction:column; }
     }
     @media(max-width:700px){
-      .resume-upload-row { flex-direction:column; align-items:stretch; }
-      .existing-resume-name { flex:0 0 auto; max-width:100%; text-align:left; }
     }
     @media(max-width:560px){
       .profile-toolbar { grid-template-columns:1fr; }
@@ -562,7 +556,14 @@
   .profile-interview-modal-shell .profile-interview-table th, .profile-interview-modal-shell .profile-interview-table td { font-size:10px !important; padding:6px 5px !important; }
 }
 
-    .profile-resume-actions { display:inline-flex; gap:8px; margin-left:12px; vertical-align:middle; flex-wrap:wrap; }
+    .profile-resume-actions { display:flex; gap:6px; margin:8px 0 0; vertical-align:middle; flex-wrap:wrap; }
+    .profile-resume-file-row{display:grid;grid-template-columns:16px minmax(0,1fr) auto;align-items:center;gap:8px;color:#29415E;font-size:12px;}
+    .profile-resume-file-name{min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .profile-resume-file-size{color:#718096;font-size:11px;white-space:nowrap;}
+    #profileDetailsBody .profile-resume-card{border:1px solid #DCE4EE;border-radius:5px;background:#FFFFFF;overflow:hidden;padding:10px 12px;}
+    #profileDetailsBody .profile-resume-card .profile-detail-label{display:block;margin-bottom:6px;}
+    #profileDetailsBody .profile-resume-card .profile-resume-viewer{margin-top:12px;}
+    #profileDetailsBody .profile-resume-card .profile-resume-last-updated{margin:12px -12px -10px;padding:10px 12px;border-top:1px solid #E5EBF2;}
     .profile-resume-last-updated { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
     .profile-resume-last-updated-content { min-width:0; }
     .profile-resume-last-updated-value { min-width:0; }
@@ -2820,6 +2821,15 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
+
+<style id="profile-resume-jd-style">
+#profileDetailsBody .profile-resume-actions .btn{height:29px;min-height:29px;padding:5px 9px;border-radius:5px;font-size:11px;white-space:nowrap;background:#2878E8;border-color:#2878E8;color:#FFFFFF;}
+#profileDetailsBody .profile-resume-actions .btn:hover:not(:disabled){background:#1D63C7;border-color:#1D63C7;color:#FFFFFF;}
+#profileDetailsBody .profile-resume-last-updated{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;}
+#profileDetailsBody .profile-resume-last-updated-content{min-width:0;}
+@media(max-width:700px){#profileDetailsBody .profile-resume-actions{display:flex;gap:6px;margin-top:8px;}#profileDetailsBody .profile-resume-actions .btn{width:auto;}}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -2922,7 +2932,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div class="field-group"><label>Source <span>*</span></label><select id="profileSource" required><option value="">Select Source</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select></div><div class="field-group"><label>Source Details</label><input id="sourceDetails" placeholder="Optional details, e.g. Naukri, LinkedIn, employee name, agency, etc."></div><div id="referrerFields" class="field-span-2 referrer-fields hidden"><div class="referrer-fields-title">Referrer Details <span>(Optional)</span></div><div class="referrer-grid"><div class="field-group"><label>Referrer Name</label><input id="referrerName" type="text"></div><div class="field-group"><label>Mobile Number</label><input id="referrerMobile" type="tel"></div><div class="field-group"><label>Email Address</label><input id="referrerEmail" type="email"></div></div></div>
 <div class="field-group field-span-2"><label>Skills</label><textarea id="skills" rows="3" placeholder="Enter skills separated by commas"></textarea></div><div class="field-group field-span-2"><label>Additional Information</label><textarea id="additionalInformation" rows="4"></textarea></div>
 <div class="profile-form-section-title">Resume</div>
-<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
+<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
 </div>
 <div id="resumeReplaceNotice" class="duplicate-box hidden"><strong>Existing resume found</strong><span>A resume is already stored for this profile. Choose whether to keep the existing resume or replace it with the newly selected file.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-outline" id="keepResumeButton">Keep Existing Resume</button><button type="button" class="btn btn-primary" id="replaceResumeButton">Replace with New Resume</button></div></div>
 </div>
@@ -3258,18 +3268,6 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   #associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}
   #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px 12px !important;}
 }
-
-/* Resume section presentation standard: filename on one line, controls on their own row. */
-.resume-box { padding:10px 12px !important; border:1px solid #D8E0EA !important; background:#FFFFFF !important; }
-.resume-upload-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; width:100%; }
-.resume-upload-row input[type=file] { flex:1 1 100%; min-width:0; }
-.existing-resume-name { display:block; flex:1 1 100%; max-width:100%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.resume-box small { margin-top:8px; }
-
-.profile-resume-file-row{display:flex;align-items:center;gap:8px;min-width:0;margin:2px 0 8px;color:#263B5A;font-size:12px;}
-.profile-resume-file-name{display:block;min-width:0;flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.profile-resume-actions{display:flex !important;flex-wrap:wrap;gap:6px !important;margin:0 0 10px !important;}
-.profile-resume-actions .btn{flex:0 0 auto;}
 </style>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
   <div class="profile-interview-modal-shell profile-status-history-modal" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle">
