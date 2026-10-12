@@ -344,6 +344,87 @@
 #jobModal .jd-document-help{margin:0;padding:0 12px 10px;color:#718096;font-size:10.5px;line-height:1.35;}
 @media(max-width:700px){#jobModal .requirement-jd-section{grid-column:1;}#jobModal .requirement-jd-heading{align-items:flex-start;flex-direction:column;}#jobModal .jd-current-document{grid-template-columns:12px minmax(0,1fr) auto;align-items:center;}#jobModal .jd-document-actions{width:100%;margin-left:0;}}
 
+
+
+/* Add/Edit Requirement modal — final scoped alignment with the approved
+   Navodix Shared Modal UI Standard (View Profile reference). */
+#jobModal .job-modal {
+  width:min(760px,calc(100vw - 32px)) !important;
+  max-width:760px !important;
+  max-height:calc(100vh - 32px) !important;
+  height:min(calc(100vh - 32px),900px) !important;
+  border:3px solid var(--navodix-modal-frame,#2878E8) !important;
+  border-radius:8px !important;
+  overflow:hidden !important;
+  box-shadow:0 8px 26px rgba(24,55,96,.18) !important;
+}
+#jobModal .modal-header {
+  height:56px !important;
+  min-height:56px !important;
+  flex:0 0 56px !important;
+  padding:8px 16px !important;
+  border:0 !important;
+}
+#jobModal .modal-header .section-badge {font-size:9px !important;line-height:11px !important;letter-spacing:.55px !important;margin-bottom:1px !important;}
+#jobModal .modal-header h2 {font-size:18px !important;line-height:22px !important;font-weight:600 !important;}
+#jobModal #jobForm {min-height:0 !important;flex:1 1 auto !important;overflow:hidden !important;}
+#jobModal .requirement-form-grid {
+  padding:14px 16px 10px !important;
+  gap:0 14px !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-top:0 !important;
+  border-bottom:0 !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain !important;
+  scrollbar-width:thin !important;
+  scrollbar-color:#B8CADE transparent !important;
+}
+#jobModal .requirement-form-grid::-webkit-scrollbar {width:6px !important;height:6px !important;}
+#jobModal .requirement-form-grid::-webkit-scrollbar-thumb {background:#B8CADE !important;border-radius:6px !important;}
+#jobModal .requirement-form-grid .field-group {margin-bottom:8px !important;}
+#jobModal .requirement-form-section-title {
+  margin:5px 0 10px !important;
+  padding:7px 9px !important;
+  border-left:2px solid #2878E8 !important;
+  border-bottom:1px solid #D8E0EA !important;
+  font-size:11px !important;
+}
+#jobModal .requirement-form-grid .field-group label {font-size:11px !important;margin-bottom:4px !important;}
+#jobModal .requirement-form-grid input,
+#jobModal .requirement-form-grid select {height:32px !important;min-height:32px !important;padding:0 9px !important;font-size:13px !important;border-radius:5px !important;}
+#jobModal .requirement-form-grid textarea {min-height:56px !important;padding:7px 9px !important;font-size:13px !important;border-radius:5px !important;}
+#jobModal .field-help {margin-top:4px !important;font-size:10.5px !important;}
+#jobModal .requirement-repeat-section,
+#jobModal .requirement-jd-section {margin-bottom:10px !important;border:1px solid #DCE4EE !important;border-radius:5px !important;}
+#jobModal .requirement-repeat-section .repeat-heading {min-height:46px !important;padding:7px 10px !important;border-left:2px solid #2878E8 !important;}
+#jobModal .requirement-repeat-section .repeat-heading h3,
+#jobModal .requirement-jd-heading h3 {font-size:11px !important;}
+#jobModal .requirement-repeat-section .repeat-list {padding:8px 10px 10px !important;gap:7px !important;}
+#jobModal .requirement-jd-heading {padding:8px 10px !important;}
+#jobModal .jd-current-document {padding:8px 10px !important;}
+#jobModal .jd-upload-controls {padding:8px 10px !important;}
+#jobModal .jd-document-help {padding:0 10px 8px !important;}
+#jobModal .modal-actions {
+  min-height:54px !important;
+  height:54px !important;
+  flex:0 0 54px !important;
+  padding:8px 14px !important;
+  background:#F4F7FB !important;
+  border-top:1px solid #DCE4EE !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  gap:12px !important;
+}
+#jobModal .modal-actions .btn {min-width:96px !important;height:32px !important;padding:6px 13px !important;border-radius:5px !important;font-size:12px !important;}
+#jobModal #jobFormMessage {max-height:34px !important;line-height:14px !important;}
+@media(max-width:700px){
+  #jobModal .job-modal {width:calc(100vw - 20px) !important;max-height:calc(100vh - 20px) !important;height:calc(100vh - 20px) !important;}
+  #jobModal .requirement-form-grid {padding:12px !important;}
+  #jobModal .modal-actions {padding:8px 12px !important;}
+}
+
 </style>
 
 <style id="navodix-list-standard-final-v3">
