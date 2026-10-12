@@ -259,12 +259,21 @@
       line-height:1.4;
     }
     .profile-association-panel strong { color:#164B96; }
-    /* Resume upload card follows the approved Manage Requirements JD attachment layout. */
+    /* Resume attachment card mirrors the Manage Requirements JD card, including its custom file chooser. */
     #profileModal .resume-box{grid-column:1/-1;min-width:0;margin:0;border:1px solid #DCE4EE;border-radius:5px;padding:0;background:#FFFFFF;overflow:hidden;box-sizing:border-box;}
-    #profileModal .resume-upload-row{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%;padding:10px 12px;box-sizing:border-box;}
-    #profileModal .resume-upload-row input[type=file]{display:block;flex:0 0 auto;min-width:0;width:100%;box-sizing:border-box;border:1px solid #B8CBE0;border-radius:5px;padding:5px 8px;background:#FFFFFF;color:#52647D;font-size:11px;}
+    #profileModal .resume-card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#F4F7FA;border-bottom:1px solid #D8E0EA;}
+    #profileModal .resume-card-heading h3{margin:0 0 3px;color:#263F62;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.35px;}
+    #profileModal .resume-card-heading p{margin:0;color:#667085;font-size:11px;line-height:1.4;}
+    #profileModal .resume-document-status{flex:0 0 auto;color:#667085;font-size:11px;font-weight:600;}
+    #profileModal .resume-document-status.has-document{color:#087A5A;}
+    #profileModal .resume-upload-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 12px;box-sizing:border-box;width:100%;}
+    #profileModal #resumeFile{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
+    #profileModal .resume-file-label{display:inline-flex;align-items:center;gap:6px;height:29px;padding:0 10px;border:1px solid #B8CBE0;border-radius:5px;background:#EEF5FC;color:#173F78;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;}
+    #profileModal .resume-selected-file-name{color:#667085;font-size:11px;overflow-wrap:anywhere;}
     #profileModal .existing-resume-name{display:block;flex:none;width:100%;max-width:100%;box-sizing:border-box;color:#29415E;font-size:12px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    #profileModal .resume-existing-row{display:flex;align-items:center;gap:8px;padding:10px 12px 0;color:#29415E;font-size:12px;}
     #profileModal .resume-box small{display:block;margin:0;padding:0 12px 10px;color:#718096;font-size:10.5px;line-height:1.35;}
+    @media(max-width:700px){#profileModal .resume-card-heading{align-items:flex-start;flex-direction:column;}#profileModal .resume-upload-row{align-items:flex-start;}}
     .profile-detail-section-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .profile-detail-section-title-row .btn { flex:0 0 auto; }
     
@@ -346,6 +355,8 @@
       .profile-context { align-items:flex-start; flex-direction:column; }
     }
     @media(max-width:700px){
+      .resume-upload-row { flex-direction:column; align-items:stretch; }
+      .existing-resume-name { flex:0 0 auto; max-width:100%; text-align:left; }
     }
     @media(max-width:560px){
       .profile-toolbar { grid-template-columns:1fr; }
@@ -556,14 +567,14 @@
   .profile-interview-modal-shell .profile-interview-table th, .profile-interview-modal-shell .profile-interview-table td { font-size:10px !important; padding:6px 5px !important; }
 }
 
-    .profile-resume-actions { display:flex; gap:6px; margin:8px 0 0; vertical-align:middle; flex-wrap:wrap; }
-    .profile-resume-file-row{display:grid;grid-template-columns:16px minmax(0,1fr) auto;align-items:center;gap:8px;color:#29415E;font-size:12px;}
-    .profile-resume-file-name{min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .profile-resume-file-size{color:#718096;font-size:11px;white-space:nowrap;}
-    #profileDetailsBody .profile-resume-card{border:1px solid #DCE4EE;border-radius:5px;background:#FFFFFF;overflow:hidden;padding:10px 12px;}
-    #profileDetailsBody .profile-resume-card .profile-detail-label{display:block;margin-bottom:6px;}
-    #profileDetailsBody .profile-resume-card .profile-resume-viewer{margin-top:12px;}
-    #profileDetailsBody .profile-resume-card .profile-resume-last-updated{margin:12px -12px -10px;padding:10px 12px;border-top:1px solid #E5EBF2;}
+    /* View Profile resume card mirrors the Manage Requirements JD attachment card. */
+    #profileDetailsModal .profile-resume-card{border:1px solid #DCE4EE;border-radius:5px;background:#FFFFFF;overflow:hidden;box-sizing:border-box;}
+    #profileDetailsModal .profile-resume-card-heading{padding:10px 12px;background:#F4F7FA;border-bottom:1px solid #D8E0EA;color:#263F62;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.35px;}
+    #profileDetailsModal .profile-resume-file-row{display:flex;align-items:center;gap:8px;padding:10px 12px;color:#29415E;font-size:12px;min-width:0;}
+    #profileDetailsModal .profile-resume-file-row .profile-resume-file-name{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;}
+    #profileDetailsModal .profile-resume-action-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:0 12px 10px;}
+    #profileDetailsModal .profile-resume-action-row .btn{height:28px;min-height:28px;padding:4px 8px;border-radius:5px;font-size:11px;white-space:nowrap;}
+    .profile-resume-actions { display:flex; gap:6px; margin:0; vertical-align:middle; flex-wrap:wrap; }
     .profile-resume-last-updated { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
     .profile-resume-last-updated-content { min-width:0; }
     .profile-resume-last-updated-value { min-width:0; }
@@ -1189,7 +1200,6 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 #profileModal .profile-category-item{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:12px !important;}
 #profileModal .referrer-fields{margin:0 0 3px !important; padding:10px 12px 0 !important; border-radius:7px !important;}
 #profileModal .resume-box{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;}
-#profileModal .resume-box input[type=file]{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; font-size:13px !important;}
 #profileModal .duplicate-box{font-family:Segoe UI,system-ui,-apple-system,sans-serif !important; margin-top:10px !important;}
 #profileModal .npp-footer{
   position:relative !important; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important;
@@ -2821,15 +2831,6 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
-
-<style id="profile-resume-jd-style">
-#profileDetailsBody .profile-resume-actions .btn{height:29px;min-height:29px;padding:5px 9px;border-radius:5px;font-size:11px;white-space:nowrap;background:#2878E8;border-color:#2878E8;color:#FFFFFF;}
-#profileDetailsBody .profile-resume-actions .btn:hover:not(:disabled){background:#1D63C7;border-color:#1D63C7;color:#FFFFFF;}
-#profileDetailsBody .profile-resume-last-updated{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;}
-#profileDetailsBody .profile-resume-last-updated-content{min-width:0;}
-@media(max-width:700px){#profileDetailsBody .profile-resume-actions{display:flex;gap:6px;margin-top:8px;}#profileDetailsBody .profile-resume-actions .btn{width:auto;}}
-</style>
-
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -2932,7 +2933,12 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div class="field-group"><label>Source <span>*</span></label><select id="profileSource" required><option value="">Select Source</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select></div><div class="field-group"><label>Source Details</label><input id="sourceDetails" placeholder="Optional details, e.g. Naukri, LinkedIn, employee name, agency, etc."></div><div id="referrerFields" class="field-span-2 referrer-fields hidden"><div class="referrer-fields-title">Referrer Details <span>(Optional)</span></div><div class="referrer-grid"><div class="field-group"><label>Referrer Name</label><input id="referrerName" type="text"></div><div class="field-group"><label>Mobile Number</label><input id="referrerMobile" type="tel"></div><div class="field-group"><label>Email Address</label><input id="referrerEmail" type="email"></div></div></div>
 <div class="field-group field-span-2"><label>Skills</label><textarea id="skills" rows="3" placeholder="Enter skills separated by commas"></textarea></div><div class="field-group field-span-2"><label>Additional Information</label><textarea id="additionalInformation" rows="4"></textarea></div>
 <div class="profile-form-section-title">Resume</div>
-<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
+<div class="field-group field-span-2"><section class="resume-box" aria-labelledby="resumeCardHeading">
+  <div class="resume-card-heading"><div><h3 id="resumeCardHeading">Resume</h3><p>Attach a PDF, DOC or DOCX file (maximum 5 MB). The document is stored securely with the candidate profile.</p></div><span id="resumeDocumentStatus" class="resume-document-status">No resume attached</span></div>
+  <div id="resumeExistingRow" class="resume-existing-row hidden"><i class="fa-regular fa-file-lines" aria-hidden="true"></i><span id="existingResumeFilename" class="existing-resume-name" title=""></span></div>
+  <div class="resume-upload-row"><label for="resumeFile" class="resume-file-label"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> Choose Resume document</label><input id="resumeFile" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><span id="resumeSelectedFileName" class="resume-selected-file-name">No file selected</span><button class="btn btn-outline btn-small hidden" id="clearResumeSelectionButton" type="button">Clear selection</button></div>
+  <small id="resumeHelp">Select a resume from your computer. Maximum 5 MB. PDF, DOC or DOCX.</small>
+</section></div>
 </div>
 <div id="resumeReplaceNotice" class="duplicate-box hidden"><strong>Existing resume found</strong><span>A resume is already stored for this profile. Choose whether to keep the existing resume or replace it with the newly selected file.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-outline" id="keepResumeButton">Keep Existing Resume</button><button type="button" class="btn btn-primary" id="replaceResumeButton">Replace with New Resume</button></div></div>
 </div>
