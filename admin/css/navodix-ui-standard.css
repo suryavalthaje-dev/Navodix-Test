@@ -395,164 +395,150 @@
   }
 }
 
-/* ------------------------------------------------------------------
-   MODAL-ONLY SCOPE: do not add global list/table/filter/page selectors here.
-   Existing List Standard remains page-specific and must not be overridden.
-   Non-profile modal standardisation — Version 35
-   Protected: View Profile, Add Profile and Edit Profile are intentionally
-   excluded from these selectors and must retain their approved styling.
-   ------------------------------------------------------------------ */
+
+/* =====================================================================
+   COMPLETE NON-PROFILE MODAL STANDARD — Version 35
+   Strictly scoped to modal/dialog containers. No page/list/table/filter
+   selectors are introduced. Protected profile modals are excluded.
+   ===================================================================== */
+:root {
+  --navodix-modal-blue: #2878E8;
+  --navodix-modal-footer: #C9D9EC;
+  --navodix-modal-border: #CBD8E8;
+}
+
+/* Outer frame: apply to modal dialogs only, not backdrop or page panels. */
+#jobModal .job-modal,
+#masterModal .master-modal,
+#locationModal .master-modal,
+#customMasterModal .master-modal,
 #actionItemModal .action-item-modal,
 #actionDetailModal .action-detail-modal,
 #applicationModal .application-modal-standard,
-.modal-backdrop .master-modal {
-  border:3px solid var(--navodix-ui-border) !important;
-  border-radius:8px !important;
-  box-shadow:0 18px 48px rgba(15,35,70,.20) !important;
-  background:#FFFFFF !important;
+#interviewRoundModal .application-interview-standard-modal,
+#interviewDeleteConfirmModal .application-delete-confirm-dialog,
+#deleteMasterModal .confirm-modal,
+#deleteLocationModal .confirm-modal,
+#deleteCustomMasterModal .confirm-modal,
+#discardChangesModal .confirm-modal,
+#deleteModal .confirm-modal,
+#user-management .user-modal-dialog,
+.user-modal .user-modal-dialog,
+#addUserCard .user-modal-dialog,
+#editUserCard .user-modal-dialog {
+  border: 3px solid var(--navodix-modal-blue) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
 }
 
+/* Standard header geometry and colour, restricted to modal headers. */
+#jobModal .job-modal > .modal-header,
+#masterModal .master-modal > .modal-header,
+#locationModal .master-modal > .modal-header,
+#customMasterModal .master-modal > .modal-header,
 #actionItemModal .action-item-modal > .modal-header,
 #actionDetailModal .action-detail-modal > .application-child-modal-header,
 #applicationModal .application-details-modal-header,
-.modal-backdrop .master-modal > .modal-header {
-  background:var(--navodix-ui-blue) !important;
-  color:#FFFFFF !important;
-  border:0 !important;
-  border-bottom:0 !important;
-  padding:10px 18px !important;
-  min-height:56px !important;
-  height:56px !important;
-  box-sizing:border-box !important;
-  align-items:center !important;
+#interviewRoundModal .application-interview-standard-modal > .modal-header,
+#interviewDeleteConfirmModal .application-delete-confirm-dialog > .modal-header,
+#deleteMasterModal .confirm-modal > .modal-header,
+#deleteLocationModal .confirm-modal > .modal-header,
+#deleteCustomMasterModal .confirm-modal > .modal-header,
+#discardChangesModal .confirm-modal > .modal-header,
+#deleteModal .confirm-modal > .modal-header,
+.user-modal .user-modal-dialog > .user-modal-header {
+  background: var(--navodix-modal-blue) !important;
+  color: #fff !important;
+  min-height: 56px !important;
+  box-sizing: border-box !important;
 }
 
-#actionItemModal .action-item-modal > .modal-header h2,
-#actionDetailModal .application-child-modal-header h2,
-#applicationModal .application-details-modal-header h2,
-.modal-backdrop .master-modal > .modal-header h2 {
-  color:#FFFFFF !important;
-  font-size:20px !important;
-  line-height:24px !important;
-  font-weight:600 !important;
-  margin:0 !important;
-}
-
-#actionItemModal .action-item-modal .modal-close,
-#actionDetailModal .action-detail-modal .modal-close,
-#applicationModal .application-modal-standard .modal-close,
-.modal-backdrop .master-modal .modal-close {
-  width:32px !important;
-  min-width:32px !important;
-  height:32px !important;
-  min-height:32px !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:4px !important;
-  background:transparent !important;
-  color:#FFFFFF !important;
-}
-
-#actionItemModal .action-item-modal-body {
-  padding:0 !important;
-  scrollbar-width:thin !important;
-  scrollbar-color:#B8CADE transparent !important;
-}
-#actionItemModal .action-item-modal-body::-webkit-scrollbar,
-#actionDetailModal .application-child-modal-body::-webkit-scrollbar,
-#applicationModal .application-modal-body::-webkit-scrollbar,
-.modal-backdrop .master-modal-body::-webkit-scrollbar { width:6px; height:6px; }
-#actionItemModal .action-item-modal-body::-webkit-scrollbar-thumb,
-#actionDetailModal .application-child-modal-body::-webkit-scrollbar-thumb,
-#applicationModal .application-modal-body::-webkit-scrollbar-thumb,
-.modal-backdrop .master-modal-body::-webkit-scrollbar-thumb { background:#B8CADE; border-radius:6px; }
-
-/* Compact, balanced Add/Edit Action Item form. */
-#actionItemModal .action-form-grid {
-  padding:18px 22px 4px !important;
-  column-gap:16px !important;
-  row-gap:0 !important;
-}
-#actionItemModal .action-form-grid .field-group { margin-bottom:12px !important; min-width:0; }
-#actionItemModal .action-form-grid .field-group label {
-  display:block !important;
-  margin:0 0 5px !important;
-  color:var(--navodix-ui-label) !important;
-  font-size:11px !important;
-  line-height:15px !important;
-  font-weight:700 !important;
-}
-#actionItemModal .action-form-grid input,
-#actionItemModal .action-form-grid select,
-#actionItemModal .action-form-grid textarea {
-  width:100% !important;
-  box-sizing:border-box !important;
-  border:1px solid var(--navodix-ui-border) !important;
-  border-radius:6px !important;
-  background:#FFFFFF !important;
-  color:var(--navodix-ui-text) !important;
-  font-family:inherit !important;
-  font-size:12px !important;
-  outline:none !important;
-  box-shadow:none;
-}
-#actionItemModal .action-form-grid input,
-#actionItemModal .action-form-grid select:not(#actionSecondaryAssignee) {
-  height:36px !important;
-  min-height:36px !important;
-  padding:0 10px !important;
-}
-#actionItemModal .action-form-grid textarea {
-  min-height:62px !important;
-  height:62px !important;
-  padding:8px 10px !important;
-  line-height:1.4 !important;
-  resize:vertical !important;
-}
-#actionItemModal .action-form-grid select#actionSecondaryAssignee {
-  min-height:94px !important;
-  height:94px !important;
-  padding:5px 8px !important;
-}
-#actionItemModal .action-form-grid select#actionSecondaryAssignee option { padding:4px 5px !important; }
-#actionItemModal .action-form-grid .field-help-text {
-  margin-top:4px !important;
-  color:#64748B !important;
-  font-size:10px !important;
-  line-height:1.35 !important;
-}
-#actionItemModal .action-form-grid input:focus,
-#actionItemModal .action-form-grid select:focus,
-#actionItemModal .action-form-grid textarea:focus {
-  border-color:var(--navodix-ui-blue) !important;
-  box-shadow:0 0 0 2px rgba(40,120,232,.12) !important;
-}
+/* Consistent footer treatment where a modal has a distinct footer. */
+#jobModal .job-modal > .modal-actions,
+#masterModal .master-modal > .master-modal-footer,
+#masterModal .master-modal > .modal-actions,
+#locationModal .master-modal > .master-modal-footer,
+#locationModal .master-modal > .modal-actions,
+#customMasterModal .master-modal > .master-modal-footer,
+#customMasterModal .master-modal > .modal-actions,
 #actionItemModal .action-item-modal-footer,
-#actionDetailModal .application-child-modal-actions,
-#applicationModal .application-modal-standard-footer,
-.modal-backdrop .master-modal-footer {
-  background:var(--navodix-ui-footer) !important;
-  border-top:1px solid #B8CADE !important;
-}
-#actionItemModal .action-item-modal-footer .btn,
-#actionDetailModal .application-child-modal-actions .btn,
-#applicationModal .application-modal-standard-footer .btn,
-.modal-backdrop .master-modal-footer .btn {
-  height:30px !important;
-  min-height:30px !important;
-  padding:5px 12px !important;
-  border-radius:5px !important;
-  font-size:11px !important;
-  font-weight:600 !important;
+#applicationModal .application-modal-footer-actions,
+#interviewRoundModal .application-interview-standard-modal > .modal-actions,
+#user-management .user-modal-dialog > .user-modal-footer,
+.user-modal .user-modal-dialog > .user-modal-footer,
+#addUserCard .user-modal-dialog > .user-modal-footer,
+#editUserCard .user-modal-dialog > .user-modal-footer {
+  background: var(--navodix-modal-footer) !important;
+  border-top: 1px solid #B8CADE !important;
+  box-sizing: border-box !important;
 }
 
-@media(max-width:700px) {
-  #actionItemModal .action-item-modal > .modal-header,
-  #actionDetailModal .action-detail-modal > .application-child-modal-header,
-  #applicationModal .application-details-modal-header,
-  .modal-backdrop .master-modal > .modal-header { padding:10px 14px !important; }
-  #actionItemModal .action-form-grid { padding:14px 14px 2px !important; }
-  #actionItemModal .action-form-grid { grid-template-columns:minmax(0,1fr) !important; }
-  #actionItemModal .action-form-grid .field-span-2 { grid-column:auto !important; }
+/* Dialog action buttons only. List and toolbar buttons are deliberately untouched. */
+#jobModal .job-modal .modal-actions button,
+#masterModal .master-modal .modal-actions button,
+#locationModal .master-modal .modal-actions button,
+#customMasterModal .master-modal .modal-actions button,
+#actionItemModal .action-item-modal-footer button,
+#actionDetailModal .action-detail-modal button,
+#applicationModal .application-modal-standard button,
+#interviewRoundModal .application-interview-standard-modal button,
+#interviewDeleteConfirmModal .application-delete-confirm-dialog button,
+#deleteMasterModal .confirm-modal button,
+#deleteLocationModal .confirm-modal button,
+#deleteCustomMasterModal .confirm-modal button,
+#discardChangesModal .confirm-modal button,
+#deleteModal .confirm-modal button,
+.user-modal .user-modal-dialog button,
+#addUserCard .user-modal-dialog button,
+#editUserCard .user-modal-dialog button {
+  box-sizing: border-box;
 }
 
+/* Form typography/controls within non-profile modal dialogs only. */
+#jobModal .job-modal label,
+#masterModal .master-modal label,
+#locationModal .master-modal label,
+#customMasterModal .master-modal label,
+#actionItemModal .action-item-modal label,
+#actionDetailModal .action-detail-modal label,
+#applicationModal .application-modal-standard label,
+#interviewRoundModal .application-interview-standard-modal label,
+.user-modal .user-modal-dialog label,
+#addUserCard .user-modal-dialog label,
+#editUserCard .user-modal-dialog label {
+  color: #263F62;
+  font-size: 11px;
+  font-weight: 700;
+}
+#jobModal .job-modal input,
+#jobModal .job-modal select,
+#jobModal .job-modal textarea,
+#masterModal .master-modal input,
+#masterModal .master-modal select,
+#masterModal .master-modal textarea,
+#locationModal .master-modal input,
+#locationModal .master-modal select,
+#locationModal .master-modal textarea,
+#customMasterModal .master-modal input,
+#customMasterModal .master-modal select,
+#customMasterModal .master-modal textarea,
+#actionItemModal .action-item-modal input,
+#actionItemModal .action-item-modal select,
+#actionItemModal .action-item-modal textarea,
+#applicationModal .application-modal-standard input,
+#applicationModal .application-modal-standard select,
+#applicationModal .application-modal-standard textarea,
+.user-modal .user-modal-dialog input,
+.user-modal .user-modal-dialog select,
+.user-modal .user-modal-dialog textarea,
+#addUserCard .user-modal-dialog input,
+#addUserCard .user-modal-dialog select,
+#addUserCard .user-modal-dialog textarea,
+#editUserCard .user-modal-dialog input,
+#editUserCard .user-modal-dialog select,
+#editUserCard .user-modal-dialog textarea {
+  font-size: 13px;
+  box-sizing: border-box;
+}
