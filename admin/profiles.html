@@ -2832,117 +2832,60 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </style>
 
 
-
-<style id="profile-view-edit-elite-presentation">
-/* Visual-only refinement for View Profile and Edit Profile. No fields, data, or behavior changed. */
-#profileDetailsModal .profile-details-modal,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-dialog {
-  border:1px solid #D6E1EF !important;
-  border-radius:14px !important;
-  box-shadow:0 28px 80px rgba(15,35,67,.24), 0 4px 14px rgba(15,35,67,.07) !important;
-}
-#profileDetailsModal .modal-header,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-header {
-  background:linear-gradient(112deg,#173B68 0%,#205B9A 58%,#2878E8 100%) !important;
-  border-bottom:1px solid rgba(255,255,255,.16) !important;
-}
-#profileDetailsModal .modal-header { padding:18px 28px 17px !important; }
-#profileDetailsModal .modal-header .section-badge {
-  display:inline-block !important; margin-bottom:5px !important; padding:3px 7px !important;
-  border:1px solid rgba(255,255,255,.3) !important; border-radius:4px !important;
-  background:rgba(255,255,255,.12) !important; color:#EAF3FF !important;
-  font-size:9px !important; letter-spacing:1px !important; font-weight:800 !important;
-}
-#profileDetailsModal .modal-header h2,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-head h3 {
-  font-size:20px !important; font-weight:700 !important; letter-spacing:-.25px !important;
-}
-#profileDetailsModal .profile-details-body {
-  padding:22px 28px 24px !important;
-  background:linear-gradient(180deg,#F8FAFD 0%,#FFFFFF 160px) !important;
-}
-#profileDetailsModal .profile-detail-section {
-  margin-bottom:18px !important; border:1px solid #D9E3EF !important; border-radius:9px !important;
-  background:#FFFFFF !important; box-shadow:0 2px 7px rgba(24,49,83,.035) !important;
-}
-#profileDetailsModal .profile-detail-section-title {
-  display:flex !important; align-items:center !important; min-height:36px !important;
-  box-sizing:border-box !important; padding:9px 14px !important;
-  background:#F0F5FB !important; border-bottom:1px solid #D9E3EF !important;
-  border-left:3px solid #2878E8 !important; color:#1F426D !important;
-  font-size:10px !important; font-weight:800 !important; letter-spacing:.75px !important;
-}
-#profileDetailsModal .profile-detail-grid,
-#profileDetailsModal .profile-personal-detail-grid,
-#profileDetailsModal .profile-education-detail-grid { background:#FFFFFF !important; }
-#profileDetailsModal .profile-detail-item,
-#profileDetailsModal .profile-personal-row > *,
-#profileDetailsModal .profile-education-row > * {
-  box-sizing:border-box !important; padding:11px 14px !important;
-  border-bottom:1px solid #EDF1F6 !important;
-}
-#profileDetailsModal .profile-detail-label {
-  margin-bottom:5px !important; color:#77869B !important;
-  font-size:9px !important; font-weight:800 !important; letter-spacing:.55px !important;
-}
-#profileDetailsModal .profile-detail-value {
-  color:#24364B !important; font-size:12px !important; line-height:1.55 !important;
-}
-#profileDetailsModal .profile-detail-muted { color:#8795A8 !important; }
-#profileDetailsModal .profile-detail-section table { border-collapse:separate !important; border-spacing:0 !important; }
-#profileDetailsModal .profile-detail-section table thead th {
-  padding:10px 11px !important; background:#F5F8FC !important; color:#50647E !important;
-  border-bottom:1px solid #DCE5F0 !important; font-size:9px !important;
-  font-weight:800 !important; letter-spacing:.45px !important; text-transform:uppercase !important;
-}
-#profileDetailsModal .profile-detail-section table tbody td {
-  padding:10px 11px !important; border-bottom:1px solid #EDF1F6 !important;
-  color:#34465C !important; font-size:11px !important; line-height:1.45 !important;
-}
-#profileDetailsModal .profile-detail-section table tbody tr:nth-child(even) { background:#FBFCFE !important; }
-#profileDetailsModal .profile-detail-section table tbody tr:hover { background:#F3F8FF !important; }
-#profileDetailsModal .profile-details-actions {
-  padding:10px 28px !important; background:#F2F6FB !important; border-top:1px solid #D7E1ED !important;
-}
-#profileDetailsModal .profile-details-buttons .btn,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-buttons .btn {
-  min-height:32px !important; border-radius:6px !important; font-size:11px !important;
-  font-weight:700 !important; letter-spacing:.05px !important;
-}
-#profileDetailsModal .profile-details-buttons .btn-outline,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-buttons .btn-outline {
-  border:1px solid #B8C9DD !important; background:#FFFFFF !important; color:#294B73 !important;
-}
-#profileDetailsModal .profile-details-buttons .btn-outline:hover,
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-buttons .btn-outline:hover {
-  background:#EEF5FC !important; border-color:#8EAED1 !important;
-}
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-body {
-  background:linear-gradient(180deg,#F8FAFD 0%,#FFFFFF 180px) !important;
-  padding-top:3px !important;
-}
-#profileModal:has(#profileModalTitle .profile-header-name) .profile-form-section-title {
-  margin-top:17px !important; margin-bottom:8px !important; padding:9px 12px !important;
-  background:#F0F5FB !important; border:1px solid #D9E3EF !important;
-  border-left:3px solid #2878E8 !important; border-radius:5px !important;
-  color:#1F426D !important; font-size:10px !important; letter-spacing:.75px !important;
-}
-#profileModal:has(#profileModalTitle .profile-header-name) .field-group label {
-  color:#405873 !important; font-size:11px !important; font-weight:700 !important;
-}
-#profileModal:has(#profileModalTitle .profile-header-name) .profile-form-grid input,
-#profileModal:has(#profileModalTitle .profile-header-name) .profile-form-grid select,
-#profileModal:has(#profileModalTitle .profile-header-name) .profile-form-grid textarea {
-  border-color:#C9D7E7 !important; border-radius:6px !important; background:#FFFFFF !important;
-}
-#profileModal:has(#profileModalTitle .profile-header-name) .npp-footer {
-  background:#F2F6FB !important; border-top:1px solid #D7E1ED !important; box-shadow:none !important;
-}
-@media(max-width:700px){
-  #profileDetailsModal .modal-header { padding:15px 18px 14px !important; }
-  #profileDetailsModal .profile-details-body { padding:14px 14px 16px !important; }
-  #profileDetailsModal .profile-details-actions { padding:9px 14px !important; }
-}
+<style id="profile-premium-redesign-v1">
+/* Shared premium profile design: Add, Edit and View. Visual-only styling. */
+#profileModal .npp-dialog,#profileDetailsModal .profile-details-modal{border:1px solid #B8CDE8!important;border-radius:12px!important;overflow:hidden!important;box-shadow:0 22px 65px rgba(15,43,82,.24)!important;background:#fff!important;}
+#profileModal .npp-header,#profileDetailsModal .profile-details-modal>.modal-header{background:linear-gradient(115deg,#0755B8 0%,#0878EA 56%,#075BC5 100%)!important;color:#fff!important;border-bottom:0!important;padding:13px 24px!important;min-height:54px!important;}
+#profileModal .npp-head h3,#profileDetailsModal .profile-details-modal>.modal-header h2{color:#fff!important;font-size:17px!important;font-weight:750!important;letter-spacing:.05px!important;margin:0!important;}
+#profileModal .npp-head p{color:rgba(255,255,255,.82)!important;font-size:11px!important;margin:3px 0 0!important;}
+#profileModal .npp-close,#profileDetailsModal .profile-details-modal>.modal-header .modal-close{color:#fff!important;background:transparent!important;border:0!important;font-size:25px!important;}
+#profileModal .npp-body,#profileDetailsModal .profile-details-body{background:linear-gradient(180deg,#F8FBFF 0%,#FFFFFF 150px)!important;padding:15px 18px 18px!important;}
+#profileModal .profile-premium-hero{display:grid;grid-template-columns:minmax(245px, .9fr) minmax(480px,1.6fr);gap:16px;align-items:center;padding:13px 14px;margin:0 0 15px;border:1px solid #D5E3F4;border-radius:9px;background:linear-gradient(110deg,#FFFFFF 0%,#F5F9FF 100%);box-shadow:0 2px 7px rgba(30,73,126,.05);}
+#profileModal .profile-premium-identity{display:flex;align-items:center;gap:12px;min-width:0;}
+#profileModal .profile-premium-avatar{width:54px;height:54px;flex:0 0 54px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(145deg,#E3F0FF,#C8E1FF);color:#0969D8;font-size:22px;font-weight:800;border:1px solid #D1E4FC;}
+#profileModal .profile-premium-identity-text{display:flex;flex-direction:column;gap:3px;min-width:0;}
+#profileModal .profile-premium-identity-text strong{color:#102A54;font-size:16px;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#profileModal .profile-premium-identity-text>span{font-size:10.5px;color:#6C7F9D;}
+#profileModal .profile-premium-status{align-self:flex-start!important;border-radius:4px;background:#DDF7F2;color:#087E76!important;padding:3px 7px;font-weight:700;}
+#profileModal .profile-premium-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;}
+#profileModal .profile-premium-metric{display:flex;align-items:center;gap:8px;padding:4px 10px;min-width:0;border-left:1px solid #DDE7F4;}
+#profileModal .profile-premium-metric:first-child{border-left:0;}
+#profileModal .profile-premium-metric-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex:0 0 34px;border-radius:8px;font-size:17px;background:#EAF3FF;color:#0875E8;}
+#profileModal .profile-premium-metric-icon.teal{background:#E5F8F4;color:#159782;}#profileModal .profile-premium-metric-icon.orange{background:#FFF1E6;color:#EA7B21;}#profileModal .profile-premium-metric-icon.purple{background:#F4EAFE;color:#7C35C4;}
+#profileModal .profile-premium-metric small{display:block;color:#6C7F9D;font-size:9.5px;line-height:1.3;white-space:nowrap;}
+#profileModal .profile-premium-metric strong{display:block;color:#142D54;font-size:12px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#profileModal .profile-form-grid{gap:10px 12px!important;}
+#profileModal .profile-form-section-title{grid-column:1/-1!important;display:flex!important;align-items:center!important;gap:8px!important;margin:3px 0 0!important;padding:9px 12px!important;border:1px solid #D7E4F3!important;border-bottom-color:#C8D9ED!important;border-radius:6px 6px 0 0!important;background:linear-gradient(90deg,#F0F6FD,#F8FBFF)!important;color:#12366B!important;font-size:12px!important;font-weight:800!important;text-transform:none!important;letter-spacing:0!important;}
+#profileModal .profile-form-section-title:not(:first-child){margin-top:7px!important;}
+#profileModal .profile-form-section-title:before{font-family:'Font Awesome 6 Free';font-weight:900;content:'\f2bd';font-size:14px;color:#0875E8;}
+#profileModal .profile-form-section-title:nth-of-type(2):before{content:'\f0b1';}#profileModal .profile-form-section-title:nth-of-type(3):before{content:'\f19d';}#profileModal .profile-form-section-title:nth-of-type(4):before{content:'\f05a';}#profileModal .profile-form-section-title:nth-of-type(5):before{content:'\f15c';}
+#profileModal .field-group{padding:0 1px!important;}
+#profileModal .field-group label{color:#4E6382!important;font-size:10.5px!important;font-weight:650!important;margin-bottom:4px!important;}
+#profileModal .profile-form-grid input,#profileModal .profile-form-grid select,#profileModal .profile-form-grid textarea{border:1px solid #CCD9EA!important;border-radius:5px!important;background:#fff!important;color:#17345F!important;box-shadow:inset 0 1px 1px rgba(17,49,91,.025)!important;font-size:11.5px!important;}
+#profileModal .profile-form-grid input:focus,#profileModal .profile-form-grid select:focus,#profileModal .profile-form-grid textarea:focus{border-color:#3989F4!important;box-shadow:0 0 0 3px rgba(37,117,232,.12)!important;outline:none!important;}
+#profileModal .profile-category-box,#profileModal .referrer-fields,#profileModal .resume-box{border-radius:6px!important;border-color:#D4E1F0!important;background:#fff!important;}
+#profileModal .npp-footer,#profileDetailsModal .profile-details-actions{background:#F7FAFE!important;border-top:1px solid #DCE6F2!important;padding:10px 18px!important;}
+#profileModal .npp-buttons .btn,#profileDetailsModal .profile-details-buttons .btn{border-radius:5px!important;min-height:34px!important;font-size:11px!important;font-weight:700!important;}
+#profileModal .npp-buttons .btn-primary,#profileDetailsModal .profile-details-buttons .btn-outline{background:#0875E8!important;border-color:#0875E8!important;color:#fff!important;}
+#profileDetailsModal .profile-details-modal{width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;max-height:calc(100dvh - 20px)!important;display:flex!important;flex-direction:column!important;}
+#profileDetailsModal .profile-details-body{overflow-y:auto!important;min-height:0!important;}
+#profileDetailsModal .profile-details-body>#profileDetailsBody{display:flex;flex-direction:column;gap:12px;}
+#profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero{display:grid;grid-template-columns:minmax(250px,1fr) minmax(480px,1.65fr);gap:16px;align-items:center;padding:14px;border:1px solid #D5E3F4;border-radius:9px;background:linear-gradient(110deg,#FFFFFF,#F4F9FF);margin-bottom:2px;}
+#profileDetailsModal .profile-premium-view-identity{display:flex;align-items:center;gap:13px;min-width:0;}
+#profileDetailsModal .profile-premium-view-avatar{width:56px;height:56px;flex:0 0 56px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(145deg,#E3F0FF,#C8E1FF);color:#0969D8;font-size:21px;font-weight:800;}
+#profileDetailsModal .profile-premium-view-name{font-size:17px;font-weight:800;color:#102A54;line-height:1.3;}
+#profileDetailsModal .profile-premium-view-code{font-size:11px;color:#6C7F9D;margin-top:3px;}
+#profileDetailsModal .profile-premium-view-status{display:inline-flex;margin-top:6px;padding:3px 7px;border-radius:4px;background:#DDF7F2;color:#087E76;font-size:10px;font-weight:700;}
+#profileDetailsModal .profile-premium-view-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
+#profileDetailsModal .profile-premium-view-metric{display:flex;gap:8px;align-items:center;min-width:0;padding:4px 9px;border-left:1px solid #DDE7F4;}#profileDetailsModal .profile-premium-view-metric:first-child{border-left:0;}
+#profileDetailsModal .profile-premium-view-metric i{font-size:18px;color:#0875E8;background:#EAF3FF;border-radius:7px;padding:9px;}#profileDetailsModal .profile-premium-view-metric:nth-child(2) i{color:#159782;background:#E5F8F4;}#profileDetailsModal .profile-premium-view-metric:nth-child(3) i{color:#EA7B21;background:#FFF1E6;}#profileDetailsModal .profile-premium-view-metric:nth-child(4) i{color:#7C35C4;background:#F4EAFE;}
+#profileDetailsModal .profile-premium-view-metric small{display:block;color:#6C7F9D;font-size:9px;white-space:nowrap;}#profileDetailsModal .profile-premium-view-metric strong{display:block;color:#142D54;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#profileDetailsModal .profile-detail-section{border:1px solid #D4E1F0!important;border-radius:6px!important;box-shadow:0 1px 3px rgba(26,65,111,.035)!important;margin:0 0 12px!important;}
+#profileDetailsModal .profile-detail-section-title{background:linear-gradient(90deg,#F0F6FD,#F8FBFF)!important;color:#12366B!important;font-size:11.5px!important;text-transform:none!important;letter-spacing:0!important;padding:9px 12px!important;}
+#profileDetailsModal .profile-detail-grid,#profileDetailsModal .profile-personal-detail-grid,#profileDetailsModal .profile-education-detail-grid{background:#fff!important;}
+#profileDetailsModal .profile-detail-label{color:#617693!important;font-size:10.5px!important;font-weight:650!important;}#profileDetailsModal .profile-detail-value{color:#1A355E!important;font-size:11.5px!important;}
+@media(max-width:850px){#profileModal .profile-premium-hero,#profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero{grid-template-columns:1fr;}#profileModal .profile-premium-metrics,#profileDetailsModal .profile-premium-view-metrics{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px;}#profileModal .profile-premium-metric:nth-child(3),#profileDetailsModal .profile-premium-view-metric:nth-child(3){border-left:0;}}
+@media(max-width:600px){#profileModal .npp-body,#profileDetailsModal .profile-details-body{padding:10px!important;}#profileModal .profile-premium-metrics,#profileDetailsModal .profile-premium-view-metrics{grid-template-columns:repeat(2,minmax(0,1fr));}#profileModal .profile-premium-metric{padding:4px;}#profileModal .profile-premium-metric-icon{width:29px;height:29px;flex-basis:29px;}#profileDetailsModal .profile-details-modal{width:calc(100vw - 12px)!important;max-height:calc(100dvh - 12px)!important;}}
 </style>
 
 </head>
@@ -3032,6 +2975,10 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </header>
 <form id="profileForm" class="npp-form" novalidate><input type="hidden" id="profileId"><input type="hidden" id="profileAssociationRequirementId">
 <div class="npp-body">
+<div id="profileFormHero" class="profile-premium-hero" aria-live="polite">
+  <div class="profile-premium-identity"><div id="profileFormAvatar" class="profile-premium-avatar">+</div><div class="profile-premium-identity-text"><strong id="profileFormHeroName">New Profile</strong><span id="profileFormHeroCode">Add candidate profile details</span><span id="profileFormHeroStatus" class="profile-premium-status">New candidate</span></div></div>
+  <div class="profile-premium-metrics"><div class="profile-premium-metric"><span class="profile-premium-metric-icon blue"><i class="fa-solid fa-briefcase"></i></span><div><small>Total Experience</small><strong id="profileHeroExperience">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon teal"><i class="fa-solid fa-coins"></i></span><div><small>Current CTC</small><strong id="profileHeroCurrentCtc">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon orange"><i class="fa-solid fa-chart-column"></i></span><div><small>Expected CTC</small><strong id="profileHeroExpectedCtc">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon purple"><i class="fa-regular fa-clock"></i></span><div><small>Notice Period</small><strong id="profileHeroNoticePeriod">—</strong></div></div></div>
+</div>
 <div id="existingProfileNotice" class="profile-association-panel hidden"></div>
 <div class="profile-form-grid">
 <div class="profile-form-section-title">Personal Information</div>
