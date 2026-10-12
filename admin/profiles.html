@@ -2922,7 +2922,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div class="field-group"><label>Source <span>*</span></label><select id="profileSource" required><option value="">Select Source</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select></div><div class="field-group"><label>Source Details</label><input id="sourceDetails" placeholder="Optional details, e.g. Naukri, LinkedIn, employee name, agency, etc."></div><div id="referrerFields" class="field-span-2 referrer-fields hidden"><div class="referrer-fields-title">Referrer Details <span>(Optional)</span></div><div class="referrer-grid"><div class="field-group"><label>Referrer Name</label><input id="referrerName" type="text"></div><div class="field-group"><label>Mobile Number</label><input id="referrerMobile" type="tel"></div><div class="field-group"><label>Email Address</label><input id="referrerEmail" type="email"></div></div></div>
 <div class="field-group field-span-2"><label>Skills</label><textarea id="skills" rows="3" placeholder="Enter skills separated by commas"></textarea></div><div class="field-group field-span-2"><label>Additional Information</label><textarea id="additionalInformation" rows="4"></textarea></div>
 <div class="profile-form-section-title">Resume</div>
-<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
+<div class="field-group field-span-2"><label>Resume</label><div class="resume-box"><div class="resume-upload-row"><span id="existingResumeFilename" class="existing-resume-name hidden" title=""></span><input id="resumeFile" type="file" accept=".pdf,.doc,.docx"></div><small id="resumeHelp">Select a resume from your computer. Maximum 5 MB, PDF, DOC or DOCX.</small></div></div>
 </div>
 <div id="resumeReplaceNotice" class="duplicate-box hidden"><strong>Existing resume found</strong><span>A resume is already stored for this profile. Choose whether to keep the existing resume or replace it with the newly selected file.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-outline" id="keepResumeButton">Keep Existing Resume</button><button type="button" class="btn btn-primary" id="replaceResumeButton">Replace with New Resume</button></div></div>
 </div>
@@ -3258,6 +3258,18 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   #associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}
   #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px 12px !important;}
 }
+
+/* Resume section presentation standard: filename on one line, controls on their own row. */
+.resume-box { padding:10px 12px !important; border:1px solid #D8E0EA !important; background:#FFFFFF !important; }
+.resume-upload-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; width:100%; }
+.resume-upload-row input[type=file] { flex:1 1 100%; min-width:0; }
+.existing-resume-name { display:block; flex:1 1 100%; max-width:100%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.resume-box small { margin-top:8px; }
+
+.profile-resume-file-row{display:flex;align-items:center;gap:8px;min-width:0;margin:2px 0 8px;color:#263B5A;font-size:12px;}
+.profile-resume-file-name{display:block;min-width:0;flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.profile-resume-actions{display:flex !important;flex-wrap:wrap;gap:6px !important;margin:0 0 10px !important;}
+.profile-resume-actions .btn{flex:0 0 auto;}
 </style>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
   <div class="profile-interview-modal-shell profile-status-history-modal" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle">
