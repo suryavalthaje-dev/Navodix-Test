@@ -50,7 +50,8 @@
       z-index: 1;
       box-sizing: border-box;
       min-height: 100vh;
-      width: 100%;
+      width: 75%;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -72,8 +73,8 @@
     .admin-login-page .login-card {
       position: relative;
       box-sizing: border-box;
-      width: min(100%, 520px);
-      padding: 45px 45px 28px;
+      width: min(100%, 390px);
+      padding: 18px 28px 14px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,.95);
       border-radius: 16px;
@@ -85,7 +86,7 @@
       position: absolute;
       z-index: 0;
       top: 0; left: 0; right: 0;
-      height: 164px;
+      height: 94px;
       background:
         radial-gradient(ellipse at 52% 92%, rgba(255,255,255,.88) 0 27%, transparent 28%),
         linear-gradient(143deg, transparent 0 44%, rgba(255,255,255,.46) 44.2% 62%, transparent 62.2%),
@@ -101,60 +102,60 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 0 31px;
-      min-height: 76px;
+      margin: 0 0 10px;
+      min-height: 38px;
     }
     .admin-login-page .login-brand a { display: inline-flex; align-items: center; justify-content: center; }
     .admin-login-page .login-brand img {
       display: block;
-      width: min(100%, 260px);
-      max-height: 76px;
+      width: min(100%, 205px);
+      max-height: 38px;
       object-fit: contain;
     }
-    .admin-login-page .login-heading { text-align: center; margin: 0 0 23px; }
+    .admin-login-page .login-heading { text-align: center; margin: 0 0 12px; }
     .admin-login-page .section-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 29px;
+      min-height: 23px;
       box-sizing: border-box;
-      padding: 5px 15px;
+      padding: 4px 10px;
       border-radius: 999px;
       background: #dceaff;
       color: #0755ed;
-      font-size: 14px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 1.1px;
     }
     .admin-login-page .login-heading h1 {
-      margin: 18px 0 8px;
+      margin: 8px 0 5px;
       color: #082b63;
-      font-size: clamp(29px, 4vw, 36px);
+      font-size: clamp(20px, 2.2vw, 24px);
       line-height: 1.15;
       font-weight: 750;
       letter-spacing: -.5px;
     }
     .admin-login-page .login-heading p {
-      max-width: 390px;
+      max-width: 310px;
       margin: 0 auto;
       color: #526b91;
-      font-size: 16px;
-      line-height: 1.55;
+      font-size: 12px;
+      line-height: 1.35;
     }
-    .admin-login-page .login-form { display: flex; flex-direction: column; gap: 22px; }
-    .admin-login-page .field-group { display: flex; flex-direction: column; gap: 8px; }
+    .admin-login-page .login-form { display: flex; flex-direction: column; gap: 9px; }
+    .admin-login-page .field-group { display: flex; flex-direction: column; gap: 5px; }
     .admin-login-page .field-group label {
       color: #082b63;
-      font-size: 15px;
+      font-size: 10px;
       font-weight: 750;
     }
     .admin-login-page .input-wrap {
       display: flex;
       align-items: center;
       box-sizing: border-box;
-      height: 55px;
-      padding: 0 15px;
-      gap: 14px;
+      height: 32px;
+      padding: 0 10px;
+      gap: 0;
       border: 1.5px solid #c6ddff;
       border-radius: 8px;
       background: #edf5ff;
@@ -165,13 +166,7 @@
       border-color: #4b9bff;
       box-shadow: 0 0 0 3px rgba(53,143,255,.13);
     }
-    .admin-login-page .input-wrap > i {
-      flex: 0 0 20px;
-      width: 20px;
-      color: #718cac;
-      font-size: 17px;
-      text-align: center;
-    }
+    .admin-login-page .input-wrap > i { display: none; }
     .admin-login-page .input-wrap input {
       flex: 1;
       min-width: 0;
@@ -181,20 +176,20 @@
       outline: 0;
       background: transparent;
       color: #111827;
-      font: 15px "Segoe UI", Arial, sans-serif;
+      font: 12px "Segoe UI", Arial, sans-serif;
       box-shadow: none;
     }
     .admin-login-page .input-wrap input::placeholder { color: #8194ad; }
     .admin-login-page .password-toggle {
-      flex: 0 0 26px;
-      width: 26px;
-      height: 32px;
+      flex: 0 0 20px;
+      width: 20px;
+      height: 26px;
       padding: 0;
       border: 0;
       background: transparent;
       color: #718cac;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 13px;
     }
     .admin-login-page #loginButton {
       display: flex;
@@ -203,14 +198,14 @@
       gap: 14px;
       box-sizing: border-box;
       width: 100%;
-      min-height: 62px;
-      margin-top: -3px;
+      min-height: 34px;
+      margin-top: 0;
       border: 1px solid #0755ed;
       border-radius: 8px;
       background: linear-gradient(105deg, #168bf4 0%, #0757ed 56%, #0739e5 100%);
       box-shadow: 0 8px 18px rgba(0,83,230,.18);
       color: #fff;
-      font-size: 18px;
+      font-size: 12px;
       font-weight: 750;
       cursor: pointer;
       transition: filter .15s ease, transform .15s ease;
@@ -220,8 +215,8 @@
     .admin-login-page .login-message:empty { display: none; }
     .admin-login-page .login-message { margin-top: -10px; font-size: 13px; }
     .admin-login-page .login-footer {
-      margin-top: 30px;
-      padding-top: 25px;
+      margin-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid #d8e5f7;
       text-align: center;
     }
@@ -229,33 +224,30 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 7px;
       color: #0755ed;
       text-decoration: none;
-      font-size: 17px;
+      font-size: 11px;
       font-weight: 500;
     }
     .admin-login-page .login-footer a:hover { text-decoration: underline; }
-    .admin-login-page .login-footer a i { font-size: 20px; }
+    .admin-login-page .login-footer a i { font-size: 12px; }
     @media (max-width: 600px) {
-      .admin-login-page .login-shell { padding: 20px 14px; }
-      .admin-login-page .login-card { padding: 35px 24px 23px; border-radius: 14px; }
-      .admin-login-page .login-card::before { height: 145px; }
-      .admin-login-page .login-brand { margin-bottom: 25px; }
-      .admin-login-page .login-brand img { width: min(100%, 230px); }
-      .admin-login-page .login-heading p { font-size: 14px; }
-      .admin-login-page .login-form { gap: 18px; }
-      .admin-login-page .input-wrap { height: 52px; }
-      .admin-login-page #loginButton { min-height: 56px; font-size: 16px; }
-      .admin-login-page .login-footer a { font-size: 15px; }
-    }
-    @media (max-height: 760px) and (min-width: 601px) {
-      .admin-login-page .login-shell { padding-top: 18px; padding-bottom: 18px; }
-      .admin-login-page .login-card { padding-top: 30px; padding-bottom: 22px; }
-      .admin-login-page .login-brand { margin-bottom: 20px; }
-      .admin-login-page .login-heading { margin-bottom: 18px; }
-      .admin-login-page .login-form { gap: 16px; }
-      .admin-login-page .login-footer { margin-top: 22px; padding-top: 18px; }
+      .admin-login-page .login-shell { width: 75%; min-width: 0; padding: 14px 0; }
+      .admin-login-page .login-card { width: 100%; padding: 16px 18px 12px; border-radius: 12px; }
+      .admin-login-page .login-card::before { height: 86px; }
+      .admin-login-page .login-brand { margin-bottom: 9px; min-height: 34px; }
+      .admin-login-page .login-brand img { width: min(100%, 180px); max-height: 34px; }
+      .admin-login-page .section-badge { min-height: 21px; font-size: 9px; padding: 3px 9px; }
+      .admin-login-page .login-heading h1 { font-size: 20px; margin-top: 7px; }
+      .admin-login-page .login-heading p { font-size: 11px; }
+      .admin-login-page .login-form { gap: 8px; }
+      .admin-login-page .field-group label { font-size: 10px; }
+      .admin-login-page .input-wrap { height: 30px; }
+      .admin-login-page .input-wrap input { font-size: 11px; }
+      .admin-login-page #loginButton { min-height: 32px; font-size: 11px; }
+      .admin-login-page .login-footer { margin-top: 10px; padding-top: 8px; }
+      .admin-login-page .login-footer a { font-size: 10px; }
     }
   </style>
 </head>
@@ -278,7 +270,6 @@
         <div class="field-group">
           <label for="email">Email Address</label>
           <div class="input-wrap">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
             <input id="email" name="email" type="email" autocomplete="username" placeholder="Enter admin email" required>
           </div>
         </div>
@@ -286,7 +277,6 @@
         <div class="field-group">
           <label for="password">Password</label>
           <div class="input-wrap">
-            <i class="fa-solid fa-lock" aria-hidden="true"></i>
             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required>
             <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password" aria-pressed="false">
               <i class="fa-solid fa-eye" aria-hidden="true"></i>
