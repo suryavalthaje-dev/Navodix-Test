@@ -877,10 +877,11 @@ body.admin-app-page{
 .jobs-table tbody tr:last-child td{border-bottom:0 !important;}
 .job-title-cell strong{
   display:block;
-  /* Hanging indent: wrapped title lines align with the title text after the briefcase icon. */
+  /* Reserve space for the icon so every wrapped line aligns with the title text. */
+  position:relative;
   box-sizing:border-box;
   padding-left:25px;
-  text-indent:-25px;
+  text-indent:0;
   margin:0 0 3px;
   color:#123B72 !important;
   font-size:12px !important;
@@ -891,13 +892,16 @@ body.admin-app-page{
   content:"\f0b1" !important;
   font-family:"Font Awesome 6 Free" !important;
   font-weight:900 !important;
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
   display:inline-flex !important;
   align-items:center !important;
   justify-content:center !important;
   width:18px !important;
   min-width:18px !important;
   height:18px !important;
-  margin-right:7px !important;
+  margin-right:0 !important;
   border-radius:50% !important;
   background:#EEF5FC !important;
   color:#2878E8 !important;
