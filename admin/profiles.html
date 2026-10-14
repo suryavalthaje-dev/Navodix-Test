@@ -2956,9 +2956,14 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 #interviewRequirementPickerModal .nxr-header h2,#interviewRoundsInfoModal .nxr-header h2{margin:0;color:#fff;font-size:18px;font-weight:700;}
 #interviewRequirementPickerModal .nxr-close,#interviewRoundsInfoModal .nxr-close{order:2;margin-left:auto;background:transparent;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;}
 #interviewRequirementPickerModal .nxr-body,#interviewRoundsInfoModal .nxr-body{padding:20px;overflow:auto;color:#263b56;}
-#interviewRequirementPickerModal .nxr-body p,#interviewRoundsInfoModal .nxr-body p{margin:0 0 14px;line-height:1.5;}
-#interviewRequirementPickerModal .nxr-body label{display:block;margin:0 0 6px;font-weight:600;font-size:13px;}
-#interviewRequirementPickerModal #interviewRequirementPicker{width:100%;min-height:38px;}
+#interviewRequirementPickerModal .nxr-body p,#interviewRoundsInfoModal .nxr-body p{margin:0 0 14px;line-height:1.5;font-size:13px;}
+#interviewRequirementPickerModal .nxr-body label{display:block;margin:0 0 6px;font-weight:600;font-size:12px;color:#263b56;}
+#interviewRequirementPickerModal #interviewRequirementPicker{width:100%;height:34px;min-height:34px;padding:6px 10px;border:1px solid #c8d7ea;border-radius:7px;background:#fff;color:#243b5a;font:400 13px inherit;outline:none;}
+#interviewRequirementPickerModal #interviewRequirementPicker:focus{border-color:#2878e8;box-shadow:0 0 0 2px rgba(40,120,232,.12);}
+#interviewRequirementPickerModal .nxr-footer{min-height:54px;box-sizing:border-box;padding:8px 16px;border-top:3px solid #2878e8;background:#eaf2fc;align-items:center;}
+#interviewRequirementPickerModal .picker-footer-message{margin-right:auto;min-width:0;color:#c62828;font-size:12px;line-height:1.3;}
+#interviewRequirementPickerModal .picker-footer-message:empty{display:none;}
+#interviewRequirementPickerModal .picker-footer-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 #interviewRequirementPickerModal .nxr-footer,#interviewRoundsInfoModal .nxr-footer{padding:12px 20px;border-top:1px solid #dbe5f1;background:#f5f8fc;display:flex;justify-content:flex-end;gap:8px;}
 @media(max-width:560px){#interviewRequirementPickerModal,#interviewRoundsInfoModal{padding:10px}#interviewRequirementPickerModal .nxr-dialog,#interviewRoundsInfoModal .nxr-dialog{width:100%;}}
 </style>
@@ -2966,7 +2971,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   <div class="nxr-dialog" role="dialog" aria-modal="true" aria-labelledby="interviewRequirementPickerTitle">
     <div class="nxr-header"><button class="nxr-close" id="closeInterviewRequirementPicker" type="button" aria-label="Close">&times;</button><div class="nxr-head"><h2 id="interviewRequirementPickerTitle">Select Requirement</h2></div></div>
     <div class="nxr-body"><p id="interviewRequirementPickerMessage">Select the requirement whose interview rounds you want to manage.</p><label for="interviewRequirementPicker">Requirement</label><select id="interviewRequirementPicker" class="form-control"><option value="">Select a requirement</option></select></div>
-    <div class="nxr-footer"><button type="button" class="btn btn-outline" id="cancelInterviewRequirementPicker">Cancel</button><button type="button" class="btn btn-primary" id="confirmInterviewRequirementPicker">Continue</button></div>
+    <div class="nxr-footer"><div id="interviewRequirementPickerError" class="picker-footer-message" role="alert" aria-live="polite"></div><div class="picker-footer-actions"><button type="button" class="btn btn-outline" id="cancelInterviewRequirementPicker">Cancel</button><button type="button" class="btn btn-primary" id="confirmInterviewRequirementPicker">Continue</button></div></div>
   </div>
 </div>
 
