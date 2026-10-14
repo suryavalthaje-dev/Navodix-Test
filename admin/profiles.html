@@ -2948,11 +2948,33 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   <button type="button" role="menuitem" data-context-action="delete" class="context-delete"><i class="fa-solid fa-trash"></i><span>Delete Profile</span></button>
 </div>
 
+<style id="interview-rounds-dialog-styles">
+#interviewRequirementPickerModal,#interviewRoundsInfoModal{position:fixed!important;inset:0!important;z-index:10050!important;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(15,30,55,.48);}
+#interviewRequirementPickerModal.hidden,#interviewRoundsInfoModal.hidden{display:none!important}
+#interviewRequirementPickerModal .nxr-dialog,#interviewRoundsInfoModal .nxr-dialog{position:relative;width:min(520px,calc(100vw - 32px));max-width:520px;max-height:calc(100vh - 36px);height:auto;margin:auto;background:#fff;border:1px solid #c8d7ea;border-radius:10px;box-shadow:0 14px 40px rgba(15,35,65,.25);display:flex;flex-direction:column;overflow:hidden;}
+#interviewRequirementPickerModal .nxr-header,#interviewRoundsInfoModal .nxr-header{background:#2878e8;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;}
+#interviewRequirementPickerModal .nxr-header h2,#interviewRoundsInfoModal .nxr-header h2{margin:0;color:#fff;font-size:18px;font-weight:700;}
+#interviewRequirementPickerModal .nxr-close,#interviewRoundsInfoModal .nxr-close{order:2;margin-left:auto;background:transparent;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;}
+#interviewRequirementPickerModal .nxr-body,#interviewRoundsInfoModal .nxr-body{padding:20px;overflow:auto;color:#263b56;}
+#interviewRequirementPickerModal .nxr-body p,#interviewRoundsInfoModal .nxr-body p{margin:0 0 14px;line-height:1.5;}
+#interviewRequirementPickerModal .nxr-body label{display:block;margin:0 0 6px;font-weight:600;font-size:13px;}
+#interviewRequirementPickerModal #interviewRequirementPicker{width:100%;min-height:38px;}
+#interviewRequirementPickerModal .nxr-footer,#interviewRoundsInfoModal .nxr-footer{padding:12px 20px;border-top:1px solid #dbe5f1;background:#f5f8fc;display:flex;justify-content:flex-end;gap:8px;}
+@media(max-width:560px){#interviewRequirementPickerModal,#interviewRoundsInfoModal{padding:10px}#interviewRequirementPickerModal .nxr-dialog,#interviewRoundsInfoModal .nxr-dialog{width:100%;}}
+</style>
 <div class="nxr-modal hidden" id="interviewRequirementPickerModal" aria-hidden="true">
   <div class="nxr-dialog" role="dialog" aria-modal="true" aria-labelledby="interviewRequirementPickerTitle">
     <div class="nxr-header"><button class="nxr-close" id="closeInterviewRequirementPicker" type="button" aria-label="Close">&times;</button><div class="nxr-head"><h2 id="interviewRequirementPickerTitle">Select Requirement</h2></div></div>
     <div class="nxr-body"><p id="interviewRequirementPickerMessage">Select the requirement whose interview rounds you want to manage.</p><label for="interviewRequirementPicker">Requirement</label><select id="interviewRequirementPicker" class="form-control"><option value="">Select a requirement</option></select></div>
     <div class="nxr-footer"><button type="button" class="btn btn-outline" id="cancelInterviewRequirementPicker">Cancel</button><button type="button" class="btn btn-primary" id="confirmInterviewRequirementPicker">Continue</button></div>
+  </div>
+</div>
+
+<div class="nxr-modal hidden" id="interviewRoundsInfoModal" aria-hidden="true">
+  <div class="nxr-dialog" role="dialog" aria-modal="true" aria-labelledby="interviewRoundsInfoTitle">
+    <div class="nxr-header"><h2 id="interviewRoundsInfoTitle">Information</h2></div>
+    <div class="nxr-body"><p id="interviewRoundsInfoMessage"></p></div>
+    <div class="nxr-footer"><button type="button" class="btn btn-primary" id="interviewRoundsInfoOk">OK</button></div>
   </div>
 </div>
 
