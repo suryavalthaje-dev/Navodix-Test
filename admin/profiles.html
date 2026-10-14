@@ -2908,6 +2908,41 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 @media(max-width:600px){#profileModal .profile-form-grid{grid-template-columns:minmax(0,1fr)!important;}#profileModal .profile-form-grid .field-span-2{grid-column:1!important;}}
 </style>
 
+
+<style id="profile-notes-navodix-compact-standard-v1">
+/* Navodix standard: compact notes dialog with fixed header/footer and scrollable content. */
+.profile-notes-new-modal.profile-notes-compact{
+  width:min(780px,calc(100vw - 32px))!important;max-width:780px!important;
+  height:auto!important;max-height:calc(100dvh - 32px)!important;min-height:0!important;
+  border:1px solid #B8CADE!important;border-radius:10px!important;box-shadow:0 16px 44px rgba(15,40,75,.22)!important;
+}
+.profile-notes-compact .profile-notes-new-header{
+  min-height:48px!important;box-sizing:border-box!important;padding:10px 16px!important;
+  background:#2878E8!important;border-bottom:0!important;align-items:center!important;
+}
+.profile-notes-compact .profile-notes-new-header .section-badge{display:none!important}
+.profile-notes-compact .profile-notes-new-header h2{font-size:16px!important;line-height:1.25!important;font-weight:700!important;margin:0!important;color:#fff!important}
+.profile-notes-compact .profile-notes-new-header .modal-close{color:#fff!important;width:28px!important;height:28px!important}
+.profile-notes-compact .profile-notes-new-body{padding:12px 16px!important;overflow-y:auto!important;min-height:0!important;gap:0!important}
+.profile-notes-compact .profile-notes-context{margin:0 0 10px!important;padding:8px 10px!important;border:1px solid #D5E1EF!important;border-radius:5px!important;background:#F5F8FC!important;color:#263F62!important;font-size:12px!important;line-height:1.35!important}
+.profile-notes-compact .profile-notes-context strong{font-size:11px!important;font-weight:700!important;color:#263F62!important}
+.profile-notes-compact .profile-notes-context .profile-detail-muted{display:none!important}
+.profile-notes-compact .profile-notes-table{font-size:11px!important;border-collapse:collapse!important}
+.profile-notes-compact .profile-notes-table th{padding:7px 8px!important;font-size:10px!important;line-height:1.2!important;background:#EAF1FA!important;color:#29486F!important;font-weight:700!important}
+.profile-notes-compact .profile-notes-table td{padding:7px 8px!important;font-size:11px!important;line-height:1.35!important;vertical-align:top!important;overflow-wrap:anywhere!important}
+.profile-notes-compact .profile-notes-empty{padding:10px 0!important;font-size:12px!important;color:#64748B!important}
+.profile-notes-compact .profile-note-form{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #DCE5F0!important}
+.profile-notes-compact .profile-note-form-grid{grid-template-columns:160px minmax(0,1fr)!important;gap:8px 12px!important}
+.profile-notes-compact .profile-note-form-grid .field-group-wide{grid-column:1 / -1!important}
+.profile-notes-compact .profile-note-form .field-group{margin:0!important}
+.profile-notes-compact .profile-note-form label{margin:0 0 4px!important;font-size:11px!important;font-weight:700!important;color:#263F62!important}
+.profile-notes-compact .profile-note-form select{height:32px!important;min-height:32px!important;padding:0 8px!important;font-size:12px!important;border:1px solid #CBD8E8!important;border-radius:5px!important}
+.profile-notes-compact .profile-note-form textarea{height:66px!important;min-height:66px!important;padding:7px 8px!important;font-size:12px!important;line-height:1.35!important;border:1px solid #CBD8E8!important;border-radius:5px!important}
+.profile-notes-compact .profile-notes-new-footer{height:54px!important;min-height:54px!important;max-height:54px!important;flex:0 0 54px!important;padding:8px 16px!important;background:#C9D9EC!important;border-top:1px solid #B8CADE!important;gap:10px!important}
+.profile-notes-compact .profile-notes-new-buttons .btn{min-width:76px!important;height:30px!important;padding:5px 12px!important;font-size:11px!important;border-radius:5px!important}
+.profile-notes-compact .profile-notes-new-notice{font-size:11px!important;line-height:1.25!important}
+@media(max-width:600px){.profile-notes-compact .profile-note-form-grid{grid-template-columns:1fr!important}.profile-notes-compact .profile-note-form-grid .field-group-wide{grid-column:auto!important}.profile-notes-compact .profile-notes-new-body{padding:10px 12px!important}.profile-notes-compact .profile-notes-new-footer{padding:8px 12px!important}}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -3411,7 +3446,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </div>
 
 <div class="modal-backdrop hidden" id="profileNotesModal" aria-hidden="true">
-  <div class="profile-notes-new-modal" role="dialog" aria-modal="true" aria-labelledby="profileNotesTitle">
+  <div class="profile-notes-new-modal profile-notes-compact" role="dialog" aria-modal="true" aria-labelledby="profileNotesTitle">
     <div class="modal-header profile-notes-new-header">
       <div><span class="section-badge" id="profileNotesSectionBadge">REQUIREMENT NOTES</span><h2 id="profileNotesTitle">Notes</h2></div>
       <button class="modal-close" id="closeProfileNotesModal" type="button"><i class="fa-solid fa-xmark"></i></button>
