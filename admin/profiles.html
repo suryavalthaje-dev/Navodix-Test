@@ -3549,3 +3549,26 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 #profileDetailsModal .profile-details-body,
 #profileDetailsModal .profile-details-actions{border-left:0!important;border-right:0!important;border-bottom:0!important;}
 </style>
+
+
+<style id="profiles-name-wrap-hanging-indent-v1">
+/* Wrap long profile names while keeping continuation lines aligned with the name text, not the icon. */
+.profiles-list-card .profile-name-cell strong{
+  display:grid !important;
+  grid-template-columns:18px minmax(0,1fr) !important;
+  align-items:start !important;
+  column-gap:7px !important;
+  width:100% !important;
+  min-width:0 !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  overflow-wrap:anywhere !important;
+  word-break:normal !important;
+}
+.profiles-list-card .profile-name-cell strong::before{
+  grid-column:1 !important;
+  grid-row:1 !important;
+  margin-top:0 !important;
+}
+</style>
