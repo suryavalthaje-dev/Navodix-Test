@@ -190,16 +190,33 @@
       link.remove();
     }catch(err){ profileDetailsMessage(`Could not download the resume: ${err.message||String(err)}`,'error'); }
   }
-  async function removeProfileAssociation(profileId, associationId, requirementLabel){
+  let pendingRemoveAssociation = null;
+  function closeRemoveProfileAssociationModal(){
+    const modal=$('removeProfileAssociationModal'); if(modal){modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');}
+    pendingRemoveAssociation=null;
+    if($('profileDetailsModal')?.classList.contains('hidden') && $('interviewRequirementPickerModal')?.classList.contains('hidden')) document.body.classList.remove('modal-open');
+  }
+  async function removeProfileAssociation(profileId, associationId, requirementLabel, profileName=''){
     if(!profileId || !associationId)return;
-    const confirmed=window.confirm(`Remove the job association${requirementLabel?` for ${requirementLabel}`:''}?\n\nThe association, its job-specific notes and interview records will be removed. The profile itself will not be deleted.`);
-    if(!confirmed)return;
+    pendingRemoveAssociation={profileId,associationId,requirementLabel:requirementLabel||'requirement',profileName:profileName||profiles.find(x=>String(x.id)===String(profileId))?.full_name||'Profile'};
+    const text=$('removeProfileAssociationText');
+    if(text)text.textContent=`Remove the association between ${pendingRemoveAssociation.profileName} and ${pendingRemoveAssociation.requirementLabel}? This will also remove its requirement-specific notes and interview records. The profile itself and its other requirement associations will remain.`;
+    const modal=$('removeProfileAssociationModal'); modal.classList.remove('hidden'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
+  }
+  async function confirmRemoveProfileAssociation(){
+    if(!pendingRemoveAssociation)return;
+    const pending={...pendingRemoveAssociation}; const btn=$('confirmRemoveProfileAssociationButton'); if(btn)btn.disabled=true;
     try{
-      profileDetailsMessage('Removing job association…');
-      const fd=new FormData(); fd.append('action','remove-association'); fd.append('profile_id',profileId); fd.append('association_id',associationId);
+      const fd=new FormData(); fd.append('action','remove-association'); fd.append('profile_id',pending.profileId); fd.append('association_id',pending.associationId);
       await callProfileFunction(fd);
-      await openProfileDetails(profileId);
-    }catch(err){ profileDetailsMessage(`Could not remove the job association: ${err.message||String(err)}`,'error'); }
+      closeRemoveProfileAssociationModal();
+      if(!$('profileDetailsModal')?.classList.contains('hidden') && String(profileAssociationCurrentProfileId)===String(pending.profileId)) await openProfileDetails(pending.profileId);
+      await loadProfiles();
+      message(`Association with ${pending.requirementLabel} removed successfully.`,'success');
+    }catch(err){
+      const msg=`Could not remove the job association: ${err.message||String(err)}`;
+      if(!$('profileDetailsModal')?.classList.contains('hidden'))profileDetailsMessage(msg,'error');else message(msg,'error');
+    }finally{if(btn)btn.disabled=false;}
   }
 
   function deleteProfile(profileId, profileName){
@@ -499,7 +516,7 @@
   function selectProfileRow(profileId){ selectedProfileId=profileId||''; document.querySelectorAll('.profiles-table tbody tr.profile-row').forEach(row=>row.classList.toggle('profile-row-selected',String(row.dataset.profileRowId)===String(selectedProfileId))); }
   function positionProfileRowContextMenu(x,y){ const menu=$('profileRowContextMenu'); if(!menu)return; menu.classList.remove('hidden'); const rect=menu.getBoundingClientRect(); const left=Math.min(x,window.innerWidth-rect.width-8); const top=Math.min(y,window.innerHeight-rect.height-8); menu.style.left=Math.max(8,left)+'px'; menu.style.top=Math.max(8,top)+'px'; }
   function openProfileRowContextMenu(profileId,x,y){ const p=profiles.find(item=>String(item.id)===String(profileId)); if(!p)return; selectProfileRow(profileId); const title=$('profileRowContextMenuTitle'); if(title)title.textContent=`${p.full_name||'Profile'} — Actions`; const associate=$('profileContextAssociateButton'); const interviews=$('profileContextInterviewsButton'); if(associate)associate.classList.toggle('hidden',Boolean(requirementId)); if(interviews)interviews.classList.remove('hidden'); positionProfileRowContextMenu(x,y); }
-  async function handleProfileContextAction(action){ const id=selectedProfileId; if(!id)return; hideProfileRowContextMenu(); try{ if(action==='view')await openProfileDetails(id); else if(action==='edit')await editProfile(id); else if(action==='associate')await associateProfile(id); else if(action==='interviews')await openInterviews(id); else if(action==='profile-notes')await openProfileLevelNotes(id); else if(action==='association-notes')await openProfileAssociationNotes(id); else if(action==='delete'){ const p=profiles.find(item=>String(item.id)===String(id)); deleteProfile(id,p?.full_name||'this profile'); } }catch(err){message(err.message||String(err),'error');} }
+  async function handleProfileContextAction(action){ const id=selectedProfileId; if(!id)return; hideProfileRowContextMenu(); try{ if(action==='view')await openProfileDetails(id); else if(action==='edit')await editProfile(id); else if(action==='associate')await associateProfile(id); else if(action==='interviews')await openInterviews(id); else if(action==='profile-notes')await openProfileLevelNotes(id); else if(action==='association-notes')await openProfileAssociationNotes(id); else if(action==='remove-association')await openProfileAssociationRemoval(id); else if(action==='delete'){ const p=profiles.find(item=>String(item.id)===String(id)); deleteProfile(id,p?.full_name||'this profile'); } }catch(err){message(err.message||String(err),'error');} }
 
   function updateProfilesPagination(total,totalPages,start,count){ const wrap=$('profilesPagination'); if(!wrap)return; wrap.classList.toggle('hidden',total===0); if(!total)return; $('profilesPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`; $('profilesPageNumber').textContent=`Page ${currentPage} of ${totalPages}`; $('profilesFirst').disabled=currentPage<=1; $('profilesPrev').disabled=currentPage<=1; $('profilesNext').disabled=currentPage>=totalPages; $('profilesLast').disabled=currentPage>=totalPages; }
   function goToProfilesPage(page){ const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)); currentPage=Math.min(Math.max(1,page),totalPages); render(); }
@@ -578,6 +595,23 @@
     select.onchange=()=>{if(pickerError)pickerError.textContent='';};
     $('confirmInterviewRequirementPicker').onclick=async()=>{const value=select.value;if(value===''){if(pickerError)pickerError.textContent='Please select a requirement.';return;}const x=unique[Number(value)];if(!x){if(pickerError)pickerError.textContent='Please select a valid requirement.';return;}if(pickerError)pickerError.textContent='';$('interviewRequirementPickerModal').classList.add('hidden');$('interviewRequirementPickerModal').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');await openProfileRequirementNotes(id,x.requirementId,x.label);};
   }
+  async function openProfileAssociationRemoval(id){
+    const p=profiles.find(x=>String(x.id)===String(id)); if(!p)return;
+    const associations=(p.associations||[]).filter(a=>a.requirement_id);
+    if(!associations.length){showInterviewRoundsInfo('This profile is not associated with any requirement. Associate it with a requirement before removing an association.');return;}
+    const unique=[]; const seen=new Set();
+    associations.forEach(a=>{const key=String(a.requirement_id);if(!seen.has(key)){seen.add(key);const r=requirements.find(x=>String(x.id)===key);unique.push({association:a,requirementId:key,label:r?`${r.job_code?`${r.job_code} — `:''}${r.title||'Requirement'}${r.location?` - ${r.location}`:''}`:(a.requirement_title||a.title||'Requirement')});}});
+    if(requirementId){const chosen=unique.find(x=>String(x.requirementId)===String(requirementId));if(chosen){await removeProfileAssociation(id,chosen.association.id,chosen.label,p.full_name);return;}}
+    if(unique.length===1){const x=unique[0];await removeProfileAssociation(id,x.association.id,x.label,p.full_name);return;}
+    const select=$('interviewRequirementPicker'); if(!select){message('Unable to select a requirement. Please refresh the page.','error');return;}
+    select.innerHTML='<option value="">Select a requirement</option>'+unique.map((x,i)=>`<option value="${i}">${esc(x.label)}</option>`).join('');
+    $('interviewRequirementPickerTitle').textContent='Select Requirement'; $('interviewRequirementPickerMessage').textContent=`${p.full_name} is associated with multiple requirements. Select the association you want to remove.`;
+    const pickerError=$('interviewRequirementPickerError');if(pickerError)pickerError.textContent='';select.value='';
+    $('interviewRequirementPickerModal').classList.remove('hidden');$('interviewRequirementPickerModal').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');
+    select.onchange=()=>{if(pickerError)pickerError.textContent='';};
+    $('confirmInterviewRequirementPicker').onclick=async()=>{const value=select.value;if(value===''){if(pickerError)pickerError.textContent='Please select a requirement.';return;}const x=unique[Number(value)];if(!x){if(pickerError)pickerError.textContent='Please select a valid requirement.';return;}if(pickerError)pickerError.textContent='';$('interviewRequirementPickerModal').classList.add('hidden');$('interviewRequirementPickerModal').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');await removeProfileAssociation(id,x.association.id,x.label,p.full_name);};
+  }
+
   async function openInterviews(id){
     const p=profiles.find(x=>String(x.id)===String(id)); if(!p)return;
     if(requirementId){ const assoc=p.associations?.find(a=>String(a.requirement_id)===String(requirementId)); await openInterviewsForAssociation(id,assoc?.id||'',requirementId,`${requirement?.job_code||''} — ${requirement?.title||'Requirement'}`); return; }
@@ -642,7 +676,7 @@
   $('profileRowContextMenu').addEventListener('click',async e=>{ const button=e.target.closest('[data-context-action]'); if(!button)return; await handleProfileContextAction(button.dataset.contextAction); });
   document.addEventListener('click',e=>{ const menu=$('profileRowContextMenu'); if(menu&&!menu.contains(e.target))hideProfileRowContextMenu(); });
   window.addEventListener('resize',hideProfileRowContextMenu);
-  window.addEventListener('scroll',hideProfileRowContextMenu,true); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',confirmDeleteProfile); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
+  window.addEventListener('scroll',hideProfileRowContextMenu,true); $('cancelRemoveProfileAssociationButton').addEventListener('click',closeRemoveProfileAssociationModal); $('confirmRemoveProfileAssociationButton').addEventListener('click',confirmRemoveProfileAssociation); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',confirmDeleteProfile); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
     const interview=e.target.closest('[data-profile-association-interviews]');
     if(interview){
       try{ await openInterviewsForAssociation(profileAssociationCurrentProfileId, interview.dataset.profileAssociationInterviews, interview.dataset.profileAssociationRequirement, interview.dataset.profileAssociationLabel); }
