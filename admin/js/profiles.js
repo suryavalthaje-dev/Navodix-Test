@@ -244,7 +244,7 @@
   }
   async function openProfileLevelNotes(profileId){
     profileNotesProfileId=profileId||''; profileNotesRequirementId=''; profileNotesEditingId=''; if(!profileNotesProfileId)return;
-    $('profileNotesTitle').textContent='Profile Notes'; $('profileNotesSectionBadge').textContent='PROFILE NOTES'; $('profileNotesContext').innerHTML='<strong>Profile-level notes</strong><br><span class="profile-detail-muted">These notes are general information and updates about this candidate, independent of any requirement.</span>'; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
+    $('profileNotesTitle').textContent='Profile Notes'; $('profileNotesSectionBadge').textContent='PROFILE NOTES'; $('profileNotesContext').innerHTML='<strong>Scope:</strong> Candidate profile (not requirement-specific)'; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadProfileLevelNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
   async function loadRequirementNotes(){
@@ -258,7 +258,7 @@
   }
   async function openProfileRequirementNotes(profileId,requirementId,requirementLabel='Requirement'){
     profileNotesProfileId=profileId||''; profileNotesRequirementId=requirementId||''; profileNotesEditingId=''; if(!profileNotesProfileId||!profileNotesRequirementId)return;
-    $('profileNotesTitle').textContent=`Notes — ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT NOTES'; $('profileNotesContext').innerHTML=`<strong>Requirement:</strong> ${esc(requirementLabel)}<br><span class="profile-detail-muted">These notes are specific to this profile and requirement association.</span>`; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
+    $('profileNotesTitle').textContent=`Notes — ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT NOTES'; $('profileNotesContext').innerHTML=`<strong>Requirement:</strong> ${esc(requirementLabel)}`; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadRequirementNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
   async function saveProfileRequirementNote(e){
