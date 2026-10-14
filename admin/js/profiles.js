@@ -333,8 +333,8 @@
         <div class="profile-education-row profile-education-row-1">${detailItem('Additional Information',p.additional_information,true)}</div>
       </div></div>
       <div class="profile-detail-section profile-job-associations-section">
-        <div class="profile-detail-section-title profile-detail-section-title-row"><span class="profile-section-title-label"><i class="fa-solid fa-link" aria-hidden="true"></i> Job Associations</span><button type="button" class="btn btn-primary btn-small" id="addProfileAssociationButton"><i class="fa-solid fa-plus"></i> Add Requirement</button></div>
-        ${renderDetailTable(['Requirement','Status','Association Status','Associated','Submitted to Client','Notes','Action'],(assocRes.data||[]).map(a=>{
+        <div class="profile-detail-section-title profile-detail-section-title-row"><span class="profile-section-title-label"><i class="fa-solid fa-link" aria-hidden="true"></i> Job Associations</span></div>
+        ${renderDetailTable(['Requirement','Status','Association Status','Associated','Submitted to Client','Notes'],(assocRes.data||[]).map(a=>{
           const r=reqMap[a.requirement_id]||{};
           return [
             `<strong>${esc(r.job_code||'—')}</strong><br><span class="profile-detail-muted">${esc(r.title||'Requirement')}</span>`,
@@ -342,8 +342,7 @@
             `<span class="status-pill ${statusClass(a.status)}">${esc(a.status||'Associated')}</span>`,
             esc(formatDateTime(a.associated_at)),
             esc(formatDateOnly(a.submitted_to_client_date)),
-            esc(a.notes||'—'),
-            `<div class="profile-job-association-actions"><button type="button" class="icon-button" data-profile-association-interviews="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Interview rounds"><i class="fa-solid fa-calendar-check"></i></button><button type="button" class="icon-button" data-profile-association-history="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Status history"><i class="fa-solid fa-clock-rotate-left"></i></button><button type="button" class="icon-button" data-profile-association-notes="${esc(a.id)}" data-profile-association-requirement="${esc(a.requirement_id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Requirement-specific notes"><i class="fa-solid fa-note-sticky"></i></button><button type="button" class="icon-button" data-profile-association-edit="${esc(a.id)}" title="Edit association"><i class="fa-solid fa-pen-to-square"></i></button><button type="button" class="icon-button association-delete-button" data-profile-association-delete="${esc(a.id)}" data-profile-association-label="${esc((r.job_code||r.title||'requirement'))}" title="Remove association"><i class="fa-solid fa-link-slash"></i></button></div>`
+            esc(a.notes||'—')
           ];
         }),'No job associations.')}
       </div>
@@ -353,24 +352,13 @@
       </div></div>
       <div class="profile-detail-section"><div class="profile-detail-section-title"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i><span>Recruitment Sources</span></div>${renderDetailTable(['Source','Source Details','Referrer Name','Referrer Mobile','Referrer Email','Added'],sourceRows.map(x=>[esc(x.source||'—'),esc(x.source_details||'—'),esc(x.referrer_name||'—'),esc(x.referrer_mobile||'—'),esc(x.referrer_email||'—'),esc(formatDateTime(x.created_at))]),'No source history.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i><span>Resume</span></div><div class="profile-resume-card"><div class="profile-resume-card-heading">RESUME</div>${p.resume_object_path ? `<div class="profile-resume-file-row"><i class="fa-regular fa-file-lines" aria-hidden="true"></i><span class="profile-resume-file-name" title="${esc(p.resume_file_name||'')}" >${esc(p.resume_file_name||'Resume')}</span></div>${resumeButtons}` : '<div class="profile-resume-file-row">No resume available.</div>'}<div class="profile-detail-item profile-detail-wide profile-resume-last-updated"><div class="profile-resume-last-updated-content"><span class="profile-detail-label">LAST UPDATED</span><div class="profile-detail-value profile-resume-last-updated-value">${esc(p.resume_updated_at?formatDateTime(p.resume_updated_at):'—')}</div></div>${resumeLastUpdatedButton}</div></div></div>
-      <div class="profile-detail-section profile-updates-notes-section"><div class="profile-detail-section-title profile-detail-section-title-row"><span class="profile-section-title-label"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Updates / Notes</span><button type="button" class="btn btn-primary btn-small" id="addProfileNoteButton"><i class="fa-solid fa-plus"></i> Add Note</button></div>${renderDetailTable(['Date & Time','Type','Requirement','Update / Note'],notes.map(n=>[esc(formatDateTime(n.created_at)),esc(n.note_type||'General'),esc((reqMap[n.requirement_id]?.job_code||reqMap[n.requirement_id]?.title||'Profile Level')),esc(n.note||'')]),'No profile notes found.')}</div>
+      <div class="profile-detail-section profile-updates-notes-section"><div class="profile-detail-section-title profile-detail-section-title-row"><span class="profile-section-title-label"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Updates / Notes</span></div>${renderDetailTable(['Date & Time','Type','Requirement','Update / Note'],notes.map(n=>[esc(formatDateTime(n.created_at)),esc(n.note_type||'General'),esc((reqMap[n.requirement_id]?.job_code||reqMap[n.requirement_id]?.title||'Profile Level')),esc(n.note||'')]),'No profile notes found.')}</div>
       <div class="profile-detail-section"><div class="profile-detail-section-title"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Profile Status History</span></div>${renderDetailTable(['Date & Time','Status','Notes'],histories.map(h=>[esc(formatDateTime(h.changed_at)),`<span class="status-pill ${statusClass(h.status)}">${esc(h.status||'—')}</span>`,esc(h.notes||'—')]),'No status history found.')}</div>
       <div class="profile-detail-section profile-interview-rounds-detail-section"><div class="profile-detail-section-title"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Interview Rounds</span></div>${renderDetailTable(['Round','Requirement','Result','Date','Time','Mode','Interviewer','Feedback'],interviews.map(i=>{const r=reqMap[i.requirement_id]||{};return [esc(i.round_name||('Round '+i.round_number)),esc(r.title||r.job_code||'Requirement'),esc(i.result||'Pending'),esc(i.scheduled_date||'—'),esc(formatInterviewTime(i.scheduled_time)),esc(i.mode||'—'),esc(i.interviewer||'—'),esc(i.feedback||'—')]}),'No profile requirement interviews found.')}</div>`;
     profileDetailsMessage(''); $('profileDetailsTitle').innerHTML=`View Profile : <span class="profile-header-name">${esc(p.full_name||'Profile')}</span> <span class="profile-header-code">(${esc(p.profile_number||'')})</span>`; $('profileDetailsModal').classList.remove('hidden'); $('profileDetailsModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open');
     const viewBtn=$('viewProfileResumeButton'), downloadBtn=$('downloadProfileResumeButton');
     if(viewBtn)viewBtn.onclick=()=>viewProfileResume(p);
     if(downloadBtn)downloadBtn.onclick=()=>downloadProfileResume(p);
-    const addProfileNoteButton=$('addProfileNoteButton');
-    if(addProfileNoteButton)addProfileNoteButton.onclick=()=>openProfileLevelNotes(profileAssociationCurrentProfileId);
-    document.querySelectorAll('[data-profile-association-edit]').forEach(btn=>{
-      btn.addEventListener('click',async function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        try{ await openProfileAssociationModal(profileAssociationCurrentProfileId,this.dataset.profileAssociationEdit); }
-        catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
-      });
-    });
-    const deleteBtn=$('deleteProfileButton'); if(deleteBtn)deleteBtn.onclick=()=>deleteProfile(p.id,p.full_name||p.profile_number||'this profile');
   }
   function associationMessage(text,type=''){
     const el=$('profileAssociationMessage'); if(!el)return;
@@ -722,12 +710,6 @@
   document.addEventListener('click',e=>{ const menu=$('profileRowContextMenu'); if(menu&&!menu.contains(e.target))hideProfileRowContextMenu(); });
   window.addEventListener('resize',hideProfileRowContextMenu);
   window.addEventListener('scroll',hideProfileRowContextMenu,true); $('cancelRemoveProfileAssociationButton').addEventListener('click',closeRemoveProfileAssociationModal); $('confirmRemoveProfileAssociationButton').addEventListener('click',confirmRemoveProfileAssociation); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',confirmDeleteProfile); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
-    const interview=e.target.closest('[data-profile-association-interviews]');
-    if(interview){
-      try{ await openInterviewsForAssociation(profileAssociationCurrentProfileId, interview.dataset.profileAssociationInterviews, interview.dataset.profileAssociationRequirement, interview.dataset.profileAssociationLabel); }
-      catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
-      return;
-    }
     if(e.target.closest('#closeProfileResumeButton') || e.target.closest('#closeProfileResumeBottomButton')){
       const viewer=$('profileResumeViewer'); const frame=$('profileResumeFrame'); const docxViewer=$('profileResumeDocxViewer'); const loading=$('profileResumeLoading');
       if(frame)frame.src=''; if(docxViewer)docxViewer.innerHTML=''; if(loading){loading.classList.remove('hidden'); loading.textContent='Loading resume…';}
@@ -736,23 +718,6 @@
       const closeBtn=$('closeProfileResumeButton'); if(closeBtn)closeBtn.classList.add('hidden');
       const closeBottomBtn=$('closeProfileResumeBottomButton'); if(closeBottomBtn)closeBottomBtn.classList.add('hidden');
       return;
-    }
-    const notes=e.target.closest('[data-profile-association-notes]'); if(notes){ try{await openProfileRequirementNotes(profileAssociationCurrentProfileId,notes.dataset.profileAssociationRequirement,notes.dataset.profileAssociationLabel||'Requirement');}catch(err){profileDetailsMessage(err.message||String(err),'error');} return; }
-    const hist=e.target.closest('[data-profile-association-history]');
-    if(hist){ try{ await openAssociationStatusHistory(hist.dataset.profileAssociationHistory,hist.dataset.profileAssociationLabel||'Requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
-    const del=e.target.closest('[data-profile-association-delete]');
-    if(del){ try{ await removeProfileAssociation(profileAssociationCurrentProfileId,del.dataset.profileAssociationDelete,del.dataset.profileAssociationLabel||'requirement'); }catch(err){ profileDetailsMessage(err.message||String(err),'error'); } return; }
-    const edit=e.target.closest('[data-profile-association-edit]');
-    if(edit){
-      e.preventDefault();
-      e.stopPropagation();
-      try{ await openProfileAssociationModal(profileAssociationCurrentProfileId,edit.dataset.profileAssociationEdit); }
-      catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
-      return;
-    }
-    if(e.target.closest('#addProfileAssociationButton')){
-      try{ await openProfileAssociationModal(profileAssociationCurrentProfileId); }
-      catch(err){ profileDetailsMessage(err.message||String(err),'error'); }
     }
   }); $('closeProfileAssociationModal').addEventListener('click',closeProfileAssociationModal);
   $('cancelProfileAssociationButton').addEventListener('click',closeProfileAssociationModal);
