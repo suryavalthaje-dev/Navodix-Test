@@ -933,6 +933,14 @@
       selectRequirementRow(row.dataset.requirementRowId);
     });
 
+    $('jobsTableBody').addEventListener('dblclick', async (event) => {
+      const row = event.target.closest('tr.requirement-row');
+      if (!row) return;
+      selectRequirementRow(row.dataset.requirementRowId);
+      hideRequirementRowContextMenu();
+      await handleRequirementContextAction('view');
+    });
+
     $('jobsTableBody').addEventListener('contextmenu', (event) => {
       const row = event.target.closest('tr.requirement-row');
       if (!row) return;
