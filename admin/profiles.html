@@ -3811,6 +3811,34 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
+
+<style id="view-profile-label-refinement-trial">
+/* Trial refinement: slightly taller/larger section headings and uniform data-label widths. */
+#profileDetailsModal .profile-detail-section-title {
+  min-height:30px !important;
+  padding:6px 9px !important;
+  font-size:11px !important;
+  line-height:1.25 !important;
+  display:flex !important;
+  align-items:center !important;
+}
+#profileDetailsModal .profile-personal-detail-grid .profile-detail-item,
+#profileDetailsModal .profile-professional-detail-grid .profile-detail-item,
+#profileDetailsModal .profile-source-detail-grid .profile-detail-item {
+  grid-template-columns:120px minmax(0,1fr) !important;
+}
+#profileDetailsModal .profile-personal-detail-grid .profile-detail-item .profile-detail-label,
+#profileDetailsModal .profile-professional-detail-grid .profile-detail-item .profile-detail-label,
+#profileDetailsModal .profile-source-detail-grid .profile-detail-item .profile-detail-label {
+  width:120px !important;
+  min-width:120px !important;
+  box-sizing:border-box !important;
+  white-space:nowrap !important;
+  font-size:8.5px !important;
+  padding:5px 6px !important;
+}
+</style>
+
 </body>
 
 
