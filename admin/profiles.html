@@ -3626,8 +3626,9 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </style>
 
 </body>
-<style id="profile-summary-fixed-scroll-layout">
-/* Add/Edit: summary stays above the independently scrolling form content. */
+
+<style id="profile-summary-separated-scroll-layout">
+/* Add/Edit: the summary frame is a non-scrolling sibling above the form body. */
 #profileModal .npp-form { overflow:hidden!important; display:flex!important; flex-direction:column!important; min-height:0!important; }
 #profileModal #profileFormHero {
   position:relative!important; inset:auto!important; z-index:2!important;
@@ -3635,13 +3636,54 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   background:#F5F9FF!important; box-shadow:none!important;
 }
 #profileModal .npp-body { flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; }
-#profileDetailsModal .profile-details-body { flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; }
-#profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero {
-  position:sticky!important; top:0!important; z-index:50!important;
-  background:#F4F9FF!important; isolation:isolate!important;
-  box-shadow:0 4px 8px rgba(30,73,126,.12)!important;
+
+/* View Profile: summary is moved outside the scrolling details container by the script below. */
+#profileDetailsModal .profile-details-body {
+  display:flex!important; flex-direction:column!important;
+  flex:1 1 auto!important; min-height:0!important; overflow:hidden!important;
+}
+#profileDetailsModal .profile-details-body > .profile-premium-view-hero {
+  position:relative!important; inset:auto!important; z-index:2!important;
+  flex:0 0 auto!important; width:auto!important; margin:0 0 12px!important;
+  background:#F4F9FF!important; box-shadow:none!important;
+}
+#profileDetailsModal .profile-details-body > #profileDetailsBody {
+  flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important;
+  scrollbar-width:thin;
 }
 </style>
+<script id="profile-view-separated-scroll-script">
+(function () {
+  function separateViewSummary() {
+    const modal = document.getElementById('profileDetailsModal');
+    if (!modal) return;
+    const detailsBody = modal.querySelector('.profile-details-body');
+    const content = modal.querySelector('#profileDetailsBody');
+    if (!detailsBody || !content) return;
+    const hero = content.querySelector(':scope > .profile-premium-view-hero');
+    if (hero && hero.parentElement === content) {
+      detailsBody.insertBefore(hero, content);
+    }
+  }
+  function initialise() {
+    const content = document.getElementById('profileDetailsBody');
+    if (!content) return;
+    separateViewSummary();
+    const observer = new MutationObserver(separateViewSummary);
+    observer.observe(content, { childList: true, subtree: true });
+    const modal = document.getElementById('profileDetailsModal');
+    if (modal) {
+      const visibilityObserver = new MutationObserver(separateViewSummary);
+      visibilityObserver.observe(modal, { childList: true, subtree: true });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialise, { once: true });
+  } else {
+    initialise();
+  }
+})();
+</script>
 
 </html>
 
