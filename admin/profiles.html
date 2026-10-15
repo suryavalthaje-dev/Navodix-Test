@@ -3093,11 +3093,11 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   </div>
 </header>
 <form id="profileForm" class="npp-form" novalidate><input type="hidden" id="profileId"><input type="hidden" id="profileAssociationRequirementId">
-<div class="npp-body">
 <div id="profileFormHero" class="profile-premium-hero" aria-live="polite">
   <div class="profile-premium-identity"><div id="profileFormAvatar" class="profile-premium-avatar">+</div><div class="profile-premium-identity-text"><strong id="profileFormHeroName">New Profile</strong><span id="profileFormHeroCode">Add candidate profile details</span><span id="profileFormHeroStatus" class="profile-premium-status">New candidate</span></div></div>
   <div class="profile-premium-metrics"><div class="profile-premium-metric"><span class="profile-premium-metric-icon blue"><i class="fa-solid fa-briefcase"></i></span><div><small>Total Experience</small><strong id="profileHeroExperience">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon teal"><i class="fa-solid fa-coins"></i></span><div><small>Current CTC</small><strong id="profileHeroCurrentCtc">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon orange"><i class="fa-solid fa-chart-column"></i></span><div><small>Expected CTC</small><strong id="profileHeroExpectedCtc">—</strong></div></div><div class="profile-premium-metric"><span class="profile-premium-metric-icon purple"><i class="fa-regular fa-clock"></i></span><div><small>Notice Period</small><strong id="profileHeroNoticePeriod">—</strong></div></div></div>
 </div>
+<div class="npp-body">
 <div id="existingProfileNotice" class="profile-association-panel hidden"></div>
 <div class="profile-form-grid">
 <div class="profile-form-section-title"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Personal Information</span></div>
@@ -3625,7 +3625,25 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   }
 </style>
 
-</body></html>
+</body>
+<style id="profile-summary-fixed-scroll-layout">
+/* Add/Edit: summary stays above the independently scrolling form content. */
+#profileModal .npp-form { overflow:hidden!important; display:flex!important; flex-direction:column!important; min-height:0!important; }
+#profileModal #profileFormHero {
+  position:relative!important; inset:auto!important; z-index:2!important;
+  flex:0 0 auto!important; align-self:stretch!important; margin:8px 12px 0!important;
+  background:#F5F9FF!important; box-shadow:none!important;
+}
+#profileModal .npp-body { flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; }
+#profileDetailsModal .profile-details-body { flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; }
+#profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero {
+  position:sticky!important; top:0!important; z-index:50!important;
+  background:#F4F9FF!important; isolation:isolate!important;
+  box-shadow:0 4px 8px rgba(30,73,126,.12)!important;
+}
+</style>
+
+</html>
 
 <style id="profile-modal-refinement-v1">
 /* Refinements requested after prototype layout approval: elegant full modal frame, wider Add/Edit, slightly left-shifted content, taller Skills field. */
