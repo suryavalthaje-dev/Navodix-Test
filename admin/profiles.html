@@ -3625,65 +3625,116 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   }
 </style>
 
-</body>
 
-<style id="profile-summary-separated-scroll-layout">
-/* Add/Edit: the summary frame is a non-scrolling sibling above the form body. */
-#profileModal .npp-form { overflow:hidden!important; display:flex!important; flex-direction:column!important; min-height:0!important; }
-#profileModal #profileFormHero {
-  position:relative!important; inset:auto!important; z-index:2!important;
-  flex:0 0 auto!important; align-self:stretch!important; margin:8px 12px 0!important;
-  background:#F5F9FF!important; box-shadow:none!important;
+<style id="profile-scroll-area-below-fixed-summary">
+/* Add/Edit: keep the summary as a non-scrolling row above the form scrollport. */
+#profileModal .npp-dialog {
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  min-height:0!important;
 }
-#profileModal .npp-body { flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; }
+#profileModal .npp-header { flex:0 0 auto!important; }
+#profileModal #profileForm {
+  display:flex!important;
+  flex:1 1 auto!important;
+  flex-direction:column!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+#profileModal #profileFormHero {
+  position:relative!important;
+  inset:auto!important;
+  flex:0 0 auto!important;
+  margin:8px 12px 0!important;
+  z-index:2!important;
+  background:#F5F9FF!important;
+}
+#profileModal #profileForm > .npp-body {
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+}
 
-/* View Profile: summary is moved outside the scrolling details container by the script below. */
+/* View Profile: separate the summary into a fixed sibling; only details content scrolls. */
+#profileDetailsModal .profile-details-modal {
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  min-height:0!important;
+}
+#profileDetailsModal .profile-details-modal > .modal-header,
+#profileDetailsModal .profile-details-modal > .profile-details-actions {
+  flex:0 0 auto!important;
+}
 #profileDetailsModal .profile-details-body {
-  display:flex!important; flex-direction:column!important;
-  flex:1 1 auto!important; min-height:0!important; overflow:hidden!important;
+  display:flex!important;
+  flex:1 1 auto!important;
+  flex-direction:column!important;
+  min-height:0!important;
+  overflow:hidden!important;
 }
 #profileDetailsModal .profile-details-body > .profile-premium-view-hero {
-  position:relative!important; inset:auto!important; z-index:2!important;
-  flex:0 0 auto!important; width:auto!important; margin:0 0 12px!important;
-  background:#F4F9FF!important; box-shadow:none!important;
+  position:relative!important;
+  inset:auto!important;
+  display:grid!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  margin:0 0 12px!important;
+  z-index:2!important;
+  background:#F4F9FF!important;
+  box-shadow:none!important;
 }
 #profileDetailsModal .profile-details-body > #profileDetailsBody {
-  flex:1 1 auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important;
+  display:block!important;
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
   scrollbar-width:thin;
 }
 </style>
-<script id="profile-view-separated-scroll-script">
+<script id="profile-move-view-summary-outside-scrollport">
 (function () {
-  function separateViewSummary() {
+  function moveSummaryOutsideScrollport() {
     const modal = document.getElementById('profileDetailsModal');
     if (!modal) return;
-    const detailsBody = modal.querySelector('.profile-details-body');
-    const content = modal.querySelector('#profileDetailsBody');
-    if (!detailsBody || !content) return;
-    const hero = content.querySelector(':scope > .profile-premium-view-hero');
-    if (hero && hero.parentElement === content) {
-      detailsBody.insertBefore(hero, content);
+    const scrollport = modal.querySelector('.profile-details-body > #profileDetailsBody');
+    const shell = modal.querySelector('.profile-details-body');
+    if (!scrollport || !shell) return;
+    const hero = scrollport.querySelector('.profile-premium-view-hero');
+    if (hero && hero.parentElement !== shell) {
+      shell.insertBefore(hero, scrollport);
     }
   }
-  function initialise() {
-    const content = document.getElementById('profileDetailsBody');
-    if (!content) return;
-    separateViewSummary();
-    const observer = new MutationObserver(separateViewSummary);
-    observer.observe(content, { childList: true, subtree: true });
+  function init() {
     const modal = document.getElementById('profileDetailsModal');
-    if (modal) {
-      const visibilityObserver = new MutationObserver(separateViewSummary);
-      visibilityObserver.observe(modal, { childList: true, subtree: true });
-    }
+    const scrollport = modal && modal.querySelector('#profileDetailsBody');
+    if (!modal || !scrollport) return;
+    moveSummaryOutsideScrollport();
+    const observer = new MutationObserver(moveSummaryOutsideScrollport);
+    observer.observe(scrollport, { childList: true, subtree: true });
+    // Ensure the fixed summary is detached after each fresh profile render.
+    modal.addEventListener('click', function () {
+      queueMicrotask(moveSummaryOutsideScrollport);
+    }, true);
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialise, { once: true });
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
-    initialise();
+    init();
   }
 })();
 </script>
+
+</body>
+
+
 
 </html>
 
