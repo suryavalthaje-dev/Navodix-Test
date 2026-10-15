@@ -1792,5 +1792,157 @@ body.admin-app-page{
     })();
   </script>
 <script src="js/navigation.js?v=33"></script>
+
+<style id="requirement-modal-profile-matched-stacked-layout">
+/* Corrected visual-only layout: match Profiles Management with sections stacked vertically. */
+#jobModal .job-modal {
+  width:min(1120px,calc(100vw - 32px)) !important;
+  max-width:1120px !important;
+}
+#jobModal .requirement-modal-layout {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:8px !important;
+}
+#jobModal .requirement-panel {
+  width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+}
+#jobModal .requirement-panel-heading {
+  min-height:30px !important;
+  padding:5px 9px !important;
+  gap:7px !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+}
+#jobModal .requirement-panel-fields {
+  padding:0 !important;
+}
+#jobModal .requirement-panel-fields .field-group,
+#jobModal .requirement-panel-additional .field-group,
+#jobModal.view-mode .requirement-panel-fields .field-group {
+  display:grid !important;
+  grid-template-columns:164px minmax(0,1fr) !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  margin:0 !important;
+  min-width:0 !important;
+  border-bottom:1px solid #D9E4F1 !important;
+}
+#jobModal .requirement-panel-fields .field-group:last-child {
+  border-bottom:0 !important;
+}
+#jobModal .requirement-panel-fields .field-group > label {
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  background:#F1F5F9 !important;
+  border-right:1px solid #D2DEEC !important;
+  color:#526B8C !important;
+  font-size:9px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+  white-space:normal !important;
+}
+#jobModal .requirement-panel-fields input,
+#jobModal .requirement-panel-fields select {
+  height:28px !important;
+  min-height:28px !important;
+  margin:0 !important;
+  padding:0 7px !important;
+  border:1px solid #D3DFED !important;
+  border-radius:3px !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  color:#1E3557 !important;
+  box-shadow:none !important;
+}
+#jobModal .requirement-panel-fields textarea {
+  min-height:50px !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  border:1px solid #D3DFED !important;
+  border-radius:3px !important;
+  font-size:12px !important;
+  line-height:1.3 !important;
+  color:#1E3557 !important;
+  resize:vertical !important;
+}
+#jobModal .requirement-panel-fields .field-help {
+  grid-column:2 !important;
+  margin:2px 7px 4px !important;
+  font-size:9px !important;
+  line-height:1.25 !important;
+}
+#jobModal .requirement-panel-fields .requirement-repeat-section,
+#jobModal .requirement-panel-fields .requirement-jd-section {
+  margin:6px 7px !important;
+  border:1px solid #DCE4EE !important;
+  border-radius:4px !important;
+}
+#jobModal .requirement-panel-fields .repeat-heading {
+  min-height:30px !important;
+  padding:5px 8px !important;
+}
+#jobModal .requirement-panel-fields .repeat-list {
+  gap:4px !important;
+  padding:5px 7px !important;
+}
+#jobModal .requirement-panel-fields .repeat-input {
+  height:28px !important;
+  min-height:28px !important;
+  padding:0 7px !important;
+  font-size:12px !important;
+}
+#jobModal .requirement-panel-fields .requirement-jd-heading {
+  padding:6px 8px !important;
+}
+#jobModal .requirement-panel-fields .jd-current-document,
+#jobModal .requirement-panel-fields .jd-upload-controls {
+  padding:6px 8px !important;
+}
+#jobModal .requirement-panel-fields .jd-document-help {
+  padding:0 8px 6px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > input:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group > select:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group > textarea:disabled {
+  background:#fff !important;
+  color:#173F78 !important;
+  opacity:1 !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  padding-left:8px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > select:disabled {
+  background-image:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > textarea:disabled {
+  resize:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-upload-controls,
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-document-help {
+  display:none !important;
+}
+@media(max-width:700px) {
+  #jobModal .job-modal {
+    width:calc(100vw - 16px) !important;
+    max-height:calc(100vh - 16px) !important;
+    height:calc(100vh - 16px) !important;
+  }
+  #jobModal .requirement-panel-fields .field-group,
+  #jobModal .requirement-panel-additional .field-group,
+  #jobModal.view-mode .requirement-panel-fields .field-group {
+    grid-template-columns:140px minmax(0,1fr) !important;
+  }
+}
+</style>
+
 </body>
 </html>
