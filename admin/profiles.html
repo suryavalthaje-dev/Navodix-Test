@@ -197,7 +197,10 @@
     .profile-form-grid .field-group select,
     .profile-form-grid .field-group textarea { font-family:inherit; font-size:12px; }
     .profile-category-box { border:1px solid var(--border-color); border-radius:7px; background:#FFFFFF; padding:8px 10px; max-height:96px; overflow-y:auto; }
-    .profile-category-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 14px; }
+    .profile-category-list { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px 14px; }
+    @media (max-width: 760px) {
+      .profile-category-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
     .profile-category-item { display:flex; align-items:center; gap:7px; color:#475569; font-size:12px; line-height:1.25; }
     .profile-category-item input { width:14px !important; height:14px !important; margin:0; accent-color:#2878E8; }
     .profile-category-empty { color:#8A97A8; font-size:11px; }
@@ -238,7 +241,7 @@
     #profileModal .profile-form-grid { gap:0 16px; padding-top:16px; padding-bottom:2px; }
     #profileModal .profile-form-section-title { margin:5px 0 8px; padding:6px 9px; }
     #profileModal .profile-form-grid input,
-    #profileModal .profile-form-grid select { height:30px; padding:0 7px; }
+    #profileModal .profile-form-grid select { height:28px; padding:0 6px; }
     #profileModal .profile-form-grid textarea { min-height:50px; padding:5px 7px; }
     #profileModal .profile-form-grid #skills { height:42px; min-height:42px; }
     #profileModal .profile-form-grid #additionalInformation { height:48px; min-height:48px; }
@@ -3602,6 +3605,16 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))close()});
 })();
 </script>
+
+<style id="profile-modal-compact-fields-and-four-column-categories-v1">
+/* Final scoped overrides: slightly shorter standard fields; preserve Skills and Additional Information sizing. */
+#profileModal .profile-form-grid input:not([type="checkbox"]):not([type="radio"]),
+#profileModal .profile-form-grid select { height:28px!important; min-height:28px!important; padding:0 6px!important; }
+#profileModal .profile-category-list { grid-template-columns:repeat(4,minmax(0,1fr))!important; }
+@media (max-width:760px) {
+  #profileModal .profile-category-list { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
+}
+</style>
 </body></html>
 
 <style id="profile-modal-refinement-v1">
