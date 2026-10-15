@@ -2893,6 +2893,9 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 #profileDetailsModal .profile-details-body{overflow-y:auto!important;min-height:0!important;}
 #profileDetailsModal .profile-details-body>#profileDetailsBody{display:flex;flex-direction:column;gap:12px;}
 #profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero{display:grid;grid-template-columns:minmax(250px,1fr) minmax(480px,1.65fr);gap:16px;align-items:center;padding:14px;border:1px solid #D5E3F4;border-radius:9px;background:linear-gradient(110deg,#FFFFFF,#F4F9FF);margin-bottom:2px;}
+/* Keep the candidate summary frame visible while scrolling the Add/Edit and View Profile content. */
+#profileModal #profileFormHero{position:sticky!important;top:0!important;z-index:30!important;align-self:stretch!important;background:linear-gradient(110deg,#FFFFFF 0%,#F5F9FF 100%)!important;box-shadow:0 4px 8px rgba(30,73,126,.08)!important;}
+#profileDetailsModal .profile-details-body>#profileDetailsBody>.profile-premium-view-hero{position:sticky!important;top:0!important;z-index:30!important;box-shadow:0 4px 8px rgba(30,73,126,.08)!important;}
 #profileDetailsModal .profile-premium-view-identity{display:flex;align-items:center;gap:13px;min-width:0;}
 #profileDetailsModal .profile-premium-view-avatar{width:56px;height:56px;flex:0 0 56px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(145deg,#E3F0FF,#C8E1FF);color:#0969D8;font-size:21px;font-weight:800;}
 #profileDetailsModal .profile-premium-view-name{font-size:17px;font-weight:800;color:#102A54;line-height:1.3;}
