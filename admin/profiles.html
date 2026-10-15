@@ -3704,26 +3704,43 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   function moveSummaryOutsideScrollport() {
     const modal = document.getElementById('profileDetailsModal');
     if (!modal) return;
-    const scrollport = modal.querySelector('.profile-details-body > #profileDetailsBody');
+
     const shell = modal.querySelector('.profile-details-body');
-    if (!scrollport || !shell) return;
-    const hero = scrollport.querySelector('.profile-premium-view-hero');
-    if (hero && hero.parentElement !== shell) {
-      shell.insertBefore(hero, scrollport);
+    const scrollport = shell && shell.querySelector(':scope > #profileDetailsBody');
+    if (!shell || !scrollport) return;
+
+    // The profile renderer can replace the scrollport contents each time the
+    // dialog opens. If it creates a new summary, replace the previous fixed
+    // summary instead of leaving a duplicate above the scrollport.
+    const renderedHero = scrollport.querySelector(':scope > .profile-premium-view-hero');
+    if (!renderedHero) return;
+
+    const existingFixedHeroes = Array.from(
+      shell.querySelectorAll(':scope > .profile-premium-view-hero')
+    ).filter(hero => hero !== renderedHero);
+
+    existingFixedHeroes.forEach(hero => hero.remove());
+
+    if (renderedHero.parentElement !== shell) {
+      shell.insertBefore(renderedHero, scrollport);
+    } else if (renderedHero.nextElementSibling !== scrollport) {
+      shell.insertBefore(renderedHero, scrollport);
     }
   }
+
   function init() {
     const modal = document.getElementById('profileDetailsModal');
-    const scrollport = modal && modal.querySelector('#profileDetailsBody');
-    if (!modal || !scrollport) return;
+    const shell = modal && modal.querySelector('.profile-details-body');
+    const scrollport = shell && shell.querySelector(':scope > #profileDetailsBody');
+    if (!modal || !shell || !scrollport) return;
+
     moveSummaryOutsideScrollport();
+
+    // Watch only the scrollport for newly rendered profile content.
     const observer = new MutationObserver(moveSummaryOutsideScrollport);
     observer.observe(scrollport, { childList: true, subtree: true });
-    // Ensure the fixed summary is detached after each fresh profile render.
-    modal.addEventListener('click', function () {
-      queueMicrotask(moveSummaryOutsideScrollport);
-    }, true);
   }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
