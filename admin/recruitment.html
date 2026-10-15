@@ -2301,5 +2301,118 @@ body.admin-app-page{
   }
 }
 
+
+<style id="view-requirement-match-profile-view-only">
+/* View Requirement only: mirror the Profile View label/value presentation.
+   Add Requirement and Edit Requirement remain untouched. */
+#jobModal.view-mode .requirement-panel-fields {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  column-gap:8px !important;
+  row-gap:0 !important;
+  padding:6px !important;
+  align-items:stretch !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group {
+  display:grid !important;
+  grid-template-columns:minmax(0,164px) minmax(0,1fr) !important;
+  grid-template-rows:minmax(28px,auto) !important;
+  align-items:stretch !important;
+  align-self:stretch !important;
+  gap:0 !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-bottom:1px solid #D5E0EE !important;
+  background:#FFFFFF !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group > label {
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  background:#F1F5F9 !important;
+  border-right:1px solid #D5E0EE !important;
+  color:#526B8C !important;
+  font-size:9px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group > input:disabled,
+#jobModal.view-mode .requirement-panel-fields > .field-group > select:disabled,
+#jobModal.view-mode .requirement-panel-fields > .field-group > textarea:disabled {
+  display:flex !important;
+  align-self:stretch !important;
+  width:100% !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:28px !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:#FFFFFF !important;
+  color:#173F78 !important;
+  opacity:1 !important;
+  box-shadow:none !important;
+  font-family:inherit !important;
+  font-size:11px !important;
+  font-weight:400 !important;
+  line-height:1.3 !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  resize:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group > select:disabled {
+  background-image:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group:has(textarea) {
+  grid-column:1 / -1 !important;
+  grid-template-columns:164px minmax(0,1fr) !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group:has(textarea) > textarea:disabled {
+  min-height:44px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .requirement-repeat-section,
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section {
+  grid-column:1 / -1 !important;
+  margin:0 !important;
+}
+#jobModal.view-mode .requirement-panel-fields .repeat-list {
+  padding:5px 7px !important;
+  gap:4px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .repeat-list input:disabled,
+#jobModal.view-mode .requirement-panel-fields .repeat-list textarea:disabled {
+  min-height:28px !important;
+  border:1px solid #D5E0EE !important;
+  background:#FFFFFF !important;
+  padding:5px 7px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .jd-current-document {
+  font-size:11px !important;
+}
+@media(max-width:900px) {
+  #jobModal.view-mode .requirement-panel-fields {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:600px) {
+  #jobModal.view-mode .requirement-panel-fields {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  #jobModal.view-mode .requirement-panel-fields > .field-group:has(textarea) {
+    grid-column:1 !important;
+  }
+}
+</style>
+
 </body>
 </html>
