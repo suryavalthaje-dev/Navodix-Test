@@ -3900,6 +3900,37 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
+
+<style id="view-profile-uniform-label-width-corrected">
+/* Corrected trial: target the actual label/value items across all View Profile sections. */
+#profileDetailsModal .profile-detail-item {
+  display:grid !important;
+  grid-template-columns:164px minmax(0,1fr) !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+#profileDetailsModal .profile-detail-item > .profile-detail-label {
+  display:flex !important;
+  align-items:center !important;
+  width:164px !important;
+  min-width:164px !important;
+  max-width:164px !important;
+  height:100% !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  white-space:nowrap !important;
+  overflow:visible !important;
+  overflow-wrap:normal !important;
+  word-break:normal !important;
+}
+#profileDetailsModal .profile-detail-item > .profile-detail-value {
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+</style>
+
 </body>
 
 
