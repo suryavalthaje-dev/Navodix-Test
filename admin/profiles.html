@@ -3864,6 +3864,42 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
+
+<style id="view-profile-uniform-label-cell-width-trial">
+/* All eight data-label cells use one fixed shaded-column width.
+   Width includes padding and border, and the value starts after that column. */
+#profileDetailsModal .profile-personal-detail-grid .profile-detail-item,
+#profileDetailsModal .profile-professional-detail-grid .profile-detail-item,
+#profileDetailsModal .profile-source-detail-grid .profile-detail-item {
+  display:grid !important;
+  grid-template-columns:164px minmax(0,1fr) !important;
+  min-width:0 !important;
+}
+#profileDetailsModal .profile-personal-detail-grid .profile-detail-item .profile-detail-label,
+#profileDetailsModal .profile-professional-detail-grid .profile-detail-item .profile-detail-label,
+#profileDetailsModal .profile-source-detail-grid .profile-detail-item .profile-detail-label {
+  display:flex !important;
+  align-items:center !important;
+  width:164px !important;
+  min-width:164px !important;
+  max-width:164px !important;
+  box-sizing:border-box !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:clip !important;
+  padding:5px 7px !important;
+}
+#profileDetailsModal .profile-personal-detail-grid .profile-detail-item .profile-detail-value,
+#profileDetailsModal .profile-professional-detail-grid .profile-detail-item .profile-detail-value,
+#profileDetailsModal .profile-source-detail-grid .profile-detail-item .profile-detail-value {
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+#profileDetailsModal .profile-premium-view-name {
+  font-weight:600 !important;
+}
+</style>
+
 </body>
 
 
