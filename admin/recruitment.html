@@ -2518,5 +2518,72 @@ body.admin-app-page{
 }
 </style>
 
+
+<style id="view-requirement-grid-empty-values-and-profile-typography">
+/* View Requirement only. Keep Add/Edit Requirement exactly as approved. */
+#jobModal.view-mode .requirement-panel-fields {
+  gap:0 !important;
+  padding:5px 6px !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group {
+  border-right:1px solid #D5E0EE !important;
+  border-bottom:1px solid #D5E0EE !important;
+  box-sizing:border-box !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group > label {
+  text-transform:uppercase !important;
+  font-family:inherit !important;
+  font-size:9px !important;
+  font-weight:700 !important;
+  color:#526B8C !important;
+  line-height:1.2 !important;
+  border-bottom:0 !important;
+}
+#jobModal.view-mode .requirement-panel-fields > .field-group > input:disabled,
+#jobModal.view-mode .requirement-panel-fields > .field-group > select:disabled,
+#jobModal.view-mode .requirement-panel-fields > .field-group > textarea:disabled {
+  font-family:inherit !important;
+  font-size:11px !important;
+  font-weight:400 !important;
+  color:#173F78 !important;
+  line-height:1.3 !important;
+}
+/* Do not show input placeholders as if they were saved values in View Requirement. */
+#jobModal.view-mode .requirement-panel-fields textarea:disabled::placeholder {
+  color:transparent !important;
+  opacity:0 !important;
+}
+#jobModal.view-mode .requirement-panel-fields input.view-empty-value:disabled::-webkit-datetime-edit,
+#jobModal.view-mode .requirement-panel-fields input.view-empty-value:disabled::-webkit-calendar-picker-indicator {
+  color:transparent !important;
+  opacity:0 !important;
+}
+#jobModal.view-mode .requirement-panel-fields input.view-empty-value:disabled {
+  color:transparent !important;
+}
+#jobModal.view-mode .requirement-panel-fields input.view-empty-value:disabled::-ms-value {
+  color:transparent !important;
+}
+</style>
+<script id="view-requirement-empty-value-display">
+(() => {
+  const modal = document.getElementById('jobModal');
+  if (!modal || modal.dataset.emptyValueDisplayBound === 'true') return;
+  modal.dataset.emptyValueDisplayBound = 'true';
+
+  const syncEmptyDateDisplay = () => {
+    if (!modal.classList.contains('view-mode')) return;
+    modal.querySelectorAll('.requirement-panel-fields input[type="date"]').forEach(input => {
+      input.classList.toggle('view-empty-value', !String(input.value || '').trim());
+    });
+  };
+
+  const observer = new MutationObserver(() => syncEmptyDateDisplay());
+  observer.observe(modal, { attributes: true, attributeFilter: ['class', 'style'], childList: true, subtree: true });
+  modal.addEventListener('transitionend', syncEmptyDateDisplay);
+  syncEmptyDateDisplay();
+})();
+</script>
+
 </body>
 </html>
