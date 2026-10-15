@@ -1615,12 +1615,14 @@ body.admin-app-page{
 </section></div>
 </section>
 </div></div>
-          <div id="jobFormMessage" class="admin-message" role="alert"></div>
-          <div class="modal-action-buttons">
-            <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
-            <button class="btn btn-primary" id="saveJobButton" type="submit">
-              <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Requirement
-            </button>
+          <div class="modal-actions requirement-modal-footer">
+            <div id="jobFormMessage" class="admin-message" role="alert"></div>
+            <div class="modal-action-buttons">
+              <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
+              <button class="btn btn-primary" id="saveJobButton" type="submit">
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Requirement
+              </button>
+            </div>
           </div>
         </div>
       </form>
@@ -2302,15 +2304,30 @@ body.admin-app-page{
 }
 
 
-<style id="view-requirement-match-profile-view-only">
-/* View Requirement only: mirror the Profile View label/value presentation.
-   Add Requirement and Edit Requirement remain untouched. */
+<style id="view-requirement-profile-view-layout-and-footer">
+/* View Requirement only: compact label/value rows like View Profile.
+   Add/Edit modes keep their approved label-above-control three-column layout. */
+#jobModal.view-mode .requirement-modal-layout {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:8px !important;
+}
+#jobModal.view-mode .requirement-panel {
+  width:100% !important;
+  margin:0 !important;
+}
+#jobModal.view-mode .requirement-panel-heading {
+  min-height:32px !important;
+  padding:6px 10px !important;
+  font-size:12px !important;
+  font-weight:700 !important;
+}
 #jobModal.view-mode .requirement-panel-fields {
   display:grid !important;
   grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-  column-gap:8px !important;
-  row-gap:0 !important;
-  padding:6px !important;
+  gap:0 !important;
+  padding:5px 6px !important;
   align-items:stretch !important;
 }
 #jobModal.view-mode .requirement-panel-fields > .field-group {
@@ -2318,8 +2335,6 @@ body.admin-app-page{
   grid-template-columns:minmax(0,164px) minmax(0,1fr) !important;
   grid-template-rows:minmax(28px,auto) !important;
   align-items:stretch !important;
-  align-self:stretch !important;
-  gap:0 !important;
   min-width:0 !important;
   margin:0 !important;
   padding:0 !important;
@@ -2333,6 +2348,7 @@ body.admin-app-page{
   min-width:0 !important;
   margin:0 !important;
   padding:5px 7px !important;
+  box-sizing:border-box !important;
   background:#F1F5F9 !important;
   border-right:1px solid #D5E0EE !important;
   color:#526B8C !important;
@@ -2345,7 +2361,7 @@ body.admin-app-page{
 #jobModal.view-mode .requirement-panel-fields > .field-group > input:disabled,
 #jobModal.view-mode .requirement-panel-fields > .field-group > select:disabled,
 #jobModal.view-mode .requirement-panel-fields > .field-group > textarea:disabled {
-  display:flex !important;
+  display:block !important;
   align-self:stretch !important;
   width:100% !important;
   min-width:0 !important;
@@ -2396,8 +2412,85 @@ body.admin-app-page{
   background:#FFFFFF !important;
   padding:5px 7px !important;
 }
-#jobModal.view-mode .requirement-panel-fields .jd-current-document {
+#jobModal.view-mode .requirement-panel-fields .jd-upload-controls,
+#jobModal.view-mode .requirement-panel-fields .jd-document-help {
+  display:none !important;
+}
+/* Navodix footer standard for Add/Edit/View: message left, actions right, both vertically centred. */
+#jobModal .requirement-modal-footer {
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  width:100% !important;
+  height:54px !important;
+  min-height:54px !important;
+  flex:0 0 54px !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:8px 16px !important;
+  background:#F4F7FB !important;
+  border-top:1px solid #DCE4EE !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  overflow:hidden !important;
+}
+#jobModal .requirement-modal-footer #jobFormMessage {
+  display:block !important;
+  flex:1 1 auto !important;
+  order:0 !important;
+  min-width:0 !important;
+  max-width:none !important;
+  max-height:34px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  text-align:left !important;
+  align-self:center !important;
   font-size:11px !important;
+  line-height:14px !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+  overflow:hidden !important;
+}
+#jobModal .requirement-modal-footer .modal-action-buttons {
+  display:flex !important;
+  flex:0 0 auto !important;
+  order:1 !important;
+  width:auto !important;
+  min-width:max-content !important;
+  height:auto !important;
+  min-height:0 !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  align-self:center !important;
+  gap:8px !important;
+  margin:0 0 0 auto !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+}
+#jobModal .requirement-modal-footer .modal-action-buttons .btn {
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:34px !important;
+  min-height:34px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  padding:0 14px !important;
+  box-sizing:border-box !important;
+  border-radius:5px !important;
+  font-family:inherit !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
 }
 @media(max-width:900px) {
   #jobModal.view-mode .requirement-panel-fields {
@@ -2410,6 +2503,17 @@ body.admin-app-page{
   }
   #jobModal.view-mode .requirement-panel-fields > .field-group:has(textarea) {
     grid-column:1 !important;
+  }
+}
+@media(max-width:520px) {
+  #jobModal .requirement-modal-footer {
+    padding-left:10px !important;
+    padding-right:10px !important;
+    gap:8px !important;
+  }
+  #jobModal .requirement-modal-footer .modal-action-buttons .btn {
+    padding-left:9px !important;
+    padding-right:9px !important;
   }
 }
 </style>
