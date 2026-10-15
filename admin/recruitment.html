@@ -2214,5 +2214,92 @@ body.admin-app-page{
 }
 
 </style>
+
+<style id="requirement-modal-footer-message-left-standard">
+/* Navodix modal footer standard: validation/status message on the left,
+   action buttons on the right, both vertically centred in the same footer. */
+#jobModal .modal-actions {
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  width:100% !important;
+  height:54px !important;
+  min-height:54px !important;
+  flex:0 0 54px !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:8px 16px !important;
+  background:#F4F7FB !important;
+  border-top:1px solid #DCE4EE !important;
+}
+#jobModal #jobFormMessage {
+  display:block !important;
+  flex:1 1 auto !important;
+  order:0 !important;
+  min-width:0 !important;
+  max-width:none !important;
+  max-height:34px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  text-align:left !important;
+  align-self:center !important;
+  font-size:11px !important;
+  line-height:14px !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+  overflow:hidden !important;
+}
+#jobModal .modal-action-buttons {
+  display:flex !important;
+  flex:0 0 auto !important;
+  order:1 !important;
+  width:auto !important;
+  min-width:max-content !important;
+  height:auto !important;
+  min-height:0 !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  align-self:center !important;
+  gap:8px !important;
+  margin:0 0 0 auto !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+}
+#jobModal .modal-action-buttons .btn {
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:34px !important;
+  min-height:34px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  padding:0 14px !important;
+  box-sizing:border-box !important;
+  border-radius:5px !important;
+  font-family:inherit !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+}
+@media(max-width:520px) {
+  #jobModal .modal-actions {
+    padding-left:10px !important;
+    padding-right:10px !important;
+    gap:8px !important;
+  }
+  #jobModal .modal-action-buttons .btn {
+    padding-left:9px !important;
+    padding-right:9px !important;
+  }
+}
+
 </body>
 </html>
