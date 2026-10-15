@@ -234,6 +234,24 @@
       font-weight:700;
       margin-bottom:5px;
     }
+    /* Scoped density adjustment for Add/Edit/View Profile only; preserves Navodix styling. */
+    #profileModal .profile-form-grid { gap:0 16px; padding-top:16px; padding-bottom:2px; }
+    #profileModal .profile-form-section-title { margin:5px 0 8px; padding:6px 9px; }
+    #profileModal .profile-form-grid input,
+    #profileModal .profile-form-grid select { height:30px; padding:0 7px; }
+    #profileModal .profile-form-grid textarea { min-height:50px; padding:5px 7px; }
+    #profileModal .profile-form-grid #skills { height:42px; min-height:42px; }
+    #profileModal .profile-form-grid #additionalInformation { height:48px; min-height:48px; }
+    #profileModal .profile-form-grid .field-group { margin-bottom:6px; }
+    #profileModal .profile-form-grid .field-group label { margin-bottom:3px; }
+    #profileModal .profile-form-grid .field-help-text { margin-top:3px; }
+    #profileDetailsModal .profile-details-body { padding:14px 22px 18px; }
+    #profileDetailsModal .profile-detail-section { margin-bottom:10px; }
+    #profileDetailsModal .profile-detail-section-title { padding:6px 10px; }
+    #profileDetailsModal .profile-detail-item { padding:6px 10px; }
+    #profileDetailsModal .profile-detail-label { display:inline; margin:0 8px 0 0; }
+    #profileDetailsModal .profile-resume-last-updated-content { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+    #profileDetailsModal .profile-resume-last-updated-value { display:inline; }
     .profile-form-grid .field-help-text {
       display:block;
       margin-top:6px;
@@ -3077,11 +3095,11 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div id="existingProfileNotice" class="profile-association-panel hidden"></div>
 <div class="profile-form-grid">
 <div class="profile-form-section-title"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Personal Information</span></div>
-<div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><select id="currentLocation"><option value="">Select Current Location</option></select></div><div class="field-group"><label>Preferred Location</label><select id="preferredLocation"><option value="">Select Preferred Location</option></select></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div>
+<div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><select id="currentLocation"><option value="">Select Current Location</option></select></div><div class="field-group"><label>Preferred Location</label><select id="preferredLocation"><option value="">Select Preferred Location</option></select></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div><div class="field-group"><label>Notice Period</label><input id="noticePeriod"></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Requirement Association</span></div>
 <div class="field-group field-span-2"><label for="profileRequirement">Requirement</label><select id="profileRequirement"><option value="">Select Requirement</option></select><small id="profileRequirementHelp" class="profile-form-help">Optional. If this profile is being considered for a specific requirement, select it here. You can associate the profile now instead of doing it later.</small></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span>Professional Information</span></div>
-<div class="field-group"><label>Current Job Title</label><input id="currentJobTitle"></div><div class="field-group"><label>Current Company</label><input id="currentCompany"></div><div class="field-group"><label>Total Experience</label><input id="totalExperience" placeholder="e.g. 8 years"></div><div class="field-group"><label>Notice Period</label><input id="noticePeriod"></div><div class="field-group"><label>Current CTC</label><input id="currentCtc"></div><div class="field-group"><label>Expected CTC</label><input id="expectedCtc"></div>
+<div class="field-group"><label>Current Job Title</label><input id="currentJobTitle"></div><div class="field-group"><label>Current Company</label><input id="currentCompany"></div><div class="field-group"><label>Total Experience</label><input id="totalExperience" placeholder="e.g. 8 years"></div><div class="field-group"><label>Current CTC</label><input id="currentCtc"></div><div class="field-group"><label>Expected CTC</label><input id="expectedCtc"></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Education & Skills</span></div>
 <div class="field-group field-span-2"><label>Job Categories</label><div id="profileCategoryBox" class="profile-category-box"><div id="profileCategoryList" class="profile-category-list"><span class="profile-category-empty">Loading categories…</span></div></div><small class="profile-form-help">Select one or more Job Categories for this profile.</small></div>
 <div class="field-group"><label>Highest Qualification</label><input id="highestQualification"></div><div class="field-group"><label>Specialization</label><input id="specialization"></div><div class="field-group"><label>Graduation Year</label><input id="graduationYear" type="number" min="1950" max="2100"></div><div class="field-group"><label>LinkedIn URL</label><input id="linkedinUrl" type="url"></div><div class="profile-form-section-title"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><span>Recruitment Information</span></div>
