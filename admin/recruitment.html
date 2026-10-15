@@ -427,6 +427,84 @@
 
 </style>
 
+<style id="requirement-modal-profile-standard-visual-only">
+/* Visual-only redesign for Add/Edit/View Requirement. All field IDs and JS hooks are preserved. */
+#jobModal .job-modal{
+  width:min(1120px,calc(100vw - 32px))!important;max-width:1120px!important;
+  height:min(calc(100vh - 32px),940px)!important;max-height:calc(100vh - 32px)!important;
+  border:1px solid #B8CADE!important;border-radius:9px!important;box-shadow:0 16px 44px rgba(15,40,75,.22)!important;
+}
+#jobModal .modal-header{
+  height:52px!important;min-height:52px!important;flex:0 0 52px!important;
+  padding:8px 16px!important;background:#0B63CE!important;border:0!important;
+}
+#jobModal .modal-header h2{font-size:16px!important;line-height:1.25!important;font-weight:700!important;color:#fff!important;}
+#jobModal .modal-close{color:#fff!important;width:28px!important;height:28px!important;}
+#jobModal #jobForm{min-height:0!important;flex:1 1 auto!important;overflow:hidden!important;}
+#jobModal .requirement-form-grid{
+  display:block!important;padding:12px!important;overflow-y:auto!important;overflow-x:hidden!important;
+  border:0!important;min-height:0!important;flex:1 1 auto!important;scrollbar-width:thin!important;
+  scrollbar-color:#B8CADE transparent!important;
+}
+#jobModal .requirement-modal-layout{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important;gap:10px!important;}
+#jobModal .requirement-panel{min-width:0!important;border:1px solid #D3E1F1!important;border-radius:6px!important;background:#fff!important;overflow:hidden!important;box-sizing:border-box!important;}
+#jobModal .requirement-panel-heading{display:flex!important;align-items:center!important;gap:8px!important;min-height:34px!important;padding:6px 10px!important;background:linear-gradient(90deg,#EFF6FF,#F8FBFF)!important;border-bottom:1px solid #D6E3F2!important;color:#0B2A5B!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;}
+#jobModal .requirement-panel-heading i{width:16px!important;flex:0 0 16px!important;color:#0875E8!important;text-align:center!important;font-size:13px!important;}
+#jobModal .requirement-panel-fields{padding:5px 7px 7px!important;min-width:0!important;}
+#jobModal .requirement-panel-fields .field-group{display:grid!important;grid-template-columns:142px minmax(0,1fr)!important;align-items:stretch!important;gap:0!important;margin:0!important;min-width:0!important;border-bottom:1px solid #E2EAF4!important;}
+#jobModal .requirement-panel-fields .field-group:last-child{border-bottom:0!important;}
+#jobModal .requirement-panel-fields .field-group>label{display:flex!important;align-items:center!important;min-width:0!important;margin:0!important;padding:5px 7px!important;background:#F1F5F9!important;border-right:1px solid #D2DEEC!important;color:#526B8C!important;font-size:9.5px!important;font-weight:700!important;line-height:1.2!important;white-space:normal!important;}
+#jobModal .requirement-panel-fields .field-group>label span{margin-left:2px!important;color:#B42318!important;}
+#jobModal .requirement-panel-fields input,
+#jobModal .requirement-panel-fields select{height:28px!important;min-height:28px!important;padding:0 7px!important;border:1px solid #D3DFED!important;border-radius:4px!important;font-size:12px!important;line-height:1.2!important;color:#1E3557!important;box-shadow:none!important;}
+#jobModal .requirement-panel-fields textarea{min-height:54px!important;padding:6px 7px!important;border:1px solid #D3DFED!important;border-radius:4px!important;font-size:12px!important;line-height:1.3!important;color:#1E3557!important;resize:vertical!important;}
+#jobModal .requirement-panel-fields input:focus,
+#jobModal .requirement-panel-fields select:focus,
+#jobModal .requirement-panel-fields textarea:focus{border-color:#2878E8!important;box-shadow:0 0 0 2px rgba(40,120,232,.10)!important;}
+#jobModal .requirement-panel-fields .field-help{grid-column:2!important;margin:2px 0 4px!important;font-size:9.5px!important;line-height:1.25!important;}
+#jobModal .requirement-panel-fields .requirement-repeat-section,
+#jobModal .requirement-panel-fields .requirement-jd-section{grid-column:auto!important;margin:0 0 7px!important;border:1px solid #DCE4EE!important;border-radius:5px!important;}
+#jobModal .requirement-panel-fields .requirement-repeat-section:last-child{margin-bottom:0!important;}
+#jobModal .requirement-panel-fields .repeat-heading{min-height:34px!important;padding:6px 8px!important;gap:8px!important;border-left:2px solid #2878E8!important;background:#F5F8FC!important;}
+#jobModal .requirement-panel-fields .repeat-heading h3{font-size:10.5px!important;line-height:1.2!important;margin:0!important;}
+#jobModal .requirement-panel-fields .repeat-heading p{font-size:9.5px!important;line-height:1.25!important;margin:2px 0 0!important;}
+#jobModal .requirement-panel-fields .repeat-heading .btn{height:26px!important;min-height:26px!important;padding:3px 8px!important;font-size:10px!important;}
+#jobModal .requirement-panel-fields .repeat-list{display:grid!important;gap:5px!important;padding:6px 7px!important;}
+#jobModal .requirement-panel-fields .repeat-row{gap:5px!important;}
+#jobModal .requirement-panel-fields .repeat-input{height:28px!important;min-height:28px!important;padding:0 7px!important;font-size:11px!important;}
+#jobModal .requirement-panel-fields .remove-item{height:27px!important;min-height:27px!important;width:28px!important;padding:0!important;}
+#jobModal .requirement-panel-fields .requirement-jd-heading{padding:7px 8px!important;gap:8px!important;}
+#jobModal .requirement-panel-fields .requirement-jd-heading h3{font-size:10.5px!important;}
+#jobModal .requirement-panel-fields .requirement-jd-heading p{font-size:9.5px!important;line-height:1.3!important;}
+#jobModal .requirement-panel-fields .jd-current-document{padding:7px 8px!important;row-gap:5px!important;}
+#jobModal .requirement-panel-fields .jd-upload-controls{padding:7px 8px!important;gap:6px!important;}
+#jobModal .requirement-panel-fields .jd-document-help{padding:0 8px 7px!important;font-size:9.5px!important;}
+#jobModal .requirement-panel-additional .field-group{grid-template-columns:142px minmax(0,1fr)!important;}
+#jobModal .requirement-panel-additional .requirement-jd-section{margin-top:7px!important;}
+#jobModal .modal-actions{height:54px!important;min-height:54px!important;flex:0 0 54px!important;padding:8px 14px!important;background:#F4F7FB!important;border-top:1px solid #DCE4EE!important;border-left:0!important;border-right:0!important;border-bottom:0!important;}
+#jobModal .modal-actions .btn{min-width:92px!important;height:30px!important;min-height:30px!important;padding:5px 12px!important;font-size:11px!important;border-radius:5px!important;}
+#jobModal #jobFormMessage{font-size:11px!important;max-height:34px!important;line-height:14px!important;}
+/* Read-only View Requirement: render disabled controls as compact label/value rows. */
+#jobModal.view-mode .requirement-panel-fields .field-group>input:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group>select:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group>textarea:disabled{
+  background:#fff!important;color:#173F78!important;opacity:1!important;border-color:transparent!important;
+  box-shadow:none!important;appearance:none!important;-webkit-appearance:none!important;padding-left:8px!important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group>select:disabled{background-image:none!important;}
+#jobModal.view-mode .requirement-panel-fields .field-group>textarea:disabled{resize:none!important;}
+#jobModal.view-mode .requirement-panel-fields .field-group{grid-template-columns:142px minmax(0,1fr)!important;}
+#jobModal.view-mode .requirement-panel-fields .field-group>label{background:#F1F5F9!important;}
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-upload-controls,
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-document-help{display:none!important;}
+@media(max-width:760px){
+ #jobModal .job-modal{width:calc(100vw - 16px)!important;max-height:calc(100vh - 16px)!important;height:calc(100vh - 16px)!important;}
+ #jobModal .requirement-modal-layout{grid-template-columns:minmax(0,1fr)!important;}
+ #jobModal .requirement-panel-fields .field-group{grid-template-columns:130px minmax(0,1fr)!important;}
+ #jobModal .requirement-panel-fields .field-group>label{font-size:9px!important;}
+}
+</style>
+
 <style id="navodix-list-standard-final-v3">
 /* ================================================================
    NAVODIX ADMIN — FINAL MENU + LIST STANDARD
@@ -1379,7 +1457,6 @@ body.admin-app-page{
     <div class="job-modal" role="dialog" aria-modal="true" aria-labelledby="jobModalTitle">
       <div class="modal-header">
         <div>
-          <span class="section-badge">REQUIREMENT DETAILS</span>
           <h2 id="jobModalTitle">Add New Requirement</h2>
         </div>
         <button class="modal-close" id="closeJobModal" type="button" aria-label="Close">
@@ -1391,164 +1468,153 @@ body.admin-app-page{
         <input type="hidden" id="jobId">
 
         <div class="requirement-form-grid">
-          <div class="requirement-form-section-title">Requirement Information</div>
-          <div class="field-group">
-            <label for="clientName">Client Name <span>*</span></label>
-            <select id="clientName" required>
-              <option value="">Select Client</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="jobCategory">Job Category <span>*</span></label>
-            <select id="jobCategory" required>
-              <option value="">Select Category</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="jobOpenDate">Job Open Date <span>*</span></label>
-            <input id="jobOpenDate" type="date" required>
-          </div>
-          <div class="field-group">
-            <label for="jobCode">Job Code</label>
-            <input id="jobCode" readonly maxlength="50" placeholder="Select client, category and open date">
-            <small class="field-help">Auto-generated when the job is saved</small>
-          </div>
-          <div class="requirement-form-section-title">Position Details</div>
-          <div class="field-group">
-            <label for="jobTitle">Job Title <span>*</span></label>
-            <input id="jobTitle" required maxlength="150" placeholder="e.g. IT Infrastructure Engineer">
-          </div>
-          <div class="field-group">
-            <label for="numberOfPositions">Number of Positions</label>
-            <input id="numberOfPositions" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 3">
-          </div>
-          <div class="field-group">
-            <label for="jobLocation">Location <span>*</span></label>
-            <select id="jobLocation" required>
-              <option value="">Select Location</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="employmentType">Employment Type <span>*</span></label>
-            <select id="employmentType" required>
-              <option value="full_time">Full Time</option>
-              <option value="part_time">Part Time</option>
-              <option value="contract">Contract</option>
-              <option value="internship">Internship</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="jobExperience">Experience <span>*</span></label>
-            <input id="jobExperience" required maxlength="100" placeholder="e.g. 2–5 years">
-          </div>
-          <div class="field-group">
-            <label for="skillLevel">Skill Level</label>
-            <input id="skillLevel" maxlength="80" placeholder="e.g. Junior, Mid, Senior">
-          </div>
-          <div class="field-group">
-            <label for="jobStatus">Status <span>*</span></label>
-            <select id="jobStatus" required>
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-              <option value="paused">Paused</option>
-              <option value="closed">Closed</option>
-              <option value="archived">Archived</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="salaryRange">Salary Range</label>
-            <input id="salaryRange" type="text" maxlength="100" placeholder="e.g. 2 - 4 Lakhs">
-          </div>
-          <div class="field-group">
-            <label for="closingDate">Closing Date</label>
-            <input id="closingDate" type="date">
-          </div>
-          <div class="requirement-form-section-title">Description</div>
-          <div class="field-group field-span-2">
-            <label for="shortDescription">Short Description</label>
-            <textarea id="shortDescription" rows="3" maxlength="500" placeholder="Brief description shown on the Careers listing."></textarea>
-          </div>
-          <div class="field-group field-span-2">
-            <label for="detailedDescription">Detailed Description</label>
-            <textarea id="detailedDescription" rows="5" placeholder="Full description of the opportunity."></textarea>
-          </div>
-
-          <section class="requirement-jd-section field-span-2" aria-labelledby="requirementJDHeading">
-            <div class="requirement-jd-heading">
-              <div>
-                <h3 id="requirementJDHeading">Job Description (JD) Document</h3>
-                <p>Attach a PDF, DOC or DOCX file (maximum 5 MB). The document is stored securely in Cloudflare R2.</p>
-              </div>
-              <span id="jdDocumentStatus" class="jd-document-status">No JD attached</span>
-            </div>
-            <div id="jdCurrentDocument" class="jd-current-document hidden">
-              <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
-              <span id="jdCurrentFileName" class="jd-current-file-name"></span>
-              <span id="jdCurrentFileSize" class="jd-current-file-size"></span>
-              <div class="jd-document-actions">
-                <button class="btn btn-outline btn-small" id="viewJDButton" type="button"><i class="fa-solid fa-eye" aria-hidden="true"></i> View JD</button>
-                <button class="btn btn-outline btn-small hidden" id="openJDNewTabButton" type="button"><i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open in New Tab</button>
-                <button class="btn btn-outline btn-small" id="downloadJDButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Download JD</button>
-                <button class="btn btn-outline btn-small hidden" id="closeJDButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close JD</button>
-                <button class="btn btn-outline btn-small jd-remove-button" id="removeJDButton" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Remove</button>
-              </div>
-            </div>
-            <div id="jdUploadControls" class="jd-upload-controls">
-              <label for="jdFileInput" class="jd-file-label"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> Choose JD document</label>
-              <input id="jdFileInput" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-              <span id="jdSelectedFileName" class="jd-selected-file-name">No file selected</span>
-              <button class="btn btn-outline btn-small hidden" id="clearJDSelectionButton" type="button">Clear selection</button>
-            </div>
-            <p class="jd-document-help">For a new requirement, save the requirement first. The selected JD will then be uploaded.</p>
-            <div id="jdInlineViewer" class="jd-inline-viewer hidden" aria-label="Job Description viewer">
-              <div id="jdViewerLoading" class="jd-viewer-loading">Preparing JD document…</div>
-              <iframe id="jdViewerFrame" class="jd-viewer-frame hidden" title="Job Description Document"></iframe>
-              <div id="jdDocxViewer" class="jd-docx-viewer hidden" aria-label="Job Description Document"></div>
-              <div id="jdViewerFallback" class="jd-viewer-fallback hidden">This file type may not be previewed by your browser. Use Download JD to open it in a compatible application.</div>
-            </div>
-          </section>
-
-          <div class="requirement-repeat-section field-span-2">
-            <div class="repeat-heading">
-              <div>
-                <h3>Key Responsibilities</h3>
-                <p>Add responsibilities individually. They can be reordered later.</p>
-              </div>
-              <button class="btn btn-outline btn-small" type="button" data-add-list="responsibilities">
-                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+<div class="requirement-modal-layout">
+<section aria-labelledby="requirementBasicHeading" class="requirement-panel requirement-panel-basic">
+<div class="requirement-panel-heading" id="requirementBasicHeading"><i aria-hidden="true" class="fa-solid fa-user"></i><span>Basic Information</span></div>
+<div class="requirement-panel-fields"><div class="field-group">
+<label for="jobTitle">Job Title <span>*</span></label>
+<input id="jobTitle" maxlength="150" placeholder="e.g. IT Infrastructure Engineer" required=""/>
+</div><div class="field-group">
+<label for="clientName">Client Name <span>*</span></label>
+<select id="clientName" required="">
+<option value="">Select Client</option>
+</select>
+</div><div class="field-group">
+<label for="jobCategory">Job Category <span>*</span></label>
+<select id="jobCategory" required="">
+<option value="">Select Category</option>
+</select>
+</div><div class="field-group">
+<label for="skillLevel">Skill Level</label>
+<input id="skillLevel" maxlength="80" placeholder="e.g. Junior, Mid, Senior"/>
+</div><div class="field-group">
+<label for="jobLocation">Location <span>*</span></label>
+<select id="jobLocation" required="">
+<option value="">Select Location</option>
+</select>
+</div><div class="field-group">
+<label for="numberOfPositions">Number of Positions</label>
+<input id="numberOfPositions" inputmode="numeric" min="1" placeholder="e.g. 3" step="1" type="number"/>
+</div><div class="field-group">
+<label for="jobOpenDate">Job Open Date <span>*</span></label>
+<input id="jobOpenDate" required="" type="date"/>
+</div><div class="field-group">
+<label for="jobCode">Job Code</label>
+<input id="jobCode" maxlength="50" placeholder="Select client, category and open date" readonly=""/>
+<small class="field-help">Auto-generated when the job is saved</small>
+</div></div>
+</section>
+<section aria-labelledby="requirementJobHeading" class="requirement-panel requirement-panel-job">
+<div class="requirement-panel-heading" id="requirementJobHeading"><i aria-hidden="true" class="fa-solid fa-briefcase"></i><span>Job Details</span></div>
+<div class="requirement-panel-fields"><div class="field-group">
+<label for="employmentType">Employment Type <span>*</span></label>
+<select id="employmentType" required="">
+<option value="full_time">Full Time</option>
+<option value="part_time">Part Time</option>
+<option value="contract">Contract</option>
+<option value="internship">Internship</option>
+</select>
+</div><div class="field-group">
+<label for="jobExperience">Experience <span>*</span></label>
+<input id="jobExperience" maxlength="100" placeholder="e.g. 2–5 years" required=""/>
+</div><div class="field-group">
+<label for="salaryRange">Salary Range</label>
+<input id="salaryRange" maxlength="100" placeholder="e.g. 2 - 4 Lakhs" type="text"/>
+</div><div class="field-group">
+<label for="jobStatus">Status <span>*</span></label>
+<select id="jobStatus" required="">
+<option value="draft">Draft</option>
+<option value="published">Published</option>
+<option value="paused">Paused</option>
+<option value="closed">Closed</option>
+<option value="archived">Archived</option>
+</select>
+</div><div class="field-group">
+<label for="closingDate">Closing Date</label>
+<input id="closingDate" type="date"/>
+</div></div>
+</section>
+<section aria-labelledby="requirementSkillsHeading" class="requirement-panel requirement-panel-skills">
+<div class="requirement-panel-heading" id="requirementSkillsHeading"><i aria-hidden="true" class="fa-solid fa-graduation-cap"></i><span>Skills &amp; Qualifications</span></div>
+<div class="requirement-panel-fields requirement-repeat-fields"><div class="requirement-repeat-section field-span-2">
+<div class="repeat-heading">
+<div>
+<h3>Key Responsibilities</h3>
+<p>Add responsibilities individually. They can be reordered later.</p>
+</div>
+<button class="btn btn-outline btn-small" data-add-list="responsibilities" type="button">
+<i aria-hidden="true" class="fa-solid fa-plus"></i> Add
               </button>
-            </div>
-            <div id="responsibilitiesList" class="repeat-list"></div>
-          </div>
-
-          <div class="requirement-repeat-section field-span-2">
-            <div class="repeat-heading">
-              <div>
-                <h3>Requirements</h3>
-                <p>Add the essential requirements for this role.</p>
-              </div>
-              <button class="btn btn-outline btn-small" type="button" data-add-list="requirements">
-                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+</div>
+<div class="repeat-list" id="responsibilitiesList"></div>
+</div><div class="requirement-repeat-section field-span-2">
+<div class="repeat-heading">
+<div>
+<h3>Requirements</h3>
+<p>Add the essential requirements for this role.</p>
+</div>
+<button class="btn btn-outline btn-small" data-add-list="requirements" type="button">
+<i aria-hidden="true" class="fa-solid fa-plus"></i> Add
               </button>
-            </div>
-            <div id="requirementsList" class="repeat-list"></div>
-          </div>
-
-          <div class="requirement-repeat-section field-span-2">
-            <div class="repeat-heading">
-              <div>
-                <h3>Preferred Qualifications</h3>
-                <p>Add optional or preferred qualifications for this role.</p>
-              </div>
-              <button class="btn btn-outline btn-small" type="button" data-add-list="qualifications">
-                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add
+</div>
+<div class="repeat-list" id="requirementsList"></div>
+</div><div class="requirement-repeat-section field-span-2">
+<div class="repeat-heading">
+<div>
+<h3>Preferred Qualifications</h3>
+<p>Add optional or preferred qualifications for this role.</p>
+</div>
+<button class="btn btn-outline btn-small" data-add-list="qualifications" type="button">
+<i aria-hidden="true" class="fa-solid fa-plus"></i> Add
               </button>
-            </div>
-            <div id="qualificationsList" class="repeat-list"></div>
-          </div>
-        </div>
-
-        <div class="modal-actions">
+</div>
+<div class="repeat-list" id="qualificationsList"></div>
+</div></div>
+</section>
+<section aria-labelledby="requirementAdditionalHeading" class="requirement-panel requirement-panel-additional">
+<div class="requirement-panel-heading" id="requirementAdditionalHeading"><i aria-hidden="true" class="fa-solid fa-circle-info"></i><span>Additional Information</span></div>
+<div class="requirement-panel-fields requirement-additional-fields"><div class="field-group field-span-2">
+<label for="shortDescription">Short Description</label>
+<textarea id="shortDescription" maxlength="500" placeholder="Brief description shown on the Careers listing." rows="3"></textarea>
+</div><div class="field-group field-span-2">
+<label for="detailedDescription">Detailed Description</label>
+<textarea id="detailedDescription" placeholder="Full description of the opportunity." rows="5"></textarea>
+</div><section aria-labelledby="requirementJDHeading" class="requirement-jd-section field-span-2">
+<div class="requirement-jd-heading">
+<div>
+<h3 id="requirementJDHeading">Job Description (JD) Document</h3>
+<p>Attach a PDF, DOC or DOCX file (maximum 5 MB). The document is stored securely in Cloudflare R2.</p>
+</div>
+<span class="jd-document-status" id="jdDocumentStatus">No JD attached</span>
+</div>
+<div class="jd-current-document hidden" id="jdCurrentDocument">
+<i aria-hidden="true" class="fa-regular fa-file-lines"></i>
+<span class="jd-current-file-name" id="jdCurrentFileName"></span>
+<span class="jd-current-file-size" id="jdCurrentFileSize"></span>
+<div class="jd-document-actions">
+<button class="btn btn-outline btn-small" id="viewJDButton" type="button"><i aria-hidden="true" class="fa-solid fa-eye"></i> View JD</button>
+<button class="btn btn-outline btn-small hidden" id="openJDNewTabButton" type="button"><i aria-hidden="true" class="fa-solid fa-up-right-from-square"></i> Open in New Tab</button>
+<button class="btn btn-outline btn-small" id="downloadJDButton" type="button"><i aria-hidden="true" class="fa-solid fa-download"></i> Download JD</button>
+<button class="btn btn-outline btn-small hidden" id="closeJDButton" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i> Close JD</button>
+<button class="btn btn-outline btn-small jd-remove-button" id="removeJDButton" type="button"><i aria-hidden="true" class="fa-solid fa-trash"></i> Remove</button>
+</div>
+</div>
+<div class="jd-upload-controls" id="jdUploadControls">
+<label class="jd-file-label" for="jdFileInput"><i aria-hidden="true" class="fa-solid fa-paperclip"></i> Choose JD document</label>
+<input accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" id="jdFileInput" type="file"/>
+<span class="jd-selected-file-name" id="jdSelectedFileName">No file selected</span>
+<button class="btn btn-outline btn-small hidden" id="clearJDSelectionButton" type="button">Clear selection</button>
+</div>
+<p class="jd-document-help">For a new requirement, save the requirement first. The selected JD will then be uploaded.</p>
+<div aria-label="Job Description viewer" class="jd-inline-viewer hidden" id="jdInlineViewer">
+<div class="jd-viewer-loading" id="jdViewerLoading">Preparing JD document…</div>
+<iframe class="jd-viewer-frame hidden" id="jdViewerFrame" title="Job Description Document"></iframe>
+<div aria-label="Job Description Document" class="jd-docx-viewer hidden" id="jdDocxViewer"></div>
+<div class="jd-viewer-fallback hidden" id="jdViewerFallback">This file type may not be previewed by your browser. Use Download JD to open it in a compatible application.</div>
+</div>
+</section></div>
+</section>
+</div></div>
           <div id="jobFormMessage" class="admin-message" role="alert"></div>
           <div class="modal-action-buttons">
             <button class="btn btn-outline" id="cancelJobButton" type="button">Cancel</button>
@@ -1726,5 +1792,446 @@ body.admin-app-page{
     })();
   </script>
 <script src="js/navigation.js?v=33"></script>
+
+<style id="requirement-modal-profile-matched-stacked-layout">
+/* Corrected visual-only layout: match Profiles Management with sections stacked vertically. */
+#jobModal .job-modal {
+  width:min(1120px,calc(100vw - 32px)) !important;
+  max-width:1120px !important;
+}
+#jobModal .requirement-modal-layout {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:8px !important;
+}
+#jobModal .requirement-panel {
+  width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+}
+#jobModal .requirement-panel-heading {
+  min-height:30px !important;
+  padding:5px 9px !important;
+  gap:7px !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+}
+#jobModal .requirement-panel-fields {
+  padding:0 !important;
+}
+#jobModal .requirement-panel-fields .field-group,
+#jobModal .requirement-panel-additional .field-group,
+#jobModal.view-mode .requirement-panel-fields .field-group {
+  display:grid !important;
+  grid-template-columns:164px minmax(0,1fr) !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  margin:0 !important;
+  min-width:0 !important;
+  border-bottom:1px solid #D9E4F1 !important;
+}
+#jobModal .requirement-panel-fields .field-group:last-child {
+  border-bottom:0 !important;
+}
+#jobModal .requirement-panel-fields .field-group > label {
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  background:#F1F5F9 !important;
+  border-right:1px solid #D2DEEC !important;
+  color:#526B8C !important;
+  font-size:9px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+  white-space:normal !important;
+}
+#jobModal .requirement-panel-fields input,
+#jobModal .requirement-panel-fields select {
+  height:28px !important;
+  min-height:28px !important;
+  margin:0 !important;
+  padding:0 7px !important;
+  border:1px solid #D3DFED !important;
+  border-radius:3px !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  color:#1E3557 !important;
+  box-shadow:none !important;
+}
+#jobModal .requirement-panel-fields textarea {
+  min-height:50px !important;
+  margin:0 !important;
+  padding:5px 7px !important;
+  border:1px solid #D3DFED !important;
+  border-radius:3px !important;
+  font-size:12px !important;
+  line-height:1.3 !important;
+  color:#1E3557 !important;
+  resize:vertical !important;
+}
+#jobModal .requirement-panel-fields .field-help {
+  grid-column:2 !important;
+  margin:2px 7px 4px !important;
+  font-size:9px !important;
+  line-height:1.25 !important;
+}
+#jobModal .requirement-panel-fields .requirement-repeat-section,
+#jobModal .requirement-panel-fields .requirement-jd-section {
+  margin:6px 7px !important;
+  border:1px solid #DCE4EE !important;
+  border-radius:4px !important;
+}
+#jobModal .requirement-panel-fields .repeat-heading {
+  min-height:30px !important;
+  padding:5px 8px !important;
+}
+#jobModal .requirement-panel-fields .repeat-list {
+  gap:4px !important;
+  padding:5px 7px !important;
+}
+#jobModal .requirement-panel-fields .repeat-input {
+  height:28px !important;
+  min-height:28px !important;
+  padding:0 7px !important;
+  font-size:12px !important;
+}
+#jobModal .requirement-panel-fields .requirement-jd-heading {
+  padding:6px 8px !important;
+}
+#jobModal .requirement-panel-fields .jd-current-document,
+#jobModal .requirement-panel-fields .jd-upload-controls {
+  padding:6px 8px !important;
+}
+#jobModal .requirement-panel-fields .jd-document-help {
+  padding:0 8px 6px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > input:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group > select:disabled,
+#jobModal.view-mode .requirement-panel-fields .field-group > textarea:disabled {
+  background:#fff !important;
+  color:#173F78 !important;
+  opacity:1 !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  padding-left:8px !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > select:disabled {
+  background-image:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields .field-group > textarea:disabled {
+  resize:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-upload-controls,
+#jobModal.view-mode .requirement-panel-fields .requirement-jd-section .jd-document-help {
+  display:none !important;
+}
+@media(max-width:700px) {
+  #jobModal .job-modal {
+    width:calc(100vw - 16px) !important;
+    max-height:calc(100vh - 16px) !important;
+    height:calc(100vh - 16px) !important;
+  }
+  #jobModal .requirement-panel-fields .field-group,
+  #jobModal .requirement-panel-additional .field-group,
+  #jobModal.view-mode .requirement-panel-fields .field-group {
+    grid-template-columns:140px minmax(0,1fr) !important;
+  }
+}
+</style>
+
+
+<style id="requirement-modal-profile-form-grid-layout">
+/* Match the supplied Profiles Management form structure: section bars stacked,
+   then compact fields with labels above controls in a three-column grid. */
+#jobModal .job-modal {
+  width:min(1120px,calc(100vw - 32px)) !important;
+  max-width:1120px !important;
+}
+#jobModal .requirement-modal-layout {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:10px !important;
+}
+#jobModal .requirement-panel {
+  width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+  border:1px solid #D0E0F3 !important;
+  border-radius:6px !important;
+  background:#FFFFFF !important;
+  overflow:hidden !important;
+}
+#jobModal .requirement-panel-heading {
+  display:flex !important;
+  align-items:center !important;
+  min-height:38px !important;
+  padding:8px 12px !important;
+  gap:9px !important;
+  background:#F5F9FF !important;
+  border:0 !important;
+  border-bottom:1px solid #D0E0F3 !important;
+  color:#12386D !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  line-height:1.2 !important;
+}
+#jobModal .requirement-panel-heading i {
+  color:#0875E8 !important;
+  font-size:14px !important;
+}
+#jobModal .requirement-panel-fields {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  column-gap:14px !important;
+  row-gap:12px !important;
+  align-items:start !important;
+  padding:10px 12px 12px !important;
+  min-width:0 !important;
+}
+#jobModal .requirement-panel-fields .field-group,
+#jobModal .requirement-panel-additional .field-group,
+#jobModal.view-mode .requirement-panel-fields .field-group {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+#jobModal .requirement-panel-fields .field-group > label {
+  display:block !important;
+  min-width:0 !important;
+  margin:0 0 5px !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  color:#526B8C !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+  line-height:1.25 !important;
+  white-space:normal !important;
+}
+#jobModal .requirement-panel-fields .field-group > label span {
+  color:#B42318 !important;
+}
+#jobModal .requirement-panel-fields input,
+#jobModal .requirement-panel-fields select {
+  display:block !important;
+  width:100% !important;
+  height:28px !important;
+  min-height:28px !important;
+  margin:0 !important;
+  padding:0 7px !important;
+  border:1px solid #C9D9EC !important;
+  border-radius:5px !important;
+  background:#FFFFFF !important;
+  color:#17365F !important;
+  font-family:inherit !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  box-shadow:none !important;
+}
+#jobModal .requirement-panel-fields textarea {
+  display:block !important;
+  width:100% !important;
+  min-height:54px !important;
+  margin:0 !important;
+  padding:6px 7px !important;
+  border:1px solid #C9D9EC !important;
+  border-radius:5px !important;
+  background:#FFFFFF !important;
+  color:#17365F !important;
+  font-family:inherit !important;
+  font-size:12px !important;
+  line-height:1.3 !important;
+  box-shadow:none !important;
+  resize:vertical !important;
+}
+#jobModal .requirement-panel-fields input:focus,
+#jobModal .requirement-panel-fields select:focus,
+#jobModal .requirement-panel-fields textarea:focus {
+  border-color:#2878E8 !important;
+  outline:none !important;
+  box-shadow:0 0 0 2px rgba(40,120,232,.12) !important;
+}
+#jobModal .requirement-panel-fields .field-span-2 {
+  grid-column:1/-1 !important;
+}
+#jobModal .requirement-panel-fields .requirement-repeat-section,
+#jobModal .requirement-panel-fields .requirement-jd-section {
+  grid-column:1/-1 !important;
+  min-width:0 !important;
+  margin:0 !important;
+  border:1px solid #D7E3F1 !important;
+  border-radius:5px !important;
+  background:#FFFFFF !important;
+  overflow:hidden !important;
+}
+#jobModal .requirement-panel-fields .repeat-heading,
+#jobModal .requirement-panel-fields .requirement-jd-heading {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:10px !important;
+  padding:8px 10px !important;
+  background:#F5F9FF !important;
+  border-bottom:1px solid #D7E3F1 !important;
+}
+#jobModal .requirement-panel-fields .repeat-heading h3,
+#jobModal .requirement-panel-fields .requirement-jd-heading h3 {
+  margin:0 !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  color:#12386D !important;
+}
+#jobModal .requirement-panel-fields .repeat-heading p,
+#jobModal .requirement-panel-fields .requirement-jd-heading p {
+  margin:3px 0 0 !important;
+  font-size:10px !important;
+  line-height:1.3 !important;
+  color:#687D98 !important;
+}
+#jobModal .requirement-panel-fields .repeat-list {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:6px !important;
+  padding:8px 10px !important;
+}
+#jobModal .requirement-panel-fields .repeat-list .field-group {
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+#jobModal .requirement-panel-fields .repeat-list input,
+#jobModal .requirement-panel-fields .repeat-list textarea {
+  flex:1 1 auto !important;
+  min-width:0 !important;
+}
+#jobModal .requirement-panel-fields .jd-current-document,
+#jobModal .requirement-panel-fields .jd-upload-controls {
+  padding:8px 10px !important;
+}
+#jobModal .requirement-panel-fields .jd-document-help {
+  padding:0 10px 8px !important;
+}
+#jobModal.view-mode .requirement-panel-fields input:disabled,
+#jobModal.view-mode .requirement-panel-fields select:disabled,
+#jobModal.view-mode .requirement-panel-fields textarea:disabled {
+  opacity:1 !important;
+  color:#173F78 !important;
+  background:#FFFFFF !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+  padding-left:0 !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields select:disabled {
+  background-image:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields textarea:disabled {
+  resize:none !important;
+}
+#jobModal.view-mode .requirement-panel-fields .jd-upload-controls,
+#jobModal.view-mode .requirement-panel-fields .jd-document-help {
+  display:none !important;
+}
+@media(max-width:760px) {
+  #jobModal .job-modal {
+    width:calc(100vw - 16px) !important;
+    max-height:calc(100vh - 16px) !important;
+    height:calc(100vh - 16px) !important;
+  }
+  #jobModal .requirement-panel-fields {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:520px) {
+  #jobModal .requirement-panel-fields {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  #jobModal .requirement-panel-fields .field-span-2 {
+    grid-column:1 !important;
+  }
+}
+</style>
+
+
+<style id="requirement-modal-profile-standard-buttons">
+/* Match the compact, content-width blue footer buttons used in Profiles Management. */
+#jobModal .modal-action-buttons {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+}
+#jobModal .modal-action-buttons .btn {
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:34px !important;
+  padding:0 14px !important;
+  border:1px solid #2878E8 !important;
+  border-radius:5px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-family:inherit !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  box-shadow:none !important;
+}
+#jobModal .modal-action-buttons .btn:hover:not(:disabled) {
+  background:#1D63C7 !important;
+  border-color:#1D63C7 !important;
+  color:#FFFFFF !important;
+}
+#jobModal .modal-action-buttons .btn i {
+  font-size:10px !important;
+  margin-right:4px !important;
+}
+
+</style>
+
+<style id="requirement-modal-footer-alignment">
+/* Align requirement modal footer actions like Profiles Management: centered vertically
+   with a small, consistent inset from the right edge. */
+#jobModal .modal-footer,
+#jobModal .job-modal-footer,
+#jobModal .modal-actions,
+#jobModal .job-modal-actions {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  box-sizing:border-box !important;
+  padding:10px 16px !important;
+  min-height:54px !important;
+}
+#jobModal .modal-action-buttons {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-self:center !important;
+}
+#jobModal .modal-action-buttons .btn {
+  align-self:center !important;
+  margin:0 !important;
+}
+
+</style>
 </body>
 </html>
