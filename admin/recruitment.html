@@ -1363,6 +1363,23 @@ body.admin-app-page{
 @media(max-width:1100px){
   .jobs-list-heading-actions{flex-wrap:wrap !important;}
 }
+/* Final filter-row sizing: search and all three filters fill the available width. */
+.jobs-toolbar{
+  grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr)) !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  gap:7px !important;
+}
+.jobs-toolbar > .toolbar-search,
+.jobs-toolbar > select{
+  min-width:0 !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+@media(max-width:900px){
+  .jobs-toolbar{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .jobs-toolbar .toolbar-search{grid-column:1 / -1;}
+}
 </style>
 
 </head>
@@ -1424,6 +1441,7 @@ body.admin-app-page{
           <select id="statusFilter" aria-label="Filter by status">
             <option value="">All Statuses</option>
             <option value="draft">Draft</option>
+            <option value="active">Active</option>
             <option value="published">Published</option>
             <option value="paused">Paused</option>
             <option value="closed">Closed</option>
@@ -1579,6 +1597,7 @@ body.admin-app-page{
 <label for="jobStatus">Status <span>*</span></label>
 <select id="jobStatus" required="">
 <option value="draft">Draft</option>
+<option value="active">Active</option>
 <option value="published">Published</option>
 <option value="paused">Paused</option>
 <option value="closed">Closed</option>
