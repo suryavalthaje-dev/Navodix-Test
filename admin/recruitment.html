@@ -1901,8 +1901,16 @@ body.admin-app-page{
 <script id="requirements-clear-row-selection-outside-list">
 (function () {
   document.addEventListener('click', function (event) {
+    /* Keep the selected requirement highlighted while using its context actions or modal. */
+    if (event.target.closest('#jobModal, #requirementRowContextMenu')) return;
+
+    var modal = document.getElementById('jobModal');
+    if (modal && modal.classList.contains('show')) return;
+
     var listArea = document.querySelector('.jobs-card');
     if (listArea && listArea.contains(event.target)) return;
+
+    /* Clear the row only when clicking elsewhere on the list page. */
     document.querySelectorAll('.jobs-card .jobs-table tbody tr.requirement-row-selected').forEach(function (row) {
       row.classList.remove('requirement-row-selected');
     });
