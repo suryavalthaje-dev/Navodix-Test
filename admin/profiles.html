@@ -3104,7 +3104,7 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div class="profile-form-section-title"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Personal Information</span></div>
 <div class="field-group"><label>Full Name <span>*</span></label><input id="fullName" required></div><div class="field-group"><label>Email</label><input id="email" type="email"></div><div class="field-group"><label>Phone <span>*</span></label><input id="phone" required></div><div class="field-group"><label>Alternate Phone</label><input id="alternatePhone"></div><div class="field-group"><label>Current Location</label><select id="currentLocation"><option value="">Select Current Location</option></select></div><div class="field-group"><label>Preferred Location</label><select id="preferredLocation"><option value="">Select Preferred Location</option></select></div><div class="field-group"><label>Availability</label><input id="availability" placeholder="e.g. Immediate / 30 days"></div><div class="field-group"><label>Notice Period</label><input id="noticePeriod"></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Requirement Association</span></div>
-<div class="field-group field-span-2"><label for="profileRequirement">Requirement</label><select id="profileRequirement"><option value="">Select Requirement</option></select><small id="profileRequirementHelp" class="profile-form-help">Optional. If this profile is being considered for a specific requirement, select it here. You can associate the profile now instead of doing it later.</small></div>
+<div class="field-group field-span-2"><div id="profileCurrentAssociationRow" class="profile-current-association-row hidden"><label>Current Association</label><div id="profileCurrentAssociationValue" class="profile-current-association-value">—</div></div><label for="profileRequirement">Requirement</label><select id="profileRequirement"><option value="">Select Requirement</option></select><small id="profileRequirementHelp" class="profile-form-help">Optional. If this profile is being considered for a specific requirement, select it here. You can associate the profile now instead of doing it later.</small></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span>Professional Information</span></div>
 <div class="field-group"><label>Current Job Title</label><input id="currentJobTitle"></div><div class="field-group"><label>Current Company</label><input id="currentCompany"></div><div class="field-group"><label>Total Experience</label><input id="totalExperience" placeholder="e.g. 8 years"></div><div class="field-group"><label>Current CTC</label><input id="currentCtc"></div><div class="field-group"><label>Expected CTC</label><input id="expectedCtc"></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Education & Skills</span></div>
@@ -3945,6 +3945,12 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 }
 </style>
 
+
+<style id="profile-current-association-style">
+#profileModal .profile-current-association-row{margin:0 0 8px;}
+#profileModal .profile-current-association-row label{display:block;margin:0 0 4px;font-size:12px;font-weight:600;color:#4b5f7a;}
+#profileModal .profile-current-association-value{min-height:18px;color:#24364b;font-size:13px;line-height:1.45;overflow-wrap:anywhere;}
+</style>
 </body>
 
 
