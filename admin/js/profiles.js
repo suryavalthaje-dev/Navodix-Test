@@ -522,7 +522,58 @@
   function selectProfileRow(profileId){ selectedProfileId=profileId||''; document.querySelectorAll('.profiles-table tbody tr.profile-row').forEach(row=>row.classList.toggle('profile-row-selected',String(row.dataset.profileRowId)===String(selectedProfileId))); }
   function positionProfileRowContextMenu(x,y){ const menu=$('profileRowContextMenu'); if(!menu)return; menu.classList.remove('hidden'); const rect=menu.getBoundingClientRect(); const left=Math.min(x,window.innerWidth-rect.width-8); const top=Math.min(y,window.innerHeight-rect.height-8); menu.style.left=Math.max(8,left)+'px'; menu.style.top=Math.max(8,top)+'px'; }
   function openProfileRowContextMenu(profileId,x,y){ const p=profiles.find(item=>String(item.id)===String(profileId)); if(!p)return; selectProfileRow(profileId); const title=$('profileRowContextMenuTitle'); if(title)title.textContent=`${p.full_name||'Profile'} — Actions`; const download=$('profileContextDownloadResumeButton'); if(download)download.classList.remove('hidden'); positionProfileRowContextMenu(x,y); }
-  async function handleProfileContextAction(action){ const id=selectedProfileId; if(!id)return; hideProfileRowContextMenu(); try{ if(action==='view')await openProfileDetails(id); else if(action==='edit')await editProfile(id); else if(action==='download-resume'){const p=profiles.find(item=>String(item.id)===String(id));if(!p){message('Profile could not be found.','error');return;}await downloadProfileResume(p);} else if(action==='interviews')await openInterviews(id); else if(action==='edit-association')await openProfileAssociationContextAction(id,'edit'); else if(action==='association-history')await openProfileAssociationContextAction(id,'history'); else if(action==='add-profile-notes'){await openProfileLevelNotes(id);$('profileNoteText')?.focus();} else if(action==='view-profile-notes')await openProfileLevelNotes(id); else if(action==='add-association-notes'){await openProfileAssociationNotes(id);$('profileNoteText')?.focus();} else if(action==='view-association-notes')await openProfileAssociationNotes(id); else if(action==='remove-association')await openProfileAssociationRemoval(id); else if(action==='delete'){ const p=profiles.find(item=>String(item.id)===String(id)); deleteProfile(id,p?.full_name||'this profile'); } }catch(err){message(err.message||String(err),'error');} }
+  function openUpdateProfileStatusModal(profileId){
+    const p=profiles.find(item=>String(item.id)===String(profileId));
+    if(!p){message('Profile could not be found.','error');return;}
+    $('updateProfileStatusName').textContent=p.full_name||'Profile';
+    $('updateProfileStatusSelect').value=p.status||'New';
+    $('updateProfileStatusNotes').value='';
+    $('updateProfileStatusMessage').textContent='';
+    $('saveUpdateProfileStatusButton').disabled=false;
+    $('saveUpdateProfileStatusButton').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Status';
+    $('updateProfileStatusModal').classList.remove('hidden');
+    $('updateProfileStatusModal').setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    $('updateProfileStatusSelect').focus();
+  }
+  function closeUpdateProfileStatusModal(){
+    $('updateProfileStatusModal').classList.add('hidden');
+    $('updateProfileStatusModal').setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+  }
+  async function saveUpdatedProfileStatus(){
+    const id=selectedProfileId;
+    const p=profiles.find(item=>String(item.id)===String(id));
+    const status=$('updateProfileStatusSelect').value;
+    const notes=$('updateProfileStatusNotes').value.trim();
+    const msg=$('updateProfileStatusMessage'), btn=$('saveUpdateProfileStatusButton');
+    if(!p){msg.textContent='Profile could not be found. Please close this window and try again.';return;}
+    if(!status){msg.textContent='Please select a profile status.';return;}
+    const statusChanged=String(p.status||'')!==status;
+    if(!statusChanged&&!notes){msg.textContent='The selected status is already current. Enter an optional note if you want to record a history entry.';return;}
+    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving…';msg.textContent='';
+    try{
+      if(statusChanged){
+        const {error:updateError}=await supabase.from('profiles').update({status}).eq('id',id);
+        if(updateError)throw updateError;
+      }
+      const userId=(await supabase.auth.getUser()).data.user?.id||null;
+      const {error:historyError}=await supabase.from('profile_status_history').insert({
+        profile_id:id,
+        status,
+        notes:notes||'Profile status updated',
+        changed_at:new Date().toISOString(),
+        changed_by:userId
+      });
+      if(historyError)throw new Error(statusChanged?`Profile status was updated, but status history could not be saved: ${historyError.message||String(historyError)}`:`Status history could not be saved: ${historyError.message||String(historyError)}`);
+      const current=profiles.find(item=>String(item.id)===String(id));if(current)current.status=status;
+      closeUpdateProfileStatusModal();
+      await loadProfiles();
+      message('Profile status and history updated successfully.','success');
+    }catch(err){msg.textContent=err.message||String(err);}
+    finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Status';}
+  }
+  async function handleProfileContextAction(action){ const id=selectedProfileId; if(!id)return; hideProfileRowContextMenu(); try{ if(action==='view')await openProfileDetails(id); else if(action==='edit')await editProfile(id); else if(action==='update-profile-status')openUpdateProfileStatusModal(id); else if(action==='download-resume'){const p=profiles.find(item=>String(item.id)===String(id));if(!p){message('Profile could not be found.','error');return;}await downloadProfileResume(p);} else if(action==='interviews')await openInterviews(id); else if(action==='edit-association')await openProfileAssociationContextAction(id,'edit'); else if(action==='association-history')await openProfileAssociationContextAction(id,'history'); else if(action==='add-profile-notes'){await openProfileLevelNotes(id);$('profileNoteText')?.focus();} else if(action==='view-profile-notes')await openProfileLevelNotes(id); else if(action==='add-association-notes'){await openProfileAssociationNotes(id);$('profileNoteText')?.focus();} else if(action==='view-association-notes')await openProfileAssociationNotes(id); else if(action==='remove-association')await openProfileAssociationRemoval(id); else if(action==='delete'){ const p=profiles.find(item=>String(item.id)===String(id)); deleteProfile(id,p?.full_name||'this profile'); } }catch(err){message(err.message||String(err),'error');} }
 
   function updateProfilesPagination(total,totalPages,start,count){ const wrap=$('profilesPagination'); if(!wrap)return; wrap.classList.toggle('hidden',total===0); if(!total)return; $('profilesPageInfo').textContent=`Showing ${start+1}-${start+count} of ${total}`; $('profilesPageNumber').textContent=`Page ${currentPage} of ${totalPages}`; $('profilesFirst').disabled=currentPage<=1; $('profilesPrev').disabled=currentPage<=1; $('profilesNext').disabled=currentPage>=totalPages; $('profilesLast').disabled=currentPage>=totalPages; }
   function goToProfilesPage(page){ const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE)); currentPage=Math.min(Math.max(1,page),totalPages); render(); }
@@ -725,6 +776,7 @@
   $('refreshProfilesButton').addEventListener('click',()=>{currentPage=1;loadProfiles();}); $('associateExistingButton').addEventListener('click',openExistingProfileModal); $('closeExistingProfileModal').addEventListener('click',closeExistingProfileModal); $('closeAssociateRequirementModal').addEventListener('click',closeAssociateRequirementModal); $('cancelAssociateRequirementButton').addEventListener('click',closeAssociateRequirementModal); $('saveAssociateRequirementButton').addEventListener('click',saveAssociateRequirement); $('existingProfileSearch').addEventListener('input',renderExistingProfiles); $('existingProfileTableBody').addEventListener('click',async e=>{const b=e.target.closest('[data-existing-associate]');if(!b)return; b.disabled=true; try{await associateProfile(b.dataset.existingAssociate);}catch(err){$('existingProfileMessage').textContent=err.message||String(err);}finally{b.disabled=false;}}); $('profilesTableBody').addEventListener('click',e=>{ const row=e.target.closest('tr.profile-row'); if(!row)return; selectProfileRow(row.dataset.profileRowId); hideProfileRowContextMenu(); }); $('profilesTableBody').addEventListener('dblclick',async e=>{ const row=e.target.closest('tr.profile-row'); if(!row)return; selectProfileRow(row.dataset.profileRowId); hideProfileRowContextMenu(); try{ await openProfileDetails(row.dataset.profileRowId); }catch(err){ message(err.message||String(err),'error'); } });
   $('profilesTableBody').addEventListener('contextmenu',e=>{ const row=e.target.closest('tr.profile-row'); if(!row)return; e.preventDefault(); openProfileRowContextMenu(row.dataset.profileRowId,e.clientX,e.clientY); });
   $('profileRowContextMenu').addEventListener('click',async e=>{ const button=e.target.closest('[data-context-action]'); if(!button)return; await handleProfileContextAction(button.dataset.contextAction); });
+  $('closeUpdateProfileStatusModal').addEventListener('click',closeUpdateProfileStatusModal); $('cancelUpdateProfileStatusButton').addEventListener('click',closeUpdateProfileStatusModal); $('saveUpdateProfileStatusButton').addEventListener('click',saveUpdatedProfileStatus); $('updateProfileStatusModal').addEventListener('click',e=>{if(e.target===$('updateProfileStatusModal'))closeUpdateProfileStatusModal();});
   document.addEventListener('click',e=>{ const menu=$('profileRowContextMenu'); if(menu&&!menu.contains(e.target))hideProfileRowContextMenu(); });
   window.addEventListener('resize',hideProfileRowContextMenu);
   window.addEventListener('scroll',hideProfileRowContextMenu,true); $('cancelRemoveProfileAssociationButton').addEventListener('click',closeRemoveProfileAssociationModal); $('confirmRemoveProfileAssociationButton').addEventListener('click',confirmRemoveProfileAssociation); $('closeProfileDetailsModal').addEventListener('click',closeProfileDetails); $('closeProfileDetailsButton').addEventListener('click',closeProfileDetails); $('cancelDeleteProfileButton').addEventListener('click',closeDeleteProfileModal); $('confirmDeleteProfileButton').addEventListener('click',confirmDeleteProfile); $('closeAssociationHistoryModal').addEventListener('click',closeAssociationStatusHistory); $('closeAssociationHistoryButton').addEventListener('click',closeAssociationStatusHistory); $('profileDetailsBody').addEventListener('click',async e=>{
