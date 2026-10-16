@@ -1580,7 +1580,9 @@ body.admin-app-page{
     #requirementStatusChangeModal .rsc-current-value{color:#173F78;font-weight:500;overflow-wrap:anywhere;}
     #requirementStatusChangeModal .rsc-field{display:flex;flex-direction:column;gap:5px;}
     #requirementStatusChangeModal .rsc-field label{font-size:11px;font-weight:600;color:#344A66;}
-    #requirementStatusChangeModal .rsc-field select{width:100%;height:34px;box-sizing:border-box;padding:0 9px;border:1px solid #B8CBE0;border-radius:5px;background:#FFFFFF;color:#173F78;font-family:inherit;font-size:12px;font-weight:500;}
+    #requirementStatusChangeModal .rsc-field select{width:100%;height:28px;min-height:28px;box-sizing:border-box;padding:0 7px;border:1px solid #D3DFED;border-radius:4px;background-color:#FFFFFF;color:#1E3557;font-family:inherit;font-size:12px;font-weight:500;line-height:1.2;box-shadow:none;}
+    #requirementStatusChangeModal .rsc-field select:focus{outline:none;border-color:#2878E8;box-shadow:0 0 0 2px rgba(40,120,232,.12);}
+    #requirementStatusChangeModal .rsc-field select option{font-family:inherit;font-size:12px;font-weight:500;color:#1E3557;background:#FFFFFF;}
     #requirementStatusChangeModal .rsc-message{min-height:0;color:#B42318;font-size:11px;line-height:1.35;}
     #requirementStatusChangeModal .rsc-message:empty{display:none;}
     #requirementStatusChangeModal .rsc-footer{height:54px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;background:#F4F7FB;border-top:1px solid #DCE4EE;box-sizing:border-box;}
@@ -2843,14 +2845,14 @@ body.admin-app-page{
   }
   function getRecordId(row){
     if(!row) return '';
-    var keys=['jobId','requirementId','id','jobid','requirementid'];
+    var keys=['requirementRowId','jobId','requirementId','id','jobid','requirementid'];
     for(var i=0;i<keys.length;i++){
       if(row.dataset && row.dataset[keys[i]]) return row.dataset[keys[i]];
     }
-    var attrs=['data-job-id','data-requirement-id','data-id','data-record-id'];
+    var attrs=['data-requirement-row-id','data-job-id','data-requirement-id','data-id','data-record-id'];
     for(var j=0;j<attrs.length;j++){var val=row.getAttribute(attrs[j]);if(val)return val;}
-    var embedded=row.querySelector('[data-job-id],[data-requirement-id],[data-id]');
-    if(embedded) return embedded.getAttribute('data-job-id')||embedded.getAttribute('data-requirement-id')||embedded.getAttribute('data-id')||'';
+    var embedded=row.querySelector('[data-requirement-row-id],[data-job-id],[data-requirement-id],[data-id]');
+    if(embedded) return embedded.getAttribute('data-requirement-row-id')||embedded.getAttribute('data-job-id')||embedded.getAttribute('data-requirement-id')||embedded.getAttribute('data-id')||'';
     return '';
   }
   function getClient(){
