@@ -1947,11 +1947,13 @@ body.admin-app-page{
 <script id="requirements-clear-row-selection-outside-list">
 (function () {
   document.addEventListener('click', function (event) {
-    /* Keep the selected requirement highlighted while using its context actions or modal. */
-    if (event.target.closest('#jobModal, #requirementRowContextMenu, #requirementStatusChangeModal')) return;
+    /* Keep selection while either requirement modal is open, regardless of which control is clicked. */
+    var statusModal = document.getElementById('requirementStatusChangeModal');
+    if (statusModal && !statusModal.classList.contains('hidden')) return;
 
     var modal = document.getElementById('jobModal');
-    if (modal && modal.classList.contains('show')) return;
+    if (modal && !modal.classList.contains('hidden') && modal.getAttribute('aria-hidden') !== 'true') return;
+    if (event.target.closest('#jobModal, #requirementRowContextMenu, #requirementStatusChangeModal')) return;
 
     var listArea = document.querySelector('.jobs-card');
     if (listArea && listArea.contains(event.target)) return;
