@@ -8,7 +8,7 @@
   const PAGE_SIZE = 20;
   let profiles = [], requirement = null, requirements = [], jobCategories = [], locationMaster = [], locationsLoaded = false, saving = false, keepExistingResume = true, selectedExistingResume = false, allExistingProfiles = [], profileToAssociate = null, interviewProfile = null, interviewRequirementId = '', interviewAssociationId = '', interviewRequirementLabel = '', interviewSaving = false, profileAssociationProfileId = '', profileAssociationEditId = '', editingOriginalStatus = '', pendingDeleteProfileId = '', pendingDeleteProfileName = '';
   let selectedProfileId = '';
-  const requirementStatuses = ['New','Shortlisted','Submitted to Client','Interviewing','Selected','Offer Sent','Joined','On Hold','Future Consideration','Rejected','Withdrawn'];
+  const requirementStatuses = ['New','Shortlisted','Submitted','Interviewing','Selected','Offer Sent','Joined','On Hold','Future Consideration','Rejected','Withdrawn'];
   const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   function message(text,type=''){ $('profilesMessage').textContent=text||''; $('profilesMessage').className='admin-message'+(type?' '+type:''); }
   function profileDetailsMessage(text,type=''){ const el=$('profileDetailsMessage'); if(!el)return; el.textContent=text||''; el.className='admin-message'+(type?' '+type:''); el.classList.toggle('hidden',!text); }
@@ -392,7 +392,7 @@
     const submissionDateGroup=$('profileAssociationSubmissionDateGroup');
     const submissionDateInput=$('profileAssociationSubmissionDate');
     if(submissionDateInput){ submissionDateInput.value=assoc?.submitted_to_client_date||''; }
-    if(submissionDateGroup){ submissionDateGroup.classList.toggle('hidden', $('profileAssociationStatus').value!=='Submitted to Client'); }
+    if(submissionDateGroup){ submissionDateGroup.classList.toggle('hidden', $('profileAssociationStatus').value!=='Submitted'); }
     $('profileAssociationNotes').value=assoc?.notes||'';
     $('profileAssociationModalTitle').textContent=associationId?'Edit Requirement Association':'Add Requirement Association';
     $('saveProfileAssociationButton').innerHTML=associationId
@@ -411,7 +411,7 @@
     const submissionDate=submissionDateInput?.value||'';
     if(!profileAssociationProfileId){ associationMessage('Profile is not available.','error'); return; }
     if(!reqId){ associationMessage('Please select a requirement.','error'); return; }
-    if(status==='Submitted to Client' && !submissionDate){ associationMessage('Please select the Submission Date.','error'); return; }
+    if(status==='Submitted' && !submissionDate){ associationMessage('Please select the Submission Date.','error'); return; }
     const btn=$('saveProfileAssociationButton'); btn.disabled=true;
     associationMessage(profileAssociationEditId?'Saving changes…':'Associating profile…');
     try{
@@ -419,7 +419,7 @@
         const {data:current,error:currentError}=await supabase.from('profile_requirement_associations')
           .select('id,status,submitted_to_client_date').eq('id',profileAssociationEditId).eq('profile_id',profileAssociationProfileId).single();
         if(currentError)throw currentError;
-        const savedSubmissionDate = status==='Submitted to Client'
+        const savedSubmissionDate = status==='Submitted'
           ? (submissionDate||null)
           : (current.submitted_to_client_date||submissionDate||null);
         const {error}=await supabase.from('profile_requirement_associations')
@@ -727,7 +727,7 @@
     const group=$('profileAssociationSubmissionDateGroup');
     const input=$('profileAssociationSubmissionDate');
     if(!group||!input)return;
-    const isSubmitted=status==='Submitted to Client';
+    const isSubmitted=status==='Submitted';
     group.classList.toggle('hidden',!isSubmitted);
     if(isSubmitted && !input.value){
       const now=new Date();
