@@ -1898,6 +1898,17 @@ body.admin-app-page{
       });
     })();
   </script>
+<script id="requirements-clear-row-selection-outside-list">
+(function () {
+  document.addEventListener('click', function (event) {
+    var listArea = document.querySelector('.jobs-card');
+    if (listArea && listArea.contains(event.target)) return;
+    document.querySelectorAll('.jobs-card .jobs-table tbody tr.requirement-row-selected').forEach(function (row) {
+      row.classList.remove('requirement-row-selected');
+    });
+  });
+})();
+</script>
 <script src="js/navigation.js?v=33"></script>
 
 
@@ -2714,7 +2725,16 @@ body.admin-app-page{
     var filter = document.getElementById(id);
     if (!filter) return;
     filter.addEventListener('change', syncRequirementFilterHighlight);
+    filter.addEventListener('input', syncRequirementFilterHighlight);
   });
+  // Clear Filters may update select values programmatically without firing change events.
+  var clearButton = document.getElementById('clearFiltersButton');
+  if (clearButton) {
+    clearButton.addEventListener('click', function () {
+      window.setTimeout(syncRequirementFilterHighlight, 0);
+      window.setTimeout(syncRequirementFilterHighlight, 100);
+    });
+  }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', syncRequirementFilterHighlight);
   } else {
