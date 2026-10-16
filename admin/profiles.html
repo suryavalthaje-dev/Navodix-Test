@@ -3004,12 +3004,13 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
     <div class="profile-row-context-group-title">Profile</div>
     <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Profile</span></button>
     <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
+    <button type="button" role="menuitem" data-context-action="update-profile-status"><i class="fa-solid fa-arrow-rotate-left"></i><span>Update Profile Status</span></button>
     <button type="button" role="menuitem" data-context-action="delete" class="context-delete"><i class="fa-solid fa-trash"></i><span>Delete Profile</span></button>
     <button type="button" role="menuitem" data-context-action="download-resume" id="profileContextDownloadResumeButton"><i class="fa-solid fa-download"></i><span>Download Resume</span></button>
   </div>
   <div class="profile-row-context-group" role="group" aria-label="Association">
     <div class="profile-row-context-group-title">Association</div>
-    <button type="button" role="menuitem" data-context-action="edit-association"><i class="fa-solid fa-pen-to-square"></i><span>Edit Association</span></button>
+    <button type="button" role="menuitem" data-context-action="edit-association"><i class="fa-solid fa-pen-to-square"></i><span>Update Association Status</span></button>
     <button type="button" role="menuitem" data-context-action="interviews"><i class="fa-solid fa-calendar-check"></i><span>Interview Rounds</span></button>
     <button type="button" role="menuitem" data-context-action="association-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Association Status History</span></button>
     <button type="button" role="menuitem" data-context-action="remove-association" class="context-delete"><i class="fa-solid fa-link-slash"></i><span>Remove Association</span></button>
@@ -3018,6 +3019,40 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
     <div class="profile-row-context-group-title">Notes</div>
     <button type="button" role="menuitem" data-context-action="add-profile-notes"><i class="fa-solid fa-note-sticky"></i><span>Profile Notes</span></button>
     <button type="button" role="menuitem" data-context-action="add-association-notes"><i class="fa-solid fa-clipboard-list"></i><span>Profile Association Notes</span></button>
+  </div>
+</div>
+
+<style id="profile-status-update-modal-styles">
+#updateProfileStatusModal{position:fixed!important;inset:0!important;z-index:10060!important;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,30,55,.48)}
+#updateProfileStatusModal.hidden{display:none!important}
+#updateProfileStatusModal .ups-dialog{width:min(440px,calc(100vw - 28px));max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #c8d7ea;border-radius:10px;box-shadow:0 14px 40px rgba(15,35,65,.25)}
+#updateProfileStatusModal .ups-header{min-height:54px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 18px;background:#2878e8;color:#fff}
+#updateProfileStatusModal .ups-header h2{margin:0;color:#fff;font-size:17px;font-weight:700}
+#updateProfileStatusModal .ups-close{margin-left:auto;background:transparent;border:0;color:#fff;font-size:25px;cursor:pointer;line-height:1}
+#updateProfileStatusModal .ups-body{padding:18px 20px;overflow:auto}
+#updateProfileStatusModal .ups-profile-name{margin:0 0 16px;padding:10px 12px;background:#f3f7fc;border:1px solid #dce6f2;border-radius:6px;color:#263b56;font-size:13px;font-weight:650;overflow-wrap:anywhere}
+#updateProfileStatusModal label{display:block;margin:0 0 6px;font-size:12px;font-weight:650;color:#263b56}
+#updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #c8d7ea;border-radius:6px;background:#fff;color:#243b5a;font:400 13px Segoe UI,system-ui,sans-serif;padding:8px 10px;outline:none}
+#updateProfileStatusModal select{height:36px}
+#updateProfileStatusModal textarea{min-height:72px;resize:vertical;margin-top:14px}
+#updateProfileStatusModal select:focus,#updateProfileStatusModal textarea:focus{border-color:#2878e8;box-shadow:0 0 0 2px rgba(40,120,232,.12)}
+#updateProfileStatusModal .ups-message{min-height:0;margin-top:10px;font-size:12px;color:#c62828;line-height:1.4}
+#updateProfileStatusModal .ups-footer{min-height:54px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #dbe5f1;background:#f5f8fc}
+</style>
+<div class="hidden" id="updateProfileStatusModal" aria-hidden="true">
+  <div class="ups-dialog" role="dialog" aria-modal="true" aria-labelledby="updateProfileStatusTitle">
+    <div class="ups-header"><h2 id="updateProfileStatusTitle">Update Profile Status</h2><button class="ups-close" id="closeUpdateProfileStatusModal" type="button" aria-label="Close">&times;</button></div>
+    <div class="ups-body">
+      <div class="ups-profile-name" id="updateProfileStatusName"></div>
+      <label for="updateProfileStatusSelect">Profile Status</label>
+      <select id="updateProfileStatusSelect">
+        <option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option>
+      </select>
+      <label for="updateProfileStatusNotes" style="margin-top:14px">Notes <span style="font-weight:400;color:#64748b">(Optional)</span></label>
+      <textarea id="updateProfileStatusNotes" maxlength="2000" placeholder="Enter a reason or note for this status update"></textarea>
+      <div class="ups-message" id="updateProfileStatusMessage" role="alert" aria-live="polite"></div>
+    </div>
+    <div class="ups-footer"><button type="button" class="btn btn-outline" id="cancelUpdateProfileStatusButton">Cancel</button><button type="button" class="btn btn-primary" id="saveUpdateProfileStatusButton"><i class="fa-solid fa-floppy-disk"></i> Save Status</button></div>
   </div>
 </div>
 
