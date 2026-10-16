@@ -1948,7 +1948,7 @@ body.admin-app-page{
 (function () {
   document.addEventListener('click', function (event) {
     /* Keep the selected requirement highlighted while using its context actions or modal. */
-    if (event.target.closest('#jobModal, #requirementRowContextMenu')) return;
+    if (event.target.closest('#jobModal, #requirementRowContextMenu, #requirementStatusChangeModal')) return;
 
     var modal = document.getElementById('jobModal');
     if (modal && modal.classList.contains('show')) return;
