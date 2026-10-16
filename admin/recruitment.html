@@ -1315,6 +1315,56 @@ body.admin-app-page{
 .requirement-row-context-menu button.context-delete i{color:#B42318;}
 </style>
 
+
+<style id="manage-requirements-action-items-heading-button-standard">
+/* Match the approved Action Items list heading buttons. */
+.jobs-list-heading-actions .clear-filters-list-button,
+.jobs-list-heading-actions .refresh-requirement-list-button,
+.jobs-list-heading-actions .add-requirement-list-button,
+.jobs-list-heading-actions .export-requirement-list-button,
+.jobs-list-heading-actions .columns-requirement-list-button{
+  width:auto !important;
+  min-width:0 !important;
+  height:34px !important;
+  min-height:34px !important;
+  box-sizing:border-box !important;
+  padding:0 12px !important;
+  border:1px solid #B8D5F8 !important;
+  border-radius:6px !important;
+  background:#EAF3FF !important;
+  color:#1558B0 !important;
+  font-family:inherit !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+}
+.jobs-list-heading-actions .clear-filters-list-button:hover:not(:disabled),
+.jobs-list-heading-actions .refresh-requirement-list-button:hover:not(:disabled),
+.jobs-list-heading-actions .add-requirement-list-button:hover:not(:disabled),
+.jobs-list-heading-actions .export-requirement-list-button:hover:not(:disabled),
+.jobs-list-heading-actions .columns-requirement-list-button:hover:not(:disabled){
+  background:#DCEBFF !important;
+  border-color:#8DBBF3 !important;
+  color:#1558B0 !important;
+}
+.jobs-list-heading-actions .clear-filters-list-button i,
+.jobs-list-heading-actions .refresh-requirement-list-button i,
+.jobs-list-heading-actions .add-requirement-list-button i,
+.jobs-list-heading-actions .export-requirement-list-button i,
+.jobs-list-heading-actions .columns-requirement-list-button i{
+  color:inherit !important;
+  font-size:11px !important;
+  margin:0 !important;
+}
+@media(max-width:1100px){
+  .jobs-list-heading-actions{flex-wrap:wrap !important;}
+}
+</style>
+
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -1385,8 +1435,6 @@ body.admin-app-page{
           <select id="clientFilter" aria-label="Filter by client">
             <option value="">All Clients</option>
           </select>
-          <button class="btn btn-outline toolbar-action-button" id="clearFiltersButton" type="button">Clear Filters</button>
-          <button class="btn btn-outline toolbar-action-button" id="refreshJobsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
         </section>
 
         <section class="jobs-summary" aria-label="Requirement summary">
@@ -1406,9 +1454,11 @@ body.admin-app-page{
             <p>Active and recently managed requirements List</p>
           </div>
           <div class="jobs-list-heading-actions">
-            <button class="btn btn-primary list-standard-requirement-action add-requirement-list-button" id="addJobButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add Requirement</button>
+            <button class="btn btn-outline list-standard-requirement-action clear-filters-list-button" id="clearFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button>
+            <button class="btn btn-outline list-standard-requirement-action refresh-requirement-list-button" id="refreshJobsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+            <button class="btn btn-primary list-standard-requirement-action add-requirement-list-button" id="addJobButton" type="button"><i class="fa-solid fa-file-circle-plus" aria-hidden="true"></i> Add Requirement</button>
             <button class="btn btn-outline list-standard-requirement-action export-requirement-list-button" id="exportJobsButton" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Export</button>
-            <button class="btn btn-outline list-standard-requirement-action columns-requirement-list-button" id="columnsButton" type="button">☷ Columns</button>
+            <button class="btn btn-outline list-standard-requirement-action columns-requirement-list-button" id="columnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
           </div>
           <div class="columns-popover hidden" id="columnsPopover">
             <div class="columns-popover-title">Show / Hide Columns</div>
