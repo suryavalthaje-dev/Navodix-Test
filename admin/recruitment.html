@@ -1292,6 +1292,15 @@ body.admin-app-page{
   border-bottom:1px solid #E5EBF2;
   margin-bottom:4px;
 }
+/* Match the green title strip used by Profiles list right-click actions. */
+.requirement-row-context-menu-title{
+  background:#2F7D4A !important;
+  color:#FFFFFF !important;
+  border-bottom:1px solid #25663B !important;
+  border-radius:5px 5px 0 0 !important;
+  margin:0 0 4px !important;
+  padding:8px 10px !important;
+}
 .requirement-row-context-menu button{
   width:100%;
   height:32px;
@@ -1554,7 +1563,42 @@ body.admin-app-page{
     <button type="button" role="menuitem" data-context-action="candidates"><i class="fa-solid fa-users"></i><span>Manage Candidates</span></button>
     <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Requirement</span></button>
     <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Requirement</span></button>
+    <button type="button" role="menuitem" data-context-action="change-status" id="requirementContextChangeStatusButton"><i class="fa-solid fa-arrows-rotate"></i><span>Change Requirement Status</span></button>
     <button type="button" role="menuitem" data-context-action="delete" class="context-delete"><i class="fa-solid fa-trash"></i><span>Delete Requirement</span></button>
+  </div>
+
+  <style id="requirement-status-change-modal-styles">
+    #requirementStatusChangeModal{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,30,55,.48);}
+    #requirementStatusChangeModal.hidden{display:none !important;}
+    #requirementStatusChangeModal .rsc-dialog{width:min(440px,calc(100vw - 28px));max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden;background:#FFFFFF;border:1px solid #C8D7EA;border-radius:9px;box-shadow:0 14px 40px rgba(15,35,65,.25);}
+    #requirementStatusChangeModal .rsc-header{height:48px;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;background:#2878E8;color:#FFFFFF;}
+    #requirementStatusChangeModal .rsc-header h2{margin:0;color:#FFFFFF;font-size:15px;font-weight:600;line-height:1.2;}
+    #requirementStatusChangeModal .rsc-close{width:28px;height:28px;border:0;background:transparent;color:#FFFFFF;font-size:22px;cursor:pointer;}
+    #requirementStatusChangeModal .rsc-body{padding:16px;display:flex;flex-direction:column;gap:14px;}
+    #requirementStatusChangeModal .rsc-current{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:10px;font-size:12px;}
+    #requirementStatusChangeModal .rsc-current-label{color:#344A66;font-weight:600;}
+    #requirementStatusChangeModal .rsc-current-value{color:#173F78;font-weight:500;overflow-wrap:anywhere;}
+    #requirementStatusChangeModal .rsc-field{display:flex;flex-direction:column;gap:5px;}
+    #requirementStatusChangeModal .rsc-field label{font-size:11px;font-weight:600;color:#344A66;}
+    #requirementStatusChangeModal .rsc-field select{width:100%;height:34px;box-sizing:border-box;padding:0 9px;border:1px solid #B8CBE0;border-radius:5px;background:#FFFFFF;color:#173F78;font-family:inherit;font-size:12px;font-weight:500;}
+    #requirementStatusChangeModal .rsc-message{min-height:0;color:#B42318;font-size:11px;line-height:1.35;}
+    #requirementStatusChangeModal .rsc-message:empty{display:none;}
+    #requirementStatusChangeModal .rsc-footer{height:54px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;background:#F4F7FB;border-top:1px solid #DCE4EE;box-sizing:border-box;}
+    #requirementStatusChangeModal .rsc-footer-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}
+    #requirementStatusChangeModal .rsc-footer button{height:32px;min-width:82px;padding:0 13px;border:1px solid #B8CBE0;border-radius:5px;background:#FFFFFF;color:#344A66;font-size:12px;font-weight:600;cursor:pointer;}
+    #requirementStatusChangeModal .rsc-footer #requirementStatusSave{border-color:#2878E8;background:#2878E8;color:#FFFFFF;}
+    #requirementStatusChangeModal .rsc-footer button:disabled{opacity:.65;cursor:wait;}
+  </style>
+  <div id="requirementStatusChangeModal" class="hidden" aria-hidden="true">
+    <section class="rsc-dialog" role="dialog" aria-modal="true" aria-labelledby="requirementStatusChangeTitle">
+      <header class="rsc-header"><h2 id="requirementStatusChangeTitle">Change Requirement Status</h2><button class="rsc-close" type="button" id="requirementStatusClose" aria-label="Close">&times;</button></header>
+      <div class="rsc-body">
+        <div class="rsc-current"><span class="rsc-current-label">Current Status</span><span class="rsc-current-value" id="requirementCurrentStatusValue">—</span></div>
+        <div class="rsc-field"><label for="requirementNewStatus">Change Status To</label><select id="requirementNewStatus"><option value="draft">Draft</option><option value="active">Active</option><option value="published">Published</option><option value="paused">Paused</option><option value="closed">Closed</option><option value="archived">Archived</option></select></div>
+        <div class="rsc-message" id="requirementStatusChangeMessage" role="status" aria-live="polite"></div>
+      </div>
+      <footer class="rsc-footer"><span id="requirementStatusFooterMessage" class="rsc-message" role="status" aria-live="polite"></span><div class="rsc-footer-actions"><button type="button" id="requirementStatusCancel">Cancel</button><button type="button" id="requirementStatusSave">Save</button></div></footer>
+    </section>
   </div>
 
   <div class="modal-backdrop hidden" id="jobModal" aria-hidden="true">
@@ -2753,5 +2797,109 @@ body.admin-app-page{
 })();
 </script>
 
+<script id="requirement-change-status-action">
+(function(){
+  var menu=document.getElementById('requirementRowContextMenu');
+  var modal=document.getElementById('requirementStatusChangeModal');
+  var saveButton=document.getElementById('requirementStatusSave');
+  var closeButton=document.getElementById('requirementStatusClose');
+  var cancelButton=document.getElementById('requirementStatusCancel');
+  var currentValue=document.getElementById('requirementCurrentStatusValue');
+  var statusSelect=document.getElementById('requirementNewStatus');
+  var footerMessage=document.getElementById('requirementStatusFooterMessage');
+  var activeRow=null;
+  if(!menu||!modal||!saveButton||!statusSelect) return;
+
+  function statusLabel(value){
+    var labels={draft:'Draft',active:'Active',published:'Published',paused:'Paused',closed:'Closed',archived:'Archived'};
+    var key=String(value||'').trim().toLowerCase();
+    return labels[key]||String(value||'—').trim()||'—';
+  }
+  function rowStatus(row){
+    if(!row) return '';
+    var pill=row.querySelector('.status-pill');
+    if(pill) return pill.textContent.trim();
+    var cell=row.children && row.children[6];
+    return cell ? cell.textContent.trim() : '';
+  }
+  function showModal(row){
+    activeRow=row;
+    var current=rowStatus(row);
+    currentValue.textContent=statusLabel(current);
+    var normalized=String(current||'').trim().toLowerCase();
+    statusSelect.value=['draft','active','published','paused','closed','archived'].indexOf(normalized)>=0?normalized:'';
+    footerMessage.textContent='';
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden','false');
+    menu.classList.add('hidden');
+    statusSelect.focus();
+  }
+  function hideModal(){
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden','true');
+    footerMessage.textContent='';
+    saveButton.disabled=false;
+    saveButton.textContent='Save';
+  }
+  function getRecordId(row){
+    if(!row) return '';
+    var keys=['jobId','requirementId','id','jobid','requirementid'];
+    for(var i=0;i<keys.length;i++){
+      if(row.dataset && row.dataset[keys[i]]) return row.dataset[keys[i]];
+    }
+    var attrs=['data-job-id','data-requirement-id','data-id','data-record-id'];
+    for(var j=0;j<attrs.length;j++){var val=row.getAttribute(attrs[j]);if(val)return val;}
+    var embedded=row.querySelector('[data-job-id],[data-requirement-id],[data-id]');
+    if(embedded) return embedded.getAttribute('data-job-id')||embedded.getAttribute('data-requirement-id')||embedded.getAttribute('data-id')||'';
+    return '';
+  }
+  function getClient(){
+    if(window.supabaseClient && typeof window.supabaseClient.from==='function') return window.supabaseClient;
+    if(window.sb && typeof window.sb.from==='function') return window.sb;
+    if(window.supabase && typeof window.supabase.createClient==='function') return window.supabase.createClient('https://hgjtqpztgyrrkujqjmcj.supabase.co','sb_publishable_NGCugRMwnR7QslgwGi9GzQ_LBMKyT12');
+    return null;
+  }
+  document.addEventListener('contextmenu',function(event){
+    var row=event.target.closest('.jobs-card .jobs-table tbody tr');
+    if(row) activeRow=row;
+  },true);
+  menu.addEventListener('click',function(event){
+    var actionButton=event.target.closest('[data-context-action="change-status"]');
+    if(!actionButton) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var selected=document.querySelector('.jobs-card .jobs-table tbody tr.requirement-row-selected');
+    showModal(activeRow||selected);
+  },true);
+  closeButton.addEventListener('click',hideModal);
+  cancelButton.addEventListener('click',hideModal);
+  modal.addEventListener('click',function(event){if(event.target===modal) hideModal();});
+  document.addEventListener('keydown',function(event){if(event.key==='Escape'&&!modal.classList.contains('hidden')) hideModal();});
+  saveButton.addEventListener('click',async function(){
+    if(!activeRow){footerMessage.textContent='Select a requirement before changing its status.';return;}
+    var newStatus=statusSelect.value;
+    if(!newStatus){footerMessage.textContent='Please select a status.';return;}
+    var recordId=getRecordId(activeRow);
+    if(!recordId){footerMessage.textContent='Unable to identify this requirement record. No changes were saved.';return;}
+    var client=getClient();
+    if(!client){footerMessage.textContent='Database connection is unavailable. Please try again.';return;}
+    saveButton.disabled=true;saveButton.textContent='Saving…';footerMessage.textContent='';
+    try{
+      var result=await client.from('jobs').update({status:newStatus}).eq('id',recordId).select('id,status').maybeSingle();
+      if(result&&result.error) throw result.error;
+      if(result&&result.data===null) throw new Error('No requirement record was updated.');
+      hideModal();
+      var pill=activeRow.querySelector('.status-pill');
+      if(pill){pill.textContent=statusLabel(newStatus);pill.className='status-pill status-'+newStatus;}
+      else if(activeRow.children&&activeRow.children[6]) activeRow.children[6].textContent=statusLabel(newStatus);
+      var refresh=document.getElementById('refreshJobsButton');
+      if(refresh) refresh.click();
+    }catch(error){
+      footerMessage.textContent=(error&&error.message)?'Could not save status: '+error.message:'Could not save status. Please try again.';
+      saveButton.disabled=false;saveButton.textContent='Save';
+    }
+  });
+})();
+</script>
 </body>
 </html>
