@@ -2690,5 +2690,40 @@ body.admin-app-page{
 })();
 </script>
 
+
+<style id="requirements-filter-active-highlight">
+/* Match the Action Items filter highlight when a filter is set to a non-default value. */
+.jobs-toolbar select.requirement-filter-active {
+  background-color:#EAF3FF !important;
+  border:1px solid #2878E8 !important;
+  color:#1558B0 !important;
+  box-shadow:0 0 0 1px rgba(40,120,232,.12) !important;
+  font-weight:600 !important;
+}
+</style>
+<script id="requirements-filter-active-highlight-behavior">
+(function () {
+  function syncRequirementFilterHighlight() {
+    ['statusFilter', 'locationFilter', 'clientFilter'].forEach(function (id) {
+      var filter = document.getElementById(id);
+      if (!filter) return;
+      filter.classList.toggle('requirement-filter-active', filter.value !== '');
+    });
+  }
+  ['statusFilter', 'locationFilter', 'clientFilter'].forEach(function (id) {
+    var filter = document.getElementById(id);
+    if (!filter) return;
+    filter.addEventListener('change', syncRequirementFilterHighlight);
+  });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncRequirementFilterHighlight);
+  } else {
+    syncRequirementFilterHighlight();
+  }
+  // Re-check after client/location options are populated dynamically.
+  window.addEventListener('load', syncRequirementFilterHighlight);
+})();
+</script>
+
 </body>
 </html>
