@@ -3000,17 +3000,27 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 
 <div id="profileRowContextMenu" class="profile-row-context-menu hidden" role="menu" aria-label="Profile actions">
   <div class="profile-row-context-menu-title" id="profileRowContextMenuTitle">Profile Actions</div>
-  <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Profile</span></button>
-  <button type="button" role="menuitem" data-context-action="download-resume" id="profileContextDownloadResumeButton"><i class="fa-solid fa-download"></i><span>Download Resume</span></button>
-  <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
-  <button type="button" role="menuitem" data-context-action="associate" id="profileContextAssociateButton"><i class="fa-solid fa-link"></i><span>Associate with Requirement</span></button>
-  <button type="button" role="menuitem" data-context-action="interviews" id="profileContextInterviewsButton"><i class="fa-solid fa-calendar-check"></i><span>Interview Rounds</span></button>
-  <button type="button" role="menuitem" data-context-action="edit-association"><i class="fa-solid fa-pen-to-square"></i><span>Edit Association</span></button>
-  <button type="button" role="menuitem" data-context-action="association-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Association Status History</span></button>
-  <button type="button" role="menuitem" data-context-action="profile-notes"><i class="fa-solid fa-note-sticky"></i><span>Add Profile Notes</span></button>
-  <button type="button" role="menuitem" data-context-action="association-notes"><i class="fa-solid fa-clipboard-list"></i><span>Add Profile Association Notes</span></button>
-  <button type="button" role="menuitem" data-context-action="remove-association" class="context-delete"><i class="fa-solid fa-link-slash"></i><span>Remove Association</span></button>
-  <button type="button" role="menuitem" data-context-action="delete" class="context-delete"><i class="fa-solid fa-trash"></i><span>Delete Profile</span></button>
+  <div class="profile-row-context-group" role="group" aria-label="Profile">
+    <div class="profile-row-context-group-title">Profile</div>
+    <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Profile</span></button>
+    <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
+    <button type="button" role="menuitem" data-context-action="delete" class="context-delete"><i class="fa-solid fa-trash"></i><span>Delete Profile</span></button>
+    <button type="button" role="menuitem" data-context-action="download-resume" id="profileContextDownloadResumeButton"><i class="fa-solid fa-download"></i><span>Download Resume</span></button>
+  </div>
+  <div class="profile-row-context-group" role="group" aria-label="Association">
+    <div class="profile-row-context-group-title">Association</div>
+    <button type="button" role="menuitem" data-context-action="edit-association"><i class="fa-solid fa-pen-to-square"></i><span>Edit Association</span></button>
+    <button type="button" role="menuitem" data-context-action="interviews"><i class="fa-solid fa-calendar-check"></i><span>Interview Rounds</span></button>
+    <button type="button" role="menuitem" data-context-action="association-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Association Status History</span></button>
+    <button type="button" role="menuitem" data-context-action="remove-association" class="context-delete"><i class="fa-solid fa-link-slash"></i><span>Remove Association</span></button>
+  </div>
+  <div class="profile-row-context-group" role="group" aria-label="Notes">
+    <div class="profile-row-context-group-title">Notes</div>
+    <button type="button" role="menuitem" data-context-action="add-profile-notes"><i class="fa-solid fa-note-sticky"></i><span>Add Profile Notes</span></button>
+    <button type="button" role="menuitem" data-context-action="add-association-notes"><i class="fa-solid fa-clipboard-list"></i><span>Add Profile Association Notes</span></button>
+    <button type="button" role="menuitem" data-context-action="view-profile-notes"><i class="fa-regular fa-note-sticky"></i><span>View Profile Notes</span></button>
+    <button type="button" role="menuitem" data-context-action="view-association-notes"><i class="fa-regular fa-clipboard"></i><span>View Profile Association Notes</span></button>
+  </div>
 </div>
 
 <style id="interview-rounds-dialog-styles">
@@ -3951,6 +3961,15 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 #profileModal .profile-current-association-row label{display:inline-block;margin:0;font-size:12px;font-weight:600;color:#4b5f7a;flex:0 0 auto;}
 #profileModal .profile-current-association-value{min-height:18px;color:#24364b;font-size:13px;font-weight:400;line-height:1.45;overflow-wrap:anywhere;}
 </style>
+
+<style id="profile-context-menu-groups">
+.profile-row-context-menu{min-width:250px;max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;}
+.profile-row-context-group{padding:4px 0 5px;margin:0 0 3px;border-bottom:1px solid #DCE5EF;}
+.profile-row-context-group:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0;}
+.profile-row-context-group-title{padding:5px 10px 3px;color:#64758B;font-size:10px;font-weight:700;letter-spacing:.55px;text-transform:uppercase;}
+.profile-row-context-menu .profile-row-context-group button{height:30px;font-size:12px;}
+</style>
+
 </body>
 
 
