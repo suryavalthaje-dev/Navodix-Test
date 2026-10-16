@@ -264,8 +264,8 @@
         <td>${escapeHtml(job.skill_level || '—')}</td>
         <td>${escapeHtml(job.salary_budget || '—')}</td>
         <td>${escapeHtml(job.experience || '—')}</td>
-        <td><span class="status-pill ${statusClass(job.status)}">${escapeHtml(statusLabel(job.status))}</span></td>
         <td>${escapeHtml(formatDate(job.job_open_date))}</td>
+        <td><span class="status-pill ${statusClass(job.status)}">${escapeHtml(statusLabel(job.status))}</span></td>
       </tr>
     `;
     }).join('') : `
@@ -903,10 +903,10 @@
     if (exportJobsButton) {
       exportJobsButton.addEventListener('click', () => {
         const rows = filteredJobs();
-        const headers = ['Requirements','Client','Location','Skill Level','Salary Range','Experience','Status','Open Date'];
+        const headers = ['Requirements','Client','Location','Skill Level','Salary Range','Experience','Open Date','Status'];
         const csvRows = [headers, ...rows.map(job => [
           job.title || '', job.client_name || '', job.location || '', job.skill_level || '',
-          job.salary_budget || '', job.experience || '', statusLabel(job.status), formatDate(job.job_open_date)
+          job.salary_budget || '', job.experience || '', formatDate(job.job_open_date), statusLabel(job.status)
         ])];
         const csv = csvRows.map(row => row.map(value => `"${String(value ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
         const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
