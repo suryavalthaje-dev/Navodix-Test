@@ -800,7 +800,7 @@ body.admin-app-page{
 }
 .jobs-summary{
   display:grid !important;
-  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
   gap:8px !important;
   margin:7px 0 0 !important;
 }
@@ -1382,6 +1382,35 @@ body.admin-app-page{
 }
 </style>
 
+<style id="requirements-dashboard-row-category-colors-v1">
+/* Keep all six requirement dashboard cards on one row and use the Action Items dashboard color palette. */
+.jobs-summary{
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  gap:6px !important;
+  width:100% !important;
+}
+.jobs-summary .summary-card{
+  min-width:0 !important;
+  padding:5px 8px !important;
+  gap:4px !important;
+}
+.jobs-summary .summary-card span{
+  font-size:10px !important;
+  line-height:1.1 !important;
+}
+.jobs-summary .summary-card:nth-child(1){background:#EAF2FF !important;border-color:#B9D0F5 !important;} /* Total Requirements */
+.jobs-summary .summary-card:nth-child(2){background:#F0EAFE !important;border-color:#CBBBF4 !important;} /* Draft */
+.jobs-summary .summary-card:nth-child(3){background:#E7F7EE !important;border-color:#A8D9BC !important;} /* Active */
+.jobs-summary .summary-card:nth-child(4){background:#E5F5F2 !important;border-color:#A6D8CF !important;} /* Published */
+.jobs-summary .summary-card:nth-child(5){background:#FFF6D8 !important;border-color:#E8D58A !important;} /* Paused */
+.jobs-summary .summary-card:nth-child(6){background:#FDE8E8 !important;border-color:#E8B0B0 !important;} /* Closed */
+@media(max-width:760px){
+  .jobs-summary{grid-template-columns:repeat(6,minmax(0,1fr)) !important;gap:4px !important;}
+  .jobs-summary .summary-card{padding:4px 5px !important;}
+  .jobs-summary .summary-card span{font-size:9px !important;}
+  .jobs-summary .summary-card strong{font-size:12px !important;}
+}
+</style>
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
@@ -1457,8 +1486,10 @@ body.admin-app-page{
 
         <section class="jobs-summary" aria-label="Requirement summary">
           <div class="summary-card"><span>Total Requirements</span><strong id="totalJobs">0</strong></div>
+          <div class="summary-card"><span>Draft</span><strong id="draftJobs">0</strong></div>
+          <div class="summary-card"><span>Active</span><strong id="activeJobs">0</strong></div>
           <div class="summary-card"><span>Published</span><strong id="publishedJobs">0</strong></div>
-          <div class="summary-card"><span>Drafts</span><strong id="draftJobs">0</strong></div>
+          <div class="summary-card"><span>Paused</span><strong id="pausedJobs">0</strong></div>
           <div class="summary-card"><span>Closed</span><strong id="closedJobs">0</strong></div>
         </section>
       </section>
