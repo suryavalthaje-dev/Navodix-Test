@@ -810,6 +810,33 @@ body.admin-app-page .clients-master-card .clients-list-heading-actions .btn.prof
 body.admin-app-page .clients-master-card .clients-list-heading-actions button.profiles-list-standard-button i {font-size:12px!important;color:inherit!important;line-height:1!important;}
 body.admin-app-page .clients-master-card .clients-list-heading-actions .btn.profiles-list-standard-button:focus-visible {outline:2px solid #2878E8!important;outline-offset:2px!important;}
 </style>
+
+<style id="clients-profiles-button-parity-v3">
+/* Final parity override: all Clients list-header buttons use the same light-blue style as the approved Profiles list. */
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#refreshClientsButton,
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#addClientButton,
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#clientsColumnsButton {
+  appearance:none !important; -webkit-appearance:none !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:6px !important;
+  width:auto !important; min-width:0 !important; height:34px !important; min-height:34px !important; max-height:34px !important;
+  margin:0 !important; padding:0 12px !important; box-sizing:border-box !important;
+  border:1px solid #B8D5F8 !important; border-radius:6px !important;
+  background:#EAF3FF !important; background-color:#EAF3FF !important; color:#1558B0 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:600 !important; line-height:1 !important;
+  text-transform:none !important; letter-spacing:normal !important; white-space:nowrap !important; box-shadow:none !important;
+}
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#refreshClientsButton:hover:not(:disabled),
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#addClientButton:hover:not(:disabled),
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#clientsColumnsButton:hover:not(:disabled) {
+  background:#DCEBFF !important; background-color:#DCEBFF !important; border-color:#8DBBF3 !important; color:#1558B0 !important;
+}
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#refreshClientsButton i,
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#addClientButton i,
+html body.admin-app-page .clients-master-card .clients-list-heading .clients-list-heading-actions button#clientsColumnsButton i {
+  color:inherit !important; font-size:12px !important; line-height:1 !important; margin:0 !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page" data-master-type="clients">
 <header class="admin-header">
