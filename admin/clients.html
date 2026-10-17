@@ -871,14 +871,19 @@ body.admin-app-page .master-toolbar select:focus, body.admin-app-page .master-to
 body.admin-app-page .master-table tbody td{font-size:11px!important;font-weight:500!important;}
 body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-table tbody td span:not(.status-pill):not(.status-badge){font-size:11px!important;font-weight:500!important;}
 .md-context-menu{position:fixed;z-index:99999;min-width:190px;background:#fff;border:1px solid #B8CBE0;border-radius:7px;box-shadow:0 8px 22px rgba(30,55,85,.2);padding:4px 0;color:#173F78;font:500 12px 'Segoe UI',system-ui,sans-serif}
-.md-context-menu .md-context-title{background:#218653;color:#fff;font-size:12px;font-weight:700;padding:8px 12px;margin:-4px 0 4px;border-radius:6px 6px 0 0}
+.md-context-menu .md-context-title{display:flex;align-items:center;gap:8px!important;background:#218653;color:#fff;font-size:12px;font-weight:700;padding:8px 12px;margin:-4px 0 4px;border-radius:6px 6px 0 0}
 .md-context-menu button{display:block;width:100%;border:0;background:#fff;color:#173F78;text-align:left;padding:8px 12px;font:500 12px 'Segoe UI',system-ui,sans-serif;cursor:pointer}
-.md-context-menu button:hover{background:#EAF3FF}
+.md-context-menu button{display:flex;align-items:center;gap:9px!important}.md-context-menu button i{width:14px;text-align:center;font-size:12px}.md-context-menu .md-context-title i{font-size:12px}.md-context-menu button:hover{background:#EAF3FF}
 .md-context-menu button.md-danger{color:#B42318}
 .client-name-value,.md-name-value{display:inline-flex;align-items:center;gap:7px}
 .client-name-value>i,.md-name-value>i{color:#2878E8;font-size:11px;flex:0 0 auto}
 </style>
 
+
+<style id="clients-code-value-typography-v2">
+/* Client Code values follow the Navodix list standard. */
+body.admin-app-page .master-table tbody td .master-code{font-size:11px!important;font-weight:500!important;}
+</style>
 </head>
 <body class="admin-app-page" data-master-type="clients">
 <header class="admin-header">
@@ -945,11 +950,99 @@ body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-ta
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/master-data.js?v=17"></script>
+<script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/master-data.js?v=19"></script>
 <script src="js/navigation.js?v=33"></script>
 
 <script id="navodix-master-data-context-menu-v1">
-(function(){const table=document.querySelector('.master-table');if(!table)return;let menu;function close(){if(menu){menu.remove();menu=null}}document.addEventListener('click',close);document.addEventListener('scroll',close,true);table.addEventListener('contextmenu',function(e){const row=e.target.closest('tbody tr');if(!row)return;e.preventDefault();close();const name=row.querySelector('td')?.innerText?.trim()||'Record';menu=document.createElement('div');menu.className='md-context-menu';const title=document.createElement('div');title.className='md-context-title';title.textContent=name;menu.appendChild(title);const type=document.body.dataset.masterType||document.body.dataset.masterCustom||'';let editLabel='Edit Record',deleteLabel='Delete Record';if(type==='clients'){editLabel='Edit Client';deleteLabel='Delete Client'}else if(type==='categories'){editLabel='Edit Job Category';deleteLabel='Delete Job Category'}else if(type==='locations'){editLabel='Edit Location';deleteLabel='Delete Location'}else if(type==='projects'){editLabel='Edit Project / Area';deleteLabel='Delete Project / Area'}else if(type==='assignees'){editLabel='Edit Assignee';deleteLabel='Delete Assignee'}[['edit',editLabel,''],['delete',deleteLabel,'md-danger']].forEach(([action,label,cl])=>{const b=document.createElement('button');b.type='button';b.className=cl;b.textContent=label;b.addEventListener('click',()=>{const existing=row.querySelector('[data-action="'+action+'"]');if(existing)existing.click();else if(type==='clients'){const id=row.dataset.recordId;document.dispatchEvent(new CustomEvent('navodix-master-context-action',{detail:{action,id}}));}close()});menu.appendChild(b)});document.body.appendChild(menu);const x=Math.min(e.clientX,innerWidth-menu.offsetWidth-8),y=Math.min(e.clientY,innerHeight-menu.offsetHeight-8);menu.style.left=Math.max(8,x)+'px';menu.style.top=Math.max(8,y)+'px';});})();
+(function(){const table=document.querySelector('.master-table');if(!table)return;let menu;function close(){if(menu){menu.remove();menu=null}}document.addEventListener('click',e=>{if(menu&&menu.contains(e.target))return;close()});document.addEventListener('scroll',close,true);table.addEventListener('contextmenu',function(e){const row=e.target.closest('tbody tr');if(!row)return;e.preventDefault();close();const name=row.querySelector('td')?.innerText?.trim()||'Record';menu=document.createElement('div');menu.className='md-context-menu';const title=document.createElement('div');title.className='md-context-title';const titleIcon=document.createElement('i');titleIcon.className='fa-solid fa-list-check';titleIcon.setAttribute('aria-hidden','true');title.appendChild(titleIcon);const titleText=document.createElement('span');titleText.textContent=name;title.appendChild(titleText);menu.appendChild(title);const type=document.body.dataset.masterType||document.body.dataset.masterCustom||'';let editLabel='Edit Record',deleteLabel='Delete Record';if(type==='clients'){editLabel='Edit Client';deleteLabel='Delete Client'}else if(type==='categories'){editLabel='Edit Job Category';deleteLabel='Delete Job Category'}else if(type==='locations'){editLabel='Edit Location';deleteLabel='Delete Location'}else if(type==='projects'){editLabel='Edit Project / Area';deleteLabel='Delete Project / Area'}else if(type==='assignees'){editLabel='Edit Assignee';deleteLabel='Delete Assignee'}[['edit',editLabel,'fa-pen-to-square',''],['delete',deleteLabel,'fa-trash','md-danger']].forEach(([action,label,icon,cl])=>{const b=document.createElement('button');b.type='button';b.className=cl;const i=document.createElement('i');i.className='fa-solid '+icon;i.setAttribute('aria-hidden','true');b.appendChild(i);const text=document.createElement('span');text.textContent=label;b.appendChild(text);b.addEventListener('click',()=>{const existing=row.querySelector('[data-action="'+action+'"]');if(existing)existing.click();else if(type==='clients'){const id=row.dataset.recordId;document.dispatchEvent(new CustomEvent('navodix-master-context-action',{detail:{action,id}}));}close()});menu.appendChild(b)});document.body.appendChild(menu);const x=Math.min(e.clientX,innerWidth-menu.offsetWidth-8),y=Math.min(e.clientY,innerHeight-menu.offsetHeight-8);menu.style.left=Math.max(8,x)+'px';menu.style.top=Math.max(8,y)+'px';});})();
+</script>
+
+</body>
+</html>
+background:#218653;color:#fff;font-size:12px;font-weight:700;padding:8px 12px;margin:-4px 0 4px;border-radius:6px 6px 0 0}
+.md-context-menu button{display:block;width:100%;border:0;background:#fff;color:#173F78;text-align:left;padding:8px 12px;font:500 12px 'Segoe UI',system-ui,sans-serif;cursor:pointer}
+.md-context-menu button{display:flex;align-items:center;gap:9px!important}.md-context-menu button i{width:14px;text-align:center;font-size:12px}.md-context-menu .md-context-title i{font-size:12px}.md-context-menu button:hover{background:#EAF3FF}
+.md-context-menu button.md-danger{color:#B42318}
+.client-name-value,.md-name-value{display:inline-flex;align-items:center;gap:7px}
+.client-name-value>i,.md-name-value>i{color:#2878E8;font-size:11px;flex:0 0 auto}
+</style>
+
+
+<style id="clients-code-value-typography-v2">
+/* Client Code values follow the Navodix list standard. */
+body.admin-app-page .master-table tbody td .master-code{font-size:11px!important;font-weight:500!important;}
+</style>
+</head>
+<body class="admin-app-page" data-master-type="clients">
+<header class="admin-header">
+<div class="admin-container admin-nav">
+<a aria-label="Back to Navodix website" class="admin-brand" href="../index.html"><img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=16"/></a>
+<nav aria-label="Admin main menu" class="admin-main-nav">
+<a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a>
+<span class="admin-main-nav-link disabled">Employee Management</span>
+</nav>
+<div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div>
+</div>
+</header>
+<nav aria-label="Manage Requirements sections" class="admin-section-nav">
+<div class="admin-container admin-section-nav-inner">
+<a class="admin-section-nav-link" href="recruitment.html?v=16">Manage Requirements</a><a class="admin-section-nav-link" href="profiles.html?v=1">Profiles Management</a>
+<a class="admin-section-nav-link" href="applications.html?v=17">Applications</a>
+<details class="admin-section-nav-dropdown">
+<summary class="admin-section-nav-link active">Master Data</summary>
+<div class="master-data-menu" role="menu">
+<a class="current" href="clients.html?v=16" role="menuitem">Clients</a>
+<a href="job-categories.html?v=16" role="menuitem">Job Categories</a>
+<a href="locations.html?v=16" role="menuitem">Locations</a><a href="projects-areas.html?v=30" role="menuitem">Projects / Areas</a><a href="action-item-assignees.html?v=30" role="menuitem">Action Item Assignees</a>
+<a href="email-notifications.html?v=2" role="menuitem">Email Notifications</a></div>
+</details>
+<a class="admin-section-nav-link" href="user-management.html?v=17">User Management</a>
+<a class="admin-section-nav-link" href="action-items.html">Action Items</a>
+</div>
+</nav>
+<main class="admin-main"><div class="admin-container">
+<div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Manage Clients</h1><span class="jobs-heading-subtitle">Manage clients used for career opportunities.</span></div></div>
+<div aria-live="polite" class="admin-message" id="masterMessage" role="status"></div>
+<div class="master-toolbar">
+<div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="clientSearch" placeholder="Search by code or client name" type="search"/></div>
+<select aria-label="Filter by status" id="clientStatusFilter"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+
+</div>
+<div class="master-card clients-master-card"><div class="master-list-heading clients-list-heading"><div class="master-list-heading-inline"><h2>List of Clients</h2><p>Active and recently managed clients list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshClientsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-outline profiles-list-standard-button clients-add-list-button" id="addClientButton" type="button"><i class="fa-solid fa-building-circle-check" aria-hidden="true"></i> Add Client</button><button class="btn btn-outline profiles-list-standard-button" id="clientsColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="clientsColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-client-col="0"> Client Name</label><label class="column-option"><input type="checkbox" checked data-client-col="1"> Client Code</label><label class="column-option"><input type="checkbox" checked data-client-col="2"> Display Order</label><label class="column-option"><input type="checkbox" checked data-client-col="3"> Status</label></div></div><div class="table-wrap clients-list-scroll"><table class="master-table"><thead><tr><th>Client Name</th><th>Client Code</th><th>Display Order</th><th>Status</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyClients"><i class="fa-solid fa-users"></i><h3>No clients found</h3><p>Use “Add Client” to create the first record.</p></div>
+</div></main>
+<div class="client-row-context-menu hidden" id="clientRowContextMenu" role="menu" aria-label="Client actions"><button type="button" data-client-action="edit" role="menuitem"><i class="fa-solid fa-pen-to-square"></i> Edit Client</button><button type="button" data-client-action="delete" role="menuitem" class="context-delete"><i class="fa-solid fa-trash"></i> Delete Client</button></div>
+<style id="client-row-context-menu-style">.client-row-context-menu{position:fixed;z-index:3000;min-width:170px;padding:5px;background:#fff;border:1px solid #B8CBE0;border-radius:7px;box-shadow:0 8px 24px rgba(7,27,77,.18)}.client-row-context-menu.hidden{display:none}.client-row-context-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:#173F78;font:600 11px 'Segoe UI',system-ui,sans-serif;text-align:left;cursor:pointer}.client-row-context-menu button:hover{background:#EEF5FC}.client-row-context-menu button i{width:14px}.client-row-context-menu .context-delete{color:#B42318}</style>
+<div aria-hidden="true" class="modal-backdrop hidden" id="masterModal">
+<div aria-labelledby="masterModalTitle" aria-modal="true" class="master-modal" role="dialog">
+<div class="modal-header">
+<div><span class="section-badge" id="masterModalBadge">MASTER DATA</span><h2 id="masterModalTitle">Add Client</h2></div>
+<button aria-label="Close" class="modal-close" id="closeMasterModal" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<div class="master-modal-body"><form id="masterForm" novalidate="">
+<input id="masterId" type="hidden"/><input id="masterType" type="hidden"/>
+<div class="master-form-grid">
+<div class="field-group master-name-field"><label for="masterName" id="masterNameLabel">Client Name <span>*</span></label><input id="masterName" maxlength="150" placeholder="e.g. ABC Technologies" required=""/></div>
+<div class="field-group master-code-field"><label for="masterCode" id="masterCodeLabel">Client Code</label><input aria-readonly="true" id="masterCode" maxlength="4" placeholder="Auto-generated" readonly=""/><small class="field-help">Auto-generated by the system</small></div>
+<div class="field-group"><label for="masterStatus">Status <span>*</span></label><select id="masterStatus" required=""><option value="true">Active</option><option value="false">Inactive</option></select></div>
+<div class="field-group"><label for="masterDisplayOrder">Display Order</label><input id="masterDisplayOrder" min="0" step="1" type="number" value="0"/></div>
+</div>
+
+
+</form></div><footer class="master-modal-footer"><div class="admin-message" id="masterFormMessage" role="alert"></div><div class="modal-actions"><button class="btn btn-outline" id="cancelMasterButton" type="button">Cancel</button><button class="btn btn-primary" form="masterForm" id="saveMasterButton" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save</button></div></footer></div>
+</div>
+<div aria-hidden="true" class="modal-backdrop hidden" id="deleteMasterModal">
+<div aria-labelledby="deleteMasterTitle" aria-modal="true" class="confirm-modal" role="dialog">
+<div class="confirm-icon danger"><i class="fa-solid fa-trash"></i></div><h2 id="deleteMasterTitle">Delete Record?</h2><p id="deleteMasterText"></p>
+<div class="modal-actions"><button class="btn btn-outline" id="cancelMasterDeleteButton" type="button">Cancel</button><button class="btn btn-danger" id="confirmMasterDeleteButton" type="button"><i class="fa-solid fa-trash"></i> Delete</button></div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/master-data.js?v=19"></script>
+<script src="js/navigation.js?v=33"></script>
+
+<script id="navodix-master-data-context-menu-v1">
+(function(){const table=document.querySelector('.master-table');if(!table)return;let menu;function close(){if(menu){menu.remove();menu=null}}document.addEventListener('click',e=>{if(menu&&menu.contains(e.target))return;close()});document.addEventListener('scroll',close,true);table.addEventListener('contextmenu',function(e){const row=e.target.closest('tbody tr');if(!row)return;e.preventDefault();close();const name=row.querySelector('td')?.innerText?.trim()||'Record';menu=document.createElement('div');menu.className='md-context-menu';const title=document.createElement('div');title.className='md-context-title';const titleIcon=document.createElement('i');titleIcon.className='fa-solid fa-list-check';titleIcon.setAttribute('aria-hidden','true');title.appendChild(titleIcon);const titleText=document.createElement('span');titleText.textContent=name;title.appendChild(titleText);menu.appendChild(title);const type=document.body.dataset.masterType||document.body.dataset.masterCustom||'';let editLabel='Edit Record',deleteLabel='Delete Record';if(type==='clients'){editLabel='Edit Client';deleteLabel='Delete Client'}else if(type==='categories'){editLabel='Edit Job Category';deleteLabel='Delete Job Category'}else if(type==='locations'){editLabel='Edit Location';deleteLabel='Delete Location'}else if(type==='projects'){editLabel='Edit Project / Area';deleteLabel='Delete Project / Area'}else if(type==='assignees'){editLabel='Edit Assignee';deleteLabel='Delete Assignee'}[['edit',editLabel,'fa-pen-to-square',''],['delete',deleteLabel,'fa-trash','md-danger']].forEach(([action,label,icon,cl])=>{const b=document.createElement('button');b.type='button';b.className=cl;const i=document.createElement('i');i.className='fa-solid '+icon;i.setAttribute('aria-hidden','true');b.appendChild(i);const text=document.createElement('span');text.textContent=label;b.appendChild(text);b.addEventListener('click',()=>{const existing=row.querySelector('[data-action="'+action+'"]');if(existing)existing.click();else if(type==='clients'){const id=row.dataset.recordId;document.dispatchEvent(new CustomEvent('navodix-master-context-action',{detail:{action,id}}));}close()});menu.appendChild(b)});document.body.appendChild(menu);const x=Math.min(e.clientX,innerWidth-menu.offsetWidth-8),y=Math.min(e.clientY,innerHeight-menu.offsetHeight-8);menu.style.left=Math.max(8,x)+'px';menu.style.top=Math.max(8,y)+'px';});})();
 </script>
 
 </body>
