@@ -830,6 +830,39 @@ body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-ta
 .client-name-value>i,.md-name-value>i{color:#2878E8;font-size:11px;flex:0 0 auto}
 </style>
 
+
+<style id="job-categories-empty-state-and-modal-fix-v1">
+/* Empty state: icon at left, title and explanation stacked at right. */
+body.admin-app-page .master-card .empty-state:not(.hidden){
+  display:grid !important;
+  grid-template-columns:44px minmax(0, max-content);
+  grid-template-rows:auto auto;
+  align-content:center;
+  align-items:center;
+  justify-content:start;
+  column-gap:10px;
+  row-gap:2px;
+  min-height:88px !important;
+  padding:12px 16px !important;
+  text-align:left;
+}
+body.admin-app-page .master-card .empty-state > i{
+  grid-column:1; grid-row:1 / span 2;
+  display:flex; align-items:center; justify-content:center;
+  width:44px; height:44px; margin:0 !important;
+  border-radius:50%; background:#EAF1FF; color:#245DE8; font-size:20px;
+}
+body.admin-app-page .master-card .empty-state h3{
+  grid-column:2; grid-row:1; margin:0 !important; line-height:1.25 !important;
+}
+body.admin-app-page .master-card .empty-state p{
+  grid-column:2; grid-row:2; margin:0 !important; line-height:1.35 !important;
+}
+/* Force hidden modal backdrops to remain hidden regardless of global modal display rules. */
+#deleteMasterModal.hidden, #masterModal.hidden{display:none !important;}
+#deleteMasterModal:not(.hidden), #masterModal:not(.hidden){display:flex !important;}
+</style>
+
 </head>
 <body class="admin-app-page" data-master-type="categories">
 <header class="admin-header">
@@ -892,7 +925,7 @@ body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-ta
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/master-data.js?v=20"></script>
+<script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/master-data.js?v=21"></script>
 <script src="js/navigation.js?v=33"></script>
 <script id="navodix-master-columns-toggle-v1">
 (function(){
