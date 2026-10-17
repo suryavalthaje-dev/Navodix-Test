@@ -47,9 +47,11 @@
       locations = data || [];
       render();
       message('');
+      return true;
     } catch (error) {
       console.error(error);
       message(`Could not load locations: ${error.message || error}`, 'error');
+      return false;
     }
   }
 
@@ -273,6 +275,7 @@
     bind();
     const allowed = await window.navodixAdminReady;
     if (allowed === false) return;
-    await load();
+    const loaded = await load();
+    if (!loaded) { await new Promise(resolve => setTimeout(resolve, 600)); await load(); }
   });
 })();
