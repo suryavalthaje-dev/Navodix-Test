@@ -936,6 +936,23 @@ body.admin-app-page .master-card #emptyCategories .empty-state-copy p {
 }
 </style>
 
+
+<style id="navodix-empty-state-row-presence-fix-v1">
+/* Empty state must never appear while any data rows are rendered. */
+body.admin-app-page .master-card:has(.master-table tbody tr) .empty-state,
+body.admin-app-page .master-card:has(.master-table tbody tr) #customMasterEmpty,
+body.admin-app-page .master-card:has(.master-table tbody tr) #emptyLocations {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* With no rendered rows, show the centered empty state even if stale hidden class remains. */
+body.admin-app-page .master-card:has(.master-table tbody:empty) .empty-state,
+body.admin-app-page .master-card:has(.master-table tbody:empty) #customMasterEmpty,
+body.admin-app-page .master-card:has(.master-table tbody:empty) #emptyLocations {
+  display: flex !important;
+  visibility: visible !important;
+}
+</style>
 </head>
 <body class="admin-app-page" data-master-custom="projects">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=16"/></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
