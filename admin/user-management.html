@@ -1229,6 +1229,33 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 
 </body>
+
+<style id="users-row-selection-client-color-v1">
+/* Match Admin & HR Users selected-row highlight to the approved Clients list. */
+.users-list-card .users-table tbody tr.user-row-selected,
+.users-list-card .users-table tbody tr.user-row-selected > td,
+.users-list-card .users-table tbody tr.user-row-selected:hover,
+.users-list-card .users-table tbody tr.user-row-selected:hover > td {
+  background:#08B5D5 !important;
+  color:#073B49 !important;
+}
+.users-list-card .users-table tbody tr.user-row-selected > td {
+  border-top-color:#0795B0 !important;
+  border-bottom-color:#0795B0 !important;
+}
+.users-list-card .users-table tbody tr.user-row-selected .user-name-cell,
+.users-list-card .users-table tbody tr.user-row-selected .user-name-cell *,
+.users-list-card .users-table tbody tr.user-row-selected td *,
+.users-list-card .users-table tbody tr.user-row-selected td .role-pill,
+.users-list-card .users-table tbody tr.user-row-selected td .status-pill,
+.users-list-card .users-table tbody tr.user-row-selected td .user-date-main,
+.users-list-card .users-table tbody tr.user-row-selected td .user-date-sub {
+  color:#073B49 !important;
+}
+.users-list-card .users-table tbody tr.user-row-selected td .user-self-note {
+  color:#073B49 !important; background:rgba(255,255,255,.35) !important; border-color:#0795B0 !important;
+}
+</style>
 </html>
 
 <style id="user-management-eight-column-layout">

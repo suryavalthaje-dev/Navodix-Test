@@ -1785,4 +1785,29 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=73"></script>
 <script src="js/navigation.js?v=33"></script>
-</body></html>
+</body>
+<style id="action-items-row-selection-client-color-v1">
+/* Match Action Items selected-row highlight to the approved Clients list. */
+.action-card .action-table tbody tr.action-row-selected,
+.action-card .action-table tbody tr.action-row-selected > td,
+.action-card .action-table tbody tr.action-row-selected:hover,
+.action-card .action-table tbody tr.action-row-selected:hover > td,
+body.action-items-list-standard .action-table tbody tr.action-row-selected,
+body.action-items-list-standard .action-table tbody tr.action-row-selected > td {
+  background:#08B5D5 !important;
+  color:#073B49 !important;
+}
+.action-card .action-table tbody tr.action-row-selected > td {
+  border-top-color:#0795B0 !important;
+  border-bottom-color:#0795B0 !important;
+}
+.action-card .action-table tbody tr.action-row-selected td *,
+body.action-items-list-standard .action-table tbody tr.action-row-selected td * {
+  color:#073B49 !important;
+}
+.action-card .action-table tbody tr.action-row-selected .action-title-text:before,
+body.action-items-list-standard .action-table tbody tr.action-row-selected .action-title-text:before {
+  color:#073B49 !important;
+}
+</style>
+</html>
