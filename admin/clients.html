@@ -991,11 +991,18 @@ body.admin-app-page #clientsTableBody > tr.client-row-selected > td {
   });
 
   document.addEventListener('click', function (event) {
+    // Modal and context-menu interactions are part of the selected row workflow.
+    // Do not clear selection while the user opens, uses, or returns from a modal.
+    if (event.target.closest('.modal-backdrop, .client-row-context-menu, .md-context-menu')) return;
     if (!listCard.contains(event.target)) clearSelection();
   });
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') clearSelection();
+    if (event.key !== 'Escape') return;
+    // Escape may close a modal/context menu; preserve the row selection in that flow.
+    const modalOpen = Array.from(document.querySelectorAll('.modal-backdrop')).some(el => !el.classList.contains('hidden') && getComputedStyle(el).display !== 'none');
+    const contextMenuOpen = !!document.querySelector('.client-row-context-menu:not(.hidden), .md-context-menu');
+    if (!modalOpen && !contextMenuOpen) clearSelection();
   });
 })();
 </script>
