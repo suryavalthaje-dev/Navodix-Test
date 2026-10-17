@@ -830,6 +830,17 @@ body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-ta
 .client-name-value>i,.md-name-value>i{color:#2878E8;font-size:11px;flex:0 0 auto}
 </style>
 
+
+<style id="navodix-master-row-selection-v1">
+/* Selected row color matches the approved Clients highlight. */
+body.admin-app-page .master-table tbody tr.navodix-row-selected > td,
+body.admin-app-page .master-table tbody tr.navodix-row-selected:hover > td {
+  background-color: #08B5D5 !important;
+  color: #071B4D !important;
+}
+body.admin-app-page .master-table tbody tr { cursor: pointer; }
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -978,6 +989,36 @@ body.admin-app-page .master-table tbody td strong,body.admin-app-page .master-ta
 
 <script id="navodix-master-data-context-menu-v1">
 (function(){const table=document.querySelector('.master-table');if(!table)return;let menu;function close(){if(menu){menu.remove();menu=null}}document.addEventListener('click',e=>{if(menu&&menu.contains(e.target))return;close()});document.addEventListener('scroll',close,true);table.addEventListener('contextmenu',function(e){const row=e.target.closest('tbody tr');if(!row)return;e.preventDefault();close();const name=row.querySelector('td')?.innerText?.trim()||'Record';menu=document.createElement('div');menu.className='md-context-menu';const title=document.createElement('div');title.className='md-context-title';const titleIcon=document.createElement('i');titleIcon.className='fa-solid fa-list-check';titleIcon.setAttribute('aria-hidden','true');title.appendChild(titleIcon);const titleText=document.createElement('span');titleText.textContent=name;title.appendChild(titleText);menu.appendChild(title);const type=document.body.dataset.masterType||document.body.dataset.masterCustom||'';let editLabel='Edit Record',deleteLabel='Delete Record';if(type==='clients'){editLabel='Edit Client';deleteLabel='Delete Client'}else if(type==='categories'){editLabel='Edit Job Category';deleteLabel='Delete Job Category'}else if(type==='locations'){editLabel='Edit Location';deleteLabel='Delete Location'}else if(type==='projects'){editLabel='Edit Project / Area';deleteLabel='Delete Project / Area'}else if(type==='assignees'){editLabel='Edit Assignee';deleteLabel='Delete Assignee'}[['edit',editLabel,'fa-pen-to-square',''],['delete',deleteLabel,'fa-trash','md-danger']].forEach(([action,label,icon,cl])=>{const b=document.createElement('button');b.type='button';b.className=cl;const i=document.createElement('i');i.className='fa-solid '+icon;i.setAttribute('aria-hidden','true');b.appendChild(i);const text=document.createElement('span');text.textContent=label;b.appendChild(text);b.addEventListener('click',()=>{const existing=row.querySelector('[data-action="'+action+'"]');const id=existing?.dataset.id||row.dataset.recordId;if(id!==undefined&&id!==null&&id!=='')document.dispatchEvent(new CustomEvent('navodix-master-context-action',{detail:{action,id}}));close()});menu.appendChild(b)});document.body.appendChild(menu);const x=Math.min(e.clientX,innerWidth-menu.offsetWidth-8),y=Math.min(e.clientY,innerHeight-menu.offsetHeight-8);menu.style.left=Math.max(8,x)+'px';menu.style.top=Math.max(8,y)+'px';});})();
+</script>
+
+
+<script id="navodix-master-row-selection-behavior-v1">
+(function () {
+  const table = document.querySelector('.master-card .master-table');
+  const card = table && table.closest('.master-card');
+  if (!table || !card) return;
+  let selectedRow = null;
+  function selectRow(row) {
+    if (selectedRow && selectedRow !== row) selectedRow.classList.remove('navodix-row-selected');
+    selectedRow = row || null;
+    if (selectedRow) selectedRow.classList.add('navodix-row-selected');
+  }
+  function isModalOrMenu(target) {
+    return !!target.closest('.modal-backdrop, .confirm-modal, .master-modal, .md-context-menu, .columns-popover');
+  }
+  table.addEventListener('click', function (event) {
+    const row = event.target.closest('tbody tr');
+    if (row) selectRow(row);
+  });
+  table.addEventListener('contextmenu', function (event) {
+    const row = event.target.closest('tbody tr');
+    if (row) selectRow(row);
+  });
+  document.addEventListener('click', function (event) {
+    if (card.contains(event.target) || isModalOrMenu(event.target)) return;
+    selectRow(null);
+  });
+})();
 </script>
 
 </body>
