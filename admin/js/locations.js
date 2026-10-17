@@ -62,10 +62,7 @@
       const matchesStatus = !filter || (filter === 'active' ? location.is_active : !location.is_active);
       return matchesSearch && matchesStatus;
     });
-    const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-    if (currentPage > totalPages) currentPage = totalPages;
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const pageRows = rows.slice(start, start + PAGE_SIZE);
+    const pageRows = rows;
 
     $('locationsTableBody').innerHTML = pageRows.map(location => `
       <tr>
@@ -90,27 +87,8 @@
     $('emptyLocations').style.display = hasRows ? 'none' : '';
     $('locationsTableBody').closest('.table-wrap').classList.toggle('hidden', !hasRows);
     $('locationsTableBody').closest('.table-wrap').style.display = hasRows ? '' : 'none';
-    updatePagination(rows.length, totalPages, start, pageRows.length);
-  }
-
-  function updatePagination(total, totalPages, start, count) {
-    const wrap = $('locationsPagination');
-    if (!wrap) return;
-    wrap.classList.toggle('hidden', total === 0);
-    if (!total) return;
-    $('locationsPageInfo').textContent = `Showing ${start + 1}-${start + count} of ${total}`;
-    $('locationsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
-    $('locationsFirst').disabled = currentPage <= 1;
-    $('locationsPrev').disabled = currentPage <= 1;
-    $('locationsNext').disabled = currentPage >= totalPages;
-    $('locationsLast').disabled = currentPage >= totalPages;
-  }
-  function goToPage(page) {
-    const query = $('locationSearch').value.trim().toLowerCase();
-    const filter = $('locationStatusFilter').value;
-    const total = locations.filter(location => (!query || String(location.location_name || '').toLowerCase().includes(query)) && (!filter || (filter === 'active' ? location.is_active : !location.is_active))).length;
-    currentPage = Math.min(Math.max(1, page), Math.max(1, Math.ceil(total / PAGE_SIZE)));
-    render();
+    const pagination = $('locationsPagination');
+    if (pagination) pagination.remove();
   }
 
   function openForm(location = null) {
@@ -245,10 +223,7 @@
     $('locationSearch').addEventListener('input', () => { currentPage = 1; render(); });
     $('locationStatusFilter').addEventListener('change', () => { currentPage = 1; render(); });
     $('refreshLocationsButton').addEventListener('click', () => { currentPage = 1; load(); });
-    $('locationsFirst').addEventListener('click', () => goToPage(1));
-    $('locationsPrev').addEventListener('click', () => goToPage(currentPage - 1));
-    $('locationsNext').addEventListener('click', () => goToPage(currentPage + 1));
-    $('locationsLast').addEventListener('click', () => goToPage(999999));
+
 
     $('locationsTableBody').addEventListener('click', event => {
       const button = event.target.closest('[data-action]');
