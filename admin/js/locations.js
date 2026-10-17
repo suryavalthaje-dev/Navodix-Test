@@ -62,13 +62,16 @@
       const matchesStatus = !filter || (filter === 'active' ? location.is_active : !location.is_active);
       return matchesSearch && matchesStatus;
     });
-    const pageRows = rows;
+    const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageRows = rows.slice(start, start + PAGE_SIZE);
 
     $('locationsTableBody').innerHTML = pageRows.map(location => `
       <tr>
-        <td><strong>${escapeHtml(location.location_name)}</strong></td>
-        <td>${statusPill(location.is_active)}</td>
+        <td><span class="md-name-value"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>${escapeHtml(location.location_name)}</span></span></td>
         <td>${escapeHtml(location.display_order)}</td>
+        <td>${statusPill(location.is_active)}</td>
         <td>
           <div class="row-actions">
             <button class="icon-button" type="button" data-action="edit" data-id="${escapeHtml(location.id)}" title="Edit" aria-label="Edit location">
@@ -87,8 +90,27 @@
     $('emptyLocations').style.display = hasRows ? 'none' : '';
     $('locationsTableBody').closest('.table-wrap').classList.toggle('hidden', !hasRows);
     $('locationsTableBody').closest('.table-wrap').style.display = hasRows ? '' : 'none';
-    const pagination = $('locationsPagination');
-    if (pagination) pagination.remove();
+    updatePagination(rows.length, totalPages, start, pageRows.length);
+  }
+
+  function updatePagination(total, totalPages, start, count) {
+    const wrap = $('locationsPagination');
+    if (!wrap) return;
+    wrap.classList.toggle('hidden', total === 0);
+    if (!total) return;
+    $('locationsPageInfo').textContent = `Showing ${start + 1}-${start + count} of ${total}`;
+    $('locationsPageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
+    $('locationsFirst').disabled = currentPage <= 1;
+    $('locationsPrev').disabled = currentPage <= 1;
+    $('locationsNext').disabled = currentPage >= totalPages;
+    $('locationsLast').disabled = currentPage >= totalPages;
+  }
+  function goToPage(page) {
+    const query = $('locationSearch').value.trim().toLowerCase();
+    const filter = $('locationStatusFilter').value;
+    const total = locations.filter(location => (!query || String(location.location_name || '').toLowerCase().includes(query)) && (!filter || (filter === 'active' ? location.is_active : !location.is_active))).length;
+    currentPage = Math.min(Math.max(1, page), Math.max(1, Math.ceil(total / PAGE_SIZE)));
+    render();
   }
 
   function openForm(location = null) {
@@ -223,7 +245,10 @@
     $('locationSearch').addEventListener('input', () => { currentPage = 1; render(); });
     $('locationStatusFilter').addEventListener('change', () => { currentPage = 1; render(); });
     $('refreshLocationsButton').addEventListener('click', () => { currentPage = 1; load(); });
-
+    $('locationsFirst').addEventListener('click', () => goToPage(1));
+    $('locationsPrev').addEventListener('click', () => goToPage(currentPage - 1));
+    $('locationsNext').addEventListener('click', () => goToPage(currentPage + 1));
+    $('locationsLast').addEventListener('click', () => goToPage(999999));
 
     $('locationsTableBody').addEventListener('click', event => {
       const button = event.target.closest('[data-action]');
