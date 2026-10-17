@@ -1428,6 +1428,29 @@ body.admin-app-page{
 .jobs-card .jobs-table tbody td .job-title-cell span,
 .jobs-card .jobs-table tbody td .status-pill { font-size:11px !important; font-weight:500 !important; }
 </style>
+
+<style id="resource-requirements-row-selection-client-color-v1">
+/* Match Resource Requirements selected-row highlight to the approved Clients list. */
+.jobs-card .jobs-table tbody tr.requirement-row-selected,
+.jobs-card .jobs-table tbody tr.requirement-row-selected > td,
+.jobs-card .jobs-table tbody tr.requirement-row-selected:hover,
+.jobs-card .jobs-table tbody tr.requirement-row-selected:hover > td {
+  background: #08B5D5 !important;
+  color: #073B49 !important;
+}
+.jobs-card .jobs-table tbody tr.requirement-row-selected > td {
+  border-top-color: #0795B0 !important;
+  border-bottom-color: #0795B0 !important;
+}
+.jobs-card .jobs-table tbody tr.requirement-row-selected .job-title-cell strong,
+.jobs-card .jobs-table tbody tr.requirement-row-selected .job-title-cell span,
+.jobs-card .jobs-table tbody tr.requirement-row-selected td .status-pill {
+  color: #073B49 !important;
+}
+.jobs-card .jobs-table tbody tr.requirement-row-selected .job-title-cell strong {
+  font-weight: 600 !important;
+}
+</style>
 </head>
 <body class="admin-app-page">
   <header class="admin-header">
