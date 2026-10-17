@@ -1571,6 +1571,38 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
   .admin-app-page .applications-card .jobs-list-heading h2,.admin-app-page .applications-card .jobs-list-heading p{white-space:normal!important}
 }
 </style>
+<style id="applications-list-header-controls-v1">
+/* Match the approved Profiles Management heading typography and list-header controls. */
+.admin-app-page .admin-page-heading h1 {
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
+  font-size:32px !important;
+  font-weight:700 !important;
+  line-height:1.15 !important;
+  color:#071B4D !important;
+}
+.admin-app-page .applications-card .jobs-list-heading-actions {
+  display:flex !important; align-items:center !important; justify-content:flex-end !important;
+  gap:8px !important; flex:0 0 auto !important; flex-wrap:nowrap !important;
+}
+.admin-app-page .applications-list-standard-button {
+  width:auto !important; min-width:0 !important; height:34px !important; min-height:34px !important;
+  box-sizing:border-box !important; padding:0 12px !important; border:1px solid #B8D5F8 !important;
+  border-radius:6px !important; background:#EAF3FF !important; color:#1558B0 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important;
+  font-weight:600 !important; line-height:1 !important; white-space:nowrap !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:6px !important;
+}
+.admin-app-page .applications-list-standard-button:hover:not(:disabled) {
+  background:#DCEBFF !important; border-color:#8DBBF3 !important; color:#1558B0 !important;
+}
+.admin-app-page .applications-list-standard-button i { color:inherit !important; font-size:12px !important; }
+.admin-app-page .applications-card .jobs-list-heading-inline { min-width:0 !important; flex:1 1 auto !important; }
+@media(max-width:1100px) {
+  .admin-app-page .applications-card .jobs-list-heading { align-items:flex-start !important; flex-wrap:wrap !important; }
+  .admin-app-page .applications-card .jobs-list-heading-actions { flex-wrap:wrap !important; }
+  .admin-app-page .applications-card .jobs-list-heading-inline { flex:1 1 100% !important; }
+}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -1648,10 +1680,6 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <option value="yes">Submitted to Client: Yes</option>
 <option value="no">Submitted to Client: No</option>
 </select>
-<button class="btn btn-outline toolbar-action-button" id="clearApplicationFiltersButton" type="button">Clear Filters</button>
-<button class="btn btn-outline toolbar-action-button" id="refreshApplicationsButton" type="button">
-<i aria-hidden="true" class="fa-solid fa-rotate"></i> Refresh
-        </button>
 </section>
 <section aria-label="Application summary" class="jobs-summary applications-summary">
 <div class="summary-card"><span>Total Applications</span><strong id="totalApplications">0</strong></div>
@@ -1665,6 +1693,21 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <div class="jobs-list-heading-inline">
 <h2>Submitted Applications</h2>
 <p>Applications received through the Careers page</p>
+</div>
+<div class="jobs-list-heading-actions">
+<button class="btn btn-outline applications-list-standard-button" id="clearApplicationFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button>
+<button class="btn btn-outline applications-list-standard-button" id="refreshApplicationsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button>
+<button class="btn btn-outline applications-list-standard-button" id="applicationsColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button>
+</div>
+<div class="columns-popover hidden" id="applicationsColumnsPopover">
+<div class="columns-popover-title">Show / Hide Columns</div>
+<label class="column-option"><input type="checkbox" checked data-application-col="0"> Application</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="1"> Applicant</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="2"> Requirement</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="3"> Contact</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="4"> Experience</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="5"> Applied</label>
+<label class="column-option"><input type="checkbox" checked data-application-col="6"> Status</label>
 </div>
 </div>
 <div class="table-wrap">
