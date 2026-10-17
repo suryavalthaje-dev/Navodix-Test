@@ -973,17 +973,6 @@ body.admin-app-page .master-card #emptyCategories .empty-state-copy p {
 </style>
 
 
-<style id="navodix-no-actions-column-v1">
-/* Actions are available from the right-click menu; keep the existing buttons in the DOM for handler compatibility, but remove their visible column. */
-body[data-master-type="categories"] .master-table th.actions-column,
-body[data-master-type="categories"] .master-table tbody td:last-child,
-body[data-master-type="locations"] .master-table th.actions-column,
-body[data-master-type="locations"] .master-table tbody td:last-child,
-body[data-master-custom="projects"] .master-table th.actions-column,
-body[data-master-custom="projects"] .master-table tbody td:last-child,
-body[data-master-custom="assignees"] .master-table th.actions-column,
-body[data-master-custom="assignees"] .master-table tbody td:last-child { display:none !important; }
-</style>
 </head>
 <body class="admin-app-page" data-master-type="categories">
 <header class="admin-header">
@@ -1019,7 +1008,7 @@ body[data-master-custom="assignees"] .master-table tbody td:last-child { display
 <div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="categorySearch" placeholder="Search by code or category name" type="search"/></div>
 <select aria-label="Filter by status" id="categoryStatusFilter"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
 </div>
-<div class="master-card"><div class="master-list-heading"><div class="master-list-heading-inline"><h2>Job Categories</h2><p>Active and recently managed job categories list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshCategoriesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-outline profiles-list-standard-button" id="addCategoryButton" type="button"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Add Category</button><button class="btn btn-outline profiles-list-standard-button" id="masterColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="masterColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div></div></div><div class="table-wrap"><table class="master-table"><thead><tr><th>Category Name</th><th>Category Code</th><th>Display Order</th><th>Status</th><th class="actions-column">Actions</th></tr></thead><tbody id="categoriesTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyCategories"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><div class="empty-state-copy"><h3>No job categories found</h3><p>Use “Add Category” to create the first record.</p></div></div>
+<div class="master-card"><div class="master-list-heading"><div class="master-list-heading-inline"><h2>Job Categories</h2><p>Active and recently managed job categories list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshCategoriesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-outline profiles-list-standard-button" id="addCategoryButton" type="button"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Add Category</button><button class="btn btn-outline profiles-list-standard-button" id="masterColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="masterColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div></div></div><div class="table-wrap"><table class="master-table"><thead><tr><th>Category Name</th><th>Category Code</th><th>Display Order</th><th>Status</th></tr></thead><tbody id="categoriesTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyCategories"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><div class="empty-state-copy"><h3>No job categories found</h3><p>Use “Add Category” to create the first record.</p></div></div>
 </div>
 </div></main>
 <div aria-hidden="true" class="modal-backdrop hidden" id="masterModal">

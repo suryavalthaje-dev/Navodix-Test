@@ -957,17 +957,6 @@ body.admin-app-page .master-card .master-table thead th {
 </style>
 
 
-<style id="navodix-no-actions-column-v1">
-/* Actions are available from the right-click menu; keep the existing buttons in the DOM for handler compatibility, but remove their visible column. */
-body[data-master-type="categories"] .master-table th.actions-column,
-body[data-master-type="categories"] .master-table tbody td:last-child,
-body[data-master-type="locations"] .master-table th.actions-column,
-body[data-master-type="locations"] .master-table tbody td:last-child,
-body[data-master-custom="projects"] .master-table th.actions-column,
-body[data-master-custom="projects"] .master-table tbody td:last-child,
-body[data-master-custom="assignees"] .master-table th.actions-column,
-body[data-master-custom="assignees"] .master-table tbody td:last-child { display:none !important; }
-</style>
 </head>
 <body class="admin-app-page" data-master-type="locations">
 <header class="admin-header">
@@ -1031,7 +1020,7 @@ body[data-master-custom="assignees"] .master-table tbody td:last-child { display
 <th>Location Name</th>
 <th>Display Order</th>
 <th>Status</th>
-<th class="actions-column">Actions</th>
+
 </tr>
 </thead>
 <tbody id="locationsTableBody"></tbody>
