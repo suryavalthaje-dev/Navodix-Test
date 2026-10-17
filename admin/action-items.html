@@ -1529,6 +1529,13 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 }
 </style>
 
+
+<style id="action-items-context-menu-groups-v1">
+.action-row-context-group-title{background:#16834A;color:#FFFFFF;font-size:11px;font-weight:700;line-height:1.2;padding:8px 10px;border-radius:5px;margin:4px 0 3px;}
+.action-row-context-group-title:first-child{margin-top:0;}
+.action-row-context-menu button{gap:9px;}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1611,12 +1618,14 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 </div></main>
 
 <div id="actionRowContextMenu" class="action-row-context-menu hidden" role="menu" aria-label="Action Item actions">
-  <div class="action-row-context-menu-title">Action Item Actions</div>
+  <div class="action-row-context-group-title">Action Items</div>
   <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Action Item Details</span></button>
-  <button type="button" role="menuitem" data-context-action="notes-history"><i class="fa-solid fa-comments"></i><span>View Updates / Notes History</span></button>
-  <button type="button" role="menuitem" data-context-action="status-history"><i class="fa-solid fa-clock-rotate-left"></i><span>View Action Item Status History</span></button>
   <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Action Item</span></button>
   <button type="button" role="menuitem" data-context-action="delete"><i class="fa-solid fa-trash" style="color:#DC2626"></i><span>Delete Action Item</span></button>
+  <div class="action-row-context-group-title">Update / Notes</div>
+  <button type="button" role="menuitem" data-context-action="notes-history"><i class="fa-solid fa-comments"></i><span>View Updates / Notes History</span></button>
+  <button type="button" role="menuitem" data-context-action="status-history"><i class="fa-solid fa-clock-rotate-left"></i><span>View Action Item Status History</span></button>
+  <button type="button" role="menuitem" data-context-action="add-notes"><i class="fa-solid fa-plus-circle"></i><span>Add Updates / Notes</span></button>
 </div>
 
 <div class="modal-backdrop hidden" id="actionItemModal" aria-hidden="true">
