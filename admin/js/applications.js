@@ -94,7 +94,7 @@
       ].map(value => String(value || '').toLowerCase());
 
       const matchesSearch = !search || haystack.some(value => value.includes(search));
-      const matchesStatus = !status || application.status === status;
+      const matchesStatus = !status || application.status === status || (status === 'submitted' && application.status === 'submitted_to_client');
       const matchesClient = !clientId || String(job.client_id || '') === clientId;
       const matchesJob = !jobId || String(job.id || '') === jobId;
       const matchesCategory = !categoryId || String(job.job_category_id || '') === categoryId;
