@@ -953,6 +953,37 @@ body.admin-app-page .master-card:has(.master-table tbody:empty) #emptyLocations 
   visibility: visible !important;
 }
 </style>
+
+<style id="navodix-empty-state-preserve-table-header-v1">
+/* Keep the table header visible when the list has no data rows, matching Clients. */
+body.admin-app-page .master-card .table-wrap {
+  display:block !important;
+  visibility:visible !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+body.admin-app-page .master-card .master-table {
+  display:table !important;
+  visibility:visible !important;
+  width:100% !important;
+  border-collapse:collapse !important;
+}
+body.admin-app-page .master-card .master-table thead {
+  display:table-header-group !important;
+  visibility:visible !important;
+}
+body.admin-app-page .master-card .master-table thead tr {
+  display:table-row !important;
+  visibility:visible !important;
+}
+body.admin-app-page .master-card .master-table thead th {
+  display:table-cell !important;
+  visibility:visible !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page" data-master-custom="assignees">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=16"/></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>

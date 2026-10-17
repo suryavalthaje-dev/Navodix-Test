@@ -925,6 +925,37 @@ body.admin-app-page .master-card:has(.master-table tbody:empty) #emptyLocations 
   visibility: visible !important;
 }
 </style>
+
+<style id="navodix-empty-state-preserve-table-header-v1">
+/* Keep the table header visible when the list has no data rows, matching Clients. */
+body.admin-app-page .master-card .table-wrap {
+  display:block !important;
+  visibility:visible !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+body.admin-app-page .master-card .master-table {
+  display:table !important;
+  visibility:visible !important;
+  width:100% !important;
+  border-collapse:collapse !important;
+}
+body.admin-app-page .master-card .master-table thead {
+  display:table-header-group !important;
+  visibility:visible !important;
+}
+body.admin-app-page .master-card .master-table thead tr {
+  display:table-row !important;
+  visibility:visible !important;
+}
+body.admin-app-page .master-card .master-table thead th {
+  display:table-cell !important;
+  visibility:visible !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
