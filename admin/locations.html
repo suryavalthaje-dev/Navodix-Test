@@ -795,6 +795,25 @@ body.admin-app-page .standard-list-pagination{display:none!important}
 @media(max-width:760px){body.admin-app-page .master-card .table-wrap{max-height:55vh!important;min-height:0!important}}
 </style>
 
+
+<style id="navodix-master-list-header-actions-v1">
+body.admin-app-page .jobs-heading-text h1{font-size:20px!important;font-weight:600!important;font-weight:bold!important;line-height:1!important}
+body.admin-app-page .master-card .master-list-heading h2{font-size:16px!important;font-weight:600!important}
+body.admin-app-page .master-list-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:nowrap!important}
+body.admin-app-page .master-list-heading-inline{display:flex!important;align-items:baseline!important;gap:10px!important;min-width:0!important;flex:1 1 auto!important}
+body.admin-app-page .master-list-heading-inline h2{font-size:16px!important;font-weight:600!important;white-space:nowrap!important}
+body.admin-app-page .master-list-heading-inline p{font-size:11.5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body.admin-app-page .master-list-heading-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex:0 0 auto!important;position:relative!important}
+body.admin-app-page .master-list-heading-actions button.profiles-list-standard-button{height:34px!important;min-height:34px!important;box-sizing:border-box!important;padding:0 12px!important;border:1px solid #B8D5F8!important;border-radius:6px!important;background:#EAF3FF!important;color:#1558B0!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:12px!important;font-weight:600!important;line-height:1!important;box-shadow:none!important;white-space:nowrap!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important}
+body.admin-app-page .master-list-heading-actions button.profiles-list-standard-button:hover{background:#DCEBFF!important;border-color:#8DBBF3!important;color:#1558B0!important}
+body.admin-app-page .master-list-heading-actions button.profiles-list-standard-button i{font-size:11px!important;color:inherit!important;margin:0!important}
+body.admin-app-page .master-list-heading .columns-popover{position:absolute!important;right:0!important;top:42px!important;z-index:1200!important;width:220px!important;background:#fff!important;border:1px solid #AEBFD2!important;border-radius:8px!important;box-shadow:0 8px 22px rgba(30,55,85,.12)!important;padding:10px!important}
+body.admin-app-page .master-list-heading .columns-popover.hidden{display:none!important}
+body.admin-app-page .columns-popover-title{font-size:11px!important;font-weight:700!important;color:#173F78!important;margin-bottom:7px!important}
+body.admin-app-page .columns-popover .column-option{display:flex!important;align-items:center!important;gap:7px!important;padding:5px 2px!important;font-size:11px!important;font-weight:500!important;color:#173F78!important;cursor:pointer!important}
+body.admin-app-page .columns-popover .column-option input{margin:0!important}
+@media(max-width:760px){body.admin-app-page .master-list-heading{align-items:flex-start!important;flex-wrap:wrap!important}body.admin-app-page .master-list-heading-actions{width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important}body.admin-app-page .master-list-heading .columns-popover{top:auto!important;right:8px!important}}
+</style>
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -837,9 +856,6 @@ body.admin-app-page .standard-list-pagination{display:none!important}
 <h1>Locations</h1>
 <span class="jobs-heading-subtitle">Manage locations used for career opportunities.</span>
 </div>
-<button class="btn btn-primary" id="addLocationButton" type="button">
-<i aria-hidden="true" class="fa-solid fa-plus"></i> Add Location
-        </button>
 </div>
 <div aria-live="polite" class="admin-message" id="locationMessage" role="status"></div>
 <div class="master-toolbar">
@@ -852,11 +868,8 @@ body.admin-app-page .standard-list-pagination{display:none!important}
 <option value="active">Active</option>
 <option value="inactive">Inactive</option>
 </select>
-<button class="btn btn-outline" id="refreshLocationsButton" type="button">
-<i aria-hidden="true" class="fa-solid fa-rotate"></i> Refresh
-        </button>
 </div>
-<div class="master-card"><div class="master-list-heading"><div class="master-list-heading-inline"><h2>Locations</h2><p>Active and recently managed locations list</p></div></div>
+<div class="master-card"><div class="master-list-heading"><div class="master-list-heading-inline"><h2>Locations</h2><p>Active and recently managed locations list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshLocationsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-outline profiles-list-standard-button" id="addLocationButton" type="button"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Add Location</button><button class="btn btn-outline profiles-list-standard-button" id="masterColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="masterColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div></div></div>
 <div class="table-wrap">
 <table class="master-table">
 <thead>
@@ -936,5 +949,15 @@ body.admin-app-page .standard-list-pagination{display:none!important}
 <script src="js/auth.js?v=17"></script>
 <script src="js/locations.js?v=17"></script>
 <script src="js/navigation.js?v=33"></script>
+<script id="navodix-master-columns-toggle-v1">
+(function(){
+ const card=document.querySelector('.master-card'); if(!card)return;
+ const table=card.querySelector('table.master-table'); const button=document.getElementById('masterColumnsButton'); const pop=document.getElementById('masterColumnsPopover');
+ if(!table||!button||!pop)return;
+ const headers=Array.from(table.querySelectorAll('thead th'));
+ headers.forEach((th,index)=>{if(/actions?/i.test(th.textContent.trim()))return;const label=document.createElement('label');label.className='column-option';const cb=document.createElement('input');cb.type='checkbox';cb.checked=true;cb.dataset.columnIndex=String(index);label.append(cb,document.createTextNode(' '+th.textContent.trim()));pop.appendChild(label);cb.addEventListener('change',()=>{[...table.querySelectorAll('tr')].forEach(row=>{const cell=row.children[index];if(cell)cell.style.display=cb.checked?'':'none';});});});
+ button.addEventListener('click',e=>{e.stopPropagation();pop.classList.toggle('hidden');});pop.addEventListener('click',e=>e.stopPropagation());document.addEventListener('click',e=>{if(!pop.classList.contains('hidden')&&!pop.contains(e.target)&&e.target!==button)pop.classList.add('hidden');});
+})();
+</script>
 </body>
 </html>
