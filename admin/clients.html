@@ -768,6 +768,28 @@ body.admin-app-page .master-table tbody td:last-child{border-right:0!important}b
 body.admin-app-page .master-table td .status-pill{font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:600!important}
 @media(max-width:760px){body.admin-app-page .clients-list-scroll{max-height:55vh!important;min-height:0!important}}
 </style>
+
+<style id="clients-list-header-controls-v1">
+body.admin-app-page .clients-master-card{position:relative!important;overflow:visible!important}
+body.admin-app-page .clients-list-heading{position:relative!important;display:flex!important;justify-content:space-between!important;align-items:center!important;gap:14px!important;min-height:50px!important;padding:7px 14px!important;box-sizing:border-box!important}
+body.admin-app-page .clients-list-heading .master-list-heading-inline{display:flex!important;align-items:baseline!important;gap:10px!important;min-width:0!important;flex:1 1 auto!important}
+body.admin-app-page .clients-list-heading .master-list-heading-inline h2{font-size:16px!important;font-weight:600!important;white-space:nowrap!important}
+body.admin-app-page .clients-list-heading .master-list-heading-inline p{font-size:11.5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body.admin-app-page .clients-list-heading-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex:0 0 auto!important}
+body.admin-app-page .clients-list-heading-actions .profiles-list-standard-button{width:auto!important;min-width:0!important;height:34px!important;min-height:34px!important;box-sizing:border-box!important;padding:0 12px!important;border:1px solid #B8D5F8!important;border-radius:6px!important;background:#EAF3FF!important;color:#1558B0!important;font-family:inherit!important;font-size:12px!important;font-weight:600!important;line-height:1!important;white-space:nowrap!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important}
+body.admin-app-page .clients-list-heading-actions .profiles-list-standard-button:hover:not(:disabled){background:#DCEBFF!important;border-color:#8DBBF3!important;color:#1558B0!important}
+body.admin-app-page .clients-list-heading-actions .profiles-list-standard-button i{color:inherit!important;font-size:12px!important}
+body.admin-app-page .clients-list-heading-actions .clients-add-list-button{background:#EAF3FF!important;border-color:#B8D5F8!important;color:#1558B0!important}
+body.admin-app-page .clients-list-heading .columns-popover{position:absolute!important;right:14px!important;top:56px!important;z-index:1200!important;width:210px!important;background:#fff!important;border:1px solid #AEBFD2!important;border-radius:8px!important;box-shadow:0 8px 22px rgba(30,55,85,.12)!important;padding:10px!important}
+body.admin-app-page .clients-list-heading .columns-popover.hidden{display:none!important}
+body.admin-app-page .clients-list-heading .columns-popover-title{font-size:11px!important;font-weight:700!important;color:#173F78!important;margin-bottom:7px!important}
+body.admin-app-page .clients-list-heading .column-option{display:flex!important;align-items:center!important;gap:7px!important;padding:5px 2px!important;font-size:11px!important;color:#465A70!important}
+body.admin-app-page .clients-list-heading .column-option input{accent-color:#2878E8!important}
+body.admin-app-page .master-table tbody td{font-size:11px!important;font-weight:500!important}
+body.admin-app-page .client-name-value{display:inline-flex!important;align-items:center!important;gap:7px!important;min-width:0!important}
+body.admin-app-page .client-name-value i{color:#2878E8!important;font-size:11px!important;flex:0 0 auto!important}
+@media(max-width:760px){body.admin-app-page .clients-list-heading{align-items:flex-start!important;flex-wrap:wrap!important}body.admin-app-page .clients-list-heading-actions{width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important}body.admin-app-page .clients-list-heading .columns-popover{top:auto!important;right:8px!important}}
+</style>
 </head>
 <body class="admin-app-page" data-master-type="clients">
 <header class="admin-header">
@@ -797,14 +819,14 @@ body.admin-app-page .master-table td .status-pill{font-family:'Segoe UI',system-
 </div>
 </nav>
 <main class="admin-main"><div class="admin-container">
-<div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Clients</h1><span class="jobs-heading-subtitle">Manage clients used for career opportunities.</span></div><button class="btn btn-primary" id="addClientButton" type="button"><i class="fa-solid fa-plus"></i> Add Client</button></div>
+<div class="admin-page-heading jobs-heading"><div class="jobs-heading-text"><h1>Manage Clients</h1><span class="jobs-heading-subtitle">Manage clients used for career opportunities.</span></div></div>
 <div aria-live="polite" class="admin-message" id="masterMessage" role="status"></div>
 <div class="master-toolbar">
 <div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="clientSearch" placeholder="Search by code or client name" type="search"/></div>
 <select aria-label="Filter by status" id="clientStatusFilter"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
-<button class="btn btn-outline" id="refreshClientsButton" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+
 </div>
-<div class="master-card"><div class="master-list-heading"><div class="master-list-heading-inline"><h2>Clients</h2><p>Active and recently managed clients list</p></div></div><div class="table-wrap clients-list-scroll"><table class="master-table"><thead><tr><th>Client Code</th><th>Client Name</th><th>Status</th><th>Display Order</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyClients"><i class="fa-solid fa-users"></i><h3>No clients found</h3><p>Use “Add Client” to create the first record.</p></div>
+<div class="master-card clients-master-card"><div class="master-list-heading clients-list-heading"><div class="master-list-heading-inline"><h2>List of Clients</h2><p>Active and recently managed clients list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshClientsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button clients-add-list-button" id="addClientButton" type="button"><i class="fa-solid fa-building-circle-check" aria-hidden="true"></i> Add Client</button><button class="btn btn-outline profiles-list-standard-button" id="clientsColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="clientsColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-client-col="0"> Client Name</label><label class="column-option"><input type="checkbox" checked data-client-col="1"> Client Code</label><label class="column-option"><input type="checkbox" checked data-client-col="2"> Display Order</label><label class="column-option"><input type="checkbox" checked data-client-col="3"> Status</label></div></div><div class="table-wrap clients-list-scroll"><table class="master-table"><thead><tr><th>Client Name</th><th>Client Code</th><th>Display Order</th><th>Status</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyClients"><i class="fa-solid fa-users"></i><h3>No clients found</h3><p>Use “Add Client” to create the first record.</p></div>
 </div></main>
 <div class="client-row-context-menu hidden" id="clientRowContextMenu" role="menu" aria-label="Client actions"><button type="button" data-client-action="edit" role="menuitem"><i class="fa-solid fa-pen-to-square"></i> Edit Client</button><button type="button" data-client-action="delete" role="menuitem" class="context-delete"><i class="fa-solid fa-trash"></i> Delete Client</button></div>
 <style id="client-row-context-menu-style">.client-row-context-menu{position:fixed;z-index:3000;min-width:170px;padding:5px;background:#fff;border:1px solid #B8CBE0;border-radius:7px;box-shadow:0 8px 24px rgba(7,27,77,.18)}.client-row-context-menu.hidden{display:none}.client-row-context-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:#173F78;font:600 11px 'Segoe UI',system-ui,sans-serif;text-align:left;cursor:pointer}.client-row-context-menu button:hover{background:#EEF5FC}.client-row-context-menu button i{width:14px}.client-row-context-menu .context-delete{color:#B42318}</style>
