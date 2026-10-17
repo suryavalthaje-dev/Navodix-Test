@@ -837,6 +837,32 @@ html body.admin-app-page .clients-master-card .clients-list-heading .clients-lis
 }
 </style>
 
+
+<style id="clients-list-buttons-profiles-exact-final">
+/* All Clients list-header actions use the approved Profiles list standard. */
+body.admin-app-page .clients-master-card .master-list-heading-actions button#refreshClientsButton,
+body.admin-app-page .clients-master-card .master-list-heading-actions button#addClientButton,
+body.admin-app-page .clients-master-card .master-list-heading-actions button#clientsColumnsButton {
+  appearance:none !important; -webkit-appearance:none !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:6px !important;
+  width:auto !important; min-width:0 !important; height:34px !important; min-height:34px !important; max-height:34px !important;
+  margin:0 !important; padding:0 12px !important; box-sizing:border-box !important;
+  border:1px solid #B8D5F8 !important; border-radius:6px !important;
+  background:#EAF3FF !important; background-color:#EAF3FF !important; color:#1558B0 !important;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:600 !important; line-height:1 !important;
+  text-transform:none !important; letter-spacing:normal !important; white-space:nowrap !important; box-shadow:none !important;
+}
+body.admin-app-page .clients-master-card .master-list-heading-actions button#refreshClientsButton:hover:not(:disabled),
+body.admin-app-page .clients-master-card .master-list-heading-actions button#addClientButton:hover:not(:disabled),
+body.admin-app-page .clients-master-card .master-list-heading-actions button#clientsColumnsButton:hover:not(:disabled) {
+  background:#DCEBFF !important; background-color:#DCEBFF !important; border-color:#8DBBF3 !important; color:#1558B0 !important;
+}
+body.admin-app-page .clients-master-card .master-list-heading-actions button#refreshClientsButton i,
+body.admin-app-page .clients-master-card .master-list-heading-actions button#addClientButton i,
+body.admin-app-page .clients-master-card .master-list-heading-actions button#clientsColumnsButton i {
+  color:inherit !important; font-size:12px !important; line-height:1 !important; margin:0 !important;
+}
+</style>
 </head>
 <body class="admin-app-page" data-master-type="clients">
 <header class="admin-header">
@@ -873,7 +899,7 @@ html body.admin-app-page .clients-master-card .clients-list-heading .clients-lis
 <select aria-label="Filter by status" id="clientStatusFilter"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
 
 </div>
-<div class="master-card clients-master-card"><div class="master-list-heading clients-list-heading"><div class="master-list-heading-inline"><h2>List of Clients</h2><p>Active and recently managed clients list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshClientsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button clients-add-list-button" id="addClientButton" type="button"><i class="fa-solid fa-building-circle-check" aria-hidden="true"></i> Add Client</button><button class="btn btn-outline profiles-list-standard-button" id="clientsColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="clientsColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-client-col="0"> Client Name</label><label class="column-option"><input type="checkbox" checked data-client-col="1"> Client Code</label><label class="column-option"><input type="checkbox" checked data-client-col="2"> Display Order</label><label class="column-option"><input type="checkbox" checked data-client-col="3"> Status</label></div></div><div class="table-wrap clients-list-scroll"><table class="master-table"><thead><tr><th>Client Name</th><th>Client Code</th><th>Display Order</th><th>Status</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyClients"><i class="fa-solid fa-users"></i><h3>No clients found</h3><p>Use “Add Client” to create the first record.</p></div>
+<div class="master-card clients-master-card"><div class="master-list-heading clients-list-heading"><div class="master-list-heading-inline"><h2>List of Clients</h2><p>Active and recently managed clients list</p></div><div class="master-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="refreshClientsButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-outline profiles-list-standard-button clients-add-list-button" id="addClientButton" type="button"><i class="fa-solid fa-building-circle-check" aria-hidden="true"></i> Add Client</button><button class="btn btn-outline profiles-list-standard-button" id="clientsColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="clientsColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-client-col="0"> Client Name</label><label class="column-option"><input type="checkbox" checked data-client-col="1"> Client Code</label><label class="column-option"><input type="checkbox" checked data-client-col="2"> Display Order</label><label class="column-option"><input type="checkbox" checked data-client-col="3"> Status</label></div></div><div class="table-wrap clients-list-scroll"><table class="master-table"><thead><tr><th>Client Name</th><th>Client Code</th><th>Display Order</th><th>Status</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyClients"><i class="fa-solid fa-users"></i><h3>No clients found</h3><p>Use “Add Client” to create the first record.</p></div>
 </div></main>
 <div class="client-row-context-menu hidden" id="clientRowContextMenu" role="menu" aria-label="Client actions"><button type="button" data-client-action="edit" role="menuitem"><i class="fa-solid fa-pen-to-square"></i> Edit Client</button><button type="button" data-client-action="delete" role="menuitem" class="context-delete"><i class="fa-solid fa-trash"></i> Delete Client</button></div>
 <style id="client-row-context-menu-style">.client-row-context-menu{position:fixed;z-index:3000;min-width:170px;padding:5px;background:#fff;border:1px solid #B8CBE0;border-radius:7px;box-shadow:0 8px 24px rgba(7,27,77,.18)}.client-row-context-menu.hidden{display:none}.client-row-context-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:#173F78;font:600 11px 'Segoe UI',system-ui,sans-serif;text-align:left;cursor:pointer}.client-row-context-menu button:hover{background:#EEF5FC}.client-row-context-menu button i{width:14px}.client-row-context-menu .context-delete{color:#B42318}</style>
