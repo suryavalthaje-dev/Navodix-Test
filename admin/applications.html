@@ -1998,5 +1998,44 @@ body.admin-app-page main .admin-page-heading.jobs-heading .jobs-heading-text h1 
 @media(max-width:1100px){.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:repeat(4,minmax(0,1fr))!important;}.admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:1/-1!important;}}
 @media(max-width:760px){.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:1/-1!important;}.admin-app-page .applications-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important;}.admin-app-page .applications-summary .summary-card{padding:4px 6px!important;}}
 </style>
+
+<style id="applications-filter-single-row-and-profile-typography-v3">
+/* Match the approved Profiles Management filter controls and list heading. */
+@media (min-width:1101px){
+  .admin-app-page .applications-list-controls-frame .applications-filter-toolbar{
+    grid-template-columns:minmax(0,2fr) repeat(7,minmax(0,1fr)) !important;
+    gap:7px !important;
+    align-items:center !important;
+  }
+  .admin-app-page .applications-filter-toolbar .toolbar-search,
+  .admin-app-page .applications-filter-toolbar select,
+  .admin-app-page .applications-filter-toolbar .applications-date-filter,
+  .admin-app-page .applications-filter-toolbar .btn{
+    grid-column:auto !important;
+    grid-row:auto !important;
+    min-width:0 !important;
+    width:100% !important;
+  }
+}
+.admin-app-page .applications-filter-toolbar select{
+  height:32px !important; min-height:32px !important; width:100% !important;
+  box-sizing:border-box !important; border:1px solid #CBD8E8 !important;
+  border-radius:6px !important; background:#FFFFFF !important; color:#263F62 !important;
+  padding:0 8px !important; font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:11px !important; font-weight:500 !important; line-height:normal !important;
+  outline:none !important; box-shadow:none !important;
+}
+.admin-app-page .applications-filter-toolbar select.application-filter-active{
+  background-color:#EAF3FF !important; border:1px solid #2878E8 !important;
+  color:#1558B0 !important; box-shadow:0 0 0 1px rgba(40,120,232,.12) !important;
+  font-weight:600 !important;
+}
+.admin-app-page .applications-card .jobs-list-heading h2{
+  margin:0 !important; color:#0B2A5B !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:16px !important; line-height:1.2 !important; font-weight:500 !important;
+  white-space:nowrap !important;
+}
+</style>
 </body>
 </html>
