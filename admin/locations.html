@@ -775,7 +775,27 @@ body.admin-app-page .standard-list-pagination .btn:disabled{
   .modal-backdrop .master-modal-footer .modal-actions{gap:8px !important;}
   .modal-backdrop .master-modal-footer .modal-actions .btn{min-width:0 !important;}
 }
-</style></head>
+</style>
+<style id="navodix-list-standard-dynamic-v1">
+/* Navodix List Standard: content-sized card, capped scrolling table, sticky header, no pagination. */
+body.admin-app-page .master-card{position:relative!important;height:auto!important;min-height:0!important;background:#fff!important;border:2px solid #AFC2D8!important;border-top:4px solid #2878E8!important;border-radius:10px!important;overflow:hidden!important;box-shadow:0 2px 5px rgba(30,55,85,.05)!important}
+body.admin-app-page .master-list-heading{min-height:50px!important;padding:7px 14px!important;border-bottom:1px solid #CBD8E8!important;box-sizing:border-box!important}
+body.admin-app-page .master-list-heading h2{font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:16px!important;font-weight:600!important;line-height:1.2!important;color:#0B2A5B!important}
+body.admin-app-page .master-card .table-wrap{height:auto!important;min-height:0!important;max-height:min(52vh,480px)!important;width:100%!important;max-width:100%!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin!important;scrollbar-color:#9FB6D1 #F2F5F8!important;box-sizing:border-box!important}
+body.admin-app-page .master-card .table-wrap::-webkit-scrollbar{width:4px!important;height:0!important}
+body.admin-app-page .master-card .table-wrap::-webkit-scrollbar-track{background:#F2F5F8!important}
+body.admin-app-page .master-card .table-wrap::-webkit-scrollbar-thumb{background:#9FB6D1!important;border-radius:4px!important}
+body.admin-app-page .master-table{width:100%!important;min-width:0!important;table-layout:fixed!important;border-collapse:collapse!important;margin:0!important}
+body.admin-app-page .master-table thead th{height:40px!important;padding:0 10px!important;background:#2878E8!important;color:#fff!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:12px!important;font-weight:600!important;line-height:1.1!important;text-transform:none!important;letter-spacing:0!important;border:0!important;border-right:1px solid rgba(255,255,255,.24)!important;text-align:left!important;position:sticky!important;top:0!important;z-index:5!important}
+body.admin-app-page .master-table tbody tr:nth-child(odd){background:#fff!important}body.admin-app-page .master-table tbody tr:nth-child(even){background:#F2F5F8!important}body.admin-app-page .master-table tbody tr:hover{background:#EAF3FF!important}
+body.admin-app-page .master-table tbody td{padding:7px 10px!important;color:#1E293B!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:500!important;line-height:1.25!important;border-right:1px solid #CBD8E8!important;border-bottom:1px solid #CBD8E8!important;vertical-align:middle!important;white-space:normal!important;overflow-wrap:anywhere!important}
+body.admin-app-page .master-table tbody td:last-child{border-right:0!important}body.admin-app-page .master-table tbody tr:last-child td{border-bottom:0!important}
+body.admin-app-page .master-table td .status-pill{font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:600!important}
+body.admin-app-page .standard-list-pagination{display:none!important}
+@media(max-width:760px){body.admin-app-page .master-card .table-wrap{max-height:55vh!important;min-height:0!important}}
+</style>
+
+</head>
 <body class="admin-app-page">
 <header class="admin-header">
 <div class="admin-container admin-nav">
@@ -855,11 +875,7 @@ body.admin-app-page .standard-list-pagination .btn:disabled{
 <h3>No locations found</h3>
 <p>Use “Add Location” to create the first record.</p>
 </div>
-<div aria-label="Locations pagination" class="standard-list-pagination hidden" id="locationsPagination">
-<div class="pagination-left"><button class="btn btn-outline btn-small" id="locationsFirst" type="button">First</button><button class="btn btn-outline btn-small" id="locationsPrev" type="button">Previous</button></div>
-<div class="pagination-center"><span class="pagination-page" id="locationsPageNumber">Page 1 of 1</span></div>
-<div class="pagination-right"><button class="btn btn-outline btn-small" id="locationsNext" type="button">Next</button><button class="btn btn-outline btn-small" id="locationsLast" type="button">Last</button><span class="pagination-total" id="locationsPageInfo">Showing 0-0 of 0</span></div>
-</div>
+
 </div>
 </div>
 </main>
