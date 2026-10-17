@@ -1431,6 +1431,30 @@
     $('clearApplicationFiltersButton').addEventListener('click', clearApplicationFilters);
     $('refreshApplicationsButton').addEventListener('click', loadApplications);
 
+    const applicationsColumnsButton = $('applicationsColumnsButton');
+    const applicationsColumnsPopover = $('applicationsColumnsPopover');
+    applicationsColumnsButton.addEventListener('click', function (event) {
+      event.stopPropagation();
+      applicationsColumnsPopover.classList.toggle('hidden');
+    });
+    applicationsColumnsPopover.addEventListener('click', function (event) { event.stopPropagation(); });
+    applicationsColumnsPopover.querySelectorAll('[data-application-col]').forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        const columnIndex = Number(checkbox.dataset.applicationCol);
+        document.querySelectorAll('.applications-table tr').forEach(function (row) {
+          const cell = row.children[columnIndex];
+          if (cell) cell.style.display = checkbox.checked ? '' : 'none';
+        });
+      });
+    });
+    document.addEventListener('click', function (event) {
+      if (!applicationsColumnsPopover.classList.contains('hidden') &&
+          !applicationsColumnsPopover.contains(event.target) && event.target !== applicationsColumnsButton &&
+          !applicationsColumnsButton.contains(event.target)) {
+        applicationsColumnsPopover.classList.add('hidden');
+      }
+    });
+
     $('applicationsTableBody').addEventListener('click', function (event) {
       const row = event.target.closest('tr.application-row');
       if (!row) return;
