@@ -2037,5 +2037,50 @@ body.admin-app-page main .admin-page-heading.jobs-heading .jobs-heading-text h1 
   white-space:nowrap !important;
 }
 </style>
+
+<style id="applications-filter-one-row-final-fix">
+/* Final override: keep search plus all seven dropdowns on one desktop row. */
+@media (min-width:900px) {
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar {
+    display:grid !important;
+    grid-template-columns:minmax(0,1.75fr) repeat(7,minmax(0,1fr)) !important;
+    gap:7px !important;
+    align-items:center !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar .toolbar-search,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar select {
+    grid-column:auto !important;
+    grid-row:1 !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar select {
+    height:32px !important;
+    min-height:32px !important;
+    padding:0 7px !important;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+    font-size:11px !important;
+    font-weight:500 !important;
+    line-height:normal !important;
+  }
+}
+@media (max-width:899px) {
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar .toolbar-search {
+    grid-column:1 / -1 !important;
+    grid-row:auto !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar select {
+    grid-column:auto !important;
+    grid-row:auto !important;
+    min-width:0 !important;
+    width:100% !important;
+  }
+}
+</style>
 </body>
 </html>
