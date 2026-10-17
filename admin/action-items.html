@@ -1516,6 +1516,19 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(4) { bac
 body.action-items-list-standard .action-summary .summary-card:nth-child(5) { background:#E5F5F2 !important; border-color:#A6D8CF !important; } /* Completed */
 body.action-items-list-standard .action-summary .summary-card:nth-child(6) { background:#F0EAFE !important; border-color:#CBBBF4 !important; } /* Unread */
 </style>
+
+<style id="action-items-context-menu-green-header-v1">
+/* Requested: green header for the Action Items right-click menu. */
+.action-row-context-menu .action-row-context-menu-title{
+  background:#16834A !important;
+  color:#FFFFFF !important;
+  border-bottom:1px solid #116B3B !important;
+  border-radius:6px 6px 0 0 !important;
+  margin:-6px -6px 4px !important;
+  padding:9px 10px !important;
+}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1599,7 +1612,9 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 
 <div id="actionRowContextMenu" class="action-row-context-menu hidden" role="menu" aria-label="Action Item actions">
   <div class="action-row-context-menu-title">Action Item Actions</div>
-  <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Action Item</span></button>
+  <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Action Item Details</span></button>
+  <button type="button" role="menuitem" data-context-action="notes-history"><i class="fa-solid fa-comments"></i><span>View Updates / Notes History</span></button>
+  <button type="button" role="menuitem" data-context-action="status-history"><i class="fa-solid fa-clock-rotate-left"></i><span>View Action Item Status History</span></button>
   <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Action Item</span></button>
   <button type="button" role="menuitem" data-context-action="delete"><i class="fa-solid fa-trash" style="color:#DC2626"></i><span>Delete Action Item</span></button>
 </div>
@@ -1783,7 +1798,7 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=73"></script>
+<script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=74"></script>
 <script src="js/navigation.js?v=33"></script>
 </body>
 <style id="action-items-row-selection-client-color-v1">
