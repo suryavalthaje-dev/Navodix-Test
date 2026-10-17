@@ -985,6 +985,47 @@ body.admin-app-page .master-card .master-table thead th {
 </style>
 
 
+
+<style id="navodix-custom-master-modal-standard-v1">
+/* Match the approved compact Navodix modal standard used by Job Categories and Locations.
+   Styling only: preserve all existing fields, IDs, validation, and JavaScript handlers. */
+#customMasterModal .master-modal{
+  width:min(560px,calc(100vw - 32px)) !important; max-width:560px !important;
+  max-height:calc(100dvh - 32px) !important; min-height:0 !important; margin:0 !important; padding:0 !important;
+  display:flex !important; flex-direction:column !important; overflow:hidden !important; box-sizing:border-box !important;
+  background:#FFFFFF !important; border:1px solid #CBD8E8 !important; border-radius:10px !important;
+  box-shadow:0 18px 45px rgba(7,27,77,.20) !important;
+}
+#customMasterModal .master-modal > .modal-header{
+  position:relative !important; flex:0 0 56px !important; min-height:56px !important; height:56px !important; max-height:56px !important;
+  display:flex !important; align-items:center !important; justify-content:space-between !important; gap:16px !important;
+  padding:0 20px !important; box-sizing:border-box !important; background:#2878E8 !important; color:#FFFFFF !important; border:0 !important;
+}
+#customMasterModal .master-modal .section-badge{display:none !important;}
+#customMasterModal .master-modal .modal-header h2{margin:0 !important; padding:0 !important; color:#FFFFFF !important; font-size:20px !important; font-weight:600 !important; line-height:24px !important;}
+#customMasterModal .master-modal .modal-close{width:32px !important; height:32px !important; min-width:32px !important; display:flex !important; align-items:center !important; justify-content:center !important; padding:0 !important; border:0 !important; background:transparent !important; color:#FFFFFF !important; font-size:20px !important;}
+#customMasterModal .master-modal-body{flex:1 1 auto !important; min-height:0 !important; overflow-y:auto !important; overflow-x:hidden !important; padding:20px 20px 16px !important; border:0 !important; box-sizing:border-box !important; background:#FFFFFF !important;}
+#customMasterModal .master-modal-body form{margin:0 !important; padding:0 !important;}
+#customMasterModal .master-modal-body .master-form-grid{padding:0 !important; margin:0 !important; gap:16px 18px !important;}
+#customMasterModal .master-modal-body .field-group label{display:block !important; margin:0 0 6px !important; color:#263F62 !important; font-size:12px !important; font-weight:600 !important; line-height:16px !important;}
+#customMasterModal .master-modal-body .field-group input:not([type="hidden"]),
+#customMasterModal .master-modal-body .field-group select{width:100% !important; height:40px !important; min-height:40px !important; box-sizing:border-box !important; padding:0 11px !important; border:1px solid #CBD8E8 !important; border-radius:7px !important; background:#FFFFFF !important; color:#1E293B !important; font-family:inherit !important; font-size:13px !important;}
+#customMasterModal .master-modal-body .field-group textarea{width:100% !important; min-height:80px !important; box-sizing:border-box !important; padding:10px 11px !important; border:1px solid #CBD8E8 !important; border-radius:7px !important; background:#FFFFFF !important; color:#1E293B !important; font-family:inherit !important; font-size:13px !important; resize:vertical !important;}
+#customMasterModal .master-modal-body .field-group small{display:block !important; margin-top:5px !important; color:#60748F !important; font-size:11px !important;}
+#customMasterModal .master-modal-footer{flex:0 0 54px !important; height:54px !important; min-height:54px !important; max-height:54px !important; display:flex !important; align-items:center !important; justify-content:space-between !important; gap:12px !important; padding:8px 20px !important; box-sizing:border-box !important; background:#C9D9EC !important; border:0 !important; border-top:1px solid #B8CADE !important;}
+#customMasterModal .master-modal-footer .admin-message:empty{display:none !important;}
+#customMasterModal .master-modal-footer .modal-actions{display:flex !important; align-items:center !important; justify-content:flex-end !important; gap:8px !important; margin-left:auto !important;}
+#customMasterModal .master-modal-footer .modal-actions .btn{min-width:86px !important; width:auto !important; height:30px !important; min-height:30px !important; max-height:30px !important; padding:5px 12px !important; border-radius:5px !important; font-family:inherit !important; font-size:10px !important; font-weight:600 !important; line-height:1 !important;}
+@media(max-width:700px){
+ #customMasterModal .master-modal{width:calc(100vw - 20px) !important; max-width:calc(100vw - 20px) !important; max-height:calc(100dvh - 20px) !important;}
+ #customMasterModal .master-modal-body{padding:16px 16px 12px !important;}
+ #customMasterModal .master-modal-body .master-form-grid{grid-template-columns:1fr !important; gap:14px !important;}
+ #customMasterModal .master-modal-body .field-span-2{grid-column:auto !important;}
+ #customMasterModal .master-modal-footer{padding:8px 12px !important;}
+ #customMasterModal .master-modal-footer .modal-actions .btn{min-width:76px !important;}
+}
+</style>
+
 </head>
 <body class="admin-app-page" data-master-custom="projects">
 <header class="admin-header"><div class="admin-container admin-nav"><a class="admin-brand" href="../index.html"><img alt="Navodix IT Solutions" src="../assets/images/logo.png?v=16"/></a><nav class="admin-main-nav"><a class="admin-main-nav-link active" href="recruitment.html?v=16">Recruitment</a><span class="admin-main-nav-link disabled">Employee Management</span></nav><div class="admin-nav-right"><span class="admin-user" id="adminUser"></span><button class="btn btn-outline" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></div></div></header>
