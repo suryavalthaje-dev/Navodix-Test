@@ -1660,12 +1660,6 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 <select aria-label="Filter by location" id="applicationLocationFilter">
 <option value="">All Locations</option>
 </select>
-<div aria-label="Application date range" class="applications-date-filter">
-<label for="applicationDateFrom">From</label>
-<input aria-label="Application date from" id="applicationDateFrom" type="date"/>
-<label for="applicationDateTo">To</label>
-<input aria-label="Application date to" id="applicationDateTo" type="date"/>
-</div>
 <select aria-label="Filter by interview result" id="applicationInterviewResultFilter">
 <option value="">All Interview Results</option>
 <option value="pending">Pending</option>
@@ -1951,6 +1945,58 @@ body.admin-app-page main .admin-page-heading.jobs-heading .jobs-heading-text h1 
   color: #071B4D !important;
   letter-spacing: -0.2px !important;
 }
+</style>
+
+<style id="applications-filter-dashboard-profiles-match-v1">
+/* Applications filters and dashboard aligned to the approved Profiles Management controls. */
+.admin-app-page .applications-list-controls-frame{
+  background:#F9FBFE!important;border:1px solid #AEBFD2!important;border-radius:12px!important;
+  padding:8px!important;margin-bottom:12px!important;box-shadow:0 1px 2px rgba(30,55,85,.04)!important;
+}
+.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{
+  display:grid!important;grid-template-columns:minmax(220px,2fr) repeat(7,minmax(0,1fr))!important;
+  gap:7px!important;align-items:center!important;padding:0!important;margin:0!important;
+  background:#FFF!important;border:0!important;border-radius:0!important;
+}
+.admin-app-page .applications-filter-toolbar .toolbar-search,
+.admin-app-page .applications-filter-toolbar select{
+  grid-column:auto!important;grid-row:auto!important;min-width:0!important;width:100%!important;
+  height:32px!important;min-height:32px!important;box-sizing:border-box!important;
+}
+.admin-app-page .applications-filter-toolbar .toolbar-search input{
+  width:100%!important;height:32px!important;min-height:32px!important;box-sizing:border-box!important;
+  border:1px solid #CBD8E8!important;border-radius:6px!important;background:#FFF!important;color:#263F62!important;
+  font-family:inherit!important;font-size:12px!important;padding:0 10px 0 31px!important;
+}
+.admin-app-page .applications-filter-toolbar select{
+  border:1px solid #CBD8E8!important;border-radius:6px!important;background:#FFF!important;color:#263F62!important;
+  padding:0 10px!important;font-family:inherit!important;font-size:11px!important;font-weight:500!important;
+  line-height:normal!important;outline:none!important;box-shadow:none!important;
+}
+.admin-app-page .applications-filter-toolbar .toolbar-search input::placeholder{font-size:12px!important;color:#718096!important;}
+.admin-app-page .applications-filter-toolbar select:focus,
+.admin-app-page .applications-filter-toolbar .toolbar-search input:focus{border-color:#2878E8!important;box-shadow:0 0 0 2px rgba(40,120,232,.10)!important;outline:none!important;}
+.admin-app-page .applications-filter-toolbar select.application-filter-active{
+  background-color:#EAF3FF!important;border:1px solid #2878E8!important;color:#1558B0!important;
+  box-shadow:0 0 0 1px rgba(40,120,232,.12)!important;font-weight:600!important;
+}
+.admin-app-page .applications-list-controls-frame .applications-summary{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;
+  width:100%!important;margin:7px 0 0!important;
+}
+.admin-app-page .applications-summary .summary-card{
+  min-width:0!important;height:38px!important;min-height:38px!important;padding:5px 8px!important;gap:4px!important;
+  background:#FFF!important;border:1px solid #E2E8F0!important;border-radius:7px!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;box-sizing:border-box!important;
+}
+.admin-app-page .applications-summary .summary-card span{color:#334B6B!important;font-size:11px!important;line-height:1.1!important;font-weight:500!important;}
+.admin-app-page .applications-summary .summary-card strong{color:#071B4D!important;font-size:13px!important;line-height:1!important;font-weight:700!important;}
+.admin-app-page .applications-summary .summary-card:nth-child(1){background:#EAF2FF!important;border-color:#B9D0F5!important;}
+.admin-app-page .applications-summary .summary-card:nth-child(2){background:#F0EAFE!important;border-color:#CBBBF4!important;}
+.admin-app-page .applications-summary .summary-card:nth-child(3){background:#E7F7EE!important;border-color:#A8D9BC!important;}
+.admin-app-page .applications-summary .summary-card:nth-child(4){background:#E5F5F2!important;border-color:#A6D8CF!important;}
+@media(max-width:1100px){.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:repeat(4,minmax(0,1fr))!important;}.admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:1/-1!important;}}
+@media(max-width:760px){.admin-app-page .applications-list-controls-frame .applications-filter-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.admin-app-page .applications-filter-toolbar .toolbar-search{grid-column:1/-1!important;}.admin-app-page .applications-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important;}.admin-app-page .applications-summary .summary-card{padding:4px 6px!important;}}
 </style>
 </body>
 </html>
