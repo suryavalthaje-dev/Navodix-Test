@@ -2082,5 +2082,43 @@ body.admin-app-page main .admin-page-heading.jobs-heading .jobs-heading-text h1 
   }
 }
 </style>
+
+<style id="applications-filter-single-row-specificity-fix">
+/* Override earlier ID-based row assignments that were forcing two dropdowns onto row 2. */
+@media (min-width:900px) {
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar {
+    display:grid !important;
+    grid-template-columns:minmax(0,1.75fr) repeat(7,minmax(0,1fr)) !important;
+    grid-auto-flow:row !important;
+    gap:7px !important;
+    align-items:center !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > .toolbar-search,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationStatusFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationClientFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationJobFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationCategoryFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationLocationFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationInterviewResultFilter,
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar > #applicationSubmittedClientFilter {
+    grid-column:auto !important;
+    grid-row:1 !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    justify-self:stretch !important;
+    box-sizing:border-box !important;
+  }
+  body.admin-app-page .applications-list-controls-frame .applications-filter-toolbar select {
+    height:32px !important;
+    min-height:32px !important;
+    padding:0 7px !important;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+    font-size:11px !important;
+    font-weight:500 !important;
+  }
+}
+</style>
+
 </body>
 </html>
