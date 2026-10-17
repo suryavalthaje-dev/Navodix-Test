@@ -77,8 +77,6 @@
     const jobId = $('applicationJobFilter').value;
     const categoryId = $('applicationCategoryFilter').value;
     const locationId = $('applicationLocationFilter').value;
-    const dateFrom = $('applicationDateFrom').value;
-    const dateTo = $('applicationDateTo').value;
     const interviewResult = $('applicationInterviewResultFilter').value;
     const submittedClient = $('applicationSubmittedClientFilter').value;
 
@@ -101,15 +99,12 @@
       const matchesJob = !jobId || String(job.id || '') === jobId;
       const matchesCategory = !categoryId || String(job.job_category_id || '') === categoryId;
       const matchesLocation = !locationId || String(job.location_id || '') === locationId;
-      const applicationDate = String(application.submitted_at || application.applied_at || '').slice(0, 10);
-      const matchesDateFrom = !dateFrom || (applicationDate && applicationDate >= dateFrom);
-      const matchesDateTo = !dateTo || (applicationDate && applicationDate <= dateTo);
       const roundResults = interviewResultsByApplication.get(String(application.id)) || [];
       const matchesInterviewResult = !interviewResult || roundResults.includes(interviewResult);
       const matchesSubmittedClient = !submittedClient || (submittedClient === 'yes' ? application.status === 'submitted_to_client' : application.status !== 'submitted_to_client');
 
       return matchesSearch && matchesStatus && matchesClient && matchesJob &&
-        matchesCategory && matchesLocation && matchesDateFrom && matchesDateTo &&
+        matchesCategory && matchesLocation &&
         matchesInterviewResult && matchesSubmittedClient;
     });
   }
@@ -152,8 +147,6 @@
       'applicationJobFilter',
       'applicationCategoryFilter',
       'applicationLocationFilter',
-      'applicationDateFrom',
-      'applicationDateTo',
       'applicationInterviewResultFilter',
       'applicationSubmittedClientFilter'
     ];
@@ -172,8 +165,6 @@
     $('applicationJobFilter').value = '';
     $('applicationCategoryFilter').value = '';
     $('applicationLocationFilter').value = '';
-    $('applicationDateFrom').value = '';
-    $('applicationDateTo').value = '';
     $('applicationInterviewResultFilter').value = '';
     $('applicationSubmittedClientFilter').value = '';
     selectedApplicationId = '';
@@ -1415,8 +1406,6 @@
       'applicationJobFilter',
       'applicationCategoryFilter',
       'applicationLocationFilter',
-      'applicationDateFrom',
-      'applicationDateTo',
       'applicationInterviewResultFilter',
       'applicationSubmittedClientFilter'
     ].forEach(id => {
