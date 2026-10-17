@@ -70,7 +70,7 @@
     const pageRows = rows;
 
     $('locationsTableBody').innerHTML = pageRows.map(location => `
-      <tr>
+      <tr data-record-id="${escapeHtml(location.id)}">
         <td><span class="md-name-value"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>${escapeHtml(location.location_name)}</span></span></td>
         <td>${escapeHtml(location.display_order)}</td>
         <td>${statusPill(location.is_active)}</td>
