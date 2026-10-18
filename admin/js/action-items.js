@@ -191,6 +191,8 @@ function closeActionRowContextMenu(){
 function positionActionRowContextMenu(x,y){
   const menu=$('actionRowContextMenu');
   if(!menu)return;
+  const title=$('actionRowContextMenuTitle');
+  if(title)title.textContent=`${selected?.title||'Action Item'} — Actions`;
   menu.classList.remove('hidden');
   const r=menu.getBoundingClientRect();
   menu.style.left=Math.max(6,Math.min(x,window.innerWidth-r.width-6))+'px';
