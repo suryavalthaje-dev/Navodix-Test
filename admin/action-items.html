@@ -1536,6 +1536,38 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 .action-row-context-menu button{gap:9px;}
 </style>
 
+<style id="action-items-context-menu-profile-standard-v1">
+/* Match the grouped right-click menu style used in Profile Management. */
+.action-row-context-menu{
+  min-width:244px !important; max-width:300px; padding:6px !important;
+  background:#fff !important; border:1px solid #B8CBE0 !important;
+  border-radius:8px !important; box-shadow:0 8px 22px rgba(20,45,80,.16) !important;
+}
+.action-row-context-menu #actionRowContextMenuTitle{
+  display:block; background:#24834A !important; color:#fff !important;
+  font-size:11px !important; font-weight:700 !important; line-height:1.3;
+  padding:10px 10px !important; margin:-6px -6px 8px !important;
+  border:0 !important; border-radius:7px 7px 0 0 !important;
+}
+.action-row-context-menu .action-row-context-group-title{
+  background:transparent !important; color:#718096 !important;
+  font-size:9px !important; font-weight:700 !important; letter-spacing:.45px;
+  text-transform:uppercase; line-height:1.2; padding:8px 10px 4px !important;
+  margin:0 !important; border-radius:0 !important;
+}
+.action-row-context-menu .action-row-context-group-title:not(:first-of-type){
+  border-top:1px solid #D9E2EC; margin-top:5px !important; padding-top:12px !important;
+}
+.action-row-context-menu button{
+  height:30px !important; padding:0 10px !important; margin:0 !important;
+  border-radius:4px !important; background:#fff !important; color:#294766 !important;
+  font-size:11px !important; font-weight:500 !important; gap:9px !important;
+}
+.action-row-context-menu button:hover{background:#F0F5FA !important;color:#173F78 !important;}
+.action-row-context-menu button i{width:14px !important; font-size:12px !important; color:#2878E8 !important;}
+.action-row-context-menu button[data-context-action="delete"] span{color:#B42318 !important;}
+.action-row-context-menu button[data-context-action="delete"] i{color:#B42318 !important;}
+</style>
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1618,6 +1650,7 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 </div></main>
 
 <div id="actionRowContextMenu" class="action-row-context-menu hidden" role="menu" aria-label="Action Item actions">
+  <div id="actionRowContextMenuTitle" class="action-row-context-menu-title">Action Item — Actions</div>
   <div class="action-row-context-group-title">Action Items</div>
   <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Action Item Details</span></button>
   <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Action Item</span></button>
