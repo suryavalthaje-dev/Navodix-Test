@@ -1568,6 +1568,24 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 .action-row-context-menu button[data-context-action="delete"] span{color:#B42318 !important;}
 .action-row-context-menu button[data-context-action="delete"] i{color:#B42318 !important;}
 </style>
+
+<style id="action-notes-history-modal-standard">
+#actionNotesHistoryModal .action-notes-history-shell{width:min(860px,calc(100vw - 32px));max-width:860px;max-height:calc(100dvh - 32px);display:flex;flex-direction:column;overflow:hidden;border:1px solid #b9cce2;border-radius:9px;background:#fff;box-shadow:0 12px 36px rgba(17,45,78,.24)}
+#actionNotesHistoryModal .action-notes-history-header{flex:0 0 56px;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px;background:#2878e8;color:#fff}
+#actionNotesHistoryModal .action-notes-history-header h2{margin:0;color:#fff;font-size:18px;font-weight:600;line-height:1.2}
+#actionNotesHistoryModal .action-notes-history-subtitle{margin-top:3px;color:#eaf2ff;font-size:11px;line-height:1.2}
+#actionNotesHistoryModal .action-notes-history-header .modal-close{position:static;color:#fff;background:transparent;border:0;box-shadow:none;font-size:20px}
+#actionNotesHistoryModal .action-notes-history-body{flex:1 1 auto;min-height:0;overflow:auto;padding:12px;background:#fff}
+#actionNotesHistoryModal .action-notes-history-section-title{margin:0;padding:8px 10px;background:#eaf3ff;border:1px solid #c9d9ed;border-radius:5px 5px 0 0;color:#173f70;font-size:13px;font-weight:650}
+#actionNotesHistoryModal .action-notes-history-list{border:1px solid #c9d9ed;border-top:0;min-height:42px}
+#actionNotesHistoryModal .action-note-form{margin:0;padding:10px;border:1px solid #c9d9ed;border-top:0;border-radius:0 0 5px 5px;background:#f7f9fc}
+#actionNotesHistoryModal #actionNotesHistoryText{display:block;width:100%;min-height:58px;max-height:140px;resize:vertical;padding:9px 10px;border:1px solid #d1ddeb;border-radius:5px;font-size:13px;font-family:inherit;box-sizing:border-box}
+#actionNotesHistoryModal .action-notes-history-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+#actionNotesHistoryModal .action-notes-history-footer{flex:0 0 54px;min-height:54px;display:flex;align-items:center;justify-content:flex-end;padding:0 14px;background:#cbdcf0;border-top:1px solid #b5cce5}
+#actionNotesHistoryModal .action-notes-history-footer .btn{height:30px;min-width:78px;padding:0 14px;font-size:10px;font-weight:600}
+@media(max-width:600px){#actionNotesHistoryModal .action-notes-history-shell{width:calc(100vw - 16px);max-height:calc(100dvh - 16px)}#actionNotesHistoryModal .action-notes-history-body{padding:8px}#actionNotesHistoryModal .action-notes-history-header{padding:0 12px}}
+</style>
+
 </head>
 <body class="admin-app-page action-items-list-standard">
 <header class="admin-header"><div class="admin-container admin-nav">
@@ -1689,6 +1707,26 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+
+<div class="modal-backdrop hidden" id="actionNotesHistoryModal" aria-hidden="true">
+  <div class="action-notes-history-shell" role="dialog" aria-modal="true" aria-labelledby="actionNotesHistoryTitle">
+    <div class="action-notes-history-header">
+      <div><h2 id="actionNotesHistoryTitle">Updates / Notes History</h2><div id="actionNotesHistorySubtitle" class="action-notes-history-subtitle">Action Item updates and notes</div></div>
+      <button class="modal-close" id="closeActionNotesHistory" type="button" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div class="action-notes-history-body">
+      <h3 class="action-notes-history-section-title">Updates / Notes History</h3>
+      <div class="action-notes-history-list application-activity-list" id="actionNotesHistoryList"><div class="application-activity-empty">Loading notes…</div></div>
+      <form id="actionNotesHistoryForm" class="action-note-form">
+        <textarea id="actionNotesHistoryText" rows="2" placeholder="Add an update or note without changing the status"></textarea>
+        <div class="action-notes-history-form-actions"><button class="btn btn-primary btn-small" type="submit" id="addActionNotesHistoryNote"><i class="fa-solid fa-plus"></i> Add Note</button></div>
+        <div id="actionNotesHistoryMessage" class="admin-message" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+    <div class="action-notes-history-footer"><button class="btn btn-outline" id="closeActionNotesHistoryFooter" type="button">Close</button></div>
   </div>
 </div>
 
@@ -1840,7 +1878,7 @@ body.action-items-list-standard .action-summary .summary-card:nth-child(6) { bac
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=74"></script>
+<script src="js/config.js?v=30"></script><script src="js/supabase-client.js?v=30"></script><script src="js/auth.js?v=30"></script><script src="js/action-items.js?v=75"></script>
 <script src="js/navigation.js?v=33"></script>
 </body>
 <style id="action-items-row-selection-client-color-v1">
