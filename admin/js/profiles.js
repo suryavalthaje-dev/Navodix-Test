@@ -433,7 +433,7 @@
     if(submissionDateInput){ submissionDateInput.value=assoc?.submitted_to_client_date||''; }
     if(submissionDateGroup){ submissionDateGroup.classList.toggle('hidden', $('profileAssociationStatus').value!=='Submitted'); }
     $('profileAssociationNotes').value=assoc?.notes||'';
-    $('profileAssociationModalTitle').textContent=associationId?'Edit Requirement Association':'Add Requirement Association';
+    $('profileAssociationModalTitle').textContent=associationId?'Update Association Status':'Add Requirement Association';
     $('saveProfileAssociationButton').innerHTML=associationId
       ? '<i class="fa-solid fa-floppy-disk"></i> Save Changes'
       : '<i class="fa-solid fa-link"></i> Associate';
