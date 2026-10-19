@@ -1163,5 +1163,11 @@ body.admin-app-page .master-card{border-radius:6px!important;}
 .toolbar-search input { padding-left: 34px !important; }
 .toolbar-search > i { left: 10px !important; }
 </style>
+
+<style id="master-search-placeholder-spacing-fix">
+/* Keep search placeholder clear of the magnifying-glass icon; placed after existing CSS to override earlier padding shorthand. */
+body.admin-app-page .master-toolbar .toolbar-search input[type="search"] { padding-left: 38px !important; text-indent: 0 !important; }
+body.admin-app-page .master-toolbar .toolbar-search > i { left: 10px !important; }
+</style>
 </body>
 </html>
