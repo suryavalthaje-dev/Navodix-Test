@@ -86,17 +86,29 @@
   async function loadProfiles(){ message('Loading profiles…'); let q=supabase.from('profiles').select('id,profile_number,full_name,email,phone,current_location,total_experience,current_job_title,current_company,notice_period,current_ctc,expected_ctc,availability,status,created_at').order('created_at',{ascending:false}); if(requirementId) q=q.in('id', (await getRequirementProfileIds())); const {data,error}=await q; if(error)throw error; profiles=data||[]; await attachSourcesAndAssociations(); updateProfileSummary(); render(); message(''); }
   async function getRequirementProfileIds(){ const {data,error}=await supabase.from('profile_requirement_associations').select('profile_id').eq('requirement_id',requirementId); if(error)throw error; return (data||[]).map(x=>x.profile_id).length?(data||[]).map(x=>x.profile_id):['00000000-0000-0000-0000-000000000000']; }
   async function attachSourcesAndAssociations(){ const ids=profiles.map(p=>p.id); if(!ids.length){populateProfileFilterOptions();return;} const [s,a,c]=await Promise.all([supabase.from('profile_sources').select('profile_id,source').in('profile_id',ids).eq('is_primary',true),supabase.from('profile_requirement_associations').select('id,profile_id,requirement_id,status,associated_at').in('profile_id',ids).order('associated_at',{ascending:false}),supabase.from('profile_categories').select('profile_id,category_id').in('profile_id',ids)]); if(s.error)throw s.error;if(a.error)throw a.error;if(c.error)throw c.error; const sourceMap=Object.fromEntries((s.data||[]).map(x=>[x.profile_id,x.source])); const assocMap={}; (a.data||[]).forEach(x=>{(assocMap[x.profile_id]??=[]).push(x)}); const categoryMap={}; (c.data||[]).forEach(x=>{(categoryMap[x.profile_id]??=[]).push(x.category_id)}); profiles.forEach(p=>{p.source=sourceMap[p.id]||'—';p.associations=assocMap[p.id]||[];const latestAssoc=p.associations[0];const latestReq=latestAssoc?requirements.find(r=>String(r.id)===String(latestAssoc.requirement_id)):null;p.latestRequirementName=latestReq?.title||'—';p.latestRequirementId=latestAssoc?.requirement_id||'';p.latestRequirementClientId=latestReq?.client_id||'';p.latestRequirementClientName=latestReq?.client_name||'';p.categoryIds=categoryMap[p.id]||[]}); populateProfileFilterOptions(); }
+  function setRequirementContextFilterStyle(select, disabled){
+    if(!select)return;
+    if(disabled){
+      select.style.setProperty('background-color','#f1f3f5','important');
+      select.style.setProperty('border-color','#cbd5e1','important');
+      select.style.setProperty('color','#64748b','important');
+      select.style.setProperty('cursor','not-allowed','important');
+      select.style.setProperty('box-shadow','none','important');
+    }else{
+      ['background-color','border-color','color','cursor','box-shadow'].forEach(property=>select.style.removeProperty(property));
+    }
+  }
   function populateProfileFilterOptions(){
     const requirementSelect=$('profileRequirementFilter'), clientSelect=$('profileClientFilter'), locationSelect=$('profileLocationFilter');
     if(requirementSelect){ const selected=requirementSelect.value; requirementSelect.innerHTML='<option value="">All Requirements</option>'+requirements.map(r=>`<option value="${esc(r.id)}">${esc(r.job_code||'')} — ${esc(r.title||'')}</option>`).join(''); requirementSelect.value=selected||''; }
     if(clientSelect){ const selected=clientSelect.value; const clients=[...new Map(requirements.filter(r=>r.client_id&&r.client_name).map(r=>[String(r.client_id),r.client_name])).entries()].sort((a,b)=>a[1].localeCompare(b[1])); clientSelect.innerHTML='<option value="">All Clients</option>'+clients.map(([id,name])=>`<option value="${esc(id)}">${esc(name)}</option>`).join(''); clientSelect.value=selected||''; }
     if(requirementId){
       const contextRequirement=requirements.find(r=>String(r.id)===String(requirementId));
-      if(requirementSelect){ requirementSelect.innerHTML=`<option value="${esc(requirementId)}">${esc(contextRequirement ? `${contextRequirement.job_code||''}${contextRequirement.job_code?' — ':''}${contextRequirement.title||'Selected Requirement'}` : 'Selected Requirement')}</option>`; requirementSelect.value=String(requirementId); requirementSelect.disabled=true; requirementSelect.title='Fixed to the requirement selected in Manage Requirements'; }
-      if(clientSelect){ const clientId=String(contextRequirement?.client_id||''); const clientName=contextRequirement?.client_name||'No client assigned'; clientSelect.innerHTML=`<option value="${esc(clientId)}">${esc(clientName)}</option>`; clientSelect.value=clientId; clientSelect.disabled=true; clientSelect.title='Fixed to the client of the selected requirement'; }
+      if(requirementSelect){ requirementSelect.innerHTML=`<option value="${esc(requirementId)}">${esc(contextRequirement ? `${contextRequirement.job_code||''}${contextRequirement.job_code?' — ':''}${contextRequirement.title||'Selected Requirement'}` : 'Selected Requirement')}</option>`; requirementSelect.value=String(requirementId); requirementSelect.disabled=true; requirementSelect.title='Fixed to the requirement selected in Manage Requirements'; setRequirementContextFilterStyle(requirementSelect,true); }
+      if(clientSelect){ const clientId=String(contextRequirement?.client_id||''); const clientName=contextRequirement?.client_name||'No client assigned'; clientSelect.innerHTML=`<option value="${esc(clientId)}">${esc(clientName)}</option>`; clientSelect.value=clientId; clientSelect.disabled=true; clientSelect.title='Fixed to the client of the selected requirement'; setRequirementContextFilterStyle(clientSelect,true); }
     }else{
-      if(requirementSelect){ requirementSelect.disabled=false; requirementSelect.removeAttribute('title'); }
-      if(clientSelect){ clientSelect.disabled=false; clientSelect.removeAttribute('title'); }
+      if(requirementSelect){ requirementSelect.disabled=false; requirementSelect.removeAttribute('title'); setRequirementContextFilterStyle(requirementSelect,false); }
+      if(clientSelect){ clientSelect.disabled=false; clientSelect.removeAttribute('title'); setRequirementContextFilterStyle(clientSelect,false); }
     }
     if(locationSelect){ const selected=locationSelect.value; const locations=[...new Set(profiles.map(p=>String(p.current_location||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b)); locationSelect.innerHTML='<option value="">All Locations</option>'+locations.map(location=>`<option value="${esc(location)}">${esc(location)}</option>`).join(''); locationSelect.value=selected||''; }
   }
