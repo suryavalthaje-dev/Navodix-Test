@@ -4388,6 +4388,37 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 .profile-summary .summary-card:nth-child(7){background:#FCE7EC!important;border-color:#EFB6C4!important;} /* Rejected */
 .profile-summary .summary-card:nth-child(8){background:#E9EEF5!important;border-color:#C4D0DF!important;} /* Associated */
 </style>
+
+<style id="navodix-interview-form-content-sized-v1">
+/* Add/Edit Interview Round: size the dialog to its form, independently of the wider rounds-list modal. */
+#interviewFormModal .profile-interview-form-shared-modal{
+  width:min(680px,92vw) !important;
+  max-width:680px !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:90dvh !important;
+  margin:auto !important;
+  flex:0 1 auto !important;
+}
+#interviewFormModal .profile-interview-form-shared-body{
+  flex:0 1 auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:calc(90dvh - 124px) !important;
+  overflow-y:auto !important;
+  padding:14px 18px !important;
+}
+#interviewFormModal .profile-interview-form-shared-body .application-interview-form-grid{
+  gap:12px 22px !important;
+}
+#interviewFormModal .profile-interview-form-shared-body .application-form-field-wide textarea{
+  min-height:80px !important;
+}
+@media(max-width:700px){
+  #interviewFormModal .profile-interview-form-shared-modal{width:calc(100vw - 20px) !important;max-width:calc(100vw - 20px) !important;}
+  #interviewFormModal .profile-interview-form-shared-body{padding:12px !important;max-height:calc(90dvh - 124px) !important;}
+}
+</style>
 </body>
 
 
