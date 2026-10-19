@@ -4,8 +4,6 @@
   const $ = id => document.getElementById(id);
   const params = new URLSearchParams(window.location.search);
   const requirementId = params.get('requirement');
-  // A requirement-scoped Profiles page is reached through Manage Candidates; highlight that originating page title in the navigation.
-  if (requirementId) document.body.classList.add('manage-requirements-context-red');
   let currentPage = 1;
   const PAGE_SIZE = 20;
   let profiles = [], requirement = null, requirements = [], jobCategories = [], locationMaster = [], locationsLoaded = false, saving = false, keepExistingResume = true, selectedExistingResume = false, allExistingProfiles = [], profileToAssociate = null, interviewProfile = null, interviewRequirementId = '', interviewAssociationId = '', interviewRequirementLabel = '', interviewSaving = false, profileAssociationProfileId = '', profileAssociationEditId = '', editingOriginalStatus = '', pendingDeleteProfileId = '', pendingDeleteProfileName = '';
@@ -887,5 +885,26 @@
     if(pagination)pagination.remove();
 }
 
-document.addEventListener('DOMContentLoaded',async()=>{const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();window.addEventListener('resize',updateProfilesListHeight);try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
+function applyManageCandidatesNavigationHighlight(){
+  const params=new URLSearchParams(window.location.search);
+  if(!params.get('requirement'))return;
+  const navLink=document.querySelector('.admin-section-nav-link.active[href*="profiles.html"]');
+  const heading=document.querySelector('.jobs-heading h1');
+  if(navLink){
+    navLink.style.setProperty('background','#16834A','important');
+    navLink.style.setProperty('border-color','#16834A','important');
+    navLink.style.setProperty('color','#FFFFFF','important');
+    navLink.style.setProperty('box-shadow','0 2px 5px rgba(22,131,74,.20)','important');
+    const underline=document.createElement('style');
+    underline.id='manage-candidates-nav-green-highlight';
+    underline.textContent='.admin-section-nav-link.active.manage-candidates-green:after{background:#FFFFFF!important;}';
+    if(!document.getElementById(underline.id))document.head.appendChild(underline);
+    navLink.classList.add('manage-candidates-green');
+  }
+  if(heading){
+    heading.style.setProperty('color','#16834A','important');
+  }
+}
+
+document.addEventListener('DOMContentLoaded',async()=>{applyManageCandidatesNavigationHighlight();const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();window.addEventListener('resize',updateProfilesListHeight);try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
 })();
