@@ -1592,6 +1592,7 @@ body.admin-app-page{
   <div id="requirementRowContextMenu" class="requirement-row-context-menu hidden" role="menu" aria-label="Requirement actions">
     <div class="requirement-row-context-menu-title" id="requirementRowContextMenuTitle">Requirement Actions</div>
     <button type="button" role="menuitem" data-context-action="candidates"><i class="fa-solid fa-users"></i><span>Manage Candidates</span></button>
+    <button type="button" role="menuitem" data-context-action="candidates-multiple"><i class="fa-solid fa-list-check"></i><span>Manage Candidates - Multiple Requirements</span></button>
     <button type="button" role="menuitem" data-context-action="view"><i class="fa-solid fa-eye"></i><span>View Requirement</span></button>
     <button type="button" role="menuitem" data-context-action="edit"><i class="fa-solid fa-pen-to-square"></i><span>Edit Requirement</span></button>
     <button type="button" role="menuitem" data-context-action="change-status" id="requirementContextChangeStatusButton"><i class="fa-solid fa-arrows-rotate"></i><span>Change Requirement Status</span></button>
@@ -1631,6 +1632,44 @@ body.admin-app-page{
         <div class="rsc-message" id="requirementStatusChangeMessage" role="status" aria-live="polite"></div>
       </div>
       <footer class="rsc-footer"><span id="requirementStatusFooterMessage" class="rsc-message" role="status" aria-live="polite"></span><div class="rsc-footer-actions"><button type="button" id="requirementStatusCancel">Cancel</button><button type="button" id="requirementStatusSave">Save</button></div></footer>
+    </section>
+  </div>
+
+  <style id="multi-requirement-candidates-modal-styles">
+    #multiRequirementCandidatesModal{position:fixed;inset:0;z-index:10070;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(15,30,55,.48);font-family:'Segoe UI',system-ui,sans-serif;}
+    #multiRequirementCandidatesModal.hidden{display:none!important;}
+    #multiRequirementCandidatesModal .mrc-dialog{width:min(500px,calc(100vw - 28px));max-height:calc(100vh - 28px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #C8D7EA;border-radius:9px;box-shadow:0 14px 40px rgba(15,35,65,.25);}
+    #multiRequirementCandidatesModal .mrc-header{height:48px;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;background:#2878E8;color:#fff;}
+    #multiRequirementCandidatesModal .mrc-header h2{margin:0;font-size:15px;font-weight:600;color:#fff;}
+    #multiRequirementCandidatesModal .mrc-close{border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer;}
+    #multiRequirementCandidatesModal .mrc-body{padding:15px 16px;display:flex;flex-direction:column;gap:11px;min-height:0;}
+    #multiRequirementCandidatesModal .mrc-field{display:flex;flex-direction:column;gap:5px;}
+    #multiRequirementCandidatesModal .mrc-field label,#multiRequirementCandidatesModal .mrc-select-all{font-size:11px;font-weight:600;color:#344A66;}
+    #multiRequirementCandidatesModal select{height:30px;padding:0 8px;border:1px solid #D3DFED;border-radius:5px;background:#fff;color:#1E3557;font:12px 'Segoe UI',sans-serif;}
+    #multiRequirementCandidatesModal .mrc-select-all{display:flex;align-items:center;gap:7px;padding:7px 9px;background:#F4F7FB;border:1px solid #DCE4EE;border-radius:5px;}
+    #multiRequirementCandidatesModal .mrc-list{max-height:260px;min-height:80px;overflow:auto;border:1px solid #D8E0EA;border-radius:5px;}
+    #multiRequirementCandidatesModal .mrc-option{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border-bottom:1px solid #E8EDF3;cursor:pointer;}
+    #multiRequirementCandidatesModal .mrc-option:last-child{border-bottom:0;}
+    #multiRequirementCandidatesModal .mrc-option input,#multiRequirementCandidatesModal .mrc-select-all input{margin:2px 0 0;accent-color:#2878E8;}
+    #multiRequirementCandidatesModal .mrc-option span{display:flex;flex-direction:column;gap:3px;min-width:0;}
+    #multiRequirementCandidatesModal .mrc-option strong{font-size:12px;font-weight:600;color:#263F62;}
+    #multiRequirementCandidatesModal .mrc-option small{font-size:10px;color:#718096;}
+    #multiRequirementCandidatesModal .mrc-empty{padding:18px 10px;text-align:center;color:#718096;font-size:12px;}
+    #multiRequirementCandidatesModal .mrc-message{font-size:11px;color:#52647D;min-height:14px;}
+    #multiRequirementCandidatesModal .mrc-footer{height:54px;min-height:54px;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px;background:#F4F7FB;border-top:1px solid #DCE4EE;}
+    #multiRequirementCandidatesModal .mrc-footer button{height:32px;min-width:82px;padding:0 13px;border:1px solid #B8CBE0;border-radius:5px;background:#fff;color:#344A66;font:600 12px 'Segoe UI',sans-serif;cursor:pointer;}
+    #multiRequirementCandidatesModal .mrc-footer #multiCandidatesContinue{border-color:#2878E8;background:#2878E8;color:#fff;}
+  </style>
+  <div id="multiRequirementCandidatesModal" class="hidden" aria-hidden="true">
+    <section class="mrc-dialog" role="dialog" aria-modal="true" aria-labelledby="multiCandidatesTitle">
+      <header class="mrc-header"><h2 id="multiCandidatesTitle">Manage Candidates - Multiple Requirements</h2><button type="button" class="mrc-close" id="multiCandidatesClose" aria-label="Close">&times;</button></header>
+      <div class="mrc-body">
+        <div class="mrc-field"><label for="multiCandidatesClientSelect">Client</label><select id="multiCandidatesClientSelect"><option value="">Select Client</option></select></div>
+        <label class="mrc-select-all"><input type="checkbox" id="multiCandidatesSelectAll" disabled> Select all requirements for this client</label>
+        <div id="multiCandidatesRequirementList" class="mrc-list"><div class="mrc-empty">Select a client to view requirements.</div></div>
+        <div id="multiCandidatesMessage" class="mrc-message" role="status" aria-live="polite"></div>
+      </div>
+      <footer class="mrc-footer"><button type="button" id="multiCandidatesCancel">Cancel</button><button type="button" id="multiCandidatesContinue">Manage Candidates</button></footer>
     </section>
   </div>
 
@@ -1951,7 +1990,7 @@ body.admin-app-page{
   <script src="js/config.js?v=17"></script>
   <script src="js/supabase-client.js?v=17"></script>
   <script src="js/auth.js?v=17"></script>
-  <script src="js/jobs.js?v=19"></script>
+  <script src="js/jobs.js?v=20"></script>
   <script>
     (function(){
       const button=document.getElementById('columnsButton');
