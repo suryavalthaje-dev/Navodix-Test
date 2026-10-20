@@ -3668,9 +3668,13 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 </style>
 <style id="profile-status-history-standard-modal">
 /* Association Status History — Navodix modal standard: dynamic content, fixed header/footer. */
+#associationHistoryModal{align-items:center !important;justify-content:center !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{align-self:stretch !important;}
 #associationHistoryModal .profile-status-history-modal{
-  width:min(1100px,96vw) !important; max-width:96vw !important; height:auto !important;
-  max-height:90vh !important; display:flex !important; flex-direction:column !important;
+  width:min(1100px,96vw) !important; max-width:96vw !important;
+  height:max-content !important; min-height:0 !important; max-height:90vh !important;
+  margin:auto !important; flex:0 1 auto !important; align-self:center !important;
+  display:flex !important; flex-direction:column !important;
   overflow:hidden !important; background:#FFFFFF !important; border-radius:8px !important;
   box-shadow:0 20px 56px rgba(7,29,73,.22) !important; box-sizing:border-box !important;
 }
@@ -3689,7 +3693,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   border:0 !important; background:transparent !important; color:#FFFFFF !important; font-size:21px !important; line-height:1 !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{
-  flex:0 1 auto !important; min-height:0 !important; max-height:calc(90vh - 114px) !important;
+  flex:0 1 auto !important; height:auto !important; min-height:0 !important; max-height:calc(90vh - 114px) !important;
   overflow-y:auto !important; overflow-x:hidden !important; padding:16px 20px 18px !important;
   border-left:1px solid #D1D5DB !important; border-right:1px solid #D1D5DB !important; box-sizing:border-box !important;
 }
