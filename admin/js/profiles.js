@@ -527,9 +527,13 @@
         .order('changed_at',{ascending:false});
       if(error) throw error;
       const rows=data||[];
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td>${esc(x.new_status||'—')}</td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('');
-      $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
+      $('associationHistoryTableBody').innerHTML=rows.length
+        ? rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td>${esc(x.new_status||'—')}</td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('')
+        : '<tr><td class="history-empty-state" colspan="5">No status history found.</td></tr>';
+      $('associationHistoryMessage').textContent='';
+      $('associationHistoryMessage').className='admin-message';
     } catch(err) {
+      $('associationHistoryTableBody').innerHTML='<tr><td class="history-error-state" colspan="5">Unable to load status history.</td></tr>';
       $('associationHistoryMessage').textContent=err.message||String(err);
       $('associationHistoryMessage').className='admin-message error';
     }
