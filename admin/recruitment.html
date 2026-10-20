@@ -1638,34 +1638,40 @@ body.admin-app-page{
   <style id="multi-requirement-candidates-modal-styles">
     #multiRequirementCandidatesModal{position:fixed;inset:0;z-index:10070;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(15,30,55,.48);font-family:'Segoe UI',system-ui,sans-serif;}
     #multiRequirementCandidatesModal.hidden{display:none!important;}
-    #multiRequirementCandidatesModal .mrc-dialog{width:min(500px,calc(100vw - 28px));max-height:calc(100vh - 28px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #C8D7EA;border-radius:9px;box-shadow:0 14px 40px rgba(15,35,65,.25);}
-    #multiRequirementCandidatesModal .mrc-header{height:48px;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;background:#2878E8;color:#fff;}
-    #multiRequirementCandidatesModal .mrc-header h2{margin:0;font-size:15px;font-weight:600;color:#fff;}
-    #multiRequirementCandidatesModal .mrc-close{border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer;}
-    #multiRequirementCandidatesModal .mrc-body{padding:15px 16px;display:flex;flex-direction:column;gap:11px;min-height:0;}
-    #multiRequirementCandidatesModal .mrc-field{display:flex;flex-direction:column;gap:5px;}
-    #multiRequirementCandidatesModal .mrc-field label,#multiRequirementCandidatesModal .mrc-select-all{font-size:11px;font-weight:600;color:#344A66;}
-    #multiRequirementCandidatesModal select{height:30px;padding:0 8px;border:1px solid #D3DFED;border-radius:5px;background:#fff;color:#1E3557;font:12px 'Segoe UI',sans-serif;}
-    #multiRequirementCandidatesModal .mrc-select-all{display:flex;align-items:center;gap:7px;padding:7px 9px;background:#F4F7FB;border:1px solid #DCE4EE;border-radius:5px;}
-    #multiRequirementCandidatesModal .mrc-list{max-height:260px;min-height:80px;overflow:auto;border:1px solid #D8E0EA;border-radius:5px;}
-    #multiRequirementCandidatesModal .mrc-option{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border-bottom:1px solid #E8EDF3;cursor:pointer;}
+    #multiRequirementCandidatesModal .mrc-dialog{width:min(560px,calc(100vw - 28px));max-height:90vh;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #D1D5DB;border-radius:6px;box-shadow:0 14px 40px rgba(15,35,65,.25);}
+    #multiRequirementCandidatesModal .mrc-header{min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;background:#0DB4CC;color:#fff;flex:0 0 auto;}
+    #multiRequirementCandidatesModal .mrc-header h2{margin:0;font-size:16px;font-weight:600;color:#fff;font-family:'Segoe UI',sans-serif;}
+    #multiRequirementCandidatesModal .mrc-close{border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
+    #multiRequirementCandidatesModal .mrc-body{padding:16px;display:flex;flex-direction:column;gap:14px;min-height:0;overflow-y:auto;background:#fff;}
+    #multiRequirementCandidatesModal .mrc-filter-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+    #multiRequirementCandidatesModal .mrc-field{display:flex;flex-direction:column;gap:5px;min-width:0;}
+    #multiRequirementCandidatesModal .mrc-field label{font-size:12px;font-weight:600;color:#344A66;}
+    #multiRequirementCandidatesModal select{width:100%;height:34px;padding:0 9px;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#1E3557;font:400 13px 'Segoe UI',sans-serif;}
+    #multiRequirementCandidatesModal select:focus{outline:none;border-color:#0D6EFD;box-shadow:0 0 0 1px #0D6EFD;}
+    #multiRequirementCandidatesModal .mrc-select-all{display:flex;align-items:center;gap:7px;font:600 12px 'Segoe UI',sans-serif;color:#344A66;}
+    #multiRequirementCandidatesModal .mrc-list{max-height:260px;min-height:80px;overflow:auto;border:1px solid #D1D5DB;border-radius:5px;}
+    #multiRequirementCandidatesModal .mrc-option{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border-bottom:1px solid #E5E7EB;cursor:pointer;background:#fff;}
     #multiRequirementCandidatesModal .mrc-option:last-child{border-bottom:0;}
-    #multiRequirementCandidatesModal .mrc-option input,#multiRequirementCandidatesModal .mrc-select-all input{margin:2px 0 0;accent-color:#2878E8;}
-    #multiRequirementCandidatesModal .mrc-option span{display:flex;flex-direction:column;gap:3px;min-width:0;}
-    #multiRequirementCandidatesModal .mrc-option strong{font-size:12px;font-weight:600;color:#263F62;}
-    #multiRequirementCandidatesModal .mrc-option small{font-size:10px;color:#718096;}
-    #multiRequirementCandidatesModal .mrc-empty{padding:18px 10px;text-align:center;color:#718096;font-size:12px;}
-    #multiRequirementCandidatesModal .mrc-message{font-size:11px;color:#52647D;min-height:14px;}
-    #multiRequirementCandidatesModal .mrc-footer{height:54px;min-height:54px;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px;background:#F4F7FB;border-top:1px solid #DCE4EE;}
-    #multiRequirementCandidatesModal .mrc-footer button{height:32px;min-width:82px;padding:0 13px;border:1px solid #B8CBE0;border-radius:5px;background:#fff;color:#344A66;font:600 12px 'Segoe UI',sans-serif;cursor:pointer;}
-    #multiRequirementCandidatesModal .mrc-footer #multiCandidatesContinue{border-color:#2878E8;background:#2878E8;color:#fff;}
+    #multiRequirementCandidatesModal .mrc-option input,#multiRequirementCandidatesModal .mrc-select-all input{margin:2px 0 0;accent-color:#0D6EFD;}
+    #multiRequirementCandidatesModal .mrc-option span{display:flex;flex-direction:column;gap:3px;min-width:0;font-family:'Segoe UI',sans-serif;}
+    #multiRequirementCandidatesModal .mrc-option strong{font-size:13px;font-weight:400;color:#263F62;}
+    #multiRequirementCandidatesModal .mrc-option small{font-size:11px;font-weight:400;color:#6B7280;}
+    #multiRequirementCandidatesModal .mrc-empty{padding:18px 10px;text-align:center;color:#6B7280;font:400 13px 'Segoe UI',sans-serif;}
+    #multiRequirementCandidatesModal .mrc-message{font:400 11px 'Segoe UI',sans-serif;color:#6B7280;min-height:14px;}
+    #multiRequirementCandidatesModal .mrc-footer{min-height:54px;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:9px 16px;background:#E5E7EB;border-top:1px solid #D1D5DB;flex:0 0 auto;}
+    #multiRequirementCandidatesModal .mrc-footer button{height:32px;min-width:82px;padding:0 13px;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#344A66;font:600 13px 'Segoe UI',sans-serif;cursor:pointer;}
+    #multiRequirementCandidatesModal .mrc-footer #multiCandidatesContinue{border-color:#0D6EFD;background:#0D6EFD;color:#fff;}
+    @media(max-width:520px){#multiRequirementCandidatesModal .mrc-filter-row{grid-template-columns:1fr;gap:14px;}#multiRequirementCandidatesModal .mrc-dialog{width:calc(100vw - 24px);}}
   </style>
   <div id="multiRequirementCandidatesModal" class="hidden" aria-hidden="true">
     <section class="mrc-dialog" role="dialog" aria-modal="true" aria-labelledby="multiCandidatesTitle">
       <header class="mrc-header"><h2 id="multiCandidatesTitle">Manage Candidates - Multiple Requirements</h2><button type="button" class="mrc-close" id="multiCandidatesClose" aria-label="Close">&times;</button></header>
       <div class="mrc-body">
-        <div class="mrc-field"><label for="multiCandidatesClientSelect">Client</label><select id="multiCandidatesClientSelect"><option value="">Select Client</option></select></div>
-        <label class="mrc-select-all"><input type="checkbox" id="multiCandidatesSelectAll" disabled> Select all requirements for this client</label>
+        <div class="mrc-filter-row">
+          <div class="mrc-field"><label for="multiCandidatesClientSelect">Client</label><select id="multiCandidatesClientSelect"><option value="">Select Client</option></select></div>
+          <div class="mrc-field"><label for="multiCandidatesStatusSelect">Status</label><select id="multiCandidatesStatusSelect"><option value="">All Statuses</option><option value="draft">Draft</option><option value="active">Active</option><option value="published">Published</option><option value="paused">Paused</option><option value="closed">Closed</option></select></div>
+        </div>
+        <label class="mrc-select-all"><input type="checkbox" id="multiCandidatesSelectAll" disabled> Select all requirements shown</label>
         <div id="multiCandidatesRequirementList" class="mrc-list"><div class="mrc-empty">Select a client to view requirements.</div></div>
         <div id="multiCandidatesMessage" class="mrc-message" role="status" aria-live="polite"></div>
       </div>
