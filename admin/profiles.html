@@ -3738,6 +3738,30 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 @media(max-width:760px){#associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}#associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px !important;}}
 #associationHistoryModal .profile-status-history-modal .profile-interview-table td.history-empty-state{padding:24px 12px!important;text-align:center!important;vertical-align:middle!important;color:#64748B!important;background:#FFFFFF!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:400!important;border-color:#D1D5DB!important;}
 #associationHistoryModal .profile-status-history-modal .profile-interview-table td.history-error-state{padding:16px 12px!important;text-align:left!important;color:#B91C1C!important;background:#FFFFFF!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:12px!important;font-weight:400!important;border-color:#D1D5DB!important;}
+/* Compact-content correction: defeat inherited minimum table height and flex stretching. */
+#associationHistoryModal .profile-status-history-modal{
+  height:auto !important;
+  min-height:0 !important;
+  max-height:90vh !important;
+}
+#associationHistoryModal .profile-status-history-modal > .profile-interview-modal-body{
+  flex:0 1 auto !important;
+  align-self:auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:calc(90vh - 114px) !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table-wrap{
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  flex:0 0 auto !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table{
+  height:auto !important;
+  min-height:0 !important;
+}
+
 </style>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
   <div class="profile-interview-modal-shell profile-status-history-modal" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle">
