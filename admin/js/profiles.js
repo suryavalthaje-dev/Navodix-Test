@@ -511,9 +511,10 @@
     if(error) throw error;
   }
 
-  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement') {
+  async function openAssociationStatusHistory(associationId, requirementLabel='Requirement', profileName='—') {
     if(!associationId) return;
-    $('associationHistoryTitle').textContent=`Status History — ${requirementLabel}`;
+    $('associationHistoryTitle').textContent=`${requirementLabel} — ${profileName}`;
+    $('associationHistoryProfileName').textContent=profileName||'—';
     $('associationHistoryMessage').textContent='Loading…';
     $('associationHistoryTableBody').innerHTML='';
     $('associationHistoryModal').classList.remove('hidden');
@@ -526,7 +527,7 @@
         .order('changed_at',{ascending:false});
       if(error) throw error;
       const rows=data||[];
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class=\"status-pill ${statusClass(x.new_status)}\">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('');
+      $('associationHistoryTableBody').innerHTML=rows.map(x=>`<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td>${esc(x.new_status||'—')}</td><td>${esc(x.notes||'—')}</td><td>${esc(x.changed_by||'—')}</td></tr>`).join('');
       $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
     } catch(err) {
       $('associationHistoryMessage').textContent=err.message||String(err);
@@ -695,7 +696,7 @@
     });
     const runAction=async x=>{
       if(action==='edit') await openProfileAssociationModal(id,x.association.id);
-      else await openAssociationStatusHistory(x.association.id,x.label);
+      else await openAssociationStatusHistory(x.association.id,x.label,p.full_name||'—');
     };
     if(unique.length===1){await runAction(unique[0]);return;}
     const select=$('interviewRequirementPicker');
