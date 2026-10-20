@@ -4625,11 +4625,12 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     var target = event.target;
     if (!(target instanceof Element)) return;
 
-    /* Keep selection while interacting with a row action menu. */
-    if (target.closest('#profileRowContextMenu, .profile-row-context-menu')) return;
+    /* Keep selection when a context-menu action or any modal control is clicked.
+       This check must happen before checking whether the modal is still open,
+       because close handlers may hide it before this document click handler runs. */
+    if (target.closest('#profileRowContextMenu, .profile-row-context-menu, .modal-backdrop')) return;
 
-    /* Any open modal keeps the selected profile highlighted, even when the
-       user clicks outside the modal while completing the action. */
+    /* Any open modal keeps the selected profile highlighted. */
     var openModal = Array.prototype.some.call(
       document.querySelectorAll('.modal-backdrop'),
       function (modal) {
