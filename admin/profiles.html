@@ -4615,6 +4615,43 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 }
 </style>
 
+
+<script id="profiles-clear-row-selection-outside-list">
+(function () {
+  if (window.__profilesOutsideListSelectionHandlerInstalled) return;
+  window.__profilesOutsideListSelectionHandlerInstalled = true;
+
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!(target instanceof Element)) return;
+
+    /* Keep selection while interacting with a row action menu. */
+    if (target.closest('#profileRowContextMenu, .profile-row-context-menu')) return;
+
+    /* Any open modal keeps the selected profile highlighted, even when the
+       user clicks outside the modal while completing the action. */
+    var openModal = Array.prototype.some.call(
+      document.querySelectorAll('.modal-backdrop'),
+      function (modal) {
+        if (modal.classList.contains('hidden')) return false;
+        if (modal.getAttribute('aria-hidden') === 'true') return false;
+        return true;
+      }
+    );
+    if (openModal) return;
+
+    /* Clicks within the list do not clear the current row selection. */
+    var listArea = document.querySelector('.profiles-list-card');
+    if (listArea && listArea.contains(target)) return;
+
+    /* Clear visual selection only; do not change data or filters. */
+    document.querySelectorAll('.profiles-table tbody tr.profile-row-selected').forEach(function (row) {
+      row.classList.remove('profile-row-selected');
+    });
+  });
+})();
+</script>
+
 </body>
 
 
