@@ -128,13 +128,13 @@
   ];
   const EXPORT_TEMPLATE_KEY='navodix_profiles_export_templates_v1';
   let exportSelectedFields=EXPORT_FIELDS.map(f=>f[0]);
-  function exportDefaultConfig(){return {fields:EXPORT_FIELDS.map(f=>({id:f[0],width:f[2]})),headerColor:'2878E8',wrapText:true,autoFilter:true,freezeHeader:true,sheetName:'Profiles',fileName:'Navodix_Profiles',scope:'filtered'};}
+  function exportDefaultConfig(){return {fields:EXPORT_FIELDS.map(f=>({id:f[0],width:f[2]})),headerColor:'2878E8',wrapText:true,autoFilter:true,freezeHeader:true,cellBorders:true,sheetName:'Profiles',fileName:'Navodix_Profiles',scope:'filtered'};}
   function readExportConfig(){
     const cfg=exportDefaultConfig();
     const checked=[...document.querySelectorAll('[data-export-field]:checked')].map(el=>el.dataset.exportField);
     cfg.fields=checked.map(id=>{const def=EXPORT_FIELDS.find(f=>f[0]===id);return def?{id,width:Math.max(8,Math.min(60,Number($('exportWidth_'+id)?.value)||def[2]))}:null;}).filter(Boolean);
     cfg.headerColor=($('exportHeaderColor')?.value||'2878E8').replace('#','').toUpperCase();
-    cfg.wrapText=!!$('exportWrapText')?.checked;cfg.autoFilter=!!$('exportAutoFilter')?.checked;cfg.freezeHeader=!!$('exportFreezeHeader')?.checked;
+    cfg.wrapText=!!$('exportWrapText')?.checked;cfg.autoFilter=!!$('exportAutoFilter')?.checked;cfg.freezeHeader=!!$('exportFreezeHeader')?.checked;cfg.cellBorders=$('exportCellBorders')?.checked!==false;
     cfg.sheetName=($('exportSheetName')?.value||'Profiles').trim().slice(0,31)||'Profiles';
     cfg.fileName=($('exportFileName')?.value||'Navodix_Profiles').trim().replace(/[\\/:*?"<>|]/g,'_')||'Navodix_Profiles';
     cfg.scope=$('exportScope')?.value==='all'?'all':'filtered';return cfg;
@@ -147,6 +147,7 @@
     if($('exportWrapText'))$('exportWrapText').checked=cfg?.wrapText!==false;
     if($('exportAutoFilter'))$('exportAutoFilter').checked=cfg?.autoFilter!==false;
     if($('exportFreezeHeader'))$('exportFreezeHeader').checked=cfg?.freezeHeader!==false;
+    if($('exportCellBorders'))$('exportCellBorders').checked=cfg?.cellBorders!==false;
     if($('exportSheetName'))$('exportSheetName').value=cfg?.sheetName||'Profiles';
     if($('exportFileName'))$('exportFileName').value=cfg?.fileName||'Navodix_Profiles';
     if($('exportScope'))$('exportScope').value=cfg?.scope||'filtered';
@@ -170,7 +171,7 @@
     const data=[defs.map(d=>d[1]),...rows.map(p=>defs.map(d=>String((typeof d[3]==='function'?d[3](p):p[d[3]])??'')))];
     const xmlEscape=value=>String(value??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
     const colName=n=>{let name='';while(n){const rem=(n-1)%26;name=String.fromCharCode(65+rem)+name;n=Math.floor((n-1)/26);}return name;};
-    const sheetRows=data.map((row,ri)=>`<row r="${ri+1}"${ri===0?' ht="24" customHeight="1"':''}>${row.map((value,ci)=>`<c r="${colName(ci+1)}${ri+1}" t="inlineStr"${ri===0?' s="1"':''}><is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`).join('')}</row>`).join('');
+    const sheetRows=data.map((row,ri)=>`<row r="${ri+1}"${ri===0?' ht="24" customHeight="1"':''}>${row.map((value,ci)=>`<c r="${colName(ci+1)}${ri+1}" t="inlineStr" s="${ri===0?'1':(config.cellBorders!==false?'2':'0')}"><is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`).join('')}</row>`).join('');
     const cols=config.fields.map((f,i)=>`<col min="${i+1}" max="${i+1}" width="${Math.max(8,Math.min(60,Number(f.width)||defs[i][2]))}" customWidth="1"/>`).join('');
     const color=config.headerColor.replace(/[^0-9A-F]/gi,'').padStart(6,'0').slice(-6);
     const zip=new JSZip();
@@ -178,7 +179,7 @@
     zip.folder('_rels').file('.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>');
     zip.folder('xl').file('workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${xmlEscape(config.sheetName.slice(0,31))}" sheetId="1" r:id="rId1"/></sheets></workbook>`);
     zip.folder('xl').folder('_rels').file('workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>');
-    zip.folder('xl').file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Segoe UI"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="11"/><name val="Segoe UI"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF${color}"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top"${config.wrapText?' wrapText="1"':''}/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center"${config.wrapText?' wrapText="1"':''}/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
+    zip.folder('xl').file('styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Segoe UI"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="11"/><name val="Segoe UI"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF${color}"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFD1D5DB"/></left><right style="thin"><color rgb="FFD1D5DB"/></right><top style="thin"><color rgb="FFD1D5DB"/></top><bottom style="thin"><color rgb="FFD1D5DB"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="${config.cellBorders!==false?'1':'0'}" xfId="0" applyAlignment="1" applyBorder="1"><alignment vertical="top"${config.wrapText?' wrapText="1"':''}/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="${config.cellBorders!==false?'1':'0'}" xfId="0" applyFont="1" applyFill="1" applyAlignment="1" applyBorder="1"><alignment vertical="center"${config.wrapText?' wrapText="1"':''}/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="${config.cellBorders!==false?'1':'0'}" xfId="0" applyAlignment="1" applyBorder="1"><alignment vertical="top"${config.wrapText?' wrapText="1"':''}/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
     const pane=config.freezeHeader?'<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>':'';
     const autoFilter=config.autoFilter?`<autoFilter ref="A1:${colName(data[0].length)}${data.length}"/>`:'';
     zip.folder('xl').folder('worksheets').file('sheet1.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${pane}<cols>${cols}</cols><sheetData>${sheetRows}</sheetData>${autoFilter}</worksheet>`);
