@@ -119,12 +119,12 @@
   function displayedAssociation(p){ const associations=Array.isArray(p.associations)?p.associations:[]; if(requirementId)return associations.find(a=>String(a.requirement_id)===String(requirementId))||null; if(multiRequirementContext)return associations.find(a=>requirementIds.includes(String(a.requirement_id)))||null; return associations[0]||null; }
   function displayedAssociationStatus(p){ return displayedAssociation(p)?.status||'—'; }
   const EXPORT_FIELDS = [
-    ['profile_number','Profile Number',18,p=>'profile_number'],['full_name','Profile Name',28,p=>'full_name'],['email','Email',30,p=>'email'],['phone','Phone',18,p=>'phone'],
+    ['profile_number','Profile Number',18,p=>p.profile_number],['full_name','Profile Name',28,p=>p.full_name],['email','Email',30,p=>p.email],['phone','Phone',18,p=>p.phone],
     ['requirement','Requirement',30,p=>requirementId?(requirement?.title||'—'):(p.latestRequirementName||'—')],
     ['all_requirements','All Associated Requirements',45,p=>[...new Set((p.associations||[]).map(a=>requirements.find(r=>String(r.id)===String(a.requirement_id))?.title).filter(Boolean))].join('; ')],
-    ['current_company','Current Company',26,p=>'current_company'],['current_job_title','Current Job Title',28,p=>'current_job_title'],['preferred_location','Preferred Location',24,p=>'preferred_location'],
-    ['total_experience','Total Experience',18,p=>'total_experience'],['current_ctc','Current CTC',16,p=>'current_ctc'],['expected_ctc','Expected CTC',16,p=>'expected_ctc'],
-    ['notice_period','Notice Period',18,p=>'notice_period'],['availability','Availability',18,p=>'availability'],['status','Profile Status',28,p=>'status'],['source','Source',25,p=>'source'],['association_status','Association Status',22,p=>displayedAssociationStatus(p)]
+    ['current_company','Current Company',26,p=>p.current_company],['current_job_title','Current Job Title',28,p=>p.current_job_title],['preferred_location','Preferred Location',24,p=>p.preferred_location],
+    ['total_experience','Total Experience',18,p=>p.total_experience],['current_ctc','Current CTC',16,p=>p.current_ctc],['expected_ctc','Expected CTC',16,p=>p.expected_ctc],
+    ['notice_period','Notice Period',18,p=>p.notice_period],['availability','Availability',18,p=>p.availability],['status','Profile Status',28,p=>p.status],['source','Source',25,p=>p.source],['association_status','Association Status',22,p=>displayedAssociationStatus(p)]
   ];
   const EXPORT_TEMPLATE_KEY='navodix_profiles_export_templates_v1';
   let exportSelectedFields=EXPORT_FIELDS.map(f=>f[0]);
