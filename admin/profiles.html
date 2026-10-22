@@ -4888,3 +4888,25 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 .profile-summary .summary-card strong{font-size:13px!important;}
 @media(max-width:760px){.profile-summary{grid-template-columns:repeat(8,minmax(76px,1fr))!important;gap:5px!important;}}
 </style>
+<style id="profile-modal-radius-button-font-correction-v1">
+/* User-approved correction: 5px outer radius and restore established compact button typography. */
+#profileModal .npp-dialog,
+#profileDetailsModal .profile-details-modal {
+  border-radius:5px !important;
+}
+#profileModal .npp-header { border-radius:4px 4px 0 0 !important; }
+#profileDetailsModal .profile-details-modal .modal-header { border-radius:4px 4px 0 0 !important; }
+#profileModal .npp-buttons .btn,
+#profileDetailsModal .profile-details-buttons .btn {
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:18px !important;
+}
+@media(max-width:600px) {
+  #profileModal .npp-dialog,
+  #profileDetailsModal .profile-details-modal { border-radius:5px !important; }
+  #profileModal .npp-header,
+  #profileDetailsModal .profile-details-modal .modal-header { border-radius:4px 4px 0 0 !important; }
+}
+</style>
