@@ -2997,264 +2997,6 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.html"]{color:#C62828!important;font-weight:700!important;}
 body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.html"]:hover{color:#B71C1C!important;}
 </style>
-
-<style id="navodix-modal-standard-interview-rounds-v1">
-/* UI-only implementation of Navodix Modal Design Standard v1.0.
-   Existing IDs, event hooks, fields, and data operations remain unchanged. */
-#interviewModal .profile-interview-rounds-compact,
-#interviewFormModal .profile-interview-form-shared-modal{
-  width:min(1100px,96vw) !important;
-  max-width:1100px !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:90dvh !important;
-  margin:auto !important;
-  display:flex !important;
-  flex-direction:column !important;
-  overflow:hidden !important;
-  box-sizing:border-box !important;
-  border-radius:6px !important;
-  background:#FFFFFF !important;
-  box-shadow:0 18px 48px rgba(15,35,65,.24) !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-notes-new-header,
-#interviewFormModal .profile-association-new-header{
-  flex:0 0 auto !important;
-  display:flex !important;
-  align-items:center !important;
-  min-height:58px !important;
-  padding:10px 18px !important;
-  gap:12px !important;
-  background:#0DB4CC !important;
-  border:0 !important;
-  color:#FFFFFF !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-notes-new-header h2,
-#interviewFormModal .profile-association-new-header h2{
-  margin:0 !important;
-  color:#FFFFFF !important;
-  font:600 16px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .interview-modal-subtitle,
-#interviewFormModal .profile-association-new-header p{
-  margin:2px 0 0 !important;
-  color:rgba(255,255,255,.96) !important;
-  font:400 13px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .modal-close,
-#interviewFormModal .modal-close{
-  flex:0 0 auto !important;
-  margin-left:auto !important;
-  color:#FFFFFF !important;
-  background:transparent !important;
-  border:0 !important;
-}
-#interviewModal .profile-notes-new-body,
-#interviewFormModal .profile-interview-form-shared-body{
-  flex:0 1 auto !important;
-  min-height:0 !important;
-  height:auto !important;
-  max-height:calc(90dvh - 132px) !important;
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-  padding:14px 18px !important;
-  background:#FFFFFF !important;
-  color:#1F2937 !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  box-sizing:border-box !important;
-}
-#interviewModal .profile-association-panel{
-  margin:0 0 12px !important;
-  padding:10px 12px !important;
-  border:1px solid #D1D5DB !important;
-  border-radius:5px !important;
-  background:#FFFFFF !important;
-  color:#1F2937 !important;
-  font:400 13px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-interview-section{
-  border:1px solid #D1D5DB !important;
-  border-radius:5px !important;
-  background:#FFFFFF !important;
-}
-#interviewModal .profile-interview-heading{
-  min-height:42px !important;
-  padding:6px 10px !important;
-  background:#FFFFFF !important;
-  border-bottom:1px solid #D1D5DB !important;
-}
-#interviewModal .profile-interview-heading h3{
-  color:#1F2937 !important;
-  font:700 14px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-interview-table-wrap{
-  min-height:0 !important;
-  max-height:none !important;
-  overflow-x:auto !important;
-  overflow-y:visible !important;
-}
-#interviewModal .profile-interview-table th,
-#interviewModal .profile-interview-table td{
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  border-color:#D1D5DB !important;
-}
-#interviewModal .profile-interview-table th{
-  padding:8px 8px !important;
-  background:#E5EBF3 !important;
-  color:#26364A !important;
-  font-size:12px !important;
-  font-weight:600 !important;
-  white-space:normal !important;
-}
-#interviewModal .profile-interview-table td{
-  padding:8px !important;
-  background:#FFFFFF !important;
-  color:#1F2937 !important;
-  font-size:13px !important;
-  font-weight:400 !important;
-  white-space:normal !important;
-  overflow-wrap:anywhere !important;
-  text-overflow:clip !important;
-}
-#interviewModal .profile-interview-actions .btn{
-  min-width:0 !important;
-  height:34px !important;
-  margin:0 2px !important;
-  padding:7px 10px !important;
-  font:600 13px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-interviews-empty{
-  padding:22px 14px !important;
-  background:#FFFFFF !important;
-  color:#6B7280 !important;
-  font:400 13px/1.45 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-notes-new-footer,
-#interviewFormModal .profile-association-new-footer{
-  flex:0 0 auto !important;
-  min-height:54px !important;
-  height:auto !important;
-  max-height:none !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:12px !important;
-  padding:9px 16px !important;
-  background:#E5E7EB !important;
-  border-top:1px solid #D1D5DB !important;
-  box-sizing:border-box !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal #interviewMessage,
-#interviewFormModal #interviewFormMessage{
-  flex:1 1 auto !important;
-  min-width:0 !important;
-  margin:0 !important;
-  text-align:left !important;
-  font:600 13px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewModal .profile-notes-new-buttons,
-#interviewFormModal .profile-association-new-buttons{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:8px !important;
-  flex:0 0 auto !important;
-}
-#interviewModal .profile-notes-new-buttons .btn,
-#interviewModal #addInterviewButton,
-#interviewFormModal .profile-association-new-buttons .btn{
-  height:34px !important;
-  min-height:34px !important;
-  padding:5px 13px !important;
-  border-radius:5px !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:11px !important;
-  font-weight:700 !important;
-  line-height:18px !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:7px !important;
-  white-space:nowrap !important;
-}
-#interviewModal .profile-notes-new-buttons .btn-primary,
-#interviewModal #addInterviewButton,
-#interviewFormModal .profile-association-new-buttons .btn-primary{
-  background:#0875E8 !important;
-  border:1px solid #0875E8 !important;
-  color:#FFFFFF !important;
-}
-#interviewFormModal .profile-interview-form-shared-body .application-interview-form-grid{
-  gap:14px 24px !important;
-}
-#interviewFormModal .profile-interview-form-shared-body .application-form-field label{
-  display:block !important;
-  margin:0 0 5px !important;
-  color:#374151 !important;
-  font:600 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewFormModal .profile-interview-form-shared-body input,
-#interviewFormModal .profile-interview-form-shared-body select,
-#interviewFormModal .profile-interview-form-shared-body textarea{
-  width:100% !important;
-  min-height:34px !important;
-  box-sizing:border-box !important;
-  border:1px solid #D1D5DB !important;
-  border-radius:5px !important;
-  background:#FFFFFF !important;
-  color:#111827 !important;
-  font:400 13px "Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#interviewFormModal .profile-interview-form-shared-body textarea{
-  min-height:80px !important;
-  padding:8px 10px !important;
-}
-#interviewFormModal .profile-interview-form-shared-body input:focus,
-#interviewFormModal .profile-interview-form-shared-body select:focus,
-#interviewFormModal .profile-interview-form-shared-body textarea:focus{
-  outline:none !important;
-  border-color:#0D6EFD !important;
-  box-shadow:0 0 0 2px rgba(13,110,253,.12) !important;
-}
-@media(max-width:700px){
-  #interviewModal .profile-notes-new-body,
-  #interviewFormModal .profile-interview-form-shared-body{padding:12px !important;max-height:calc(90dvh - 124px) !important;}
-  #interviewModal .profile-notes-new-footer,
-  #interviewFormModal .profile-association-new-footer{padding:8px 10px !important;flex-wrap:wrap !important;}
-  #interviewModal .profile-interview-table{min-width:760px !important;}
-  #interviewFormModal .profile-interview-form-shared-body .application-interview-form-grid{grid-template-columns:1fr !important;}
-  #interviewFormModal .profile-interview-form-shared-body .application-form-field-wide{grid-column:auto !important;}
-}
-</style>
-
-
-<style id="navodix-interview-rounds-refinements-v2">
-#interviewModal .profile-interview-rounds-compact{width:min(1100px,96vw)!important;max-width:1100px!important;}
-#interviewModal .profile-interview-table{width:100%!important;table-layout:fixed!important;}
-#interviewModal .profile-interview-table th{background:#E5EBF3!important;color:#26364A!important;border-bottom:1px solid #C7D2E0!important;}
-#interviewModal .profile-interview-table td{overflow-wrap:normal!important;word-break:normal!important;}
-#interviewModal .profile-interview-table td.profile-interview-feedback-cell{overflow-wrap:anywhere!important;}
-#interviewModal .profile-interview-actions{white-space:nowrap!important;text-align:center!important;}
-#interviewModal .profile-interview-actions .interview-icon-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:28px!important;height:28px!important;min-width:28px!important;padding:0!important;margin:0 2px!important;border:1px solid #D7E2F0!important;border-radius:5px!important;background:#F1F6FD!important;color:#0D6EFD!important;font-size:12px!important;line-height:1!important;cursor:pointer!important;}
-#interviewModal .profile-interview-actions .interview-icon-action:hover{background:#E2EEFF!important;border-color:#9ABFF8!important;}
-#interviewModal .profile-interview-actions .interview-icon-action.interview-icon-delete{background:#FFF4F3!important;color:#B42318!important;border-color:#F0D0CD!important;}
-#interviewModal .profile-interview-actions .interview-icon-action.interview-icon-delete:hover{background:#FDE8E7!important;border-color:#E7A7A2!important;}
-#interviewDeleteConfirmModal{position:fixed!important;inset:0!important;z-index:12000!important;display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;background:rgba(7,29,73,.38)!important;}
-#interviewDeleteConfirmModal.hidden{display:none!important;}
-#interviewDeleteConfirmModal .profile-delete-confirm-modal{width:440px;max-width:calc(100vw - 24px);box-sizing:border-box;padding:28px 28px 24px;background:#FFFFFF;border-radius:12px;box-shadow:0 24px 70px rgba(7,29,73,.25);text-align:center;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;}
-#interviewDeleteConfirmModal .profile-delete-confirm-icon{width:52px;height:52px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#FFF1F0;color:#B42318;font-size:21px;}
-#interviewDeleteConfirmModal h2{margin:0 0 10px;color:#071B4D;font:700 20px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif;}
-#interviewDeleteConfirmModal p{margin:0 auto 22px;max-width:360px;color:#52647D;font:400 13px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif;}
-#interviewDeleteConfirmModal .profile-delete-confirm-actions{display:flex;justify-content:center;align-items:center;gap:10px;}
-#interviewDeleteConfirmModal .profile-delete-confirm-actions .btn{height:36px;padding:7px 15px;border-radius:5px;font:600 13px "Segoe UI",system-ui,-apple-system,sans-serif;}
-#interviewDeleteConfirmModal #confirmDeleteInterviewButton{background:#B42318;border:1px solid #B42318;color:#FFFFFF;}
-#interviewDeleteConfirmModal #cancelDeleteInterviewButton{background:#FFFFFF;border:1px solid #D8E0EA;color:#17345F;}
-@media(max-width:700px){#interviewModal .profile-interview-rounds-compact{width:96vw!important;max-width:96vw!important;}#interviewModal .profile-interview-table{min-width:900px!important;}#interviewDeleteConfirmModal .profile-delete-confirm-modal{padding:24px 18px 20px;}}
-</style>
-
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
@@ -3275,12 +3017,12 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 <main class="admin-main"><div class="admin-container">
   <div class="jobs-heading"><div class="jobs-heading-text"><h1>Profiles Management</h1><span class="profile-requirement-context hidden" id="profileRequirementContext"></span><span class="jobs-heading-subtitle" id="profilesPageSubtitle">Central candidate profiles and requirement associations</span></div><div class="jobs-heading-actions"><a class="btn btn-outline hidden" id="backToRequirementsButton" href="recruitment.html">Back to Requirements</a><button class="btn btn-outline hidden" id="associateExistingButton"><i class="fa-solid fa-link"></i> Associate Existing Profile</button></div></div>
   <section class="list-controls-frame" aria-label="Profile filters and dashboard">
-    <section class="jobs-toolbar profile-toolbar-standard" aria-label="Profile filters"><div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="profileSearch" type="search" placeholder="Search name, email, phone, profile number"></div><select id="profileStatusFilter" aria-label="Filter by association status"><option value="">All Association Statuses</option><option>New</option><option>Shortlisted</option><option>Submitted</option><option>Interviewing</option><option>Selected</option><option>Offer Sent</option><option>Joined</option><option>On Hold</option><option>Future Consideration</option><option>Rejected</option><option>Withdrawn</option></select><select id="profileRecordStatusFilter" aria-label="Filter by profile status"><option value="">All Profile Statuses</option><option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option></select><select id="profileSourceFilter" aria-label="Filter by source"><option value="">All Sources</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select><select id="profileRequirementFilter" aria-label="Filter by requirement"><option value="">All Requirements</option></select><select id="profileClientFilter" aria-label="Filter by client"><option value="">All Clients</option></select><select id="profileLocationFilter" aria-label="Filter by location"><option value="">All Locations</option></select></section>
+    <section class="jobs-toolbar profile-toolbar-standard" aria-label="Profile filters"><div class="toolbar-search"><i class="fa-solid fa-magnifying-glass"></i><input id="profileSearch" type="search" placeholder="Search name, email, phone, profile number"></div><select id="profileStatusFilter" aria-label="Filter by association status"><option value="">All Association Statuses</option><option>New</option><option>Shortlisted</option><option>Submitted</option><option>Interviewing</option><option>Selected</option><option>Offer Sent</option><option>Joined</option><option>On Hold</option><option>Future Consideration</option><option>Rejected</option><option>Withdrawn</option><option>Not Interested</option><option>Duplicate</option></select><select id="profileRecordStatusFilter" aria-label="Filter by profile status"><option value="">All Profile Statuses</option><option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option><option>Employment Status</option><option>Relevant Experience</option><option>Not Interested</option></select><select id="profileSourceFilter" aria-label="Filter by source"><option value="">All Sources</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select><select id="profileRequirementFilter" aria-label="Filter by requirement"><option value="">All Requirements</option></select><select id="profileClientFilter" aria-label="Filter by client"><option value="">All Clients</option></select><select id="profileLocationFilter" aria-label="Filter by location"><option value="">All Locations</option></select></section>
     <section class="jobs-summary profile-summary" aria-label="Profile summary"><div class="summary-card"><span>Total Profiles</span><strong id="totalProfilesSummary">0</strong></div><div class="summary-card"><span>New</span><strong id="newProfilesSummary">0</strong></div><div class="summary-card"><span>Submitted</span><strong id="submittedProfilesSummary">0</strong></div><div class="summary-card"><span>Selected</span><strong id="selectedProfilesSummary">0</strong></div><div class="summary-card"><span>Offer Sent</span><strong id="offerSentProfilesSummary">0</strong></div><div class="summary-card"><span>Joined</span><strong id="joinedProfilesSummary">0</strong></div><div class="summary-card"><span>Rejected</span><strong id="rejectedProfilesSummary">0</strong></div><div class="summary-card"><span>Associated</span><strong id="associatedProfilesSummary">0</strong></div></section>
   </section>
   <div id="profilesMessage" class="admin-message" role="status"></div>
   <section class="jobs-card profiles-list-card">
-    <div class="jobs-list-heading"><div class="jobs-list-heading-inline"><h2 id="profilesListTitle">Candidate Profiles</h2><p id="profilesListDescription">Central candidate profiles and requirement associations</p></div><div class="jobs-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="clearProfileFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button><button class="btn btn-outline profiles-list-standard-button" id="exportProfilesButton" type="button"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Export</button><button class="btn btn-outline profiles-list-standard-button" id="refreshProfilesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button" id="addProfileButton" type="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Profile</button><button class="btn btn-outline profiles-list-standard-button" id="profilesColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="profilesColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-profile-col="0"> Profile Name</label><label class="column-option"><input type="checkbox" checked data-profile-col="1"> Requirement</label><label class="column-option"><input type="checkbox" checked data-profile-col="2"> Current Company</label><label class="column-option"><input type="checkbox" checked data-profile-col="3"> Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="4"> Experience</label><label class="column-option"><input type="checkbox" checked data-profile-col="5"> Current CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="6"> Expected CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="7"> Notice Period</label><label class="column-option"><input type="checkbox" checked data-profile-col="8"> Status</label></div></div>
+    <div class="jobs-list-heading"><div class="jobs-list-heading-inline"><h2 id="profilesListTitle">Candidate Profiles</h2><p id="profilesListDescription">Central candidate profiles and requirement associations</p></div><div class="jobs-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="clearProfileFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button><button class="btn btn-outline profiles-list-standard-button" id="refreshProfilesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button" id="addProfileButton" type="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Profile</button><button class="btn btn-outline profiles-list-standard-button" id="profilesColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="profilesColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-profile-col="0"> Profile Name</label><label class="column-option"><input type="checkbox" checked data-profile-col="1"> Requirement</label><label class="column-option"><input type="checkbox" checked data-profile-col="2"> Current Company</label><label class="column-option"><input type="checkbox" checked data-profile-col="3"> Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="4"> Experience</label><label class="column-option"><input type="checkbox" checked data-profile-col="5"> Current CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="6"> Expected CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="7"> Notice Period</label><label class="column-option"><input type="checkbox" checked data-profile-col="8"> Status</label></div></div>
     <div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile Name</th><th>Requirement</th><th>Current Company</th><th>Location</th><th>Experience</th><th>Current CTC</th><th>Expected CTC</th><th>Notice Period</th><th>Asc Status</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div>
     <div id="emptyProfiles" class="empty-state hidden"><i class="fa-solid fa-users"></i><h3>No profiles found</h3><p>Add a profile or associate an existing profile with a requirement.</p></div>
   </section>
@@ -3311,26 +3053,26 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 </div>
 
 <style id="profile-status-update-modal-styles">
-#updateProfileStatusModal{position:fixed!important;inset:0!important;z-index:10060!important;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,30,55,.48);font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+#updateProfileStatusModal{position:fixed!important;inset:0!important;z-index:10060!important;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,30,55,.48)}
 #updateProfileStatusModal.hidden{display:none!important}
-#updateProfileStatusModal .ups-dialog{width:min(520px,calc(100vw - 28px));max-height:90vh;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #c8d7ea;border-radius:6px;box-shadow:0 14px 40px rgba(15,35,65,.25)}
-#updateProfileStatusModal .ups-header{min-height:54px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 18px;background:#0DB4CC;color:#fff;flex-shrink:0}
-#updateProfileStatusModal .ups-header h2{margin:0;color:#fff;font:600 16px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif}
-#updateProfileStatusModal .ups-close{margin-left:auto;background:transparent;border:0;color:#fff;font:400 24px/1 "Segoe UI",system-ui,-apple-system,sans-serif;cursor:pointer;padding:0 2px}
-#updateProfileStatusModal .ups-body{padding:12px 18px;overflow:auto;min-height:0;flex:1;color:#1F2937}
-#updateProfileStatusModal .ups-profile-name{margin:0 0 12px;padding:8px 12px;background:#fff;border:1px solid #D1D5DB;border-radius:5px;color:#263b56;font:600 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-wrap:anywhere}
-#updateProfileStatusModal label{display:block;margin:0 0 5px;font:600 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#374151}
-#updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#111827;font:400 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;padding:8px 10px;outline:none}
+#updateProfileStatusModal .ups-dialog{width:min(520px,calc(100vw - 28px));max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #c8d7ea;border-radius:10px;box-shadow:0 14px 40px rgba(15,35,65,.25)}
+#updateProfileStatusModal .ups-header{min-height:54px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 18px;background:#2878e8;color:#fff}
+#updateProfileStatusModal .ups-header h2{margin:0;color:#fff;font-size:17px;font-weight:700}
+#updateProfileStatusModal .ups-close{margin-left:auto;background:transparent;border:0;color:#fff;font-size:25px;cursor:pointer;line-height:1}
+#updateProfileStatusModal .ups-body{padding:12px 18px;overflow:auto;min-height:0}
+#updateProfileStatusModal .ups-profile-name{margin:0 0 10px;padding:8px 12px;background:#f3f7fc;border:1px solid #dce6f2;border-radius:6px;color:#263b56;font-size:13px;font-weight:650;overflow-wrap:anywhere}
+#updateProfileStatusModal label{display:block;margin:0 0 6px;font-size:12px;font-weight:650;color:#263b56}
+#updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #c8d7ea;border-radius:6px;background:#fff;color:#243b5a;font:400 13px Segoe UI,system-ui,sans-serif;padding:8px 10px;outline:none}
 #updateProfileStatusModal select{height:36px}
 #updateProfileStatusModal textarea{min-height:52px;height:52px;resize:vertical;margin-top:8px}
-#updateProfileStatusModal select:focus,#updateProfileStatusModal textarea:focus{border-color:#0D6EFD;box-shadow:0 0 0 2px rgba(13,110,253,.12)}
-#updateProfileStatusModal .ups-message{min-height:0;margin:0;font:600 13px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#B91C1C;text-align:left;flex:1;min-width:0}
-#updateProfileStatusModal .ups-footer{min-height:54px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #D1D5DB;background:#E5E7EB;flex-shrink:0}
+#updateProfileStatusModal select:focus,#updateProfileStatusModal textarea:focus{border-color:#2878e8;box-shadow:0 0 0 2px rgba(40,120,232,.12)}
+#updateProfileStatusModal .ups-message{min-height:0;margin:0;font-size:11px;color:#c62828;line-height:1.3;text-align:left;flex:1;min-width:0}
+#updateProfileStatusModal .ups-footer{height:54px;min-height:54px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #dce6f2;background:#f7fafe}
 #updateProfileStatusModal .ups-footer .ups-message{margin-right:auto}
-#updateProfileStatusModal .ups-footer .btn{box-sizing:border-box!important;border-radius:5px!important;min-height:34px!important;height:34px!important;padding:0 16px!important;font:600 13px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
-#updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#0875E8!important;border:1px solid #0875E8!important;color:#fff!important}
-#updateProfileStatusModal .ups-footer .btn:focus-visible,#updateProfileStatusModal .ups-close:focus-visible{outline:2px solid #0D6EFD;outline-offset:2px}
-@media(max-width:480px){#updateProfileStatusModal{padding:8px}#updateProfileStatusModal .ups-dialog{width:100%;max-height:90vh}#updateProfileStatusModal .ups-footer{padding:8px 10px;gap:6px;flex-wrap:wrap}#updateProfileStatusModal .ups-footer .btn{padding:0 10px!important;font-size:12px!important}#updateProfileStatusModal .ups-message{flex-basis:100%;order:0}#updateProfileStatusModal .ups-footer .btn{order:1}}
+#updateProfileStatusModal .ups-footer .btn{border-radius:5px!important;min-height:34px!important;height:34px;padding:0 14px!important;font-size:11px!important;font-weight:700!important;white-space:nowrap}
+#updateProfileStatusModal .ups-footer .btn-primary{background:#0875E8!important;border-color:#0875E8!important;color:#fff!important}
+#updateProfileStatusModal .ups-footer .btn-outline{background:#0875E8!important;border-color:#0875E8!important;color:#fff!important}
+@media(max-width:480px){#updateProfileStatusModal .ups-footer{padding:8px 10px;gap:6px}#updateProfileStatusModal .ups-footer .btn{padding:0 9px!important}#updateProfileStatusModal .ups-message{font-size:10px}}
 </style>
 <div class="hidden" id="updateProfileStatusModal" aria-hidden="true">
   <div class="ups-dialog" role="dialog" aria-modal="true" aria-labelledby="updateProfileStatusTitle">
@@ -3339,7 +3081,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
       <div class="ups-profile-name" id="updateProfileStatusName"></div>
       <label for="updateProfileStatusSelect">Profile Status</label>
       <select id="updateProfileStatusSelect">
-        <option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option>
+        <option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option><option>Employment Status</option><option>Relevant Experience</option><option>Not Interested</option>
       </select>
       <label for="updateProfileStatusNotes" style="margin-top:14px">Notes <span style="font-weight:400;color:#64748b">(Optional)</span></label>
       <textarea id="updateProfileStatusNotes" maxlength="2000" placeholder="Enter a reason or note for this status update"></textarea>
@@ -3445,7 +3187,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 <div class="profile-form-section-title"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Education & Skills</span></div>
 <div class="field-group field-span-2"><label>Job Categories</label><div id="profileCategoryBox" class="profile-category-box"><div id="profileCategoryList" class="profile-category-list"><span class="profile-category-empty">Loading categories…</span></div></div><small class="profile-form-help">Select one or more Job Categories for this profile.</small></div>
 <div class="field-group"><label>Highest Qualification</label><input id="highestQualification"></div><div class="field-group"><label>Specialization</label><input id="specialization"></div><div class="field-group"><label>Graduation Year</label><input id="graduationYear" type="number" min="1950" max="2100"></div><div class="field-group"><label>LinkedIn URL</label><input id="linkedinUrl" type="url"></div><div class="profile-form-section-title"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><span>Recruitment Information</span></div>
-<div class="field-group"><label>Profile Status</label><select id="profileStatus"><option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option></select></div>
+<div class="field-group"><label>Profile Status</label><select id="profileStatus"><option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option><option>Employment Status</option><option>Relevant Experience</option><option>Not Interested</option></select></div>
 <div class="field-group"><label>Source <span>*</span></label><select id="profileSource" required><option value="">Select Source</option><option>Admin – Add Profile</option><option>Submit Your Profile</option><option>Refer a Candidate</option><option>Job Portal</option><option>Client Reference</option><option>Employee Referral</option><option>LinkedIn</option><option>Consultant/Agency</option><option>Email</option><option>Walk-in</option><option>Other</option></select></div><div class="field-group"><label>Source Details</label><input id="sourceDetails" placeholder="Optional details, e.g. Naukri, LinkedIn, employee name, agency, etc."></div><div id="referrerFields" class="field-span-2 referrer-fields hidden"><div class="referrer-fields-title">Referrer Details <span>(Optional)</span></div><div class="referrer-grid"><div class="field-group"><label>Referrer Name</label><input id="referrerName" type="text"></div><div class="field-group"><label>Mobile Number</label><input id="referrerMobile" type="tel"></div><div class="field-group"><label>Email Address</label><input id="referrerEmail" type="email"></div></div></div>
 <div class="field-group field-span-2"><label>Skills</label><textarea id="skills" rows="3" placeholder="Enter skills separated by commas"></textarea></div><div class="field-group field-span-2"><label>Additional Information</label><textarea id="additionalInformation" rows="4"></textarea></div>
 <div class="profile-form-section-title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i><span>Resume</span></div>
@@ -3667,116 +3409,142 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 }
 </style>
 <style id="profile-status-history-standard-modal">
-/* Association Status History — Navodix modal standard: dynamic content, fixed header/footer. */
-#associationHistoryModal{align-items:center !important;justify-content:center !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{align-self:stretch !important;}
+/* Status History modal — match the finalized Navodix Header / Scrollable Body / Fixed Footer standard. */
 #associationHistoryModal .profile-status-history-modal{
-  width:min(1100px,96vw) !important; max-width:96vw !important;
-  height:max-content !important; min-height:0 !important; max-height:90vh !important;
-  margin:auto !important; flex:0 1 auto !important; align-self:center !important;
-  display:flex !important; flex-direction:column !important;
-  overflow:hidden !important; background:#FFFFFF !important; border-radius:8px !important;
-  box-shadow:0 20px 56px rgba(7,29,73,.22) !important; box-sizing:border-box !important;
+  width:900px !important;
+  max-width:calc(100vw - 40px) !important;
+  height:auto !important;
+  max-height:calc(100vh - 24px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  background:#FFFFFF !important;
+  border-radius:10px !important;
+  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  box-sizing:border-box !important;
 }
 #associationHistoryModal .profile-status-history-modal .modal-header{
-  flex:0 0 auto !important; min-height:56px !important; display:flex !important; align-items:center !important;
-  box-sizing:border-box !important; padding:10px 18px !important; background:#0DB4CC !important;
-  color:#FFFFFF !important; border:0 !important; position:static !important;
+  flex:0 0 56px !important;
+  min-height:56px !important;
+  height:56px !important;
+  display:flex !important;
+  align-items:center !important;
+  box-sizing:border-box !important;
+  padding:10px 18px !important;
+  background:#2878E8 !important;
+  color:#FFFFFF !important;
+  border:0 !important;
+  position:static !important;
 }
 #associationHistoryModal .profile-status-history-modal .modal-header h2{
-  margin:0 !important; color:#FFFFFF !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:16px !important; line-height:1.3 !important; font-weight:600 !important;
+  margin:0 !important;
+  color:#FFFFFF !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:20px !important;
+  line-height:1.2 !important;
+  font-weight:600 !important;
 }
 #associationHistoryModal .profile-status-history-modal .modal-close{
-  width:32px !important; height:32px !important; min-width:32px !important; margin-left:auto !important;
-  padding:0 !important; display:flex !important; align-items:center !important; justify-content:center !important;
-  border:0 !important; background:transparent !important; color:#FFFFFF !important; font-size:21px !important; line-height:1 !important;
+  width:32px !important;
+  height:32px !important;
+  min-width:32px !important;
+  margin-left:auto !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#FFFFFF !important;
+  font-size:21px !important;
+  line-height:1 !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{
-  flex:0 1 auto !important; height:auto !important; min-height:0 !important; max-height:calc(90vh - 114px) !important;
-  overflow-y:auto !important; overflow-x:hidden !important; padding:16px 20px 18px !important;
-  border-left:1px solid #D1D5DB !important; border-right:1px solid #D1D5DB !important; box-sizing:border-box !important;
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:18px 24px 16px !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
 }
-#associationHistoryModal .profile-status-history-context{
-  margin:0 0 14px !important; padding:10px 12px !important; border:1px solid #D1D5DB !important;
-  border-radius:5px !important; background:#FFFFFF !important; color:#334155 !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:13px !important; line-height:1.45 !important;
-}
-#associationHistoryModal .profile-status-history-context strong{font-weight:600 !important;color:#173F78 !important;}
-#associationHistoryModal .profile-status-history-heading{
-  margin:0 0 10px !important; color:#173F78 !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:14px !important; line-height:1.3 !important; font-weight:700 !important;
-}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table-wrap{width:100% !important;overflow-x:auto !important;margin:0 !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table{width:100% !important;table-layout:fixed !important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th{
-  background:#E5EBF3 !important; color:#173F78 !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:11px !important; font-weight:600 !important; border-color:#D1D5DB !important; padding:9px 8px !important;
-}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table td{
-  background:#FFFFFF !important; color:#1F2937 !important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;
-  font-size:12px !important; font-weight:400 !important; border-color:#D1D5DB !important; padding:9px 8px !important;
-  overflow-wrap:anywhere !important;
-}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(1),#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(1){width:16% !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(2),#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(2){width:16% !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(3),#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(3){width:16% !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(4),#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(4){width:32% !important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(5),#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(5){width:20% !important;}
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions{
-  flex:0 0 auto !important; min-height:58px !important; display:flex !important; align-items:center !important;
-  justify-content:flex-end !important; gap:8px !important; margin:0 !important; padding:8px 16px !important;
-  background:#E5E7EB !important; border-top:1px solid #D1D5DB !important; border-left:1px solid #D1D5DB !important;
-  border-right:1px solid #D1D5DB !important; border-bottom:1px solid #D1D5DB !important; box-sizing:border-box !important;
+  flex:0 0 58px !important;
+  min-height:58px !important;
+  height:58px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin:0 !important;
+  padding:8px 16px !important;
+  background:#C9D9EC !important;
+  border-top:1px solid #AFC1D5 !important;
+  border-left:5px solid #2878E8 !important;
+  border-right:5px solid #2878E8 !important;
+  border-bottom:5px solid #2878E8 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions .btn{
-  min-width:110px !important; min-height:36px !important; height:36px !important; padding:6px 12px !important;
-  border-radius:5px !important; background:#0D6EFD !important; border:1px solid #0D6EFD !important; color:#FFFFFF !important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; font-weight:600 !important;
+  min-width:110px !important;
+  width:110px !important;
+  min-height:36px !important;
+  height:36px !important;
+  padding:6px 10px !important;
+  border-radius:5px !important;
+  background:#2878E8 !important;
+  border-color:#2878E8 !important;
+  color:#FFFFFF !important;
+  font-size:12px !important;
+  font-weight:600 !important;
 }
-#associationHistoryModal #associationHistoryMessage{font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important;font-size:12px !important;margin:0 0 8px !important;}
-@media(max-width:760px){#associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}#associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px !important;}}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table td.history-empty-state{padding:24px 12px!important;text-align:center!important;vertical-align:middle!important;color:#64748B!important;background:#FFFFFF!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:400!important;border-color:#D1D5DB!important;}
-#associationHistoryModal .profile-status-history-modal .profile-interview-table td.history-error-state{padding:16px 12px!important;text-align:left!important;color:#B91C1C!important;background:#FFFFFF!important;font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;font-size:12px!important;font-weight:400!important;border-color:#D1D5DB!important;}
-/* Compact-content correction: defeat inherited minimum table height and flex stretching. */
-#associationHistoryModal .profile-status-history-modal{
-  height:auto !important;
-  min-height:0 !important;
-  max-height:90vh !important;
-}
-#associationHistoryModal .profile-status-history-modal > .profile-interview-modal-body{
-  flex:0 1 auto !important;
-  align-self:auto !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:calc(90vh - 114px) !important;
+#associationHistoryModal .profile-status-history-heading{
+  margin:0 0 10px !important;
+  color:#173F78 !important;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif !important;
+  font-size:13px !important;
+  line-height:1.3 !important;
+  font-weight:700 !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-table-wrap{
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  flex:0 0 auto !important;
+  width:100% !important;
+  overflow-x:auto !important;
+  margin:0 !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-table{
-  height:auto !important;
-  min-height:0 !important;
+  width:100% !important;
+  table-layout:fixed !important;
 }
-
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(1),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(1){width:12% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(2),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(2){width:15% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(3),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(3){width:15% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(4),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(4){width:38% !important;}
+#associationHistoryModal .profile-status-history-modal .profile-interview-table th:nth-child(5),
+#associationHistoryModal .profile-status-history-modal .profile-interview-table td:nth-child(5){width:20% !important;}
+@media (max-width:760px){
+  #associationHistoryModal .profile-status-history-modal{width:calc(100vw - 16px) !important;max-width:calc(100vw - 16px) !important;}
+  #associationHistoryModal .profile-status-history-modal .profile-interview-modal-body{padding:14px 12px 12px !important;}
+}
 </style>
 <div class="modal-backdrop hidden" id="associationHistoryModal" aria-hidden="true">
   <div class="profile-interview-modal-shell profile-status-history-modal" role="dialog" aria-modal="true" aria-labelledby="associationHistoryTitle">
     <div class="modal-header">
-      <div><h2 id="associationHistoryTitle">Requirement — Profile</h2></div>
+      <div><span class="section-badge">JOB ASSOCIATION</span><h2 id="associationHistoryTitle">Status History</h2></div>
       <button class="modal-close" id="closeAssociationHistoryModal" type="button" aria-label="Close Status History"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="profile-interview-modal-body">
-      <div id="associationHistoryContext" class="profile-status-history-context"><strong>Profile:</strong> <span id="associationHistoryProfileName">—</span></div>
       <div id="associationHistoryMessage" class="admin-message" role="alert"></div>
       <div class="profile-status-history-heading">Requirement Status History</div>
       <div class="profile-interview-table-wrap"><table class="profile-interview-table"><thead><tr><th>Date &amp; Time</th><th>Previous Status</th><th>New Status</th><th>Notes</th><th>Changed By</th></tr></thead><tbody id="associationHistoryTableBody"></tbody></table></div>
     </div>
     <footer class="profile-interview-modal-actions">
-      <button class="btn btn-primary btn-small" id="closeAssociationHistoryButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close</button>
+      <button class="btn btn-primary btn-small" id="closeAssociationHistoryButton" type="button">Close</button>
     </footer>
   </div>
 </div>
@@ -3803,22 +3571,10 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   </div>
 </div>
 
-<div class="modal-backdrop hidden" id="interviewDeleteConfirmModal" aria-hidden="true">
-  <div class="profile-delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteInterviewConfirmTitle">
-    <div class="profile-delete-confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
-    <h2 id="deleteInterviewConfirmTitle">Delete Interview Round?</h2>
-    <p id="deleteInterviewConfirmText">Are you sure you want to delete this interview round? This action cannot be undone.</p>
-    <div class="profile-delete-confirm-actions">
-      <button class="btn btn-outline" id="cancelDeleteInterviewButton" type="button">Cancel</button>
-      <button class="btn btn-danger" id="confirmDeleteInterviewButton" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Interview</button>
-    </div>
-  </div>
-</div>
-
 <div class="modal-backdrop hidden" id="interviewModal" aria-hidden="true">
   <div class="profile-notes-new-modal modal-medium profile-interview-rounds-compact" role="dialog" aria-modal="true" aria-labelledby="interviewModalTitle">
     <div class="modal-header profile-notes-new-header">
-      <div class="interview-modal-title-group"><h2 id="interviewModalTitle">Interview Rounds</h2><p class="interview-modal-subtitle">Manage interview rounds for this profile and requirement</p></div>
+      <div><span class="section-badge">INTERVIEW TRACKING</span><h2 id="interviewModalTitle">Interview Rounds</h2></div>
       <button class="modal-close" id="closeInterviewModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
@@ -3828,12 +3584,12 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
       <section class="profile-interview-section">
         <div class="profile-interview-heading">
           <h3>Interview Rounds</h3>
-          <button class="btn btn-primary" id="addInterviewButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add Interview</button>
+          <button class="btn btn-primary btn-small" id="addInterviewButton" type="button">Add Interview</button>
         </div>
         <div id="interviewTableWrap" class="profile-interview-table-wrap">
           <table class="profile-interview-table">
             <colgroup>
-              <col style="width:4%"><col style="width:10%"><col style="width:9%"><col style="width:12%"><col style="width:6%"><col style="width:8%"><col style="width:13%"><col style="width:29%"><col style="width:9%">
+              <col style="width:4%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:6%"><col style="width:9%"><col style="width:13%"><col style="width:26%"><col style="width:10%">
             </colgroup>
             <thead><tr><th>#</th><th>Round</th><th>Result</th><th>Scheduled Date</th><th>Time</th><th>Mode</th><th>Interviewer</th><th>Feedback</th><th>Actions</th></tr></thead>
             <tbody id="interviewTableBody"></tbody>
@@ -3846,7 +3602,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     <footer class="profile-notes-new-footer">
       <div id="interviewMessage" class="admin-message profile-notes-new-notice" role="alert" aria-live="polite"></div>
       <div class="profile-notes-new-buttons">
-        <button class="btn btn-primary" id="cancelInterviewModalButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close</button>
+        <button class="btn btn-primary btn-small" id="cancelInterviewModalButton" type="button">Cancel</button>
       </div>
     </footer>
   </div>
@@ -3875,28 +3631,13 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     <footer class="profile-association-new-footer profile-interview-form-shared-footer">
       <div aria-live="polite" class="admin-message profile-association-new-notice" id="interviewFormMessage" role="status"></div>
       <div class="profile-association-new-buttons">
-        <button class="btn btn-primary" id="cancelInterviewButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close</button>
-        <button class="btn btn-primary" id="saveInterviewButton" type="submit" form="interviewForm"><i class="fa-solid fa-floppy-disk"></i> Save Interview Round</button>
+        <button class="btn btn-primary btn-small" id="cancelInterviewButton" type="button">Cancel</button>
+        <button class="btn btn-primary btn-small" id="saveInterviewButton" type="submit" form="interviewForm"><i class="fa-solid fa-floppy-disk"></i> Save Interview Round</button>
       </div>
     </footer>
   </div>
 </div>
-<style id="profiles-export-config-style">
-#profilesExportModal{position:fixed;inset:0;z-index:10050;background:rgba(7,24,52,.48);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
-#profilesExportModal.hidden{display:none!important}#profilesExportModal .export-modal-shell{width:min(940px,96vw);max-height:92vh;background:#fff;border-radius:10px;box-shadow:0 20px 60px rgba(7,29,73,.28);display:flex;flex-direction:column;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
-#profilesExportModal .export-modal-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:#0DB4CC;color:#fff;flex:0 0 auto}#profilesExportModal .export-modal-header h2{margin:0;font-size:16px;font-weight:600}#profilesExportModal .export-modal-header p{margin:3px 0 0;font-size:12px;color:#effcff}#profilesExportModal .export-modal-header button{border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer}
-#profilesExportModal .export-modal-content{padding:14px 18px;overflow:auto;min-height:0}#profilesExportModal .export-template-row{display:grid;grid-template-columns:minmax(0,1fr) 180px auto auto;gap:8px;align-items:center;margin-bottom:12px}#profilesExportModal input[type=text],#profilesExportModal input[type=number],#profilesExportModal select{height:32px;min-width:0;box-sizing:border-box;border:1px solid #CBD5E1;border-radius:5px;padding:0 8px;font:12px 'Segoe UI',sans-serif;color:#263F62;background:#fff}#profilesExportModal .export-field-table{width:100%;border-collapse:collapse;font-size:12px}#profilesExportModal .export-field-table th{background:#E5EBF3;color:#263F62;text-align:left;font-size:11px;padding:7px;border:1px solid #D5DDE7}#profilesExportModal .export-field-table td{padding:5px 7px;border:1px solid #E2E8F0}#profilesExportModal .export-field-table input[type=checkbox]{accent-color:#2878E8}#profilesExportModal .export-field-table input[type=number]{width:76px;height:28px}#profilesExportModal .export-options-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}#profilesExportModal .export-option{display:flex;flex-direction:column;gap:5px;color:#52637A;font-size:11px;font-weight:600}#profilesExportModal .export-checks{display:flex;gap:15px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#334155}#profilesExportModal .export-checks label{display:flex;align-items:center;gap:5px}#profilesExportModal .export-modal-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 18px;background:#E5E7EB;flex:0 0 auto}#profilesExportModal .export-modal-footer .btn{height:32px;min-height:32px;font-size:12px;padding:0 13px}#profilesExportModal #exportTemplateMessage{margin:0;font-size:12px}#profilesExportModal .export-field-name{font-weight:600;color:#263F62}@media(max-width:700px){#profilesExportModal .export-template-row{grid-template-columns:1fr 1fr}#profilesExportModal .export-options-grid{grid-template-columns:1fr 1fr}#profilesExportModal .export-modal-footer{align-items:flex-start;flex-direction:column}#profilesExportModal .export-modal-footer>div{width:100%;display:flex;justify-content:flex-end}}
-</style>
-<div id="profilesExportModal" class="hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="profilesExportModalTitle">
- <div class="export-modal-shell"><div class="export-modal-header"><div><h2 id="profilesExportModalTitle">Configure Excel Export</h2><p>Choose fields, formatting and a reusable template for your profile export.</p></div><button type="button" id="closeProfilesExportModal" aria-label="Close">×</button></div>
- <div class="export-modal-content">
-  <div class="export-template-row"><select id="exportTemplateSelect" aria-label="Saved export templates"><option value="">Choose saved template</option></select><input type="text" id="exportTemplateName" placeholder="Template name" aria-label="Template name"><button class="btn btn-outline" type="button" id="saveExportTemplateButton">Save Template</button><button class="btn btn-outline" type="button" id="deleteExportTemplateButton" disabled>Delete</button></div>
-  <table class="export-field-table"><thead><tr><th style="width:34px"><input type="checkbox" id="exportSelectAllFields" checked aria-label="Select all fields"></th><th>Export Field</th><th style="width:100px">Column Width</th></tr></thead><tbody><tr><td><input type="checkbox" data-export-field="profile_number" checked aria-label="Export Profile Number"></td><td class="export-field-name">Profile Number</td><td><input type="number" id="exportWidth_profile_number" min="8" max="60" value="18" aria-label="Width for Profile Number"></td></tr><tr><td><input type="checkbox" data-export-field="full_name" checked aria-label="Export Profile Name"></td><td class="export-field-name">Profile Name</td><td><input type="number" id="exportWidth_full_name" min="8" max="60" value="28" aria-label="Width for Profile Name"></td></tr><tr><td><input type="checkbox" data-export-field="email" checked aria-label="Export Email"></td><td class="export-field-name">Email</td><td><input type="number" id="exportWidth_email" min="8" max="60" value="30" aria-label="Width for Email"></td></tr><tr><td><input type="checkbox" data-export-field="phone" checked aria-label="Export Phone"></td><td class="export-field-name">Phone</td><td><input type="number" id="exportWidth_phone" min="8" max="60" value="18" aria-label="Width for Phone"></td></tr><tr><td><input type="checkbox" data-export-field="requirement" checked aria-label="Export Requirement"></td><td class="export-field-name">Requirement</td><td><input type="number" id="exportWidth_requirement" min="8" max="60" value="30" aria-label="Width for Requirement"></td></tr><tr><td><input type="checkbox" data-export-field="all_requirements" checked aria-label="Export All Associated Requirements"></td><td class="export-field-name">All Associated Requirements</td><td><input type="number" id="exportWidth_all_requirements" min="8" max="60" value="45" aria-label="Width for All Associated Requirements"></td></tr><tr><td><input type="checkbox" data-export-field="current_company" checked aria-label="Export Current Company"></td><td class="export-field-name">Current Company</td><td><input type="number" id="exportWidth_current_company" min="8" max="60" value="26" aria-label="Width for Current Company"></td></tr><tr><td><input type="checkbox" data-export-field="current_job_title" checked aria-label="Export Current Job Title"></td><td class="export-field-name">Current Job Title</td><td><input type="number" id="exportWidth_current_job_title" min="8" max="60" value="28" aria-label="Width for Current Job Title"></td></tr><tr><td><input type="checkbox" data-export-field="preferred_location" checked aria-label="Export Preferred Location"></td><td class="export-field-name">Preferred Location</td><td><input type="number" id="exportWidth_preferred_location" min="8" max="60" value="24" aria-label="Width for Preferred Location"></td></tr><tr><td><input type="checkbox" data-export-field="total_experience" checked aria-label="Export Total Experience"></td><td class="export-field-name">Total Experience</td><td><input type="number" id="exportWidth_total_experience" min="8" max="60" value="18" aria-label="Width for Total Experience"></td></tr><tr><td><input type="checkbox" data-export-field="current_ctc" checked aria-label="Export Current CTC"></td><td class="export-field-name">Current CTC</td><td><input type="number" id="exportWidth_current_ctc" min="8" max="60" value="16" aria-label="Width for Current CTC"></td></tr><tr><td><input type="checkbox" data-export-field="expected_ctc" checked aria-label="Export Expected CTC"></td><td class="export-field-name">Expected CTC</td><td><input type="number" id="exportWidth_expected_ctc" min="8" max="60" value="16" aria-label="Width for Expected CTC"></td></tr><tr><td><input type="checkbox" data-export-field="notice_period" checked aria-label="Export Notice Period"></td><td class="export-field-name">Notice Period</td><td><input type="number" id="exportWidth_notice_period" min="8" max="60" value="18" aria-label="Width for Notice Period"></td></tr><tr><td><input type="checkbox" data-export-field="availability" checked aria-label="Export Availability"></td><td class="export-field-name">Availability</td><td><input type="number" id="exportWidth_availability" min="8" max="60" value="18" aria-label="Width for Availability"></td></tr><tr><td><input type="checkbox" data-export-field="status" checked aria-label="Export Profile Status"></td><td class="export-field-name">Profile Status</td><td><input type="number" id="exportWidth_status" min="8" max="60" value="28" aria-label="Width for Profile Status"></td></tr><tr><td><input type="checkbox" data-export-field="source" checked aria-label="Export Source"></td><td class="export-field-name">Source</td><td><input type="number" id="exportWidth_source" min="8" max="60" value="25" aria-label="Width for Source"></td></tr><tr><td><input type="checkbox" data-export-field="association_status" checked aria-label="Export Association Status"></td><td class="export-field-name">Association Status</td><td><input type="number" id="exportWidth_association_status" min="8" max="60" value="22" aria-label="Width for Association Status"></td></tr></tbody></table>
-  <div class="export-options-grid"><label class="export-option">Main List Title<input type="text" id="exportMainTitle" value="Navodix-SC_Oracle F &amp; R_Resource_Tracker-Oct 2026" maxlength="180"></label><label class="export-option">Logo (PNG/JPEG, max 500 KB)<input type="file" id="exportLogoFile" accept="image/png,image/jpeg" style="height:auto;padding:5px"><img id="exportLogoPreview" alt="Export logo preview" style="display:block;max-width:160px;max-height:48px;object-fit:contain;margin-top:4px"><button type="button" class="btn btn-outline" id="clearExportLogoButton">Remove Logo</button></label><label class="export-option">Header Colour<input type="color" id="exportHeaderColor" value="#2878E8" style="height:32px;width:100%;border:1px solid #CBD5E1;border-radius:5px;background:#fff;padding:3px"></label><label class="export-option">Font<select id="exportFontName"><option value="Aptos" selected>Aptos</option><option value="Arial">Arial</option><option value="Calibri">Calibri</option><option value="Segoe UI">Segoe UI</option><option value="Tahoma">Tahoma</option><option value="Verdana">Verdana</option><option value="Times New Roman">Times New Roman</option></select></label><label class="export-option">Font Size<select id="exportFontSize"><option value="8">8 pt</option><option value="9">9 pt</option><option value="10">10 pt</option><option value="11" selected>11 pt</option><option value="12">12 pt</option><option value="14">14 pt</option><option value="16">16 pt</option></select></label><label class="export-option">Worksheet Name<input type="text" id="exportSheetName" value="Profiles" maxlength="31"></label><label class="export-option">File Name (without .xlsx)<input type="text" id="exportFileName" value="Navodix_Profiles"></label><label class="export-option">Profiles to Export<select id="exportScope"><option value="filtered">Current filters</option><option value="all">All loaded profiles</option></select></label></div>
-  <div class="export-checks"><label><input type="checkbox" id="exportHeaderBold" checked> Bold column headers</label><label><input type="checkbox" id="exportWrapText" checked> Wrap cell text</label><label><input type="checkbox" id="exportAutoFilter" checked> Enable column filters</label><label><input type="checkbox" id="exportFreezeHeader" checked> Freeze header row</label><label><input type="checkbox" id="exportCellBorders" checked> Apply borders to data cells</label></div><div id="exportTemplateMessage" class="admin-message" role="status" style="margin-top:10px"></div>
- </div><div class="export-modal-footer"><span style="font-size:11px;color:#52637A">Saved templates are stored in this browser on this device.</span><div><button type="button" class="btn btn-outline" id="cancelProfilesExportButton">Cancel</button> <button type="button" class="btn btn-primary" id="exportProfilesNowButton"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Export to Excel</button></div></div></div></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=53"></script><script src="js/navigation.js?v=33"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script><script src="js/config.js?v=17"></script><script src="js/supabase-client.js?v=17"></script><script src="js/auth.js?v=17"></script><script src="js/profiles.js?v=44"></script><script src="js/navigation.js?v=33"></script>
 <script id="recruitment-email-notification-settings-js">
 (function(){
   const TABLE='recruitment_email_notification_settings';
@@ -4377,296 +4118,6 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 .profile-summary .summary-card:nth-child(7){background:#FCE7EC!important;border-color:#EFB6C4!important;} /* Rejected */
 .profile-summary .summary-card:nth-child(8){background:#E9EEF5!important;border-color:#C4D0DF!important;} /* Associated */
 </style>
-
-<style id="navodix-interview-form-content-sized-v1">
-/* Add/Edit Interview Round: size the dialog to its form, independently of the wider rounds-list modal. */
-#interviewFormModal .profile-interview-form-shared-modal{
-  width:min(680px,92vw) !important;
-  max-width:680px !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:90dvh !important;
-  margin:auto !important;
-  flex:0 1 auto !important;
-}
-#interviewFormModal .profile-interview-form-shared-body{
-  flex:0 1 auto !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:calc(90dvh - 124px) !important;
-  overflow-y:auto !important;
-  padding:14px 18px !important;
-}
-#interviewFormModal .profile-interview-form-shared-body .application-interview-form-grid{
-  gap:12px 22px !important;
-}
-#interviewFormModal .profile-interview-form-shared-body .application-form-field-wide textarea{
-  min-height:80px !important;
-}
-@media(max-width:700px){
-  #interviewFormModal .profile-interview-form-shared-modal{width:calc(100vw - 20px) !important;max-width:calc(100vw - 20px) !important;}
-  #interviewFormModal .profile-interview-form-shared-body{padding:12px !important;max-height:calc(90dvh - 124px) !important;}
-}
-</style>
-
-<style id="navodix-association-status-modal-standard-v1-1">
-/* Apply the approved Navodix modal standard to the edit-association/status dialog only. */
-#profileAssociationModal .profile-association-new-modal{
-  width:min(620px,calc(100vw - 24px))!important; max-width:620px!important;
-  max-height:90vh!important; height:auto!important; border-radius:6px!important;
-  background:#FFFFFF!important; overflow:hidden!important;
-  box-shadow:0 18px 48px rgba(15,35,65,.22)!important;
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;
-}
-#profileAssociationModal .profile-association-new-header{
-  background:#0DB4CC!important; color:#FFFFFF!important; padding:12px 18px!important;
-  border:0!important; flex:0 0 auto!important;
-}
-#profileAssociationModal .profile-association-new-header h2{
-  color:#FFFFFF!important; font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;
-  font-size:16px!important; font-weight:600!important; line-height:1.3!important;
-}
-#profileAssociationModal .profile-association-new-header .section-badge{display:none!important;}
-#profileAssociationModal .profile-association-new-body{
-  padding:16px 20px!important; background:#FFFFFF!important; overflow-y:auto!important;
-  min-height:0!important; flex:1 1 auto!important;
-}
-#profileAssociationModal .profile-association-context-row{
-  min-height:30px!important; margin-bottom:12px!important; font-family:'Segoe UI',sans-serif!important;
-}
-#profileAssociationModal .profile-association-new-body .field-group{margin-bottom:12px!important;}
-#profileAssociationModal .profile-association-new-body .field-group label{
-  font-family:'Segoe UI',sans-serif!important; font-size:12px!important; font-weight:600!important;
-  color:#374151!important; margin-bottom:5px!important;
-}
-#profileAssociationModal .profile-association-new-body input,
-#profileAssociationModal .profile-association-new-body select,
-#profileAssociationModal .profile-association-new-body textarea{
-  font-family:'Segoe UI',sans-serif!important; font-size:13px!important; font-weight:400!important;
-  color:#111827!important; background:#FFFFFF!important; border:1px solid #D1D5DB!important;
-  border-radius:5px!important; box-sizing:border-box!important;
-}
-#profileAssociationModal .profile-association-new-body select,
-#profileAssociationModal .profile-association-new-body input{height:34px!important; min-height:34px!important; padding:0 10px!important;}
-#profileAssociationModal .profile-association-new-body textarea{min-height:76px!important; padding:8px 10px!important; resize:vertical!important;}
-#profileAssociationModal .profile-association-new-body .profile-form-help{font-family:'Segoe UI',sans-serif!important;font-size:11px!important;color:#6B7280!important;}
-#profileAssociationModal .profile-association-new-footer{
-  background:#E5E7EB!important; border-top:1px solid #D1D5DB!important; padding:8px 18px!important;
-  min-height:52px!important; flex:0 0 auto!important;
-}
-#profileAssociationModal .profile-association-new-notice{font-family:'Segoe UI',sans-serif!important;font-size:13px!important;font-weight:600!important;}
-#profileAssociationModal .profile-association-new-buttons{display:flex!important;flex-direction:row-reverse!important;gap:8px!important;align-items:center!important;}
-#profileAssociationModal .profile-association-new-buttons .btn{
-  min-height:34px!important;height:34px!important;padding:0 16px!important;border-radius:5px!important;
-  font-family:'Segoe UI',sans-serif!important;font-size:13px!important;font-weight:600!important;
-  background:#0D6EFD!important;border:1px solid #0D6EFD!important;color:#FFFFFF!important;
-}
-#profileAssociationModal .profile-association-new-buttons .btn i{font-size:13px!important;margin-right:6px!important;}
-#profileAssociationModal .profile-association-new-header .modal-close{color:#FFFFFF!important;}
-@media(max-width:700px){
- #profileAssociationModal .profile-association-new-modal{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important;max-height:90vh!important;}
- #profileAssociationModal .profile-association-new-body{padding:14px!important;}
- #profileAssociationModal .profile-association-new-footer{padding:8px 14px!important;}
-}
-</style>
-
-<style id="profile-notes-modal-navodix-standard-v1-2">
-/* Enforce approved Navodix Modal Design Standard v1.1 for both Profile Notes
-   and Profile Association Notes. These workflows share #profileNotesModal. */
-#profileNotesModal .profile-notes-new-modal.profile-notes-compact{
-  width:min(780px,calc(100vw - 32px)) !important;
-  max-width:780px !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:90vh !important;
-  max-height:90dvh !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  flex-direction:column !important;
-  overflow:hidden !important;
-  border:1px solid #B8CADE !important;
-  border-radius:6px !important;
-  background:#FFFFFF !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#profileNotesModal .profile-notes-new-header{
-  flex:0 0 auto !important;
-  min-height:48px !important;
-  padding:10px 18px !important;
-  box-sizing:border-box !important;
-  background:#0DB4CC !important;
-  color:#FFFFFF !important;
-  border:0 !important;
-}
-#profileNotesModal .profile-notes-new-header h2{
-  margin:0 !important;
-  color:#FFFFFF !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:16px !important;
-  line-height:1.3 !important;
-  font-weight:600 !important;
-}
-#profileNotesModal .profile-notes-new-header .modal-close{
-  flex:0 0 28px !important;
-  width:28px !important;
-  height:28px !important;
-  padding:0 !important;
-  color:#FFFFFF !important;
-  background:transparent !important;
-  border:0 !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#profileNotesModal .profile-notes-new-body{
-  flex:0 1 auto !important;
-  min-height:0 !important;
-  height:auto !important;
-  max-height:calc(90dvh - 108px) !important;
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-  padding:12px 16px !important;
-  box-sizing:border-box !important;
-  background:#FFFFFF !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-}
-#profileNotesModal .profile-notes-context{
-  margin:0 0 10px !important;
-  padding:8px 10px !important;
-  border:1px solid #D1D5DB !important;
-  border-radius:5px !important;
-  background:#FFFFFF !important;
-  color:#263F62 !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important;
-  line-height:1.4 !important;
-  font-weight:400 !important;
-}
-#profileNotesModal .profile-notes-context strong{font-size:13px!important;font-weight:600!important}
-#profileNotesModal .profile-notes-table-wrap{width:100%!important;max-height:none!important;overflow-x:auto!important;margin:0!important}
-#profileNotesModal .profile-notes-table{width:100%!important;border-collapse:collapse!important;table-layout:fixed!important;font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;font-size:13px!important}
-#profileNotesModal .profile-notes-table th{
-  padding:7px 8px !important;
-  background:#E5EBF3 !important;
-  color:#263F62 !important;
-  border:1px solid #D1D5DB !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:11px !important;
-  line-height:1.3 !important;
-  font-weight:600 !important;
-  text-align:left !important;
-}
-#profileNotesModal .profile-notes-table td{
-  padding:8px !important;
-  background:#FFFFFF !important;
-  color:#1F2937 !important;
-  border:1px solid #D1D5DB !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important;
-  line-height:1.4 !important;
-  font-weight:400 !important;
-  vertical-align:top !important;
-  overflow-wrap:anywhere !important;
-}
-#profileNotesModal .profile-notes-empty{
-  margin:0 !important;
-  padding:12px 10px !important;
-  border:1px solid #D1D5DB !important;
-  border-top:0 !important;
-  border-radius:0 !important;
-  background:#FFFFFF !important;
-  color:#6B7280 !important;
-  text-align:center !important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
-  font-size:13px !important;
-  line-height:1.4 !important;
-  font-weight:400 !important;
-}
-#profileNotesModal .profile-note-form{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #D1D5DB!important}
-#profileNotesModal .profile-note-form-grid{gap:14px 24px!important}
-#profileNotesModal .profile-note-form .field-group{margin:0!important}
-#profileNotesModal .profile-note-form label{
-  display:block!important;margin:0 0 5px!important;
-  color:#263F62!important;font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;
-  font-size:12px!important;line-height:1.35!important;font-weight:600!important;
-}
-#profileNotesModal .profile-note-form label span{font-size:12px!important;font-weight:700!important;color:#DC2626!important}
-#profileNotesModal .profile-note-form select{
-  width:100%!important;height:34px!important;min-height:34px!important;box-sizing:border-box!important;
-  padding:0 9px!important;border:1px solid #D1D5DB!important;border-radius:5px!important;
-  background:#FFFFFF!important;color:#1F2937!important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:400!important;
-}
-#profileNotesModal .profile-note-form textarea{
-  width:100%!important;min-height:80px!important;height:80px!important;box-sizing:border-box!important;
-  padding:8px 9px!important;border:1px solid #D1D5DB!important;border-radius:5px!important;
-  background:#FFFFFF!important;color:#1F2937!important;resize:vertical!important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:400!important;line-height:1.4!important;
-}
-#profileNotesModal .profile-note-form select:focus,#profileNotesModal .profile-note-form textarea:focus{outline:none!important;border-color:#0D6EFD!important;box-shadow:0 0 0 2px rgba(13,110,253,.12)!important}
-#profileNotesModal .profile-notes-new-footer{
-  flex:0 0 auto!important;min-height:54px!important;height:auto!important;max-height:none!important;
-  box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;
-  gap:12px!important;padding:8px 16px!important;background:#E5E7EB!important;border-top:1px solid #D1D5DB!important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;
-}
-#profileNotesModal .profile-notes-new-notice{
-  flex:1 1 auto!important;min-width:0!important;margin:0!important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:600!important;line-height:1.35!important;
-}
-#profileNotesModal .profile-notes-new-buttons{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex:0 0 auto!important;margin-left:auto!important}
-#profileNotesModal .profile-notes-new-buttons .btn{
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;
-  min-width:0!important;height:34px!important;min-height:34px!important;padding:5px 13px!important;box-sizing:border-box!important;
-  border-radius:5px!important;border:1px solid #0875E8!important;background:#0875E8!important;color:#FFFFFF!important;
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:18px!important;
-}
-#profileNotesModal .profile-notes-new-buttons .btn:hover{background:#0668D1!important;border-color:#0668D1!important}
-#profileNotesModal .profile-notes-new-buttons .btn i{font-size:11px!important;line-height:1!important}
-@media(max-width:600px){
- #profileNotesModal .profile-notes-new-modal.profile-notes-compact{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important;max-height:90dvh!important}
- #profileNotesModal .profile-notes-new-body{padding:10px 12px!important;max-height:calc(90dvh - 108px)!important}
- #profileNotesModal .profile-note-form-grid{grid-template-columns:1fr!important}
- #profileNotesModal .profile-note-form-grid .field-group-wide{grid-column:auto!important}
- #profileNotesModal .profile-notes-new-footer{padding:8px 12px!important;flex-wrap:wrap!important}
-}
-</style>
-
-
-<script id="profiles-clear-row-selection-outside-list">
-(function () {
-  if (window.__profilesOutsideListSelectionHandlerInstalled) return;
-  window.__profilesOutsideListSelectionHandlerInstalled = true;
-
-  document.addEventListener('click', function (event) {
-    var target = event.target;
-    if (!(target instanceof Element)) return;
-
-    /* Keep selection when a context-menu action or any modal control is clicked.
-       This check must happen before checking whether the modal is still open,
-       because close handlers may hide it before this document click handler runs. */
-    if (target.closest('#profileRowContextMenu, .profile-row-context-menu, .modal-backdrop')) return;
-
-    /* Any open modal keeps the selected profile highlighted. */
-    var openModal = Array.prototype.some.call(
-      document.querySelectorAll('.modal-backdrop'),
-      function (modal) {
-        if (modal.classList.contains('hidden')) return false;
-        if (modal.getAttribute('aria-hidden') === 'true') return false;
-        return true;
-      }
-    );
-    if (openModal) return;
-
-    /* Clicks within the list do not clear the current row selection. */
-    var listArea = document.querySelector('.profiles-list-card');
-    if (listArea && listArea.contains(target)) return;
-
-    /* Clear visual selection only; do not change data or filters. */
-    document.querySelectorAll('.profiles-table tbody tr.profile-row-selected').forEach(function (row) {
-      row.classList.remove('profile-row-selected');
-    });
-  });
-})();
-</script>
 </body>
 
 
