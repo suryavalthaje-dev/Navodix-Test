@@ -9327,6 +9327,198 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 .profile-summary .summary-card:nth-child(7){background:#FCE7EC!important;border-color:#EFB6C4!important;} /* Rejected */
 .profile-summary .summary-card:nth-child(8){background:#E9EEF5!important;border-color:#C4D0DF!important;} /* Associated */
 </style>
+
+<style id="profiles-modal-design-standard-v1-1">
+/*
+ * Navodix Admin Portal Modal Design Standard v1.1
+ * Profiles Management only. Presentation-only overrides.
+ * No HTML structure, IDs, event handlers, or application logic changed.
+ */
+:root {
+  --navodix-modal-header: #0DB4CC;
+  --navodix-modal-footer: #E5E7EB;
+  --navodix-modal-input-border: #CBD5E1;
+  --navodix-modal-text: #1F2937;
+  --navodix-modal-label: #263F62;
+}
+
+/* Shared header treatment, scoped only to modal components on this page. */
+#profileModal .npp-header,
+#existingProfileModal .modal-header,
+#associateRequirementModal .associate-profile-standard-header,
+#profileAssociationModal .profile-association-new-header,
+#profileDetailsModal .modal-header,
+#associationHistoryModal .profile-status-history-modal .modal-header,
+#profileNotesModal .profile-notes-new-header,
+#interviewModal .modal-header,
+#interviewFormModal .profile-association-new-header,
+#updateProfileStatusModal .ups-header,
+#interviewRequirementPickerModal .nxr-header,
+#interviewRoundsInfoModal .nxr-header,
+#deleteProfileModal .modal-header,
+#profileNoteDeleteModal .modal-header,
+#removeProfileAssociationModal .modal-header,
+#emailNotificationSettingsModal .modal-header {
+  background: var(--navodix-modal-header) !important;
+  color: #FFFFFF !important;
+  border-bottom: 0 !important;
+}
+#profileModal .npp-header h2,
+#existingProfileModal .modal-header h2,
+#associateRequirementModal .associate-profile-standard-header h2,
+#profileAssociationModal .profile-association-new-header h2,
+#profileDetailsModal .modal-header h2,
+#associationHistoryModal .profile-status-history-modal .modal-header h2,
+#profileNotesModal .profile-notes-new-header h2,
+#interviewModal .modal-header h2,
+#interviewFormModal .profile-association-new-header h2,
+#updateProfileStatusModal .ups-header h2,
+#interviewRequirementPickerModal .nxr-header h2,
+#interviewRoundsInfoModal .nxr-header h2,
+#deleteProfileModal .modal-header h2,
+#profileNoteDeleteModal .modal-header h2,
+#removeProfileAssociationModal .modal-header h2,
+#emailNotificationSettingsModal .modal-header h2 {
+  color: #FFFFFF !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+/* Fixed footer surface and consistent footer spacing. */
+#profileModal .npp-footer,
+#existingProfileModal .modal-footer,
+#associateRequirementModal .associate-profile-standard-footer,
+#profileAssociationModal .profile-association-new-footer,
+#profileDetailsModal .profile-details-actions,
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-footer,
+#profileNotesModal .profile-notes-new-footer,
+#interviewModal .profile-interview-modal-actions,
+#interviewFormModal .profile-association-new-footer,
+#updateProfileStatusModal .ups-footer,
+#interviewRequirementPickerModal .picker-footer,
+#interviewRoundsInfoModal .nxr-footer,
+#deleteProfileModal .modal-footer,
+#profileNoteDeleteModal .modal-footer,
+#removeProfileAssociationModal .profile-delete-confirm-actions,
+#emailNotificationSettingsModal .modal-footer {
+  background: var(--navodix-modal-footer) !important;
+  box-sizing: border-box !important;
+}
+
+/* Modal form typography and controls; do not affect page/list filters. */
+#profileModal .npp-dialog label,
+#existingProfileModal .modal-body label,
+#associateRequirementModal .associate-profile-standard-body label,
+#profileAssociationModal .profile-association-new-body label,
+#profileDetailsModal .profile-details-body label,
+#profileNotesModal .profile-notes-new-body label,
+#interviewModal .profile-interview-modal-body label,
+#interviewFormModal .profile-association-new-body label,
+#updateProfileStatusModal .ups-body label,
+#interviewRequirementPickerModal .nxr-body label,
+#interviewRoundsInfoModal .nxr-body label {
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--navodix-modal-label) !important;
+}
+#profileModal .npp-dialog input:not([type="checkbox"]):not([type="radio"]),
+#profileModal .npp-dialog select,
+#profileModal .npp-dialog textarea,
+#existingProfileModal .modal-body input:not([type="checkbox"]):not([type="radio"]),
+#existingProfileModal .modal-body select,
+#existingProfileModal .modal-body textarea,
+#associateRequirementModal .associate-profile-standard-body input:not([type="checkbox"]):not([type="radio"]),
+#associateRequirementModal .associate-profile-standard-body select,
+#associateRequirementModal .associate-profile-standard-body textarea,
+#profileAssociationModal .profile-association-new-body input:not([type="checkbox"]):not([type="radio"]),
+#profileAssociationModal .profile-association-new-body select,
+#profileAssociationModal .profile-association-new-body textarea,
+#updateProfileStatusModal .ups-body select,
+#updateProfileStatusModal .ups-body textarea,
+#interviewRequirementPickerModal .nxr-body select {
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--navodix-modal-text) !important;
+  border-color: var(--navodix-modal-input-border) !important;
+  border-radius: 5px !important;
+  box-sizing: border-box !important;
+}
+#associateRequirementModal .associate-profile-standard-body select,
+#profileAssociationModal .profile-association-new-body select,
+#updateProfileStatusModal .ups-body select,
+#interviewRequirementPickerModal .nxr-body select {
+  height: 34px !important;
+  min-height: 34px !important;
+}
+#associateRequirementModal .associate-profile-standard-body textarea,
+#profileAssociationModal .profile-association-new-body textarea {
+  min-height: 80px !important;
+}
+
+/* All modal command buttons use the compact Save Profile button dimensions. */
+#profileModal .npp-footer .btn,
+#existingProfileModal .modal-footer .btn,
+#associateRequirementModal .associate-profile-standard-footer .btn,
+#profileAssociationModal .profile-association-new-footer .btn,
+#profileDetailsModal .profile-details-actions .btn,
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-footer .btn,
+#profileNotesModal .profile-notes-new-footer .btn,
+#interviewModal .profile-interview-modal-actions .btn,
+#interviewFormModal .profile-association-new-footer .btn,
+#updateProfileStatusModal .ups-footer .btn,
+#interviewRequirementPickerModal .picker-footer .btn,
+#interviewRoundsInfoModal .nxr-footer .btn,
+#deleteProfileModal .modal-footer .btn,
+#profileNoteDeleteModal .modal-footer .btn,
+#emailNotificationSettingsModal .modal-footer .btn {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 5px !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+#profileModal .npp-footer .btn-primary,
+#existingProfileModal .modal-footer .btn-primary,
+#associateRequirementModal .associate-profile-standard-footer .btn-primary,
+#profileAssociationModal .profile-association-new-footer .btn-primary,
+#profileDetailsModal .profile-details-actions .btn-primary,
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-footer .btn-primary,
+#profileNotesModal .profile-notes-new-footer .btn-primary,
+#interviewModal .profile-interview-modal-actions .btn-primary,
+#interviewFormModal .profile-association-new-footer .btn-primary,
+#updateProfileStatusModal .ups-footer .btn-primary,
+#interviewRequirementPickerModal .picker-footer .btn-primary,
+#interviewRoundsInfoModal .nxr-footer .btn-primary,
+#deleteProfileModal .modal-footer .btn-primary,
+#profileNoteDeleteModal .modal-footer .btn-primary,
+#emailNotificationSettingsModal .modal-footer .btn-primary {
+  background: #0875E8 !important;
+  border-color: #0875E8 !important;
+  color: #FFFFFF !important;
+}
+@media (max-width: 600px) {
+  #profileModal .npp-footer,
+  #existingProfileModal .modal-footer,
+  #associateRequirementModal .associate-profile-standard-footer,
+  #profileAssociationModal .profile-association-new-footer,
+  #profileDetailsModal .profile-details-actions,
+  #profileNotesModal .profile-notes-new-footer,
+  #interviewFormModal .profile-association-new-footer,
+  #updateProfileStatusModal .ups-footer {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+</style>
+
 </body>
 
 
