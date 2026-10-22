@@ -8629,7 +8629,9 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   overflow:hidden !important;
   background:#FFFFFF !important;
   border-radius:10px !important;
-  box-shadow:0 24px 70px rgba(7,29,73,.25) !important;
+  border:1px solid #CBD5E1 !important;
+  box-shadow:0 18px 48px rgba(15,23,42,.16) !important;
+  min-height:0 !important;
   box-sizing:border-box !important;
 }
 #associationHistoryModal .profile-status-history-modal .modal-header{
@@ -8674,33 +8676,33 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   overflow-y:auto !important;
   overflow-x:hidden !important;
   padding:18px 24px 16px !important;
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
+  border-left:0 !important;
+  border-right:0 !important;
   box-sizing:border-box !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions{
-  flex:0 0 58px !important;
-  min-height:58px !important;
-  height:58px !important;
+  flex:0 0 auto !important;
+  min-height:54px !important;
+  height:auto !important;
   display:flex !important;
   align-items:center !important;
   justify-content:flex-end !important;
   gap:8px !important;
   margin:0 !important;
   padding:8px 16px !important;
-  background:#C9D9EC !important;
-  border-top:1px solid #AFC1D5 !important;
-  border-left:5px solid #2878E8 !important;
-  border-right:5px solid #2878E8 !important;
-  border-bottom:5px solid #2878E8 !important;
+  background:#E5E7EB !important;
+  border-top:1px solid #CBD5E1 !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
   box-sizing:border-box !important;
   overflow:hidden !important;
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions .btn{
   min-width:110px !important;
   width:110px !important;
-  min-height:36px !important;
-  height:36px !important;
+  min-height:34px !important;
+  height:34px !important;
   padding:6px 10px !important;
   border-radius:5px !important;
   background:#2878E8 !important;
@@ -8719,6 +8721,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 }
 #associationHistoryModal .profile-status-history-modal .profile-interview-table-wrap{
   width:100% !important;
+  min-height:0 !important;
   overflow-x:auto !important;
   margin:0 !important;
 }
@@ -9516,6 +9519,48 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     padding-left: 12px !important;
     padding-right: 12px !important;
   }
+}
+
+
+/* Shell-level corrections for the two dialogs identified during visual review. */
+#profileDetailsModal .profile-details-modal > .modal-header {
+  background: #0DB4CC !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 9px 9px 0 0 !important;
+  color: #FFFFFF !important;
+  min-height: 54px !important;
+  height: auto !important;
+  padding: 12px 24px !important;
+}
+#profileDetailsModal .profile-details-modal > .modal-header h2 {
+  color: #FFFFFF !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+#profileDetailsModal .profile-details-modal {
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, .16) !important;
+}
+#associationHistoryModal .profile-status-history-modal {
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, .16) !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions {
+  background: #E5E7EB !important;
+  border-top: 1px solid #CBD5E1 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-interview-modal-actions .btn {
+  min-height: 34px !important;
+  height: 34px !important;
+  font-family: "Segoe UI", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border-radius: 5px !important;
 }
 </style>
 
