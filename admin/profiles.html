@@ -3440,6 +3440,8 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #updateProfileStatusModal .ups-footer .ups-message{margin-right:auto}
 #updateProfileStatusModal .ups-footer .btn{box-sizing:border-box!important;border-radius:5px!important;min-height:30px!important;height:30px!important;padding:0 14px!important;font:500 12px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
 #updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#5AA2EF!important;border:1px solid #5AA2EF!important;color:#fff!important}
+#updateProfileStatusModal #cancelUpdateProfileStatusButton{order:99}
+#profileAssociationModal #cancelProfileAssociationButton{order:99}
 #updateProfileStatusModal .ups-footer .btn:focus-visible,#updateProfileStatusModal .ups-close:focus-visible{outline:2px solid #0D6EFD;outline-offset:2px}
 @media(max-width:480px){#updateProfileStatusModal{padding:8px}#updateProfileStatusModal .ups-dialog{width:100%;max-height:90vh}#updateProfileStatusModal .ups-footer{height:auto;min-height:44px;max-height:none;flex:0 0 auto;padding:6px 10px;gap:6px;flex-wrap:wrap}#updateProfileStatusModal .ups-footer .btn{padding:0 10px!important;font-size:12px!important}#updateProfileStatusModal .ups-message{flex-basis:100%;order:0}#updateProfileStatusModal .ups-footer .btn{order:1}}
 </style>
@@ -3455,7 +3457,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
       <label for="updateProfileStatusNotes" style="margin-top:14px">Notes <span style="font-weight:400;color:#64748b">(Optional)</span></label>
       <textarea id="updateProfileStatusNotes" maxlength="2000" placeholder="Enter a reason or note for this status update"></textarea>
     </div>
-    <div class="ups-footer"><div class="ups-message" id="updateProfileStatusMessage" role="alert" aria-live="polite"></div><button type="button" class="btn btn-outline" id="cancelUpdateProfileStatusButton">Cancel</button><button type="button" class="btn btn-primary" id="saveUpdateProfileStatusButton"><i class="fa-solid fa-floppy-disk"></i> Save Status</button></div>
+    <div class="ups-footer"><div class="ups-message" id="updateProfileStatusMessage" role="alert" aria-live="polite"></div><button type="button" class="btn btn-primary" id="saveUpdateProfileStatusButton"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Status</button><button type="button" class="btn btn-outline" id="cancelUpdateProfileStatusButton"><i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel</button></div>
   </div>
 </div>
 
@@ -3722,7 +3724,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     </div>
     <footer class="profile-association-new-footer">
       <div id="profileAssociationMessage" class="admin-message profile-association-new-notice" role="alert" aria-live="polite"></div>
-      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-primary" id="cancelProfileAssociationButton" type="button">Cancel</button></div>
+      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-primary" id="cancelProfileAssociationButton" type="button"><i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel</button></div>
     </footer>
   </div>
 </div>
