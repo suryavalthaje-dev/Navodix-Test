@@ -940,7 +940,7 @@ body.admin-app-page { font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 .profiles-table thead th:first-child { border-left:2px solid #B8C1CC !important; }
 .profiles-table thead th:last-child { border-right:2px solid #B8C1CC !important; }
-.profiles-table thead th:nth-child(1){width:18% !important}.profiles-table thead th:nth-child(2){width:11% !important}.profiles-table thead th:nth-child(3){width:10% !important}.profiles-table thead th:nth-child(4){width:8% !important}.profiles-table thead th:nth-child(5){width:9% !important}.profiles-table thead th:nth-child(6){width:7% !important}.profiles-table thead th:nth-child(7){width:7% !important}.profiles-table thead th:nth-child(8){width:7% !important}.profiles-table thead th:nth-child(9){width:7% !important}.profiles-table thead th:nth-child(10){width:7% !important}.profiles-table thead th:nth-child(11){width:9% !important}
+.profiles-table thead th:nth-child(1){width:25% !important}.profiles-table thead th:nth-child(2){width:14% !important}.profiles-table thead th:nth-child(3){width:11% !important}.profiles-table thead th:nth-child(4){width:14% !important}.profiles-table thead th:nth-child(5){width:13% !important}.profiles-table thead th:nth-child(6){width:13% !important}.profiles-table thead th:nth-child(7){width:10% !important}
 .profiles-table tbody tr:nth-child(odd){background:#FFFFFF !important}.profiles-table tbody tr:nth-child(even){background:#DDE2E8 !important}.profiles-table tbody tr:hover{background:#E8F1FA !important}
 .profiles-table tbody td {
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif !important; font-size:12px !important; color:#071B4D !important;
@@ -2802,19 +2802,18 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 .standard-list-pagination .btn:disabled{opacity:.65 !important;background:#F7FAFE !important;border-color:#D7E1ED !important;color:#7A8CA1 !important;}
 </style>
 
-<style id="profiles-list-columns-v24">
-/* Requested adjustment only: widen Prof Status and Asc Status; reduce Profile Name and Requirement. All other column widths remain unchanged. */
-.profiles-list-card .profiles-table thead th:nth-child(1), .profiles-list-card .profiles-table tbody td:nth-child(1){width:12% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(2), .profiles-list-card .profiles-table tbody td:nth-child(2){width:18% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(3), .profiles-list-card .profiles-table tbody td:nth-child(3){width:15% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(4), .profiles-list-card .profiles-table tbody td:nth-child(4){width:8% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(5), .profiles-list-card .profiles-table tbody td:nth-child(5){width:7% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(6), .profiles-list-card .profiles-table tbody td:nth-child(6){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(7), .profiles-list-card .profiles-table tbody td:nth-child(7){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(8), .profiles-list-card .profiles-table tbody td:nth-child(8){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(9), .profiles-list-card .profiles-table tbody td:nth-child(9){width:7% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(10), .profiles-list-card .profiles-table tbody td:nth-child(10){width:8% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(11), .profiles-list-card .profiles-table tbody td:nth-child(11){width:7% !important;}
+<style id="profiles-list-columns-v22">
+/* Requested Profiles list columns only. Preserve all other Profiles UI. */
+.profiles-list-card .profiles-table thead th:nth-child(1){width:14% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(2){width:13% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(3){width:13% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(4){width:8% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(5){width:7% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(6){width:9% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(7){width:9% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(8){width:9% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(9){width:8% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(10){width:10% !important;}
 .profiles-list-card .profiles-table tbody td{overflow-wrap:anywhere !important;}
 .profiles-list-card .profile-name-cell strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 </style>
@@ -3389,8 +3388,8 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   </section>
   <div id="profilesMessage" class="admin-message" role="status"></div>
   <section class="jobs-card profiles-list-card">
-    <div class="jobs-list-heading"><div class="jobs-list-heading-inline"><h2 id="profilesListTitle">Candidate Profiles</h2><p id="profilesListDescription">Central candidate profiles and requirement associations</p></div><div class="jobs-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="clearProfileFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button><button class="btn btn-outline profiles-list-standard-button" id="exportProfilesButton" type="button"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Export</button><button class="btn btn-outline profiles-list-standard-button" id="refreshProfilesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button" id="addProfileButton" type="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Profile</button><button class="btn btn-outline profiles-list-standard-button" id="profilesColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="profilesColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-profile-col="0"> Profile Name</label><label class="column-option"><input type="checkbox" checked data-profile-col="1"> Requirement</label><label class="column-option"><input type="checkbox" checked data-profile-col="2"> Current Company</label><label class="column-option"><input type="checkbox" checked data-profile-col="3"> Cur Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="4"> Pref Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="5"> Experience</label><label class="column-option"><input type="checkbox" checked data-profile-col="6"> Current CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="7"> Expected CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="8"> Notice Period</label><label class="column-option"><input type="checkbox" checked data-profile-col="9"> Prof Status</label><label class="column-option"><input type="checkbox" checked data-profile-col="10"> Asc Status</label></div></div>
-    <div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile Name</th><th>Requirement</th><th>Current Company</th><th>Cur Location</th><th>Pref Location</th><th>Experience</th><th>Current CTC</th><th>Expected CTC</th><th>Notice Period</th><th>Prof Status</th><th>Asc Status</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div>
+    <div class="jobs-list-heading"><div class="jobs-list-heading-inline"><h2 id="profilesListTitle">Candidate Profiles</h2><p id="profilesListDescription">Central candidate profiles and requirement associations</p></div><div class="jobs-list-heading-actions"><button class="btn btn-outline profiles-list-standard-button" id="clearProfileFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button><button class="btn btn-outline profiles-list-standard-button" id="exportProfilesButton" type="button"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Export</button><button class="btn btn-outline profiles-list-standard-button" id="refreshProfilesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button" id="addProfileButton" type="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Profile</button><button class="btn btn-outline profiles-list-standard-button" id="profilesColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="profilesColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-profile-col="0"> Profile Name</label><label class="column-option"><input type="checkbox" checked data-profile-col="1"> Requirement</label><label class="column-option"><input type="checkbox" checked data-profile-col="2"> Current Company</label><label class="column-option"><input type="checkbox" checked data-profile-col="3"> Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="4"> Experience</label><label class="column-option"><input type="checkbox" checked data-profile-col="5"> Current CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="6"> Expected CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="7"> Notice Period</label><label class="column-option"><input type="checkbox" checked data-profile-col="8"> Status</label></div></div>
+    <div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile Name</th><th>Requirement</th><th>Current Company</th><th>Location</th><th>Experience</th><th>Current CTC</th><th>Expected CTC</th><th>Notice Period</th><th>Asc Status</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div>
     <div id="emptyProfiles" class="empty-state hidden"><i class="fa-solid fa-users"></i><h3>No profiles found</h3><p>Add a profile or associate an existing profile with a requirement.</p></div>
   </section>
 </div></main>
@@ -3427,29 +3426,25 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #updateProfileStatusModal .ups-header h2{margin:0;color:#fff;font:600 16px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif}
 #updateProfileStatusModal .ups-close{margin-left:auto;background:transparent;border:0;color:#fff;font:400 24px/1 "Segoe UI",system-ui,-apple-system,sans-serif;cursor:pointer;padding:0 2px}
 #updateProfileStatusModal .ups-body{padding:12px 18px;overflow:auto;min-height:0;flex:1;color:#1F2937}
-#updateProfileStatusModal .ups-profile-name{display:flex;align-items:baseline;justify-content:flex-start;gap:8px;margin:0 0 12px;padding:0;background:transparent;border:0;border-radius:0;color:#263b56;font:400 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-wrap:anywhere;text-align:left}
-#updateProfileStatusModal .ups-profile-name-label{font-weight:400;white-space:nowrap;flex-shrink:0}
-#updateProfileStatusModal #updateProfileStatusName{font-weight:400;min-width:0;overflow-wrap:anywhere;color:#2E8397}
-#updateProfileStatusModal label{display:block;margin:0 0 5px;font:400 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#374151}
-#updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#111827;font:400 12px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;padding:8px 10px;outline:none}
-#updateProfileStatusModal select{height:30px;padding-top:4px;padding-bottom:4px}
+#updateProfileStatusModal .ups-profile-name{margin:0 0 12px;padding:8px 12px;background:#fff;border:1px solid #D1D5DB;border-radius:5px;color:#263b56;font:600 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-wrap:anywhere}
+#updateProfileStatusModal label{display:block;margin:0 0 5px;font:600 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#374151}
+#updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#111827;font:400 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;padding:8px 10px;outline:none}
+#updateProfileStatusModal select{height:36px}
 #updateProfileStatusModal textarea{min-height:52px;height:52px;resize:vertical;margin-top:8px}
 #updateProfileStatusModal select:focus,#updateProfileStatusModal textarea:focus{border-color:#0D6EFD;box-shadow:0 0 0 2px rgba(13,110,253,.12)}
 #updateProfileStatusModal .ups-message{min-height:0;margin:0;font:600 13px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#B91C1C;text-align:left;flex:1;min-width:0}
-#updateProfileStatusModal .ups-footer{height:44px;min-height:44px;max-height:44px;flex:0 0 44px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #D1D5DB;background:#CCE8FF;flex-shrink:0}
+#updateProfileStatusModal .ups-footer{min-height:54px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #D1D5DB;background:#E5E7EB;flex-shrink:0}
 #updateProfileStatusModal .ups-footer .ups-message{margin-right:auto}
-#updateProfileStatusModal .ups-footer .btn{box-sizing:border-box!important;border-radius:5px!important;min-height:30px!important;height:30px!important;padding:0 14px!important;font:500 12px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
-#updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#5AA2EF!important;border:1px solid #5AA2EF!important;color:#fff!important}
-#updateProfileStatusModal #cancelUpdateProfileStatusButton{order:99}
-#profileAssociationModal #cancelProfileAssociationButton{order:99}
+#updateProfileStatusModal .ups-footer .btn{box-sizing:border-box!important;border-radius:5px!important;min-height:34px!important;height:34px!important;padding:0 16px!important;font:600 13px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+#updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#0875E8!important;border:1px solid #0875E8!important;color:#fff!important}
 #updateProfileStatusModal .ups-footer .btn:focus-visible,#updateProfileStatusModal .ups-close:focus-visible{outline:2px solid #0D6EFD;outline-offset:2px}
-@media(max-width:480px){#updateProfileStatusModal{padding:8px}#updateProfileStatusModal .ups-dialog{width:100%;max-height:90vh}#updateProfileStatusModal .ups-footer{height:auto;min-height:44px;max-height:none;flex:0 0 auto;padding:6px 10px;gap:6px;flex-wrap:wrap}#updateProfileStatusModal .ups-footer .btn{padding:0 10px!important;font-size:12px!important}#updateProfileStatusModal .ups-message{flex-basis:100%;order:0}#updateProfileStatusModal .ups-footer .btn{order:1}}
+@media(max-width:480px){#updateProfileStatusModal{padding:8px}#updateProfileStatusModal .ups-dialog{width:100%;max-height:90vh}#updateProfileStatusModal .ups-footer{padding:8px 10px;gap:6px;flex-wrap:wrap}#updateProfileStatusModal .ups-footer .btn{padding:0 10px!important;font-size:12px!important}#updateProfileStatusModal .ups-message{flex-basis:100%;order:0}#updateProfileStatusModal .ups-footer .btn{order:1}}
 </style>
 <div class="hidden" id="updateProfileStatusModal" aria-hidden="true">
   <div class="ups-dialog" role="dialog" aria-modal="true" aria-labelledby="updateProfileStatusTitle">
     <div class="ups-header"><h2 id="updateProfileStatusTitle">Update Profile Status</h2><button class="ups-close" id="closeUpdateProfileStatusModal" type="button" aria-label="Close">&times;</button></div>
     <div class="ups-body">
-      <div class="ups-profile-name"><span class="ups-profile-name-label">Profile Name :</span><span id="updateProfileStatusName"></span></div>
+      <div class="ups-profile-name" id="updateProfileStatusName"></div>
       <label for="updateProfileStatusSelect">Profile Status</label>
       <select id="updateProfileStatusSelect">
         <option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option><option>Not Interested</option>
@@ -3457,7 +3452,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
       <label for="updateProfileStatusNotes" style="margin-top:14px">Notes <span style="font-weight:400;color:#64748b">(Optional)</span></label>
       <textarea id="updateProfileStatusNotes" maxlength="2000" placeholder="Enter a reason or note for this status update"></textarea>
     </div>
-    <div class="ups-footer"><div class="ups-message" id="updateProfileStatusMessage" role="alert" aria-live="polite"></div><button type="button" class="btn btn-primary" id="saveUpdateProfileStatusButton"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Status</button><button type="button" class="btn btn-outline" id="cancelUpdateProfileStatusButton"><i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel</button></div>
+    <div class="ups-footer"><div class="ups-message" id="updateProfileStatusMessage" role="alert" aria-live="polite"></div><button type="button" class="btn btn-outline" id="cancelUpdateProfileStatusButton">Cancel</button><button type="button" class="btn btn-primary" id="saveUpdateProfileStatusButton"><i class="fa-solid fa-floppy-disk"></i> Save Status</button></div>
   </div>
 </div>
 
@@ -3724,7 +3719,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     </div>
     <footer class="profile-association-new-footer">
       <div id="profileAssociationMessage" class="admin-message profile-association-new-notice" role="alert" aria-live="polite"></div>
-      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-primary" id="cancelProfileAssociationButton" type="button"><i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel</button></div>
+      <div class="profile-association-new-buttons"><button class="btn btn-primary" id="saveProfileAssociationButton" type="button"><i class="fa-solid fa-link"></i> Associate</button><button class="btn btn-primary" id="cancelProfileAssociationButton" type="button">Cancel</button></div>
     </footer>
   </div>
 </div>
@@ -4522,11 +4517,11 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 }
 </style>
 
-<style id="navodix-association-status-modal-standard-v1-2">
-/* Approved Modal Design Standard v1.4 for the association status/association dialog. */
+<style id="navodix-association-status-modal-standard-v1-1">
+/* Apply the approved Navodix modal standard to the edit-association/status dialog only. */
 #profileAssociationModal .profile-association-new-modal{
   width:min(620px,calc(100vw - 24px))!important; max-width:620px!important;
-  height:fit-content!important; max-height:90vh!important; border-radius:6px!important;
+  max-height:90vh!important; height:auto!important; border-radius:6px!important;
   background:#FFFFFF!important; overflow:hidden!important;
   box-shadow:0 18px 48px rgba(15,35,65,.22)!important;
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif!important;
@@ -4542,49 +4537,44 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #profileAssociationModal .profile-association-new-header .section-badge{display:none!important;}
 #profileAssociationModal .profile-association-new-body{
   padding:16px 20px!important; background:#FFFFFF!important; overflow-y:auto!important;
-  min-height:0!important; flex:0 1 auto!important;
+  min-height:0!important; flex:1 1 auto!important;
 }
 #profileAssociationModal .profile-association-context-row{
-  display:flex!important; align-items:center!important; justify-content:flex-start!important;
-  gap:5px!important; min-height:30px!important; margin:0 0 12px!important; padding:0!important;
-  border:0!important; background:transparent!important; box-shadow:none!important;
-  font-family:'Segoe UI',sans-serif!important; font-size:12px!important; font-weight:400!important;
+  min-height:30px!important; margin-bottom:12px!important; font-family:'Segoe UI',sans-serif!important;
 }
-#profileAssociationModal .profile-association-context-label{font-size:12px!important;font-weight:400!important;color:#374151!important;}
-#profileAssociationModal .profile-association-context-value{font-size:12px!important;font-weight:400!important;color:#2E8397!important;}
 #profileAssociationModal .profile-association-new-body .field-group{margin-bottom:12px!important;}
 #profileAssociationModal .profile-association-new-body .field-group label{
-  font-family:'Segoe UI',sans-serif!important; font-size:12px!important; font-weight:400!important;
-  color:#374151!important; margin-bottom:5px!important; text-align:left!important;
+  font-family:'Segoe UI',sans-serif!important; font-size:12px!important; font-weight:600!important;
+  color:#374151!important; margin-bottom:5px!important;
 }
 #profileAssociationModal .profile-association-new-body input,
 #profileAssociationModal .profile-association-new-body select,
 #profileAssociationModal .profile-association-new-body textarea{
-  font-family:'Segoe UI',sans-serif!important; font-size:12px!important; font-weight:400!important;
+  font-family:'Segoe UI',sans-serif!important; font-size:13px!important; font-weight:400!important;
   color:#111827!important; background:#FFFFFF!important; border:1px solid #D1D5DB!important;
   border-radius:5px!important; box-sizing:border-box!important;
 }
 #profileAssociationModal .profile-association-new-body select,
-#profileAssociationModal .profile-association-new-body input{height:30px!important; min-height:30px!important; padding:0 10px!important;}
-#profileAssociationModal .profile-association-new-body textarea{height:58px!important; min-height:58px!important; max-height:58px!important; padding:6px 10px!important; resize:none!important; line-height:1.4!important;}
-#profileAssociationModal .profile-association-new-body .profile-form-help{font-family:'Segoe UI',sans-serif!important;font-size:11px!important;font-weight:400!important;color:#6B7280!important;}
+#profileAssociationModal .profile-association-new-body input{height:34px!important; min-height:34px!important; padding:0 10px!important;}
+#profileAssociationModal .profile-association-new-body textarea{min-height:76px!important; padding:8px 10px!important; resize:vertical!important;}
+#profileAssociationModal .profile-association-new-body .profile-form-help{font-family:'Segoe UI',sans-serif!important;font-size:11px!important;color:#6B7280!important;}
 #profileAssociationModal .profile-association-new-footer{
-  background:#CCE8FF!important; border-top:1px solid #D1D5DB!important; padding:6px 18px!important;
-  height:44px!important; min-height:44px!important; box-sizing:border-box!important; flex:0 0 44px!important;
+  background:#E5E7EB!important; border-top:1px solid #D1D5DB!important; padding:8px 18px!important;
+  min-height:52px!important; flex:0 0 auto!important;
 }
 #profileAssociationModal .profile-association-new-notice{font-family:'Segoe UI',sans-serif!important;font-size:13px!important;font-weight:600!important;}
 #profileAssociationModal .profile-association-new-buttons{display:flex!important;flex-direction:row-reverse!important;gap:8px!important;align-items:center!important;}
 #profileAssociationModal .profile-association-new-buttons .btn{
-  min-height:30px!important;height:30px!important;padding:0 12px!important;border-radius:5px!important;
-  font-family:'Segoe UI',sans-serif!important;font-size:12px!important;font-weight:500!important;
-  background:#5AA2EF!important;border:1px solid #5AA2EF!important;color:#FFFFFF!important;
+  min-height:34px!important;height:34px!important;padding:0 16px!important;border-radius:5px!important;
+  font-family:'Segoe UI',sans-serif!important;font-size:13px!important;font-weight:600!important;
+  background:#0D6EFD!important;border:1px solid #0D6EFD!important;color:#FFFFFF!important;
 }
-#profileAssociationModal .profile-association-new-buttons .btn i{font-size:12px!important;margin-right:6px!important;}
+#profileAssociationModal .profile-association-new-buttons .btn i{font-size:13px!important;margin-right:6px!important;}
 #profileAssociationModal .profile-association-new-header .modal-close{color:#FFFFFF!important;}
 @media(max-width:700px){
  #profileAssociationModal .profile-association-new-modal{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important;max-height:90vh!important;}
  #profileAssociationModal .profile-association-new-body{padding:14px!important;}
- #profileAssociationModal .profile-association-new-footer{padding:6px 14px!important; height:44px!important; min-height:44px!important; flex-basis:44px!important;}
+ #profileAssociationModal .profile-association-new-footer{padding:8px 14px!important;}
 }
 </style>
 
