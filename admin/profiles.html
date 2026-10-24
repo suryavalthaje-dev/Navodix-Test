@@ -3910,20 +3910,23 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   <div class="profile-notes-new-modal profile-notes-compact" role="dialog" aria-modal="true" aria-labelledby="profileNotesTitle">
     <div class="modal-header profile-notes-new-header">
       <div><span class="section-badge" id="profileNotesSectionBadge">REQUIREMENT NOTES</span><h2 id="profileNotesTitle">Notes</h2></div>
-      <button class="modal-close" id="closeProfileNotesModal" type="button"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close" id="closeProfileNotesModal" type="button" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     </div>
     <div class="profile-notes-new-body">
       <div id="profileNotesContext" class="profile-association-panel profile-notes-context"></div>
       <div id="profileNotesMessage" class="admin-message" role="alert"></div>
-      <div id="profileNotesTableWrap" class="profile-notes-table-wrap"><table class="profile-notes-table"><thead><tr><th>Date &amp; Time</th><th>Type</th><th>Note</th><th>Action</th></tr></thead><tbody id="profileNotesTableBody"></tbody></table></div>
-      <div id="profileNotesEmpty" class="profile-notes-empty hidden">No notes have been added.</div>
+      <section class="profile-notes-interview-section">
+        <div class="profile-notes-interview-heading"><h3>Profile Notes</h3></div>
+        <div id="profileNotesTableWrap" class="profile-notes-table-wrap"><table class="profile-interview-table profile-notes-interview-table"><thead><tr><th>Date &amp; Time</th><th>Type</th><th>Note</th><th>Action</th></tr></thead><tbody id="profileNotesTableBody"></tbody></table></div>
+        <div id="profileNotesEmpty" class="profile-interviews-empty empty-state hidden" role="status">No profile notes found.</div>
+      </section>
       <form id="profileNoteForm" class="profile-note-form" novalidate><input type="hidden" id="profileNoteId">
         <div class="profile-note-form-grid"><div class="field-group"><label for="profileNoteType">Note Type <span>*</span></label><select id="profileNoteType" required><option value="General">General</option><option value="Update">Update</option><option value="Client Feedback">Client Feedback</option></select></div><div class="field-group field-group-wide"><label for="profileNoteText">Note <span>*</span></label><textarea id="profileNoteText" maxlength="5000" placeholder="Enter a note" required></textarea></div></div>
       </form>
     </div>
     <footer class="profile-notes-new-footer">
       <div id="profileNoteFormMessage" class="admin-message profile-notes-new-notice" role="alert" aria-live="polite"></div>
-      <div class="profile-notes-new-buttons"><button class="btn btn-primary btn-small" id="cancelProfileNoteButton" type="button">Cancel</button><button class="btn btn-primary btn-small" id="saveProfileNoteButton" type="submit" form="profileNoteForm"><i class="fa-solid fa-plus"></i> Add Note</button></div>
+      <div class="profile-notes-new-buttons"><button class="btn btn-primary btn-small" id="saveProfileNoteButton" type="submit" form="profileNoteForm"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add Note</button><button class="btn btn-primary btn-small" id="cancelProfileNoteButton" type="button"><i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel</button></div>
     </footer>
   </div>
 </div>
@@ -4768,6 +4771,37 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
  #profileNotesModal .profile-note-form-grid .field-group-wide{grid-column:auto!important}
  #profileNotesModal .profile-notes-new-footer{padding:8px 12px!important;flex-wrap:wrap!important}
 }
+
+
+<style id="profile-level-notes-interview-rounds-standard">
+/* Profile-level notes only: follow Interview Rounds list structure and Modal Standard v1.8. */
+#profileNotesModal.profile-level-notes-open .profile-notes-new-modal{width:min(1100px,96vw)!important;max-width:96vw!important;max-height:90vh!important;max-height:90dvh!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;box-sizing:border-box!important;border:1px solid #D1D5DB!important;border-radius:6px!important;background:#fff!important;font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-header{flex:0 0 auto!important;min-height:60px!important;padding:12px 20px!important;display:flex!important;align-items:center!important;background:#0DB4CC!important;color:#fff!important;border:0!important}
+#profileNotesModal.profile-level-notes-open #profileNotesSectionBadge{display:none!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-header h2{margin:0!important;color:#fff!important;font:600 16px/1.25 "Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-body{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:12px 20px 16px!important;background:#fff!important;color:#263B56!important;font-family:"Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open #profileNotesContext{margin:0 0 10px!important;padding:0!important;border:0!important;border-radius:0!important;background:#fff!important;color:#263B56!important;font:400 12px/1.5 "Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open #profileNotesContext strong{font-weight:400!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-profile-row-value{color:#2E8397!important;font-weight:400!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-section{margin:0!important;border:1px solid #D1D5DB!important;border-radius:5px!important;overflow:hidden!important;background:#fff!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:10px 12px!important;background:#fff!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-heading h3{margin:0!important;color:#263B56!important;font:700 14px/1.3 "Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-table-wrap{width:100%!important;max-height:52vh!important;max-height:52dvh!important;overflow:auto!important;margin:0!important;background:#fff!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table{width:100%!important;min-width:650px!important;table-layout:auto!important;border-collapse:collapse!important;font:400 12px/1.35 "Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table th,#profileNotesModal.profile-level-notes-open .profile-notes-interview-table td{box-sizing:border-box!important;padding:8px 9px!important;border-right:1px solid #E1E6ED!important;border-bottom:1px solid #E1E6ED!important;font:400 12px/1.35 "Segoe UI",system-ui,sans-serif!important;text-align:left!important;vertical-align:top!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table th{position:sticky!important;top:0!important;z-index:1!important;height:32px!important;padding:0 10px!important;background:#176B87!important;color:#fff!important;font-weight:600!important;white-space:nowrap!important;vertical-align:middle!important;border-right:1px solid rgba(255,255,255,.28)!important;border-bottom:0!important;text-transform:none!important;letter-spacing:0!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table td{background:#fff!important;color:#263B56!important;overflow-wrap:anywhere!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table .profile-notes-actions{white-space:nowrap!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table .icon-button{width:26px!important;height:26px!important;min-width:26px!important;padding:0!important}
+#profileNotesModal.profile-level-notes-open #profileNotesEmpty{padding:18px 12px!important;color:#6B7280!important;font:400 12px/1.45 "Segoe UI",system-ui,sans-serif!important;text-align:center!important}
+#profileNotesModal.profile-level-notes-open .profile-note-form{margin-top:12px!important;padding-top:12px!important;border-top:1px solid #D1D5DB!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-footer{position:relative!important;flex:0 0 44px!important;min-height:44px!important;height:44px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:6px 16px!important;border-top:1px solid #B8D8F6!important;background:#CCE8FF!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-buttons .btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;height:30px!important;min-height:30px!important;padding:0 12px!important;box-sizing:border-box!important;border:1px solid transparent!important;border-radius:5px!important;background:#5AA2EF!important;color:#fff!important;font:500 12px "Segoe UI",system-ui,sans-serif!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-buttons .btn:hover{background:#438FDF!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-buttons .btn:focus-visible{outline:2px solid #0D6EFD!important;outline-offset:2px!important}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-buttons .btn:disabled{opacity:.55!important;cursor:not-allowed!important}
+@media(max-width:600px){#profileNotesModal.profile-level-notes-open .profile-notes-new-modal{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}#profileNotesModal.profile-level-notes-open .profile-notes-new-body{padding:10px 12px!important}#profileNotesModal.profile-level-notes-open .profile-notes-new-footer{height:auto!important;min-height:44px!important;flex-wrap:wrap!important;padding:7px 12px!important}}
+</style>
 </style>
 
 
