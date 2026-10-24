@@ -3937,6 +3937,18 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   <button type="button" role="menuitem" data-profile-note-context-action="delete" class="context-delete"><i class="fa-solid fa-trash" aria-hidden="true"></i><span>Delete Note</span></button>
 </div>
 
+<div class="modal-backdrop hidden" id="profileNoteDeleteConfirmModal" aria-hidden="true">
+  <div class="profile-delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="profileNoteDeleteConfirmTitle">
+    <div class="profile-delete-confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
+    <h2 id="profileNoteDeleteConfirmTitle">Delete Profile Note?</h2>
+    <p id="profileNoteDeleteConfirmText">Are you sure you want to delete this profile note? This action cannot be undone.</p>
+    <div class="profile-delete-confirm-actions">
+      <button class="btn btn-outline" id="cancelDeleteProfileNoteButton" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteProfileNoteButton" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Note</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop hidden" id="interviewDeleteConfirmModal" aria-hidden="true">
   <div class="profile-delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteInterviewConfirmTitle">
     <div class="profile-delete-confirm-icon"><i class="fa-solid fa-trash" aria-hidden="true"></i></div>
@@ -5565,4 +5577,35 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #profileNotesModal.profile-level-notes-open .profile-note-form select{height:34px!important;min-height:34px!important;padding:0 10px!important;border:1px solid #C7D2E0!important;border-radius:5px!important;background-color:#fff!important;color:#263B56!important;font:400 12px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
 .profile-notes-row-context-menu{z-index:2700!important;min-width:210px!important;}
 @media(max-width:700px){#profileNotesModal.profile-level-notes-open .profile-notes-table-wrap{max-height:48dvh!important;overflow:auto!important;}#profileNotesModal.profile-level-notes-open .profile-notes-interview-table{min-width:650px!important;}}
+</style>
+
+<style id="profileNotesCompactAndDeleteStandardV124">
+/* Profile Notes compact layout: retain existing modal width while removing excess vertical space. */
+#profileNotesModal.profile-level-notes-open .profile-notes-new-modal{max-height:86vh!important;max-height:86dvh!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-header{min-height:52px!important;padding:9px 20px!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-body{padding:8px 20px 9px!important;}
+#profileNotesModal.profile-level-notes-open #profileNotesContext{margin:0 0 5px!important;line-height:1.35!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-heading{min-height:36px!important;padding:5px 12px!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-heading h3{font-size:13px!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table tbody td{padding:5px 10px!important;font:400 11px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;vertical-align:middle!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table tbody th{font:600 12px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-interview-table .profile-notes-empty-row td{height:32px!important;padding:6px 10px!important;font:400 11px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form{margin-top:7px!important;padding-top:7px!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form-grid{gap:8px 12px!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form .field-group{gap:0!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form label{margin-bottom:3px!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form select{height:30px!important;min-height:30px!important;padding:0 9px!important;font:400 12px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-level-notes-open .profile-note-form textarea{min-height:60px!important;padding:6px 9px!important;font:400 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-level-notes-open .profile-notes-new-footer{flex-basis:44px!important;height:44px!important;min-height:44px!important;padding:6px 16px!important;}
+#profileNoteDeleteConfirmModal{position:fixed!important;inset:0!important;z-index:13000!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;box-sizing:border-box!important;background:rgba(7,29,73,.38)!important;}
+#profileNoteDeleteConfirmModal.hidden{display:none!important;}
+#profileNoteDeleteConfirmModal .profile-delete-confirm-modal{width:440px!important;max-width:calc(100vw - 24px)!important;box-sizing:border-box!important;padding:28px 28px 24px!important;background:#fff!important;border-radius:10px!important;box-shadow:0 24px 70px rgba(7,29,73,.25)!important;text-align:center!important;font-family:"Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNoteDeleteConfirmModal .profile-delete-confirm-icon{width:52px!important;height:52px!important;margin:0 auto 14px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#FFF1F0!important;color:#B42318!important;font-size:21px!important;}
+#profileNoteDeleteConfirmModal h2{margin:0 0 10px!important;color:#071B4D!important;font:700 18px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNoteDeleteConfirmModal p{margin:0 auto 22px!important;max-width:370px!important;color:#52647D!important;font:400 13px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNoteDeleteConfirmModal .profile-delete-confirm-actions{display:flex!important;justify-content:center!important;align-items:center!important;gap:8px!important;}
+#profileNoteDeleteConfirmModal .profile-delete-confirm-actions .btn{height:30px!important;min-height:30px!important;padding:0 12px!important;border-radius:5px!important;font:500 12px "Segoe UI",system-ui,-apple-system,sans-serif!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;}
+#profileNoteDeleteConfirmModal #confirmDeleteProfileNoteButton{background:#B42318!important;border:1px solid #B42318!important;color:#fff!important;}
+#profileNoteDeleteConfirmModal #cancelDeleteProfileNoteButton{background:#5AA2EF!important;border:1px solid transparent!important;color:#fff!important;}
+@media(max-width:700px){#profileNotesModal.profile-level-notes-open .profile-notes-new-body{padding:8px 12px!important;}#profileNoteDeleteConfirmModal .profile-delete-confirm-modal{padding:24px 18px 20px!important;}#profileNoteDeleteConfirmModal .profile-delete-confirm-actions{flex-wrap:wrap!important;}}
 </style>
