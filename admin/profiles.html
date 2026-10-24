@@ -3968,7 +3968,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     <footer class="profile-notes-new-footer">
       <div id="interviewMessage" class="admin-message profile-notes-new-notice" role="alert" aria-live="polite"></div>
       <div class="profile-notes-new-buttons">
-        <button class="btn btn-primary" id="cancelInterviewModalButton" type="button"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Close</button>
+        <button class="btn btn-primary" id="cancelInterviewModalButton" type="button"><i class="fa-solid fa-door-open" aria-hidden="true"></i> Close</button>
       </div>
     </footer>
   </div>
@@ -5044,3 +5044,240 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   #interviewRequirementPickerModal .nxr-header { border-radius:4px 4px 0 0 !important; }
 }
 </style>
+
+<style id="interview-rounds-modal-standard-v1-8">
+/* Modal Design Standard v1.8 — Interview Rounds list modal only. */
+#interviewModal {
+  box-sizing:border-box !important;
+  padding:18px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+#interviewModal .profile-interview-rounds-compact {
+  display:flex !important;
+  flex-direction:column !important;
+  width:min(1100px, 96vw) !important;
+  max-width:96vw !important;
+  height:auto !important;
+  max-height:90vh !important;
+  max-height:90dvh !important;
+  min-height:0 !important;
+  margin:auto !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  border:1px solid #D1D5DB !important;
+  border-radius:6px !important;
+  background:#FFFFFF !important;
+  box-shadow:0 14px 40px rgba(15,35,65,.22) !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-notes-new-header {
+  position:relative !important;
+  top:auto !important;
+  z-index:2 !important;
+  flex:0 0 auto !important;
+  min-height:60px !important;
+  box-sizing:border-box !important;
+  padding:12px 20px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:#0DB4CC !important;
+  color:#FFFFFF !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .interview-modal-title-group h2 {
+  margin:0 !important;
+  color:#FFFFFF !important;
+  font:600 16px/1.25 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .interview-modal-subtitle {
+  margin:3px 0 0 !important;
+  color:rgba(255,255,255,.92) !important;
+  font:400 13px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .modal-close {
+  flex:0 0 auto !important;
+  width:30px !important;
+  height:30px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin-left:12px !important;
+  border:0 !important;
+  border-radius:5px !important;
+  background:transparent !important;
+  color:#FFFFFF !important;
+  font-size:16px !important;
+}
+#interviewModal .profile-notes-new-body {
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain !important;
+  padding:16px 20px !important;
+  background:#FFFFFF !important;
+  color:#263B56 !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal #interviewContext {
+  margin:0 0 14px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:#FFFFFF !important;
+  color:#263B56 !important;
+  font:400 12px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-interview-section {
+  margin:0 !important;
+  border:1px solid #D1D5DB !important;
+  border-radius:5px !important;
+  overflow:hidden !important;
+  background:#FFFFFF !important;
+}
+#interviewModal .profile-interview-heading {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding:10px 12px !important;
+  background:#FFFFFF !important;
+}
+#interviewModal .profile-interview-heading h3 {
+  margin:0 !important;
+  color:#263B56 !important;
+  font:700 14px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-interview-table-wrap {
+  width:100% !important;
+  min-height:0 !important;
+  max-height:52vh !important;
+  max-height:52dvh !important;
+  overflow:auto !important;
+  background:#FFFFFF !important;
+}
+#interviewModal .profile-interview-table {
+  width:100% !important;
+  min-width:850px !important;
+  table-layout:auto !important;
+  border-collapse:collapse !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-interview-table th,
+#interviewModal .profile-interview-table td {
+  box-sizing:border-box !important;
+  padding:8px 9px !important;
+  border-right:1px solid #E1E6ED !important;
+  border-bottom:1px solid #E1E6ED !important;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  vertical-align:top !important;
+}
+#interviewModal .profile-interview-table th {
+  position:sticky !important;
+  top:0 !important;
+  z-index:1 !important;
+  background:#E5EBF3 !important;
+  color:#263B56 !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+#interviewModal .profile-interview-table td {
+  background:#FFFFFF !important;
+  color:#263B56 !important;
+  font-weight:400 !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+#interviewModal .profile-interviews-empty {
+  padding:18px 12px !important;
+  color:#6B7280 !important;
+  font:400 12px/1.45 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-notes-new-footer {
+  position:relative !important;
+  bottom:auto !important;
+  z-index:2 !important;
+  flex:0 0 44px !important;
+  min-height:44px !important;
+  height:44px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding:6px 16px !important;
+  border-top:1px solid #B8D8F6 !important;
+  border-radius:0 !important;
+  background:#CCE8FF !important;
+}
+#interviewModal .profile-notes-new-notice {
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  color:#B91C1C;
+  font:600 13px/1.25 "Segoe UI",system-ui,-apple-system,sans-serif !important;
+}
+#interviewModal .profile-notes-new-buttons {
+  flex:0 0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:8px !important;
+  margin:0 !important;
+}
+#interviewModal .profile-notes-new-buttons .btn,
+#interviewModal #addInterviewButton {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  height:30px !important;
+  min-height:30px !important;
+  box-sizing:border-box !important;
+  padding:0 12px !important;
+  border:1px solid transparent !important;
+  border-radius:5px !important;
+  background:#5AA2EF !important;
+  color:#FFFFFF !important;
+  font:500 12px/28px "Segoe UI",system-ui,-apple-system,sans-serif !important;
+  box-shadow:none !important;
+  white-space:nowrap !important;
+}
+#interviewModal .profile-notes-new-buttons .btn:hover:not(:disabled),
+#interviewModal #addInterviewButton:hover:not(:disabled) {
+  background:#3F8FE5 !important;
+  border-color:#3F8FE5 !important;
+}
+#interviewModal .profile-notes-new-buttons .btn:focus-visible,
+#interviewModal #addInterviewButton:focus-visible {
+  outline:2px solid #0D6EFD !important;
+  outline-offset:2px !important;
+}
+#interviewModal .profile-notes-new-buttons .btn:disabled,
+#interviewModal #addInterviewButton:disabled {
+  opacity:.55 !important;
+  cursor:not-allowed !important;
+}
+#interviewModal .profile-notes-new-buttons .btn i,
+#interviewModal #addInterviewButton i {
+  font-size:12px !important;
+  line-height:1 !important;
+}
+@media(max-width:700px) {
+  #interviewModal { padding:10px !important; }
+  #interviewModal .profile-interview-rounds-compact { width:96vw !important; max-width:96vw !important; max-height:90vh !important; max-height:90dvh !important; }
+  #interviewModal .profile-notes-new-header { padding:10px 14px !important; }
+  #interviewModal .profile-notes-new-body { padding:12px !important; }
+  #interviewModal .profile-notes-new-footer { height:auto !important; min-height:44px !important; flex-basis:auto !important; flex-wrap:wrap !important; padding:7px 12px !important; }
+  #interviewModal .profile-notes-new-notice { flex-basis:100% !important; }
+  #interviewModal .profile-notes-new-buttons { width:100% !important; }
+  #interviewModal .profile-interview-table-wrap { max-height:48vh !important; max-height:48dvh !important; }
+}
+</style>
+
