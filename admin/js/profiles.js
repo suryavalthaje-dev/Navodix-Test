@@ -398,10 +398,10 @@
     if(aError)throw aError;
     const associatedIds=new Set((assocRows||[]).map(x=>String(x.requirement_id)));
     const assoc=associationId ? (assocRows||[]).find(x=>String(x.id)===String(associationId)) : null;
-    const profileAssociationName=`${p.full_name||''} (${p.profile_number||''})`; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
+    const profileAssociationName=p.full_name||''; $('profileAssociationProfileName').textContent=profileAssociationName; const profileAssociationDisplay=$('profileAssociationProfileNameDisplay'); if(profileAssociationDisplay) profileAssociationDisplay.textContent=profileAssociationName;
     const currentAssociationRow=$('profileAssociationCurrentRow');
     const currentAssociationValue=$('profileAssociationCurrentValue');
-    const currentAssociationNames=(assocRows||[]).map(x=>requirements.find(r=>String(r.id)===String(x.requirement_id))).filter(Boolean).map(r=>r.title||r.job_code||'').filter(Boolean);
+    const currentAssociationNames=(assocRows||[]).map(x=>requirements.find(r=>String(r.id)===String(x.requirement_id))).filter(Boolean).map(r=>{const name=r.title||r.job_code||'';const location=String(r.location||'').trim();return name?(location?`${name}: ${location}`:name):'';}).filter(Boolean);
     if(currentAssociationValue) currentAssociationValue.textContent=currentAssociationNames.length ? currentAssociationNames.join(', ') : 'Not Associated';
     if(currentAssociationRow) currentAssociationRow.classList.remove('hidden');
     const reqSelect=$('profileAssociationRequirement');
