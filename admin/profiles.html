@@ -3428,9 +3428,10 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #updateProfileStatusModal .ups-header h2{margin:0;color:#fff;font:600 16px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif}
 #updateProfileStatusModal .ups-close{margin-left:auto;background:transparent;border:0;color:#fff;font:400 24px/1 "Segoe UI",system-ui,-apple-system,sans-serif;cursor:pointer;padding:0 2px}
 #updateProfileStatusModal .ups-body{padding:12px 18px;overflow:auto;min-height:0;flex:1;color:#1F2937}
-#updateProfileStatusModal .ups-profile-name{display:flex;align-items:baseline;justify-content:flex-start;gap:8px;margin:0 0 12px;padding:0;background:transparent;border:0;border-radius:0;color:#263b56;font:400 13px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-wrap:anywhere;text-align:left}
-#updateProfileStatusModal .ups-profile-name-label{font-weight:400;white-space:nowrap;flex-shrink:0}
-#updateProfileStatusModal #updateProfileStatusName{font-weight:400;min-width:0;overflow-wrap:anywhere;color:#2E8397}
+#updateProfileStatusModal .ups-profile-name,#updateProfileStatusModal .ups-current-status{display:flex;align-items:baseline;justify-content:flex-start;gap:5px;margin:0 0 3px;padding:0;background:transparent;border:0;border-radius:0;color:#374151;font:400 12px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-wrap:anywhere;text-align:left}
+#updateProfileStatusModal .ups-profile-name-label,#updateProfileStatusModal .ups-current-status-label{font-weight:400;white-space:nowrap;flex-shrink:0;color:#374151}
+#updateProfileStatusModal #updateProfileStatusName,#updateProfileStatusModal #updateProfileCurrentStatus{font-weight:500;min-width:0;overflow-wrap:anywhere;color:#246B7A}
+#updateProfileStatusModal .ups-current-status{margin-bottom:12px}
 #updateProfileStatusModal label{display:block;margin:0 0 5px;font:400 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif;color:#374151}
 #updateProfileStatusModal select,#updateProfileStatusModal textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #D1D5DB;border-radius:5px;background:#fff;color:#111827;font:400 12px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif;padding:8px 10px;outline:none}
 #updateProfileStatusModal select{height:30px;padding-top:4px;padding-bottom:4px}
@@ -3440,7 +3441,8 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #updateProfileStatusModal .ups-footer{height:44px;min-height:44px;max-height:44px;flex:0 0 44px;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 16px;border-top:1px solid #D1D5DB;background:#CCE8FF;flex-shrink:0}
 #updateProfileStatusModal .ups-footer .ups-message{margin-right:auto}
 #updateProfileStatusModal .ups-footer .btn{box-sizing:border-box!important;border-radius:5px!important;min-height:30px!important;height:30px!important;padding:0 14px!important;font:500 12px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
-#updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#5AA2EF!important;border:1px solid #5AA2EF!important;color:#fff!important}
+#updateProfileStatusModal .ups-footer .btn-primary,#updateProfileStatusModal .ups-footer .btn-outline{background:#4B91DD!important;border:1px solid #4B91DD!important;color:#fff!important}
+#updateProfileStatusModal .ups-footer .btn:hover{background:#3E80C8!important;border-color:#3E80C8!important}
 #updateProfileStatusModal #cancelUpdateProfileStatusButton{order:99}
 #profileAssociationModal .profile-association-new-buttons{display:flex!important;flex-direction:row!important;justify-content:flex-end!important} #profileAssociationModal #saveProfileAssociationButton{order:1!important} #profileAssociationModal #cancelProfileAssociationButton{order:2!important;margin-left:0!important}
 #updateProfileStatusModal .ups-footer .btn:focus-visible,#updateProfileStatusModal .ups-close:focus-visible{outline:2px solid #0D6EFD;outline-offset:2px}
@@ -3451,6 +3453,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     <div class="ups-header"><h2 id="updateProfileStatusTitle">Update Profile Status</h2><button class="ups-close" id="closeUpdateProfileStatusModal" type="button" aria-label="Close">&times;</button></div>
     <div class="ups-body">
       <div class="ups-profile-name"><span class="ups-profile-name-label">Profile Name :</span><span id="updateProfileStatusName"></span></div>
+      <div class="ups-current-status"><span class="ups-current-status-label">Current Status :</span><span id="updateProfileCurrentStatus" aria-live="polite"></span></div>
       <label for="updateProfileStatusSelect">Profile Status</label>
       <select id="updateProfileStatusSelect">
         <option>New</option><option>Available</option><option>Available – Future Opportunities</option><option>Potential – Future Candidate</option><option>On Hold</option><option>Not Available</option><option>Not Suitable</option><option>Do Not Contact</option><option>Not Interested</option>
