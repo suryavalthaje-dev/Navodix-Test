@@ -292,7 +292,7 @@
     $('profileNotesTitle').textContent=`Profile Notes : ${profileName}`;
     $('profileNotesSectionBadge').textContent='PROFILE NOTES';
     $('profileNotesContext').innerHTML='<div class="interview-context-row"><span class="interview-context-label">Profile Name :</span><span class="profile-notes-profile-row-value">'+esc(profileName)+'</span></div>';
-    $('profileNotesModal').classList.add('profile-level-notes-open');
+    $('profileNotesListTitle').textContent='Profile Notes'; $('profileNotesModal').classList.add('profile-level-notes-open');
     $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadProfileLevelNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
@@ -307,7 +307,7 @@
   }
   async function openProfileRequirementNotes(profileId,requirementId,requirementLabel='Requirement'){
     profileNotesProfileId=profileId||''; profileNotesRequirementId=requirementId||''; profileNotesEditingId=''; if(!profileNotesProfileId||!profileNotesRequirementId)return;
-    $('profileNotesTitle').textContent=`Profile Association Notes : ${requirementLabel}`; $('profileNotesSectionBadge').textContent='PROFILE ASSOCIATION NOTES'; $('profileNotesContext').innerHTML=`<div class="interview-context-row"><span class="interview-context-label">Profile Name :</span><span class="profile-notes-profile-row-value">${esc(profiles.find(x=>String(x.id)===String(profileId))?.full_name||'Profile')}</span></div><div class="interview-context-row"><span class="interview-context-label">Requirement :</span><span class="profile-notes-profile-row-value">${esc(requirementLabel)}</span></div>`; $('profileNotesModal').classList.remove('profile-level-notes-open'); $('profileNotesModal').classList.add('profile-association-notes-open'); $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
+    $('profileNotesTitle').textContent=`Requirement Association Notes : ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT ASSOCIATION NOTES'; $('profileNotesListTitle').textContent='Requirement Association Notes'; $('profileNotesContext').innerHTML=`<div class="interview-context-row"><span class="interview-context-label">Profile Name :</span><span class="profile-notes-profile-row-value">${esc(profiles.find(x=>String(x.id)===String(profileId))?.full_name||'Profile')}</span></div><div class="interview-context-row"><span class="interview-context-label">Requirement :</span><span class="profile-notes-profile-row-value">${esc(requirementLabel)}</span></div>`; $('profileNotesModal').classList.remove('profile-level-notes-open'); $('profileNotesModal').classList.add('profile-association-notes-open'); $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadRequirementNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
   async function saveProfileRequirementNote(e){
