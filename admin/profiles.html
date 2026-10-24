@@ -3916,7 +3916,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
       <div id="profileNotesContext" class="profile-association-panel profile-notes-context"></div>
       <div id="profileNotesMessage" class="admin-message" role="alert"></div>
       <section class="profile-notes-interview-section">
-        <div class="profile-notes-interview-heading"><h3>Profile Notes</h3></div>
+        <div class="profile-notes-interview-heading"><h3 id="profileNotesListTitle">Profile Notes</h3></div>
         <div id="profileNotesTableWrap" class="profile-notes-table-wrap"><table class="profile-interview-table profile-notes-interview-table"><thead><tr><th>Date &amp; Time</th><th>Updated by</th><th>Type</th><th>Note</th></tr></thead><tbody id="profileNotesTableBody"></tbody></table></div>
         <div id="profileNotesEmpty" class="profile-interviews-empty empty-state hidden" role="status">No profile notes found.</div>
       </section>
@@ -5661,4 +5661,23 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #profileNotesModal.profile-association-notes-open .profile-note-form{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #D1D5DB!important;}
 #profileNotesModal.profile-association-notes-open .profile-notes-new-footer{position:relative!important;flex:0 0 44px!important;min-height:44px!important;height:44px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:6px 16px!important;border-top:1px solid #B8D8F6!important;background:#CCE8FF!important;}
 @media(max-width:700px){#profileNotesModal.profile-association-notes-open .profile-notes-new-body{padding:12px!important;}#profileNotesModal.profile-association-notes-open .profile-notes-new-footer{height:auto!important;min-height:44px!important;flex-wrap:wrap!important;padding:7px 12px!important;}}
+</style>
+
+<style id="profile-association-notes-refinements-v130">
+/* Association Notes: apply Interview Rounds list selection and compact context styling. */
+#profileNotesModal.profile-association-notes-open .profile-notes-context{margin:0 0 8px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#1E293B!important;font:400 12px/1.35 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-context .interview-context-row{margin:0 0 3px!important;padding:0!important;border:0!important;background:transparent!important;display:flex!important;gap:3px!important;align-items:baseline!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-context .interview-context-label{font-weight:400!important;color:#1E293B!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-context .profile-notes-profile-row-value{font-size:12px!important;font-weight:400!important;color:#2E8397!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-heading{min-height:26px!important;padding:0 0 5px!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-heading h3{font:700 14px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-association-notes-open #profileNoteType{font:400 12px/1.2 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-table tbody tr.profile-note-row-selected,
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-table tbody tr.profile-note-row-selected>td,
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-table tbody tr.profile-note-row-selected:hover,
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-table tbody tr.profile-note-row-selected:hover>td{background:#08B5D5!important;color:#073B49!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-interview-table tbody tr.profile-note-row-selected>td{border-top-color:#0795B0!important;border-bottom-color:#0795B0!important;}
+#profileNotesModal.profile-association-notes-open .profile-notes-new-body{padding-top:12px!important;padding-bottom:10px!important;}
+#profileNotesModal.profile-association-notes-open .profile-note-form{margin-top:7px!important;padding-top:7px!important;}
+#profileNotesModal.profile-association-notes-open .profile-note-form-grid{gap:10px 16px!important;}
 </style>
