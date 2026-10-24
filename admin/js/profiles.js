@@ -260,7 +260,7 @@
   let profileNotesRequirementId = '';
   let profileNotesEditingId = '';
 
-  function closeProfileNotesModal(){ $('profileNotesModal').classList.remove('profile-level-notes-open'); $('profileNotesModal').classList.add('hidden'); $('profileNotesModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); profileNotesProfileId=''; profileNotesRequirementId=''; profileNotesEditingId=''; resetProfileNoteForm(); }
+  function closeProfileNotesModal(){ $('profileNotesModal').classList.remove('profile-level-notes-open','profile-association-notes-open'); $('profileNotesModal').classList.add('hidden'); $('profileNotesModal').setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); profileNotesProfileId=''; profileNotesRequirementId=''; profileNotesEditingId=''; resetProfileNoteForm(); }
   function profileNoteFormMessage(text='',type=''){ const el=$('profileNoteFormMessage'); if(!el)return; el.textContent=text; el.className=`admin-message${type?' '+type:''}`; }
   function setProfileNoteTypeOptions(isProfileLevel){
     const select=$('profileNoteType'); if(!select)return;
@@ -307,7 +307,7 @@
   }
   async function openProfileRequirementNotes(profileId,requirementId,requirementLabel='Requirement'){
     profileNotesProfileId=profileId||''; profileNotesRequirementId=requirementId||''; profileNotesEditingId=''; if(!profileNotesProfileId||!profileNotesRequirementId)return;
-    $('profileNotesTitle').textContent=`Notes — ${requirementLabel}`; $('profileNotesSectionBadge').textContent='REQUIREMENT NOTES'; $('profileNotesContext').innerHTML=`<strong>Requirement:</strong> ${esc(requirementLabel)}`; $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
+    $('profileNotesTitle').textContent=`Profile Association Notes : ${requirementLabel}`; $('profileNotesSectionBadge').textContent='PROFILE ASSOCIATION NOTES'; $('profileNotesContext').innerHTML=`<div class="interview-context-row"><span class="interview-context-label">Profile Name :</span><span class="profile-notes-profile-row-value">${esc(profiles.find(x=>String(x.id)===String(profileId))?.full_name||'Profile')}</span></div><div class="interview-context-row"><span class="interview-context-label">Requirement :</span><span class="profile-notes-profile-row-value">${esc(requirementLabel)}</span></div>`; $('profileNotesModal').classList.remove('profile-level-notes-open'); $('profileNotesModal').classList.add('profile-association-notes-open'); $('profileNotesModal').classList.remove('hidden'); $('profileNotesModal').setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); resetProfileNoteForm();
     try{await loadRequirementNotes();}catch(err){$('profileNotesMessage').textContent=err.message||String(err);$('profileNotesMessage').className='admin-message error';}
   }
   async function saveProfileRequirementNote(e){
