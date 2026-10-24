@@ -515,7 +515,7 @@
       const rows=data||[];
       let currentUserId=null, currentUserName='Current user';
       try { const {data:authData}=await supabase.auth.getUser(); currentUserId=authData.user?.id||null; currentUserName=authData.user?.user_metadata?.full_name||authData.user?.user_metadata?.name||authData.user?.email||'Current user'; } catch(_) {}
-      $('associationHistoryTableBody').innerHTML=rows.map(x=>{const changedBy=String(x.changed_by||'').trim();const readableChangedBy=!changedBy?'—':(currentUserId&&changedBy===currentUserId?currentUserName:'User details unavailable');return `<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td><span class=\"status-pill ${statusClass(x.new_status)}\">${esc(x.new_status||'—')}</span></td><td>${esc(x.notes||'—')}</td><td>${esc(readableChangedBy)}</td></tr>`;}).join('');
+      $('associationHistoryTableBody').innerHTML=rows.map(x=>{const changedBy=String(x.changed_by||'').trim();const readableChangedBy=!changedBy?'—':(currentUserId&&changedBy===currentUserId?currentUserName:'User details unavailable');return `<tr><td>${esc(formatDateTime(x.changed_at))}</td><td>${esc(x.previous_status||'—')}</td><td>${esc(x.new_status||'—')}</td><td>${esc(x.notes||'—')}</td><td>${esc(readableChangedBy)}</td></tr>`;}).join('');
       $('associationHistoryMessage').textContent=rows.length?'':'No status history found.';
     } catch(err) {
       $('associationHistoryMessage').textContent=err.message||String(err);
