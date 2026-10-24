@@ -3945,7 +3945,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
     </div>
 
     <div class="profile-notes-new-body">
-      <div id="interviewContext" class="profile-association-panel"></div>
+      <div id="interviewContext" class="profile-association-panel interview-context-details"></div>
 
       <section class="profile-interview-section">
         <div class="profile-interview-heading">
@@ -5292,7 +5292,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 /* Match the Candidate Profiles list table, selected-row treatment and empty state. */
 #interviewModal .profile-interview-table-wrap{overflow:auto!important;min-height:0!important;max-height:100%!important;background:#fff!important;}
 #interviewModal .profile-interview-table{width:100%!important;min-width:760px!important;table-layout:fixed!important;border-collapse:collapse!important;}
-#interviewModal .profile-interview-table thead th{height:40px!important;padding:0 10px!important;background:#2878E8!important;color:#fff!important;text-align:left!important;font-size:12px!important;font-weight:600!important;white-space:nowrap!important;border-right:1px solid rgba(255,255,255,.35)!important;border-bottom:0!important;text-transform:none!important;letter-spacing:0!important;}
+#interviewModal .profile-interview-table thead th{height:32px!important;padding:0 10px!important;background:#2878E8!important;color:#fff!important;text-align:left!important;vertical-align:middle!important;font-size:12px!important;font-weight:600!important;white-space:nowrap!important;border-right:1px solid rgba(255,255,255,.35)!important;border-bottom:0!important;text-transform:none!important;letter-spacing:0!important;}
 #interviewModal .profile-interview-table thead th:first-child{ text-align:center!important;}
 #interviewModal .profile-interview-table tbody tr:nth-child(odd){background:#fff!important;}
 #interviewModal .profile-interview-table tbody tr:nth-child(even){background:#F2F5F8!important;}
@@ -5314,4 +5314,11 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
 #interviewModal #cancelInterviewModalButton i{font-size:12px!important;}
 .interview-row-context-menu{z-index:2600!important;}
 @media(max-width:700px){#interviewModal .profile-interview-table{min-width:760px!important;}#interviewModal .profile-interview-table-wrap{max-height:48dvh!important;overflow:auto!important;}}
+
+/* Match the compact profile/requirement context used by Update Association Status. */
+#interviewModal #interviewContext.interview-context-details{display:flex!important;flex-direction:column!important;gap:2px!important;margin:0 0 12px!important;padding:0!important;border:0!important;border-radius:0!important;background:#fff!important;color:#374151!important;font:400 12px/1.4 "Segoe UI",system-ui,-apple-system,sans-serif!important;}
+#interviewModal .interview-context-row{display:flex!important;align-items:baseline!important;gap:5px!important;min-height:18px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;}
+#interviewModal .interview-context-label{flex:0 0 auto!important;color:#374151!important;font-size:12px!important;font-weight:400!important;}
+#interviewModal .interview-context-value{min-width:0!important;color:#246B7A!important;font-size:12px!important;font-weight:500!important;overflow-wrap:anywhere!important;}
+#interviewModal .profile-interview-heading h3{font-size:13px!important;font-weight:600!important;}
 </style>
