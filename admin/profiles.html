@@ -5447,3 +5447,24 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
  #associationHistoryModal .profile-status-history-modal table.profile-interview-table.profile-status-history-table{min-width:900px!important;}
 }
 </style>
+
+<style id="association-history-empty-button-spacing-fix-v1-19">
+/* Match the Interview Rounds modal's empty-state and command-button treatment. */
+#associationHistoryModal #associationHistoryContext{margin-bottom:6px!important;}
+#associationHistoryModal .profile-status-history-notice{display:none!important;margin:0!important;padding:0!important;}
+#associationHistoryModal .profile-status-history-modal .profile-status-history-section > .profile-interview-heading{min-height:48px!important;padding:8px 12px!important;}
+#associationHistoryModal .profile-status-history-modal .profile-status-history-table td.history-empty-state{
+  height:36px!important;padding:8px 12px!important;text-align:center!important;vertical-align:middle!important;
+  color:#64748B!important;background:#FFFFFF!important;font:400 12px/1.3 "Segoe UI",system-ui,-apple-system,sans-serif!important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-notes-new-buttons .btn{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+  height:30px!important;min-height:30px!important;box-sizing:border-box!important;padding:0 12px!important;
+  border:1px solid transparent!important;border-radius:5px!important;background:#5AA2EF!important;color:#FFFFFF!important;
+  font:500 12px/28px "Segoe UI",system-ui,-apple-system,sans-serif!important;box-shadow:none!important;white-space:nowrap!important;
+}
+#associationHistoryModal .profile-status-history-modal .profile-notes-new-buttons .btn:hover:not(:disabled){background:#3F8FE5!important;border-color:#3F8FE5!important;}
+#associationHistoryModal .profile-status-history-modal .profile-notes-new-buttons .btn:focus-visible{outline:2px solid #0D6EFD!important;outline-offset:2px!important;}
+#associationHistoryModal .profile-status-history-modal .profile-notes-new-buttons .btn:disabled{opacity:.55!important;cursor:not-allowed!important;}
+#associationHistoryModal .profile-status-history-modal .profile-notes-new-buttons .btn i{font-size:12px!important;line-height:1!important;}
+</style>
