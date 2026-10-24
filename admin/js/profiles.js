@@ -301,7 +301,7 @@
     $('profileNotesMessage').textContent='Loading…'; $('profileNotesMessage').className='admin-message'; $('profileNotesTableBody').innerHTML=''; $('profileNotesEmpty').classList.add('hidden'); $('profileNotesTableWrap').classList.remove('hidden');
     const {data,error}=await supabase.from('profile_notes').select('id,note_type,note,created_at,created_by').eq('profile_id',profileNotesProfileId).eq('requirement_id',profileNotesRequirementId).order('created_at',{ascending:false});
     if(error)throw error; const rows=data||[];
-    if(!rows.length){ $('profileNotesTableWrap').classList.add('hidden'); $('profileNotesEmpty').classList.remove('hidden'); }
+    if(!rows.length){ $('profileNotesTableBody').innerHTML='<tr class="profile-notes-empty-row"><td colspan="4">No profile notes found.</td></tr>'; }
     else $('profileNotesTableBody').innerHTML=rows.map(n=>`<tr data-profile-note-row-id="${esc(n.id)}" tabindex="0"><td>${esc(formatDateTime(n.created_at))}</td><td>${esc(noteCreatorLabel(n.created_by))}</td><td>${esc(n.note_type||'Update')}</td><td class="profile-note-text">${esc(n.note||'')}</td></tr>`).join('');
     $('profileNotesMessage').textContent='';
   }
