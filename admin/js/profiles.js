@@ -1067,6 +1067,26 @@
     if(pagination)pagination.remove();
 }
 
+function applyManageCandidatesFilterLock(){
+  // Lock these filters only when Profiles Management is opened from Manage Candidates.
+  // The existing URL context uses ?requirement=<id> or ?requirements=<id,id,...>.
+  const fromManageCandidates=Boolean(requirementId || requirementIds.length);
+  if(!fromManageCandidates)return;
+  ['profileRequirementFilter','profileClientFilter','profileLocationFilter'].forEach(id=>{
+    const select=$(id);
+    if(!select)return;
+    select.disabled=true;
+    select.setAttribute('aria-disabled','true');
+    select.title='This filter is unavailable when opened from Manage Candidates.';
+  });
+  if(!document.getElementById('manage-candidates-disabled-filters-style')){
+    const style=document.createElement('style');
+    style.id='manage-candidates-disabled-filters-style';
+    style.textContent=`#profileRequirementFilter:disabled,#profileClientFilter:disabled,#profileLocationFilter:disabled{background:#E9EDF2!important;color:#8A96A5!important;border-color:#D2D9E2!important;opacity:1!important;cursor:not-allowed!important;-webkit-text-fill-color:#8A96A5!important;} #profileRequirementFilter:disabled option,#profileClientFilter:disabled option,#profileLocationFilter:disabled option{color:#8A96A5!important;}`;
+    document.head.appendChild(style);
+  }
+}
+
 function applyManageCandidatesNavigationHighlight(){
   const params=new URLSearchParams(window.location.search);
   if(!params.get('requirement')&&!params.get('requirements'))return;
@@ -1088,5 +1108,5 @@ function applyManageCandidatesNavigationHighlight(){
   }
 }
 
-document.addEventListener('DOMContentLoaded',async()=>{applyManageCandidatesNavigationHighlight();const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();window.addEventListener('resize',updateProfilesListHeight);try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
+document.addEventListener('DOMContentLoaded',async()=>{applyManageCandidatesFilterLock();applyManageCandidatesNavigationHighlight();const allowed=await window.navodixAdminReady;if(allowed===false)return;applyProfilesListScrollLayout();window.addEventListener('resize',updateProfilesListHeight);try{await loadLocationMaster();await loadJobCategories();await loadRequirement();await loadRequirements();await loadProfiles();}catch(err){console.error(err);message('Could not load Profiles Management. Run the Profile Management database migration and deploy the profile-management Edge Function first.','error');}});
 })();
