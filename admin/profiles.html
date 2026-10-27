@@ -2803,19 +2803,20 @@ body.admin-app-page{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;ba
 </style>
 
 <style id="profiles-list-columns-v24">
-/* Requested adjustment: reduce location and Submit Date columns to header-fit widths and give the freed space to Profile Name. */
-.profiles-list-card .profiles-table thead th:nth-child(1), .profiles-list-card .profiles-table tbody td:nth-child(1){width:17% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(2), .profiles-list-card .profiles-table tbody td:nth-child(2){width:18% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(3), .profiles-list-card .profiles-table tbody td:nth-child(3){width:15% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(4), .profiles-list-card .profiles-table tbody td:nth-child(4){width:6% !important;}
+/* Profiles list widths adjusted for the new Requirement Location column. */
+.profiles-list-card .profiles-table thead th:nth-child(1), .profiles-list-card .profiles-table tbody td:nth-child(1){width:16% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(2), .profiles-list-card .profiles-table tbody td:nth-child(2){width:15% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(3), .profiles-list-card .profiles-table tbody td:nth-child(3){width:7% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(4), .profiles-list-card .profiles-table tbody td:nth-child(4){width:12% !important;}
 .profiles-list-card .profiles-table thead th:nth-child(5), .profiles-list-card .profiles-table tbody td:nth-child(5){width:6% !important;}
 .profiles-list-card .profiles-table thead th:nth-child(6), .profiles-list-card .profiles-table tbody td:nth-child(6){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(7), .profiles-list-card .profiles-table tbody td:nth-child(7){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(8), .profiles-list-card .profiles-table tbody td:nth-child(8){width:6% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(9), .profiles-list-card .profiles-table tbody td:nth-child(9){width:7% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(10), .profiles-list-card .profiles-table tbody td:nth-child(10){width:8% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(11), .profiles-list-card .profiles-table tbody td:nth-child(11){width:7% !important;}
-.profiles-list-card .profiles-table thead th:nth-child(12), .profiles-list-card .profiles-table tbody td:nth-child(12){width:6% !important;white-space:nowrap !important;}
+.profiles-list-card .profiles-table thead th:nth-child(7), .profiles-list-card .profiles-table tbody td:nth-child(7){width:5% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(8), .profiles-list-card .profiles-table tbody td:nth-child(8){width:5% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(9), .profiles-list-card .profiles-table tbody td:nth-child(9){width:5% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(10), .profiles-list-card .profiles-table tbody td:nth-child(10){width:6% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(11), .profiles-list-card .profiles-table tbody td:nth-child(11){width:6% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(12), .profiles-list-card .profiles-table tbody td:nth-child(12){width:6% !important;}
+.profiles-list-card .profiles-table thead th:nth-child(13), .profiles-list-card .profiles-table tbody td:nth-child(13){width:5% !important;white-space:nowrap !important;}
 .profiles-list-card .profiles-table tbody td{overflow-wrap:anywhere !important;}
 .profiles-list-card .profile-name-cell strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 </style>
@@ -3397,7 +3398,7 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   <div id="profilesMessage" class="admin-message" role="status"></div>
   <section class="jobs-card profiles-list-card">
     <div class="jobs-list-heading"><div class="jobs-list-heading-inline"><h2 id="profilesListTitle">Candidate Profiles</h2><p id="profilesListDescription">Central candidate profiles and requirement associations</p></div><div class="jobs-list-heading-actions"><a class="btn btn-outline profiles-list-standard-button hidden" id="backToRequirementsButton" href="recruitment.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</a><button class="btn btn-outline profiles-list-standard-button hidden" id="associateExistingButton" type="button"><i class="fa-solid fa-link" aria-hidden="true"></i> Associate Profiles</button><button class="btn btn-outline profiles-list-standard-button" id="clearProfileFiltersButton" type="button"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear Filters</button><button class="btn btn-outline profiles-list-standard-button" id="exportProfilesButton" type="button"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Export</button><button class="btn btn-outline profiles-list-standard-button" id="refreshProfilesButton" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</button><button class="btn btn-primary profiles-list-standard-button" id="addProfileButton" type="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Profile</button><button class="btn btn-outline profiles-list-standard-button" id="profilesColumnsButton" type="button"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Columns</button></div><div class="columns-popover hidden" id="profilesColumnsPopover"><div class="columns-popover-title">Show / Hide Columns</div><label class="column-option"><input type="checkbox" checked data-profile-col="0"> Profile Name</label><label class="column-option"><input type="checkbox" checked data-profile-col="1"> Requirement</label><label class="column-option"><input type="checkbox" checked data-profile-col="2"> Current Company</label><label class="column-option"><input type="checkbox" checked data-profile-col="3"> Cur Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="4"> Pref Location</label><label class="column-option"><input type="checkbox" checked data-profile-col="5"> Experience</label><label class="column-option"><input type="checkbox" checked data-profile-col="6"> Current CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="7"> Expected CTC</label><label class="column-option"><input type="checkbox" checked data-profile-col="8"> Notice Period</label><label class="column-option"><input type="checkbox" checked data-profile-col="9"> Prof Status</label><label class="column-option"><input type="checkbox" checked data-profile-col="10"> Asc Status</label><label class="column-option"><input type="checkbox" checked data-profile-col="11"> Submit Date</label></div></div>
-    <div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile Name</th><th>Requirement</th><th>Current Company</th><th>Cur Location</th><th>Pref Location</th><th>Experience</th><th>Current CTC</th><th>Expected CTC</th><th>Notice Period</th><th>Prof Status</th><th>Asc Status</th><th>Submit Date</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div>
+    <div class="table-wrap"><table class="profiles-table"><thead><tr><th>Profile Name</th><th>Requirement</th><th>Location</th><th>Current Company</th><th>Cur Location</th><th>Pref Location</th><th>Experience</th><th>Current CTC</th><th>Expected CTC</th><th>Notice Period</th><th>Prof Status</th><th>Asc Status</th><th>Submit Date</th></tr></thead><tbody id="profilesTableBody"></tbody></table></div>
     <div id="emptyProfiles" class="empty-state hidden"><i class="fa-solid fa-users"></i><h3>No profiles found</h3><p>Add a profile or associate an existing profile with a requirement.</p></div>
   </section>
 </div></main>
