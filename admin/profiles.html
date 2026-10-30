@@ -3967,6 +3967,77 @@ body.manage-requirements-context-red .admin-section-nav-link[href^="recruitment.
   #profileModal .resume-document-status{margin-left:0;width:100%;}
 }
 </style>
+
+<style id="profile-modal-requested-fixes-20261031">
+/* Job Category labels: regular-weight text in Add and Edit Profile. */
+#profileModal #profileCategoryList .profile-category-item,
+#profileModal #profileCategoryList .profile-category-item span {
+  font-weight:400 !important;
+}
+/* Match Additional Information height to Skills. */
+#profileModal #profileTabPersonal #skills,
+#profileModal #profileTabPersonal #additionalInformation {
+  height:42px !important;
+  min-height:42px !important;
+}
+/* Resume upload and attachment information use the complete section width. */
+#profileModal #profileTabRecruitment .profile-section-card:first-child .profile-section-fields > .field-group {
+  grid-column:1 / -1 !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+#profileModal #profileTabRecruitment .resume-box {
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+#profileModal #profileTabRecruitment .resume-upload-row {
+  display:flex !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+#profileModal #profileTabRecruitment .resume-document-status {
+  margin-left:auto !important;
+  flex:0 0 auto !important;
+  text-align:right !important;
+  white-space:nowrap !important;
+}
+#profileModal #profileTabRecruitment .resume-existing-row {
+  display:flex !important;
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  padding:0 12px 10px !important;
+}
+#profileModal #profileTabRecruitment .resume-existing-row.hidden {
+  display:none !important;
+}
+#profileModal #profileTabRecruitment .existing-resume-name {
+  width:100% !important;
+  max-width:100% !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+#profileModal #profileTabRecruitment .resume-selected-file-name {
+  min-width:0 !important;
+  overflow-wrap:anywhere !important;
+}
+@media(max-width:700px) {
+  #profileModal #profileTabRecruitment .resume-upload-row {
+    flex-wrap:wrap !important;
+  }
+  #profileModal #profileTabRecruitment .resume-document-status {
+    margin-left:auto !important;
+    width:auto !important;
+  }
+}
+</style>
+
 </head>
 <body class="admin-app-page">
 <header class="admin-header">
