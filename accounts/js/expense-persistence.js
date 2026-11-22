@@ -22,6 +22,7 @@
   const directorName = () => directorKey();
   const actorId = () => profile?.id;
   const byExpenseId = id => expenses.find(x => x.dbId === id || x.id === id);
+  const finishModalAction = () => { const footer=document.getElementById('modalFooter'); if(footer) footer.innerHTML='<span class="modal-footer-spacer"></span><button class="btn btn-light" onclick="closeModal(true)">Close</button>'; };
 
   async function loadAll() {
     if (loading) return;
@@ -101,7 +102,7 @@
       };
       const { error } = await db.from('acc_expenses').insert(payload);
       if (error) throw error;
-      closeModal(true); modalDirty = false; await loadAll(); toast('Expense saved successfully.');
+      modalDirty = false; await loadAll(); finishModalAction(); toast('Expense saved successfully.');
     } catch (error) { fail(error, 'Unable to save expense'); }
   };
 
@@ -122,7 +123,7 @@
       if (!ids.length) { toast('Select at least one expense.', 'error'); return; }
       const { data, error } = await db.rpc('acc_submit_expense_claim', { p_expense_ids: ids, p_claim_date: document.getElementById('sDate').value, p_remarks: document.getElementById('sRemarks').value.trim() || null });
       if (error) throw error;
-      closeModal(true); await loadAll(); toast('Expense claim submitted for approval.');
+      await loadAll(); finishModalAction(); toast('Expense claim submitted for approval.');
     } catch (error) { fail(error, 'Unable to submit claim'); }
   };
 
@@ -145,7 +146,7 @@
       if (claim.submittedById === actorId()) { toast('You cannot approve or reject your own claim.', 'error'); return; }
       const { error } = await db.rpc('acc_review_expense_claim', { p_claim_id: claim.dbId, p_decision: decision, p_reason: reason || null });
       if (error) throw error;
-      closeModal(true); await loadAll(); toast(decision === 'Approve' ? 'Claim approved.' : 'Claim rejected.');
+      await loadAll(); finishModalAction(); toast(decision === 'Approve' ? 'Claim approved successfully.' : 'Expense claim rejected successfully.');
     } catch (error) { fail(error, 'Unable to review claim'); }
   }
 
@@ -157,7 +158,7 @@
       try {
       const { error } = await db.rpc('acc_reverse_expense_claim_approval', { p_claim_id: claim.dbId, p_reason: reason.trim() });
       if (error) throw error;
-      await loadAll(); toast('Claim approval reversed.');
+      await loadAll(); finishModalAction(); toast('Claim approval reversed successfully.');
       } catch (error) { fail(error, 'Unable to reverse approval'); }
     }, { required: true, inputType: 'textarea' });
   };
@@ -186,7 +187,7 @@
       if (!claimId || !amount || amount <= 0) { toast('Select a claim and enter a valid payment amount.', 'error'); return; }
       const { error } = await db.rpc('acc_record_reimbursement', { p_claim_id: claimId, p_payment_date: document.getElementById('rbDate').value, p_amount: amount, p_payment_mode: document.getElementById('rbMode').value, p_bank_reference: document.getElementById('rbRef').value.trim() || null, p_remarks: document.getElementById('rbRemarks').value.trim() || null });
       if (error) throw error;
-      closeModal(true); await loadAll(); toast('Reimbursement payment recorded.');
+      await loadAll(); finishModalAction(); toast('Reimbursement payment recorded successfully.');
     } catch (error) { fail(error, 'Unable to record reimbursement'); }
   };
 
