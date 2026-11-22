@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style id="admin-single-level-navigation-preload">
+    /* Hide the obsolete two-tier menu before first paint. The shared
+       navigation initializer reveals the section menu after moving it. */
+    .admin-header .admin-main-nav { display: none !important; }
+    .admin-header .admin-section-nav { visibility: hidden !important; }
+    body.admin-single-level-navigation .admin-header .admin-section-nav {
+      visibility: visible !important;
+    }
+  </style>
+
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>Action Items | Navodix Careers Admin</title>
