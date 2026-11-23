@@ -103,8 +103,18 @@
         supplier_gstin: v('eGstin').trim() || null, payment_reference: v('eMode') || null,
         remarks: v('eRemarks').trim() || null, status: paidBy === 'Company' ? 'Recorded' : 'Unclaimed'
       };
-      const { error } = await db.from('acc_expenses').insert(payload);
+      const { data: savedExpense, error } = await db.from('acc_expenses').insert(payload).select('id').single();
       if (error) throw error;
+      const selectedFiles = document.getElementById('eFile')?.files;
+      if (selectedFiles?.length) {
+        try { await window.navodixAccountsDocuments?.uploadSelected('eFile', 'expense', savedExpense.id, 'expenseUploadStatus'); }
+        catch (uploadError) {
+          console.error('Expense saved but supporting-document upload failed:', uploadError);
+          closeModal(true); modalDirty = false; await loadAll();
+          toast('Expense saved, but document upload failed: ' + uploadError.message, 'error');
+          return;
+        }
+      }
       closeModal(true); modalDirty = false; await loadAll(); toast('Expense saved successfully.');
     } catch (error) { fail(error, 'Unable to save expense'); }
   };

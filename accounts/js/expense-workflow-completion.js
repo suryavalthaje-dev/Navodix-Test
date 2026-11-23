@@ -23,8 +23,9 @@
       <div class="form-field"><label>GST Applicable?</label><select class="form-control" id="eeGstOn"><option ${e&&Number(e.gst)>0?'selected':''}>Yes</option><option ${!e||Number(e.gst)===0?'selected':''}>No</option></select></div>
       <div class="form-field"><label>GST Rate</label><select class="form-control" id="eeGstRate">${[0,5,12,18,28].map(n=>`<option value="${n}" ${n===gstRate?'selected':''}>${n}%</option>`).join('')}</select></div>
       ${field('Supplier GSTIN','eeGstin',e?.gstin||'')}
+      <div class="form-field full"><label>Supporting Documents</label><input class="form-control" type="file" id="eeFiles" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx,.csv,.txt"><small class="sub-text">Private storage · maximum 500 MB per file</small><div id="editExpenseDocStatus" class="sub-text"></div></div>
       <div class="form-field full"><label>Remarks</label><textarea class="form-control" id="eeRemarks" rows="2">${esc(e?.remarks||'')}</textarea></div>
-    </div><div class="note-box" style="margin-top:12px">Only expenses that have not been submitted, approved or reimbursed can be edited. Supporting-document upload requires the Accounts R2 bucket configuration and is not enabled in this build.</div>`;
+    </div><div class="note-box" style="margin-top:12px">Only expenses that have not been submitted, approved or reimbursed can be edited. Supporting documents are stored privately in the Accounts document repository.</div>`;
   }
   window.editExpense = function(id) {
     const e = byExpense(id); if (!e) return;
@@ -37,7 +38,13 @@
       const amount=Number(v('eeAmount')), gstOn=v('eeGstOn')==='Yes', rate=gstOn?Number(v('eeGstRate')):0;
       if(!v('eeDate')||!v('eeDescription').trim()||!amount||amount<=0){toast('Enter a date, description and valid amount.','error');return;}
       const {error}=await db.rpc('acc_update_expense',{p_expense_id:id,p_expense_date:v('eeDate'),p_category:v('eeCategory'),p_description:v('eeDescription').trim(),p_vendor_name:v('eeVendor').trim()||null,p_bill_reference:v('eeInvoice').trim()||null,p_taxable_amount:amount,p_gst_amount:gstOn?amount*rate/100:0,p_gst_rate:rate,p_supplier_gstin:v('eeGstin').trim()||null,p_payment_reference:v('eeMode').trim()||null,p_remarks:v('eeRemarks').trim()||null});
-      if(error)throw error; closeModal(true); await window.refreshExpenseData?.(); toast('Expense updated successfully.');
+      if(error)throw error;
+      const files = document.getElementById('eeFiles')?.files;
+      if(files?.length){
+        try { await window.navodixAccountsDocuments?.uploadSelected('eeFiles','expense',id,'editExpenseDocStatus'); }
+        catch(uploadError){ closeModal(true); await window.refreshExpenseData?.(); toast('Expense updated, but document upload failed: '+uploadError.message,'error'); return; }
+      }
+      closeModal(true); await window.refreshExpenseData?.(); toast('Expense updated successfully.');
     } catch(e){console.error(e);toast('Unable to update expense: '+(e.message||String(e)),'error');}
   };
   const originalViewExpense=window.viewExpense;
