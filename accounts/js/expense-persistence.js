@@ -38,7 +38,7 @@
       if (rRes.error) throw rRes.error;
 
       expenses = (eRes.data || []).map(e => ({
-        dbId: e.id, id: e.expense_no, date: displayDate(e.expense_date), isoDate: e.expense_date,
+        dbId: e.id, id: e.expense_no, date: displayDate(e.expense_date), isoDate: e.expense_date, isMine: e.created_by === actorId(), gstRate: Number(e.gst_rate || 0), reference: e.payment_reference || '',
         description: e.description, category: e.category, vendor: e.vendor_name || '—',
         paidBy: e.paid_by, paidByUserId: e.paid_by_user_id, amount: Number(e.taxable_amount),
         gst: Number(e.gst_amount), status: e.status, invoice: e.bill_reference || '—',
@@ -51,10 +51,10 @@
           action: h.action, by: h.acted_by, at: h.action_at, reason: h.reason || h.comments || ''
         }));
         return {
-          dbId: c.id, id: c.claim_no, date: displayDate(c.claim_date), director: c.submitted_by === actorId() ? directorName() : 'Other Director',
+          dbId: c.id, id: c.claim_no, date: displayDate(c.claim_date), isoDate: c.claim_date, isMine: c.submitted_by === actorId(), director: c.submitted_by === actorId() ? directorName() : 'Other Director',
           submittedById: c.submitted_by, items: items.length, total: Number(c.total_amount), status: statusForUi(c.status),
           createdBy: c.submitted_by === actorId() ? directorName() : 'Other Director', expenseIds: items.map(i => i.acc_expenses?.expense_no).filter(Boolean),
-          expenseDbIds: items.map(i => i.expense_id), approvedById: c.approved_by, rejectedById: c.rejected_by,
+          expenseDbIds: items.map(i => i.expense_id), approvedById: c.approved_by, rejectedById: c.rejected_by, rejectionReason: c.rejection_reason || '',
           approvalHistory: history, remarks: c.remarks || '', submittedAt: c.submitted_at
         };
       });
@@ -79,6 +79,8 @@
       fail(error, 'Unable to load expense data');
     } finally { loading = false; }
   }
+
+  window.__navodixReloadExpenses = loadAll;
 
   window.saveExpense = async function () {
     try {
