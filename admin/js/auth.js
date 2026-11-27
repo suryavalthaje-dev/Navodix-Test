@@ -52,20 +52,26 @@
   async function populateAdminUser(user) {
     const el = document.getElementById('adminUser');
     if (!el || !user) return;
-
-    const fallback = user.user_metadata?.display_name || user.email || 'Admin';
-    el.textContent = fallback;
-
+    const metadataName = user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.display_name;
+    el.textContent = metadataName && metadataName.trim() ? metadataName.trim() : (user.email || 'Admin');
     try {
-      const { data, error } = await supabaseClient
-        .from('careers_admins')
-        .select('display_name')
-        .eq('user_id', user.id)
+      const { data: profile, error: profileError } = await supabaseClient
+        .from('acc_user_profiles')
+        .select('id,full_name,user_type,is_active,director_code,access_role,email')
+        .eq('id', user.id)
         .maybeSingle();
-      if (!error && data?.display_name) el.textContent = data.display_name;
-    } catch (error) {
-      console.warn('Unable to load Careers Admin display name:', error);
-    }
+      if (profileError) throw profileError;
+      const profileName = profile?.full_name?.trim();
+      if (profileName) { el.textContent = profileName; return; }
+    } catch (error) { console.warn('Unable to load the canonical Accounts user profile name:', error); }
+    try {
+      const { data: access, error: accessError } = await supabaseClient
+        .from('careers_admins').select('display_name').eq('user_id', user.id).maybeSingle();
+      if (accessError) throw accessError;
+      const displayName = access?.display_name?.trim();
+      if (displayName && displayName.toLowerCase() !== 'admin user') { el.textContent = displayName; return; }
+    } catch (error) { console.warn('Unable to load Careers Admin display name:', error); }
+    if (!el.textContent || el.textContent.trim().toLowerCase() === 'admin user') el.textContent = user.email || 'Admin';
   }
 
   async function getConfiguredSessionTimeout(userId) {
