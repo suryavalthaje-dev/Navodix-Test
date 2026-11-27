@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function(){
       const observer=new MutationObserver(syncProfile);
       observer.observe(user,{childList:true,characterData:true,subtree:true});
       logout.className='admin-profile-menu-logout';
-      logout.innerHTML='<i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i><span>Logout</span>';
+      logout.innerHTML='<svg class="admin-profile-logout-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/></svg><span>Logout</span>';
       logout.setAttribute('role','menuitem');
       menu.appendChild(name);
       menu.appendChild(logout);
@@ -382,12 +382,20 @@ document.addEventListener('DOMContentLoaded', function(){
           padding:8px 10px 10px!important;font-size:12px!important;font-weight:700!important;overflow-wrap:anywhere!important;
           border-bottom:1px solid #e7edf1!important;color:#173653!important;
         }
-        body.admin-single-level-navigation .admin-profile-menu-logout{
-          width:100%!important;display:flex!important;align-items:center!important;gap:9px!important;
-          padding:9px 10px!important;margin-top:4px!important;border:0!important;border-radius:5px!important;
-          background:#fff!important;color:#a43b3b!important;text-align:left!important;font-size:12px!important;cursor:pointer!important;
+        body.admin-single-level-navigation .admin-profile-menu #logoutButton.admin-profile-menu-logout{
+          width:100%!important;min-width:0!important;min-height:36px!important;height:36px!important;
+          display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;
+          padding:8px 10px!important;margin:4px 0 0!important;border:1px solid #b8cce8!important;border-radius:8px!important;
+          background:#fff!important;color:#0b55b5!important;text-align:center!important;font-family:inherit!important;
+          font-size:12px!important;font-weight:500!important;line-height:1!important;box-shadow:none!important;cursor:pointer!important;
         }
-        body.admin-single-level-navigation .admin-profile-menu-logout:hover{background:#fff1f1!important}
+        body.admin-single-level-navigation .admin-profile-menu #logoutButton.admin-profile-menu-logout:hover{
+          background:#f5f9ff!important;border-color:#b8cce8!important;color:#0b55b5!important;box-shadow:none!important;
+        }
+        body.admin-single-level-navigation .admin-profile-menu #logoutButton .admin-profile-logout-icon{
+          display:block!important;width:15px!important;height:15px!important;flex:0 0 15px!important;margin:0!important;
+          fill:none!important;stroke:currentColor!important;stroke-width:2!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+        }
         @media(max-width:1100px){
           body.admin-single-level-navigation .admin-nav{flex-wrap:wrap!important;gap:0 10px!important;padding:5px 0!important}
           body.admin-single-level-navigation .admin-brand,
